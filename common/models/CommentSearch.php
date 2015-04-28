@@ -77,16 +77,20 @@ class CommentSearch extends Comment
             return $dataProvider;
         }
 
+        $createdTime = strtotime($this->created_at);
+        $startDay = date("Y-m-d 00:00:00",$createdTime);
+        $endDay = date("Y-m-d 00:00:00", $createdTime + 60*60*24);
+        if($this->created_at) {
+            $query->where(['between', 'created_at', $startDay, $endDay]);
+        }
+
         $query->andFilterWhere([
             'id' => $this->id,
-            'created_at' => $this->created_at,
-            'commentable_id' => $this->commentable_id,
             'user_id' => $this->user_id,
             'parent_id' => $this->parent_id,
         ]);
 
         $query->andFilterWhere(['like', 'content', $this->content])
-            ->andFilterWhere(['like', 'commentable_type', $this->commentable_type])
             ->andFilterWhere(['like', 'user.username', $this->getAttribute('user.username')]);
 
         return $dataProvider;

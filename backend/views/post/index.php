@@ -46,26 +46,40 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'format' => 'html',
             ],
-            // 'slug',
-            // 'content:ntext',
+            // [
+            //     'attribute' => 'created_at',
+            //     'value' => function($model){
+            //         return date('d.m.Y h:i', strtotime($model->created_at));
+            //     },
+            //     'format' => 'text',
+            //     'filter' => DatePicker::widget([
+            //         'model' => $searchModel,
+            //         'attribute' => 'created_at',
+            //         'removeButton' => false,
+            //         'pluginOptions' => [
+            //             'format' => 'dd.mm.yyyy',
+            //             'autoclose' => true,
+            //         ]
+            //     ]),
+            //     'options' => ['width' => '160'],
+            // ],
             [
-                'attribute' => 'created_at',
-                'value' => 'created_at',
+                'attribute' => 'updated_at',
+                'value' => function($model){
+                    return date('d.m.Y h:i', strtotime($model->updated_at));
+                },
                 'format' => 'text',
                 'filter' => DatePicker::widget([
                     'model' => $searchModel,
-                    'attribute' => 'created_at',
+                    'attribute' => 'updated_at',
                     'removeButton' => false,
                     'pluginOptions' => [
-                        'format' => 'yyyy-mm-dd',
+                        'format' => 'dd.mm.yyyy',
                         'autoclose' => true,
                     ]
                 ]),
                 'options' => ['width' => '160'],
             ],
-            // 'updated_at',
-            // 'is_top',
-            // 'is_video',
             [
                 'attribute' => 'content_category_id',
                 'value' => function($model) {
@@ -86,14 +100,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
             ],
             // 'comments_count',
-            // 'is_cover',
-            // 'is_index',
-            // 'source_title',
-            // 'source_url:url',
-            // 'photo_id',
-            // 'is_yandex_rss',
-            // 'cached_tag_list',
-            // 'allow_comment',
 
             [
                 'class' => 'yii\grid\ActionColumn',

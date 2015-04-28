@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use kartik\widgets\DatePicker;
+
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\CommentSearch */
@@ -14,7 +16,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="comment-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -36,6 +37,19 @@ $this->params['breadcrumbs'][] = $this->title;
             'content:html',
             [
                 'attribute' => 'created_at',
+                'value' => function($model){
+                    return date('d.m.Y h:i', strtotime($model->created_at));
+                },
+                'format' => 'text',
+                'filter' => DatePicker::widget([
+                    'model' => $searchModel,
+                    'attribute' => 'created_at',
+                    'removeButton' => false,
+                    'pluginOptions' => [
+                        'format' => 'dd.mm.yyyy',
+                        'autoclose' => true,
+                    ]
+                ]),
                 'options' => ['width' => '160'],
             ],
             [
