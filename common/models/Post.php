@@ -5,6 +5,7 @@ namespace common\models;
 use Yii;
 use yii\db\ActiveRecord;
 use amnah\yii2\user\models\User;
+use dosamigos\transliterator\TransliteratorHelper;
 
 /**
  * This is the model class for table "posts".
@@ -77,11 +78,6 @@ class Post extends ActiveRecord
             [['content'], 'string'],
             [['created_at', 'updated_at', 'tags'], 'safe'],
             [['title', 'slug', 'source_title', 'source_url', 'cached_tag_list'], 'string', 'max' => 255],
-
-            //default values
-            ['comments_count', 'default', 'value' => 0],
-            ['is_public', 'default', 'value' => 1],
-            ['allow_comment', 'default', 'value' => 1],
 
             //required
             [['title', 'content', 'content_category_id'], 'required'],
@@ -224,7 +220,13 @@ class Post extends ActiveRecord
      */
     public function getTags()
     {
-        $tagging = Tagging::find()->where(['taggable_id' => $this->id])->asArray()->all();
+        $tagging = Tagging::find()
+            ->where([
+                'taggable_id' => $this->id,
+                'taggable_type' => Tagging::TAGGABLE_POST,
+            ])
+            ->asArray()
+            ->all();
         $tags = [];
         foreach ($tagging as $data) {
             $tags[] = Tag::findOne($data['tag_id']);
@@ -239,7 +241,12 @@ class Post extends ActiveRecord
      */
     public function removeTag($id)
     {
-        $tagging = Tagging::find()->where(['taggable_id' => $this->id, 'tag_id' => $id])->one();
+        $tagging = Tagging::find()
+            ->where([
+                'taggable_id' => $this->id,
+                'tag_id' => $id,
+                'taggable_type' => Tagging::TAGGABLE_POST,
+            ])->one();
         if($tagging) return $tagging->delete();
         return false;
     }
@@ -272,4 +279,20 @@ class Post extends ActiveRecord
         }
         return false;
     }
+
+    /**
+     * @param string $title Text to transliteration
+     *
+     * @return string
+     */
+    public function genSlug($title)
+    {
+        $slug = trim($title);
+        $slug = TransliteratorHelper::process($slug, '-', 'en');
+        $slug = str_replace(["ʹ",'?','.',',','@','!','#','$','%','^','&','*','(',')','{','}','[',']','+',':',';','"',"'",'`','~','\\','/','|','№'], "", $slug);
+        $slug = str_replace(" ", "-", $slug);
+        $slug = strtolower($slug);
+        return $slug;
+    }
+
 }

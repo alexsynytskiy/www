@@ -8,7 +8,6 @@ use common\models\PostSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use dosamigos\transliterator\TransliteratorHelper;
 
 use yii\web\UploadedFile;
 use common\models\Asset;
@@ -79,12 +78,7 @@ class PostController extends Controller
         if ($model->load(Yii::$app->request->post())) {
 
             // Set slug
-            $slug = trim($model->title);
-            $slug = TransliteratorHelper::process($slug, '-', 'en');
-            $slug = str_replace(["ʹ",'?','.',',','@','!','#','$','%','^','&','*','(',')','{','}','[',']','+',':',';','"',"'",'`','~','\\','/','|','№'], "", $slug);
-            $slug = str_replace(" ", "-", $slug);
-            $slug = strtolower($slug);
-            $model->slug = $slug;
+            $model->slug = $model->genSlug($model->title);
 
             // Save source
             $source = new Source;
@@ -166,15 +160,13 @@ class PostController extends Controller
             $model->tags[] = $tag->id;
         }
 
+        $model->title = html_entity_decode($model->title);
+        $model->content = html_entity_decode($model->content);
+
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
             // Set slug
-            $slug = trim($model->title);
-            $slug = TransliteratorHelper::process($slug, '-', 'en');
-            $slug = str_replace(["ʹ",'?','.',',','@','!','#','$','%','^','&','*','(',')','{','}','[',']','+',':',';','"',"'",'`','~','\\','/','|','№'], "", $slug);
-            $slug = str_replace(" ", "-", $slug);
-            $slug = strtolower($slug);
-            $model->slug = $slug;
+            $model->slug = $model->genSlug($model->title);
 
             // Set image
             $model->image = UploadedFile::getInstance($model, 'image');
@@ -279,11 +271,11 @@ class PostController extends Controller
         }
         $post->delete();
 
-        if(Yii::$app->request->referrer){
-            return $this->redirect(Yii::$app->request->referrer);
-        }else{
+        // if(Yii::$app->request->referrer){
+        //     return $this->redirect(Yii::$app->request->referrer);
+        // }else{
             return $this->redirect(['index']);
-        }
+        // }
     }
 
     /**

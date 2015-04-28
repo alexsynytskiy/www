@@ -55,7 +55,7 @@ $image = $model->getAsset(Asset::THUMBNAIL_NEWS);
                 'value' => empty($image->filename) ? null : Html::img($image->getFileUrl()),
                 'format' => 'html',
             ],
-            'source_title',
+            'source_title:html',
             'source_url:url',
             'created_at',
             'updated_at',

@@ -54,12 +54,9 @@ SCRIPT;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'title')->textInput(['maxlength' => 255]) ?>
+    <?= $form->field($model, 'title')->textInput(['maxlength' => 255, 'value' => $model->title]) ?>
 
-    <?= $form->field($model, 'content')->widget(MarkdownEditor::classname(),[
-        'model' => $model,
-        'attribute' => 'content',
-    ]); ?>
+    <?= $form->field($model, 'content')->widget(MarkdownEditor::classname()); ?>
 
     <?php
     echo $form->field($model, 'source_title')->widget(Typeahead::classname(), [
@@ -112,14 +109,7 @@ SCRIPT;
             'create' => new JsExpression('function(input) { return { value: "{new}" + input, text: input } }'),
         ],
     ]);
-
-    // echo '<pre>';
-    // echo var_dump($model::categoryDropdown());
-    // echo '</pre>';
-    // die;
     ?>
-
-
 
     <?= $form->field($model, 'content_category_id')->dropDownList($model::categoryDropdown()) ?>
 

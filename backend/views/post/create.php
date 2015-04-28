@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Post */
 
-$this->title = 'Создать запись';
+$this->title = 'Добавить запись';
 $this->params['breadcrumbs'][] = ['label' => 'Записи', 'url' => ['/post']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
