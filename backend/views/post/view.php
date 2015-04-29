@@ -11,8 +11,6 @@ use common\models\Asset;
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Записи', 'url' => ['/post']];
 $this->params['breadcrumbs'][] = $this->title;
-
-$image = $model->getAsset(Asset::THUMBNAIL_NEWS);
 ?>
 <div class="post-view">
 

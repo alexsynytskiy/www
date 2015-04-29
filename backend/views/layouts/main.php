@@ -36,6 +36,7 @@ AppAsset::register($this);
                 ]);
                 $menuItems = [
                     ['label' => 'Записи', 'url' => '/admin/post'],
+                    ['label' => 'Альбомы', 'url' => '/admin/album'],
                     ['label' => 'Пользователи', 'url' => '/admin/user/admin'],
                     ['label' => 'Настройки', 'items' => [
                         ['label' => 'Теги', 'url' => '/admin/tag'],

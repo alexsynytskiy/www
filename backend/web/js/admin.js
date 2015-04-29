@@ -1,5 +1,6 @@
 (function($){
     $(window).load(function() {
+        alert();
 
         function saveCoords(c) {
             var params = [
@@ -60,6 +61,16 @@
             $('img.file-preview-image').css('min-height','100px');
             $('img.file-preview-image').css('min-width','100px');
             initJcrop(previewId);
+        });
+
+        alert();
+        $input.on("filepredelete", function(event, previewId) {
+            var abort = true;
+            alert('asd');
+            if (confirm("Are you sure you want to delete this image?")) {
+                abort = false;
+            }
+            return abort;
         });
 
     });

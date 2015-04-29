@@ -23,6 +23,14 @@ use amnah\yii2\user\models\User;
 class Comment extends \yii\db\ActiveRecord
 {
     /**
+     * @var string commentable types
+     */
+    const COMMENTABLE_MATCH    = 'match';
+    const COMMENTABLE_PHOTO    = 'photo';
+    const COMMENTABLE_POST     = 'post';
+    const COMMENTABLE_TRANSFER = 'transfer';
+
+    /**
      * @inheritdoc
      */
     public static function tableName()

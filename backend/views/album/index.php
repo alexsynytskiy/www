@@ -8,7 +8,7 @@ use kartik\widgets\DatePicker;
 /* @var $searchModel common\models\PostSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Записи';
+$this->title = 'Альбомы';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="post-index">
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Добавить запись', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Добавить альбом', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'title',
                 'value' => function($model) {
-                    return Html::a($model->title, ['post/'.$model->id]);
+                    return Html::a($model->title, ['album/'.$model->id]);
                 },
                 'format' => 'html',
             ],
@@ -78,14 +78,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     ]
                 ]),
                 'options' => ['width' => '160'],
-            ],
-            [
-                'attribute' => 'content_category_id',
-                'value' => function($model) {
-                    return $model->getCategory();
-                },
-                'filter' => $searchModel::categoryDropdown(),
-                'options' => ['width' => '110'],
             ],
             [
                 'attribute' => 'is_public',

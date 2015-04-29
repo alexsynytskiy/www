@@ -54,14 +54,14 @@ SCRIPT;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'title')->textInput(['maxlength' => 255, 'value' => $model->title]) ?>
+    <?= $form->field($model, 'title')->textInput(['maxlength' => 255]) ?>
 
     <?= $form->field($model, 'content')->widget(MarkdownEditor::classname()); ?>
 
     <?php
     echo $form->field($model, 'source_title')->widget(Typeahead::classname(), [
         'options' => ['placeholder' => 'Поиск источника при вводе ...'],
-        'pluginOptions' => ['highlight'=>true],
+        'pluginOptions' => ['highlight' => true],
         'dataset' => [
             [
                 'remote' => \yii\helpers\Url::to(['source/source-name-list']) . '?q=%QUERY',
@@ -152,7 +152,7 @@ SCRIPT;
     <?= $form->field($model, 'allow_comment')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState'=>false]]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Изменить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Добавить' : 'Изменить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

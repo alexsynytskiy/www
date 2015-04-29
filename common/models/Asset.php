@@ -132,7 +132,7 @@ class Asset extends \yii\db\ActiveRecord
                 unlink($this->getFilePath());
             }
 
-            $this->filename = $this->genFilename();
+            $this->genFilename();
             $imagine = Image::getImagine()->open($this->uploadedFile->tempName);
         }
         else
@@ -178,7 +178,7 @@ class Asset extends \yii\db\ActiveRecord
             {
                 unlink($this->getFilePath());
             }
-            $this->filename = $this->genFilename();
+            $this->genFilename();
             $img = Image::getImagine()->open($this->uploadedFile->tempName);
         }
         else
@@ -252,15 +252,15 @@ class Asset extends \yii\db\ActiveRecord
     /**
      * Generate unique file name
      *
-     * @return string
+     * @return void
      */
     public function genFilename()
     {
         $filename = $this->getAssetableType().$this->assetable_id.'_';
-        $filename .= substr(md5(time()),0,5);
+        $filename .= substr(md5(rand(10000,99999).microtime()),0,5);
         if(!empty($this->thumbnail)) $filename .= '_'.$this->thumbnail;
         $filename .= '.'.$this->uploadedFile->extension;
-        return $filename;
+        $this->filename = $filename;
     }
 
     /**

@@ -108,3 +108,9 @@ a.desc:after {
     min-height: 100px;
 }
 
+.field-album-images .file-preview-frame,
+.field-album-images img.file-preview-image,
+.field-album-images .file-preview-initial img {
+    max-width: 100%;
+    max-height: 160px;
+}

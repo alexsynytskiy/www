@@ -12,7 +12,7 @@
             var h = c.y < 0 ? y2 : c.y2 < 0 ? 1 - y : c.h/c.imageHeight;
 
             var params = [x,y,w,h];
-            $('#crop-data').val(params.join(';'))
+            $('#crop-data').val(params.join(';'));
         }
 
         function initJcrop(elem)
@@ -53,11 +53,29 @@
         //     });
         // });
 
-        var $input = $(".file-input :file.jcrop");
-        $input.on('fileimageloaded', function(event, previewId){
+        var $inputJcrop = $(".file-input :file.jcrop");
+        $inputJcrop.on('fileimageloaded', function(event, previewId){
             $('img.file-preview-image').css('width','auto');
             $('img.file-preview-image').css('height','auto');
             initJcrop('#' + previewId + ' img');
+        });
+
+        var $input = $(".file-input :file");
+        $input.on("filepredelete", function(event, key) {
+            var imagesData = $("#images-data").val();
+            if(imagesData) {
+                console.log(key);
+                console.log(imagesData);
+                var keys = imagesData.split(';');
+                console.log(keys);
+                var index = keys.indexOf(key.toString());
+                console.log(index);
+                if (index > -1) {
+                    keys.splice(index, 1);
+                }
+                $("#images-data").val(keys.join(';'));
+            }
+            return true;
         });
 
     });
