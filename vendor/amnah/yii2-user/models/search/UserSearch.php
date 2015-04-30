@@ -90,6 +90,22 @@ class UserSearch extends User
             'role_id'         => $this->role_id,
             'status'          => $this->status,
         ]);
+        
+        $createdTime = strtotime($this->create_time);
+        $startDay = date("Y-m-d 00:00:00",$createdTime);
+        $endDay = date("Y-m-d 00:00:00", $createdTime + 60*60*24);
+        if($this->create_time) {
+            $query->andFilterWhere(['between', "{$userTable}.create_time", $startDay, $endDay]);
+        }
+//        var_dump($createdTime);
+//        die;
+        
+        $updatedTime = strtotime($this->create_time);
+        $startDay = date("Y-m-d 00:00:00",$updatedTime);
+        $endDay = date("Y-m-d 00:00:00", $updatedTime + 60*60*24);
+        if($this->update_time) {
+            $query->where(['between', "{$userTable}.update_time", $startDay, $endDay]);
+        }
 
         $query->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'new_email', $this->new_email])
@@ -101,8 +117,6 @@ class UserSearch extends User
             ->andFilterWhere(['like', 'create_ip', $this->create_ip])
             ->andFilterWhere(['like', 'ban_reason', $this->ban_reason])
             ->andFilterWhere(['like', 'login_time', $this->login_time])
-            ->andFilterWhere(['like', "{$userTable}.create_time", $this->create_time])
-            ->andFilterWhere(['like', "{$userTable}.update_time", $this->update_time])
             ->andFilterWhere(['like', 'ban_time', $this->ban_time])
             ->andFilterWhere(['like', 'profile.full_name', $this->getAttribute('profile.full_name')]);
 

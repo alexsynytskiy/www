@@ -17,6 +17,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Добавить альбом', ['create'], ['class' => 'btn btn-success']) ?>
+        <?php
+            if(count(Yii::$app->getRequest()->getQueryParams()) > 0) {
+                echo Html::a('Сброс', ['/'.Yii::$app->controller->id], ['class' => 'btn btn-primary']);
+            } 
+        ?>
     </p>
 
     <?= GridView::widget([

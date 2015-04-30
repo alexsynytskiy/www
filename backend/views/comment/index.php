@@ -16,6 +16,14 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="comment-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
+    
+    <p>
+        <?php
+            if(count(Yii::$app->getRequest()->getQueryParams()) > 0) {
+                echo Html::a('Сброс', ['/'.Yii::$app->controller->id], ['class' => 'btn btn-primary']);
+            } 
+        ?>
+    </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

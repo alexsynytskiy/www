@@ -28,6 +28,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a(Yii::t('user', 'Создать пользователя'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?php
+            if(count(Yii::$app->getRequest()->getQueryParams()) > 0) {
+                echo Html::a('Сброс', ['/user/admin'], ['class' => 'btn btn-primary']);
+            } 
+        ?>
     </p>
 
     <?= GridView::widget([
@@ -64,14 +69,16 @@ $this->params['breadcrumbs'][] = $this->title;
             'profile.full_name',
             [
                 'attribute' => 'create_time',
-                'value' => 'create_time',
+                'value' => function($model){
+                    return date('d.m.Y h:i', strtotime($model->create_time));
+                },
                 'format' => 'text',
                 'filter' => DatePicker::widget([
                     'model' => $searchModel,
                     'attribute' => 'create_time',
                     'removeButton' => false,
                     'pluginOptions' => [
-                        'format' => 'yyyy-mm-dd',
+                        'format' => 'dd.mm.yyyy',
                         'autoclose' => true,
                     ]
                 ]),

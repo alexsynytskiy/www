@@ -103,6 +103,13 @@ class PostSearch extends Post
         if($this->created_at) {
             $query->where(['between', 'created_at', $startDay, $endDay]);
         }
+        
+        $updatedTime = strtotime($this->updated_at);
+        $startDay = date("Y-m-d 00:00:00",$updatedTime);
+        $endDay = date("Y-m-d 00:00:00", $updatedTime + 60*60*24);
+        if($this->updated_at) {
+            $query->where(['between', 'updated_at', $startDay, $endDay]);
+        }
 
         $query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'slug', $this->slug])
