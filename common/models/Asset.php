@@ -95,7 +95,7 @@ class Asset extends \yii\db\ActiveRecord
             [['type', 'assetable_type'], 'string', 'max' => 20],
 
             //required
-             [['type', 'filename'], 'required'],
+            [['type', 'filename'], 'required'],
         ];
     }
 

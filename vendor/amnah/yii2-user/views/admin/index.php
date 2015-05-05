@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use kartik\widgets\DatePicker;
+use kartik\date\DatePicker;
 use amnah\yii2\user\models\User;
 // use common\modlels\Asset;
 
