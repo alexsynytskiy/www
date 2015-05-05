@@ -1,4 +1,11 @@
 @import url(http://fonts.googleapis.com/css?family=Fira+Sans:300,400,500,700,300italic,400italic,500italic,700italic&subset=latin,cyrillic-ext,cyrillic,latin-ext);
+.clearfix:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
 * {
   margin: 0;
   padding: 0;
@@ -1130,6 +1137,20 @@ header .header-wrapper .breadcrumbs .tag:hover {
   margin-bottom: 15px;
   padding: 10px;
 }
+.grid-column .post-page:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+.grid-column .post-page:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
 .grid-column .post-page .top-block {
   height: 21px;
   margin-bottom: 10px;
@@ -1325,6 +1346,20 @@ header .header-wrapper .breadcrumbs .tag:hover {
 .grid-column .date-news-search .calendar-title {
   margin-bottom: 7.5px;
 }
+.grid-column .date-news-search .calendar-title:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+.grid-column .date-news-search .calendar-title:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
 .grid-column .date-news-search .calendar-title .text {
   float: left;
   margin-right: 7.5px;
@@ -1407,6 +1442,20 @@ header .header-wrapper .breadcrumbs .tag:hover {
 .grid-column .news-block .news-post {
   margin-bottom: 12px;
   border-bottom: 1px solid #e9e9e9;
+}
+.grid-column .news-block .news-post:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+.grid-column .news-block .news-post:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
 }
 .grid-column .news-block .news-post .time {
   float: left;
@@ -1502,186 +1551,66 @@ header .header-wrapper .breadcrumbs .tag:hover {
   font-weight: bold;
   color: #cb181e;
 }
-.grid-column .match-block {
-  padding: 7px;
-  border-radius: 5px;
-  box-shadow: 0 2px 0 #d0d0d0;
-  background-color: #ffffff;
-  height: 70px;
-  margin-bottom: 12px;
+.grid-column .matches .box-content {
+  padding: 0;
 }
-.grid-column .match-block .top-part {
-  font-size: 14px;
-  font-weight: normal;
-  color: #727272;
-  line-height: 14px;
-  margin-bottom: 10px;
-  position: relative;
+.grid-column .matches .status {
+  width: 5px;
+  background: #e9e9e9;
+  border-left: 10px solid transparent;
 }
-.grid-column .match-block .top-part .date {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: inline-block;
+.grid-column .matches .status.green {
+  background: #00d18b;
 }
-.grid-column .match-block .top-part .competition {
-  width: 414px;
-  text-align: center;
-  float: left;
+.grid-column .matches .status.yellow {
+  background: #fcde4f;
 }
-.grid-column .match-block .top-part .tour {
-  float: right;
+.grid-column .matches .status.red {
+  background: #ff5555;
 }
-.grid-column .match-block .teams {
-  width: 414px;
-  float: left;
-  position: relative;
+.grid-column .matches thead .status {
+  background: transparent;
 }
-.grid-column .match-block .teams .left-block {
-  max-width: 180px;
-  position: absolute;
-  display: inline-block;
-  left: 0;
-  right: 210px;
-  margin-left: auto;
-  margin-right: auto;
+.grid-column .matches tr {
+  height: 35px;
 }
-.grid-column .match-block .teams .left-block .team-name {
-  float: right;
-  font-size: 14px;
-  font-weight: normal;
-  color: #727272;
-  line-height: 30px;
-}
-.grid-column .match-block .teams .left-block .team-logo {
-  float: right;
-  max-height: 30px;
-  max-width: 30px;
-  margin-left: 3.75px;
-}
-.grid-column .match-block .teams .right-block {
-  max-width: 180px;
-  position: absolute;
-  display: inline-block;
-  left: 210px;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
-}
-.grid-column .match-block .teams .right-block .team-name {
-  float: left;
-  font-size: 14px;
-  font-weight: normal;
-  color: #727272;
-  line-height: 30px;
-}
-.grid-column .match-block .teams .right-block .team-logo {
-  float: left;
-  max-height: 30px;
-  max-width: 30px;
-  margin-right: 3.75px;
-}
-.grid-column .match-block .teams .final-score {
-  display: inline-block;
-  font-size: 14px;
+.grid-column .matches .score {
   font-weight: bold;
-  color: #727272;
-  line-height: 30px;
-  margin-right: 3.75px;
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 40px;
-  text-align: center;
 }
-.grid-column .match-block .match-materials {
-  float: right;
+.grid-column .matches .home {
+  text-align: right;
+  padding-right: 5px;
+}
+.grid-column .matches .visitors,
+.grid-column .matches .competition,
+.grid-column .matches .date {
+  text-align: left;
+}
+.grid-column .matches .date,
+.grid-column .matches .visitors {
+  padding-left: 5px;
+}
+.grid-column .matches .logo img {
+  display: block;
+  margin: 0 auto;
+}
+.grid-column .matches .more .link {
   padding-top: 5px;
-}
-.grid-column .match-block .match-materials .material {
-  float: right;
-  width: 40px;
+  padding-left: 4px;
   height: 25px;
-  margin-left: 5px;
-  border-radius: 5px;
+  width: 22px;
   background-color: #e9e9e9;
+  border-radius: 5px;
 }
-.grid-column .match-block .match-materials .material .icon-tv {
-  margin-top: 4px;
-  margin-left: 9px;
-  background: url('/images/tv_sprite.png') no-repeat;
-  background-size: 22px;
-  height: 18px;
-  width: 22px;
+.grid-column .matches .more .link .arrow {
+  height: 14px;
+  width: 14px;
+  background: url(/images/link_arrowsp1.png) no-repeat;
+  background-size: 14px;
 }
-.grid-column .match-block .match-materials .material .tv-unactive {
-  background: url('/images/tv_unactive.png') no-repeat;
-  background-size: 22px;
-  margin-top: 4px;
-  margin-left: 9px;
-  height: 18px;
-  width: 22px;
-}
-.grid-column .match-block .match-materials .material .icon-standart {
-  margin-top: 4px;
-  margin-left: 12px;
-  height: 18px;
-  width: 16px;
-}
-.grid-column .match-block .match-materials .material .icon-protocol {
-  background: url('/images/protocol_sprite.png') no-repeat;
-  background-size: 16px;
-}
-.grid-column .match-block .match-materials .material .protocol-unactive {
-  background: url('/images/protocol_unactive.png') no-repeat;
-  background-size: 16px;
-}
-.grid-column .match-block .match-materials .material .icon-report {
-  background: url('/images/report_sprite.png') no-repeat;
-  background-size: 16px;
-}
-.grid-column .match-block .match-materials .material .report-unactive {
-  background: url('/images/report_unactive.png') no-repeat;
-  background-size: 16px;
-}
-.grid-column .match-block .match-materials .material .icon-materials {
-  background: url('/images/materials_sprite.png') no-repeat;
-  background-size: 16px;
-}
-.grid-column .match-block .match-materials .material .materials-unactive {
-  background: url('/images/materials_unactive.png') no-repeat;
-  background-size: 16px;
-}
-.grid-column .match-block .match-materials .material:hover .icon-tv {
-  background: url('/images/tv_sprite.png') no-repeat;
-  background-size: 22px;
-  background-position: 0 -38px;
-}
-.grid-column .match-block .match-materials .material:hover .icon-protocol {
-  background: url('/images/protocol_sprite.png') no-repeat;
-  background-size: 16px;
-  background-position: 0 -38px;
-}
-.grid-column .match-block .match-materials .material:hover .icon-report {
-  background: url('/images/report_sprite.png') no-repeat;
-  background-size: 16px;
-  background-position: 0 -38px;
-}
-.grid-column .match-block .match-materials .material:hover .icon-materials {
-  background: url('/images/materials_sprite.png') no-repeat;
-  background-size: 16px;
-  background-position: 0 -38px;
-}
-.grid-column .match-win {
-  border-left: 5px solid #00D18B;
-}
-.grid-column .match-draw {
-  border-left: 5px solid #fcde4f;
-}
-.grid-column .match-lose {
-  border-left: 5px solid #ff5555;
+.grid-column .matches .more .link:hover .arrow {
+  background-position: 0 -42px;
+  background-size: 14px;
 }
 .grid-column .match-navigation {
   padding: 10px 12px;
@@ -1689,6 +1618,20 @@ header .header-wrapper .breadcrumbs .tag:hover {
   box-shadow: 0 2px 0 #d0d0d0;
   background-color: #ffffff;
   margin-bottom: 13px;
+}
+.grid-column .match-navigation:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+.grid-column .match-navigation:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
 }
 .grid-column .match-navigation .button {
   float: left;
@@ -1826,8 +1769,36 @@ header .header-wrapper .breadcrumbs .tag:hover {
   background-color: #ffffff;
   margin-bottom: 13px;
 }
+.grid-column .match-protocol:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+.grid-column .match-protocol:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
 .grid-column .match-protocol .top-title {
   padding: 0 7px;
+}
+.grid-column .match-protocol .top-title:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+.grid-column .match-protocol .top-title:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
 }
 .grid-column .match-protocol .top-title .stadium {
   float: left;
@@ -1846,6 +1817,20 @@ header .header-wrapper .breadcrumbs .tag:hover {
 .grid-column .match-protocol .semi-title {
   padding: 0 7px 7px;
   border-bottom: 1px solid #e9e9e9;
+}
+.grid-column .match-protocol .semi-title:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+.grid-column .match-protocol .semi-title:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
 }
 .grid-column .match-protocol .semi-title .competition {
   float: left;
@@ -1951,6 +1936,20 @@ header .header-wrapper .breadcrumbs .tag:hover {
   color: #727272;
   line-height: 28px;
 }
+.grid-column .statistics .teams:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+.grid-column .statistics .teams:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
 .grid-column .statistics .teams .home {
   float: left;
 }
@@ -1962,6 +1961,20 @@ header .header-wrapper .breadcrumbs .tag:hover {
   font-weight: normal;
   color: #727272;
   line-height: 16px;
+}
+.grid-column .statistics .parameter:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+.grid-column .statistics .parameter:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
 }
 .grid-column .statistics .parameter .header {
   position: relative;
@@ -2035,7 +2048,7 @@ header .header-wrapper .breadcrumbs .tag:hover {
   margin: 0 auto;
 }
 .footer-wrapper .footer-bottom {
-  width: 884px;
+  width: 100%;
   margin: 0 auto;
   border-radius: 5px 5px 0 0;
   padding-top: 13px;

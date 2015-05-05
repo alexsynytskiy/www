@@ -118,6 +118,10 @@
     .controls-no-focus;
 }
 
+table {
+    border-collapse: collapse;
+}
+
 body {
     color: @main-grey;
     font-size: 14px;
@@ -984,6 +988,8 @@ body {
 }
 
 .blog-posts, .comments-block {
+    .clearfix;
+
     .comment {
         border-bottom: 1px solid @main-body-background;
         margin-bottom: 5px;
@@ -1284,11 +1290,49 @@ body {
 .search-box {
     min-height: 100px;
 
-    .box-header {
-        margin-bottom: 10px;
+    .club-select {
+    	height: 40px;
+  		border-bottom: 1px solid #e9e9e9;
+  		padding: 7px 5px;
+
+  		.button {
+			float: left;
+			padding: 0 6px;
+			height: 25px;
+		    margin-right: @main-margin;
+		    border-radius: @box-border-radius;
+		    background-color: @main-body-background;
+		    .text-font(12px, normal, @main-blue);
+		    line-height: 25px;
+
+		    &:hover {
+	  			.text-font(12px, normal, @main-blue-hover);
+	  		}
+		}
+
+		.icon(@width : 16px, @height : 18px) {
+			height: @height;
+  			width: @width;
+			float: right;
+			margin-top: 3px;
+			margin-left: 7px;
+	  	}
+
+	  	.active {
+	  		.text-font(12px, normal, #fff);
+			background-color: @main-blue;
+
+			&:hover {
+				background-color: @main-blue-hover;
+	  			.text-font(12px, normal, #fff);
+			}
+	  	}
     }
+    
     label {
         font-weight: normal;
+        font-size: 12px;
+        line-height: 30px;
     }
 
     .selectize-box {
@@ -1311,18 +1355,18 @@ body {
     .select-championship {
         float: left;
         width: 295px;
-        margin-left: 10px;
-        text-align: center;
+        margin-right: 10px;
+        text-align: left;
     }
     .select-season {
-        float: right;
+        float: left;
         width: 140px;
 
         label {
-            float: right;
+            float: left;
         }
         [data-selectable] {
-            text-align: right;
+            text-align: left;
         }
     }
 }

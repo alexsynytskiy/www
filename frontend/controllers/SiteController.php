@@ -3,6 +3,7 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\LoginForm;
+use common\models\Post;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
@@ -51,30 +52,108 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+        $posts = Post::find()
+            ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_NEWS])
+            ->orderBy(['created_at' => SORT_DESC])
+            ->limit(50)
+            ->all();
+
+        return $this->render('@frontend/views/site/index', [
+            'templateType' => 'col3',
+            'title' => Yii::t('user','Вход'),
+            'columnFirst' => [
+                'test_block' => [
+                    'view' => '@frontend/views/site/test',
+                    'data' => [],
+                ],
+            ],
+            'columnSecond' => [
+                'short_news' => [
+                    'view' => '@frontend/views/post/short_news',
+                    'data' => compact('posts'),
+                ],
+            ],
+            'columnThird' => [
+                'test_block' => [
+                    'view' => '@frontend/views/site/test',
+                    'data' => [],
+                ],
+            ],
+        ]);
     }
 
-    public function actionContact()
+    public function actionNews($date = NULL) 
     {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-                Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
-            } else {
-                Yii::$app->session->setFlash('error', 'There was an error sending email.');
-            }
-
-            return $this->refresh();
-        } else {
-            return $this->render('contact', [
-                'model' => $model,
-            ]);
+        $query = Post::find()->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_NEWS]);
+        if(!empty($date))
+        {
+            $startDay = date("Y-m-d 00:00:00", strtotime($date));
+            $endDay = date("Y-m-d 00:00:00", time() + 60*60*24);
+            $query->where(['between', 'created_at', $startDay, $endDay]);
+            $query->orderBy(['created_at' => SORT_ASC]);
+        } 
+        else 
+        {
+            $query->orderBy(['created_at' => SORT_DESC]);
         }
-    }
+        $query->limit(15);
+        $posts = $query->all();
 
-    public function actionAbout()
+        return $this->render('@frontend/views/site/index', [
+            'templateType' => 'col2',
+            'title' => 'Новости',
+            'columnFirst' => [
+                'short_news' => [
+                    'view' => '@frontend/views/post/news',
+                    'data' => compact('posts'),
+                ],
+            ],
+            'columnSecond' => [
+                'test_block' => [
+                    'view' => '@frontend/views/site/test',
+                    'data' => [],
+                ],
+            ],
+        ]);
+    }
+    
+    public function actionPost($id, $slug) 
     {
-        return $this->render('about');
+        $post = $this->findModel($id);
+        $image = $post->getAsset();
+
+        return $this->render('@frontend/views/site/index', [
+            'templateType' => 'col2',
+            'title' => 'Новости',
+            'columnFirst' => [
+                'short_news' => [
+                    'view' => '@frontend/views/post/single',
+                    'data' => compact('post','image'),
+                ],
+            ],
+            'columnSecond' => [
+                'test_block' => [
+                    'view' => '@frontend/views/site/test',
+                    'data' => [],
+                ],
+            ],
+        ]);
+    }
+    
+    /**
+     * Finds the Post model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return Post the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+        if (($model = Post::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 
 }

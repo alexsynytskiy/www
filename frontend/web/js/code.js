@@ -264,7 +264,6 @@ $(document).ready(function() {
         monthsToShow: [4,3],
         onSelect: function(){  // Callback when a date is selected
             var date = $(this).datepick('getDate');
-            // $('.webform-component--data-vyleta-tuda input').val($.datepick.formatDate(date[0]));
         },
     });
 

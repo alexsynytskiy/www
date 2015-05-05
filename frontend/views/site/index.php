@@ -2,11 +2,9 @@
 /**
  * @var $this yii\web\View
  * @var $templateType
- * @var $column1
- * @var $column2
- * @var $column3
- * @var $column_main
- * @var $column_sidebar
+ * @var $columnFirst
+ * @var $columnSecond
+ * @var $columnThird
 **/
 
 $this->title = isset($title) ? $title : 'Динамомания';

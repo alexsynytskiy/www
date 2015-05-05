@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
@@ -101,9 +102,9 @@ AppAsset::register($this);
                 <div class="menu">
                     <ul>
                         <a href="#"><li class="special-project">Спецпроект</li></a>
-                        <a href="/?q=news"><li class="<?= ($page->query == 'news') ? 'current-page' : '' ?>">Новости</li></a>
+                        <a href="<?= Url::to(['site/news']) ?>"><li class="<?= (Url::to(['site/news']) == Url::current()) ? 'current-page' : '' ?>">Новости</li></a>
                         <a href="#"><li>Команда</li></a>
-                        <a href="/?q=matches"><li class="<?= ($page->query == 'matches') ? 'current-page' : '' ?>">Матчи</li></a>
+                        <a href="<?= Url::to(['site/matches']) ?>"><li class="<?= (Url::to(['site/matches']) == Url::current()) ? 'current-page' : '' ?>">Матчи</li></a>
                         <a href="#"><li>Трансферы</li></a>
                         <a href="#"><li>Блоги</li></a>
                         <a href="#"><li>Фото</li></a>

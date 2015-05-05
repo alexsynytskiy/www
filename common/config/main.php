@@ -14,6 +14,8 @@ return [
             'showScriptName' => false,
             'rules' => [
                 '/' => 'site/index',
+                'news'=>'site/news',
+                'news/<id:\d+>-<slug>'=>'site/post',
                 '<controller:\w+>/<id:\d+>'=>'<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
                 '<controller:\w+>/<action:\w+>'=>'<controller>/<action>',

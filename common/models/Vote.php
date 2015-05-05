@@ -22,8 +22,8 @@ class Vote extends \yii\db\ActiveRecord
     /**
      * @var string Types of voting
      */
-    const ASSETABLE_PHOTO   = 'photo';
-    const ASSETABLE_POST    = 'post';
+    const VOTEABLE_PHOTO   = 'photo';
+    const VOTEABLE_POST    = 'post';
     
     /**
      * @inheritdoc

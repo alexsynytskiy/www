@@ -1940,10 +1940,10 @@
 					var nth = ++count % monthsToShow[1];
 					if(selectedClass != '' && $(this).find(selectedClass).length > 0) {
 						var dateValue = plugin.formatDate(inst.options.dateFormat, inst.selectedDates[0]);
-						var hrefDate = plugin.formatDate("dd-mm-yyyy", inst.selectedDates[0]);
+						var hrefDate = plugin.formatDate("dd.mm.yyyy", inst.selectedDates[0]);
 						$(this).addClass('selected');
 						$(this).find('.sure-message .text span').text(dateValue);
-						$(this).find('.sure-message .apply-btn').attr('href', '/?q=news&d='+hrefDate);
+						$(this).find('.sure-message .apply-btn').attr('href', '?date='+hrefDate);
 					}
 					$(this).addClass(nth === 1 ? 'first' : (nth === 0 ? 'last' : ''));
 				});

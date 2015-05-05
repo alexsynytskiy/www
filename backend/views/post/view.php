@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use kartik\markdown\Markdown;
 use common\models\Asset;
+use common\models\Vote;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Post */
@@ -88,6 +89,15 @@ $this->params['breadcrumbs'][] = $this->title;
             'photo_id',
             'comments_count',
             'cached_tag_list',
+            [
+                'label' => 'Рейтинг',
+                'value' => '<span class="label label-success">'.
+                Vote::getVotes($model->id,Vote::VOTEABLE_POST,1).
+                '</span> <span class="label label-danger">'.
+                Vote::getVotes($model->id,Vote::VOTEABLE_POST,0).
+                '</span>',
+                'format' => 'html',
+            ],
         ],
     ]) ?>
 

@@ -3,6 +3,9 @@
   border: none;
   outline: none;
 }
+table {
+  border-collapse: collapse;
+}
 body {
   color: #727272;
   font-size: 14px;
@@ -980,6 +983,14 @@ body a:focus {
   padding-top: 5px;
   padding-left: 35px;
 }
+.blog-posts:after,
+.comments-block:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
 .blog-posts .comment,
 .comments-block .comment {
   border-bottom: 1px solid #e9e9e9;
@@ -1273,11 +1284,48 @@ body a:focus {
 .search-box {
   min-height: 100px;
 }
-.search-box .box-header {
-  margin-bottom: 10px;
+.search-box .club-select {
+  height: 40px;
+  border-bottom: 1px solid #e9e9e9;
+  padding: 7px 5px;
+}
+.search-box .club-select .button {
+  float: left;
+  padding: 0 6px;
+  height: 25px;
+  margin-right: 15px;
+  border-radius: 5px;
+  background-color: #e9e9e9;
+  font-family: 'Fira Sans', sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  color: #1972c4;
+  line-height: 25px;
+}
+.search-box .club-select .button:hover {
+  font-family: 'Fira Sans', sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  color: #0090e8;
+}
+.search-box .club-select .active {
+  font-family: 'Fira Sans', sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  color: #ffffff;
+  background-color: #1972c4;
+}
+.search-box .club-select .active:hover {
+  background-color: #0090e8;
+  font-family: 'Fira Sans', sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  color: #ffffff;
 }
 .search-box label {
   font-weight: normal;
+  font-size: 12px;
+  line-height: 30px;
 }
 .search-box .selectize-box {
   float: left;
@@ -1295,18 +1343,18 @@ body a:focus {
 .search-box .select-championship {
   float: left;
   width: 295px;
-  margin-left: 10px;
-  text-align: center;
+  margin-right: 10px;
+  text-align: left;
 }
 .search-box .select-season {
-  float: right;
+  float: left;
   width: 140px;
 }
 .search-box .select-season label {
-  float: right;
+  float: left;
 }
 .search-box .select-season [data-selectable] {
-  text-align: right;
+  text-align: left;
 }
 .match-arbiters {
   height: 95px;

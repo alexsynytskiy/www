@@ -37,6 +37,19 @@
     outline: none;
 }
 
+.clearfix() {
+    &:after {
+        content: ".";
+        display: block;
+        height: 0;
+        clear: both;
+        visibility: hidden;
+    }
+}
+.clearfix {
+	.clearfix;
+}
+
 * {
     margin:0;
     padding:0;
@@ -1273,6 +1286,7 @@ header {
 
 	.post-page {
 		.simple-rounded-box;
+		.clearfix;
 		margin-bottom: @main-margin;
 		padding: 10px;
 
@@ -1483,6 +1497,7 @@ header {
 		padding: 10px 13px;
 
 		.calendar-title {
+			.clearfix;
 			margin-bottom: @main-margin / 2;
 
 			.text {
@@ -1566,6 +1581,7 @@ header {
 		.news-post {
 			margin-bottom: 12px;
 			border-bottom: 1px solid @main-body-background;
+			.clearfix;
 
 			.time {
 				float: left;
@@ -1662,213 +1678,89 @@ header {
 		}
 	}
 
-	.match-block {
-		padding: 7px;
-		.simple-rounded-box;
-		height: 70px;
-		margin-bottom: @main-margin - 3;
+	.matches {
 
-		.top-part {
-			.text-font(14px, normal, @main-grey);
-			line-height: 14px;
-			margin-bottom: 10px;
-			position: relative;
+		.box-content {
+        	padding: 0;
+	    }
 
-			.date {
-				position: absolute;
-				top: 0;
-				left: 0;
-				display: inline-block;
-			}
+	    .status {
+	        width: 5px;
+	        background: @main-body-background;
+	        border-left: 10px solid transparent;	        
 
-			.competition {
-				width: 414px;
-				text-align: center;
-				float: left;
-			}
+	        &.green {
+	            background: @color-green;
+	        }
+	        &.yellow {
+	            background: @color-yellow;
+	        }
+	        &.red {
+	            background: @color-red;
+	        }
+	    }
 
-			.tour {
-				float: right;
-			}
+	    thead .status {
+	        background: transparent;
+	    }
+
+	    tr {
+	    	height: 35px;
+	    }
+
+	    .score {
+	    	font-weight: bold;
+	    }
+
+	    .home {
+	    	text-align: right;
+	    	padding-right: @main-margin / 3;
+	    }
+
+	    .visitors, .competition, .date {
+	    	text-align: left;
+	    }
+
+	    .date, .visitors {
+	    	padding-left: @main-margin / 3;
+	    }
+
+	    .logo {
+	    	img {
+	    		display: block;
+	    		margin: 0 auto;
+	    	}
 		}
 
-		.teams {
-			width: 414px;
-			float: left;
-			position: relative;
-
-			.left-block {
-				max-width: 180px;
-				position: absolute;
-				display: inline-block;
-				left: 0;
-				right: 210px;
-				margin-left: auto;
-				margin-right: auto;
-
-				.team-name {
-					float: right;
-					.text-font(14px, normal, @main-grey);
-					line-height: 30px;
-				}
-
-				.team-logo {
-					float: right;
-					max-height: 30px;
-					max-width: 30px;
-					margin-left: @main-margin / 4;
-				}
-			}
-
-			.right-block {
-				max-width: 180px;
-				position: absolute;
-				display: inline-block;
-				left: 210px;
-				right: 0;
-				margin-left: auto;
-				margin-right: auto;
-
-				.team-name {
-					float: left;
-					.text-font(14px, normal, @main-grey);
-					line-height: 30px;
-				}
-
-				.team-logo {
-					float: left;
-					max-height: 30px;
-					max-width: 30px;
-					margin-right: @main-margin / 4;
-				}
-			}
-
-			.final-score {
-				display: inline-block;
-				.text-font(14px, bold, @main-grey);
-				line-height: 30px;
-				margin-right: @main-margin / 4;
-				position: absolute;
-				left: 0;
-				right: 0;
-				margin-left: auto;
-				margin-right: auto;
-				max-width: 40px;
-				text-align: center;
-			}
-		}
-
-		.match-materials {
-			float: right;
+		.more .link {
 			padding-top: 5px;
+			padding-left: 4px;
+			height: 25px;
+			width: 22px;
+			background-color: @main-body-background;
+			border-radius: @box-border-radius;
 
-			.material {
-				float: right;
-				width: 40px;
-				height: 25px;
-				margin-left: @main-margin / 3;
-				border-radius: @box-border-radius;
-				background-color: @main-body-background;
-
-				.icon-tv {
-					margin-top: 4px;
-					margin-left: 9px;
-					background: url('/images/tv_sprite.png') no-repeat;
-  					background-size: 22px;
-  					height: 18px;
-  					width: 22px;
-				}
-
-				.tv-unactive {
-					background: url('/images/tv_unactive.png') no-repeat;
-  					background-size: 22px;
-  					margin-top: 4px;
-					margin-left: 9px;
-					height: 18px;
-  					width: 22px;
-				}
-
-				.icon-standart {
-					margin-top: 4px;
-					margin-left: 12px;
-					height: 18px;
-  					width: 16px;
-				}
-
-				.icon-protocol {
-					background: url('/images/protocol_sprite.png') no-repeat;
-  					background-size: 16px;
-				}
-
-				.protocol-unactive {
-					background: url('/images/protocol_unactive.png') no-repeat;
-  					background-size: 16px;
-				}
-
-				.icon-report {
-					background: url('/images/report_sprite.png') no-repeat;
-  					background-size: 16px;
-				}
-
-				.report-unactive {
-					background: url('/images/report_unactive.png') no-repeat;
-  					background-size: 16px;
-				}
-
-				.icon-materials {
-					background: url('/images/materials_sprite.png') no-repeat;
-  					background-size: 16px;
-				}
-
-				.materials-unactive {
-					background: url('/images/materials_unactive.png') no-repeat;
-  					background-size: 16px;
-				}
-
-				&:hover {
-					.icon-tv {
-						background: url('/images/tv_sprite.png') no-repeat;
-	  					background-size: 22px;
-	  					background-position: 0 -38px;
-					}
-
-					.icon-protocol {
-						background: url('/images/protocol_sprite.png') no-repeat;
-  						background-size: 16px;
-  						background-position: 0 -38px;
-					}
-
-					.icon-report {
-						background: url('/images/report_sprite.png') no-repeat;
-  						background-size: 16px;
-  						background-position: 0 -38px;
-					}
-
-					.icon-materials {
-						background: url('/images/materials_sprite.png') no-repeat;
-	  					background-size: 16px;
-	  					background-position: 0 -38px;
-					}
-				}
+			.arrow {
+				height: 14px;
+				width: 14px;
+				background: url(/images/link_arrowsp1.png) no-repeat;
+  				background-size: 14px;
 			}
+
+			&:hover {
+				.arrow {
+					background-position: 0 -42px;
+					background-size: 14px;
+				}
+			}		
 		}
 	}
 
-	.match-win {
-		border-left: 5px solid #00D18B;
-	}
-
-	.match-draw {
-		border-left: 5px solid @color-yellow;
-	}
-
-	.match-lose {
-		border-left: 5px solid @color-red;
-	}
 
 	.match-navigation {
 		padding: 10px 12px;
 		.simple-rounded-box;
+		.clearfix;
 		margin-bottom: @main-margin - 2;
 
 		.button {
@@ -2028,10 +1920,12 @@ header {
 	.match-protocol {
 		padding: 9px 5px;
 		.simple-rounded-box;
+		.clearfix;
 		margin-bottom: @main-margin - 2;
 
 		.top-title {
 			padding: 0 7px;
+			.clearfix;
 
 			.stadium {
 				float: left;
@@ -2049,6 +1943,7 @@ header {
 		.semi-title {
 			padding: 0 7px 7px;
 			border-bottom: 1px solid @main-body-background;
+			.clearfix;
 
 			.competition {
 				float: left;
@@ -2158,6 +2053,7 @@ header {
 		.teams {
 			.text-font(16px, normal, @main-grey);
 			line-height: 28px;
+			.clearfix;
 
 			.home {
 				float: left;
@@ -2171,6 +2067,7 @@ header {
 		.parameter {
 			.text-font(14px, normal, @main-grey);
 			line-height: 16px;
+			.clearfix;
 
 			.header {
 				position: relative;
@@ -2259,7 +2156,7 @@ header {
 	.footer-bottom {
 		@padding-top: 13px;
 		@padding-side: 23px;
-		width: @wrapper-width - 30 - @padding-side * 2;
+		width: 100%;
 		margin: 0 auto;
 		border-radius: @box-border-radius @box-border-radius 0 0;
 		padding-top: @padding-top;

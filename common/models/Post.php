@@ -6,6 +6,7 @@ use Yii;
 use yii\db\ActiveRecord;
 use amnah\yii2\user\models\User;
 use dosamigos\transliterator\TransliteratorHelper;
+use kartik\markdown\Markdown;
 
 /**
  * This is the model class for table "posts".
@@ -192,6 +193,33 @@ class Post extends ActiveRecord
     public function getCategory()
     {
         return self::categoryHumanName($this->content_category_id);
+    }
+    
+    /**
+     * Get short content
+     *
+     * @return string
+     */
+    public function getShortContent()
+    {
+        $content = Markdown::convert($this->content);
+        $content = strip_tags($content);
+        if(mb_strlen($content,'UTF-8') <= 200)
+        {
+            return $content;          
+        }
+        $cutLength = mb_strpos($content,'. ', 200, 'UTF-8');
+        if($cutLength && $cutLength < 350) 
+        {
+            $content = mb_substr($content, 0, $cutLength, 'UTF-8');
+        } 
+        else 
+        {
+            $content = mb_substr($content, 0, 200, 'UTF-8');
+            $content = trim($content);
+        }
+        $content .= '...';
+        return $content;
     }
 
     /**
