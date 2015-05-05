@@ -4,12 +4,13 @@
  * @var $post common\models\Post
  * @var $image common\models\Asset
 **/
+Yii::$app->formatter->locale = 'ru-RU';
 ?>
 
 <div class="post-page">
  	<div class="top-block">
  		<div class="date-icon"></div>
- 		<div class="date-text"><?= strftime('%d %B %Y %H:%M',strtotime($post->created_at)) ?></div>
+ 		<div class="date-text"><?= Yii::$app->formatter->asDate(strtotime($post->created_at),'full') ?></div>
  		<div class="comments-count"><?= rand(0,100) ?></div>
  		<div class="comments-icon"></div>
  	</div>

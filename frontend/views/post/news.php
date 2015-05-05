@@ -2,7 +2,9 @@
 /**
  * @var $this yii\web\View
  * @var $posts Array of common\models\Post
+ * @var $date string | bool Selected date
 **/
+$currentYear = (int)date('Y',time());
 ?>
 <div class="date-news-search calendar">
 	<div class="calendar-title">
@@ -16,12 +18,15 @@
 	<div class="select-day">
         <span class="slabel">Дни: </span>
 		<?php
+			$selectedTime = $date ? strtotime($date) : time();
+			$selectedTime += 60*60*24*2;
 			for($i = 4; $i >= 0; $i--)
 			{
-				$date = date('d.m.Y', time() - 60*60*24*$i);
-				$class = isset($_GET['date']) && $_GET['date'] == $date ? 'active' : '';
+				$dateValue = date('d.m.Y', $selectedTime - 60*60*24*$i);
+				$dateText = Yii::$app->formatter->asDate($selectedTime - 60*60*24*$i, 'dd MMMM');
+				$class = $i == 2 ? 'active' : '';
 			?>
-        		<a class="o-day <?= $class ?>" href="?date=<?= $date ?>"><?= $date ?></a>
+        		<a class="o-day <?= $class ?>" href="?date=<?= $dateValue ?>"><?= $dateText ?></a>
 			<?php
 			}	
 		?>
@@ -30,35 +35,34 @@
 	    <div class="header">
 	        <div class="select-year">
 	            <span class="slabel">Года: </span>
-	            <span class="o-year active">2015</span>
-	            <span class="o-year">2014</span>
-	            <span class="o-year">2013</span>
-	            <span class="o-year">2012</span>
-	            <span class="o-year">2011</span>
-	            <span class="o-year">2010</span>
-	            <span class="o-year">2009</span>
-	            <span class="o-year">2008</span>
-	            <span class="o-year">2007</span>
-	            <span class="o-year">2006</span>
-	            <span class="o-year">2005</span>
-	            <span class="o-year">2004</span>
-	            <span class="o-year">2003</span>
-	            <span class="o-year">2002</span>
-	            <span class="o-year">2001</span>
+				<?php for($year = $currentYear; $year >= 2001; $year--) { ?>
+	            	<span class="o-year <?= ($year == $currentYear) ? 'active' : '' ?>"><?= $year ?></span>
+				<?php } ?>
 	        </div>
-	        <div class="current-year"><div>2015</div></div>
+	        <div class="current-year"><div><?= $currentYear ?></div></div>
 	    </div>
 	    <div class="content"></div>
 	</div>
+	<?php 
+		if($date) { 
+			$this->registerJs(
+				"var calendarDate = '".date('m-d-Y', strtotime($date))."';",
+				\yii\web\View::POS_BEGIN,
+				'my-options');
+		} 
+	?>
 </div>
 
 <div class="news-block">
-	<?php 
+	<?php if(count($posts) == 0) { ?>
+		<div class="empty-result">По заданному запросу материалов не найдено</div>
+	<?php } ?>
+	<?php
 		$prevTime = 0;
 		foreach($posts as $post) { 
 			$currentTime = strtotime(date("Y-m-d 00:00:00", strtotime($post->created_at)));
-			if(isset($_GET['date']) && $currentTime - $prevTime >= 60*60*24 ||
-				!isset($_GET['date']) && $prevTime - $currentTime >= 60*60*24 ||
+			if($date && $currentTime - $prevTime >= 60*60*24 ||
+				!$date && $prevTime - $currentTime >= 60*60*24 ||
 				$prevTime == 0)
 			{
 			?>

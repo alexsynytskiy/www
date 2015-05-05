@@ -15,7 +15,7 @@
 	<?php foreach($posts as $post) { ?>
 	<div class="message">		
 		<div class="text">
-			<a href="#">
+			<a href="<?= \yii\helpers\Url::to(['news/'.$post->id.'-'.$post->slug]) ?>">
 				<div class="time">
 					<?= date('H:i',strtotime($post->created_at)) ?>
 				</div>

@@ -82,9 +82,18 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionNews($date = NULL) 
+    public function actionNews($date = null) 
     {
         $query = Post::find()->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_NEWS]);
+        // check date
+        if (strtotime($date) == null) {
+            $date = false;
+        } else {
+            $parsed = date_parse($date);
+            if (!checkdate($parsed["month"], $parsed["day"], $parsed["year"])) {
+                $date = false;
+            }
+        }
         if(!empty($date))
         {
             $startDay = date("Y-m-d 00:00:00", strtotime($date));
@@ -105,7 +114,7 @@ class SiteController extends Controller
             'columnFirst' => [
                 'short_news' => [
                     'view' => '@frontend/views/post/news',
-                    'data' => compact('posts'),
+                    'data' => compact('posts','date'),
                 ],
             ],
             'columnSecond' => [

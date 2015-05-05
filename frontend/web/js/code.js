@@ -253,7 +253,7 @@ $(document).ready(function() {
         $el.addClass('no-replies');
     });
 
-    $('.calendar .content').datepick({
+    var $datepicker = $('.calendar .content').datepick({
         dateFormat: 'dd.mm.yyyy', // Format for dates, defaults to calendar setting if null
         defaultDate: new Date(2015, 1 - 1, 1),
         maxDate: +0,
@@ -262,9 +262,9 @@ $(document).ready(function() {
         changeMonth: false, // True to change month/year via drop-down, false for navigation only
         useMouseWheel: false,
         monthsToShow: [4,3],
-        onSelect: function(){  // Callback when a date is selected
-            var date = $(this).datepick('getDate');
-        },
+//        onSelect: function(){  // Callback when a date is selected
+//            var date = $(this).datepick('getDate');
+//        },
     });
 
     $('.calendar .o-year').click(function() {
@@ -275,26 +275,28 @@ $(document).ready(function() {
         $('.calendar .o-year.active').removeClass('active');
         $(this).addClass('active');
     });
-    // test delete
-    // if($('.calendar .o-day.active').length > 0) {
-    //     $day = $('.calendar .o-day.active');
-    //     var date = new Date($($day).attr('data-date'));
-    //     $('.calendar .content').datepick('setDate', date);
-    //     var year = date.getFullYear();
-    //     $('.calendar .current-year div').text(year);
-    //     $.each($('.calendar .o-year'),function(){
-    //         if($(this).text() == year) {
-    //             $('.calendar .o-year.active').removeClass('active');
-    //             $(this).addClass('active');
-    //         }
-    //     });
-    // }
+    
+    if(typeof(calendarDate)!=='undefined') {
+        var date = new Date(calendarDate);
+        $('.calendar .content').datepick('setDate', date);
+        $('.calendar .datepick-month.selected').removeClass('selected');
+        $('.calendar .current-year div').text($(this).text());
+        $('.calendar .o-year.active').removeClass('active');
+        console.log(calendarDate);
+        var year = date.getFullYear();
+        $('.calendar .current-year div').text(year);
+        $.each($('.calendar .o-year'),function(){
+            if($(this).text() == year) {
+                $(this).addClass('active');
+            }
+        });
+    }
 
     $('.calendar').on('click', '.cancel-btn', function(){
         $('.datepick-month.selected').removeClass('selected');
     });
 
-    var $selects = $('.selectize-box select').selectize({
+    $('.selectize-box select').selectize({
         hideSelected: true,
         item: function(data) {
             return "<div data-value='"+data.value+"' data-default='"+data.type+"' class='item'>"+data.label+" </div>";

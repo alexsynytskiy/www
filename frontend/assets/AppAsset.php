@@ -20,6 +20,7 @@ class AppAsset extends AssetBundle
     public $css = [
         'css/jquery.bxslider.css',
         'css/jquery.datepick.css',
+        'css/jquery.Jcrop.css',
         'css/icheck.css',
         'css/less/selectize.less',
         'css/less/style.less',
@@ -35,7 +36,6 @@ class AppAsset extends AssetBundle
         'js/selectize.js',
         'js/jquery.indyMasonry.js',
         'js/less.min.js',
-        'css/jquery.Jcrop.css',
         'js/code.js',
     ];
     public $depends = [
