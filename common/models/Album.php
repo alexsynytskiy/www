@@ -72,17 +72,17 @@ class Album extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'title' => 'Заголовок',
-            'slug' => 'Url псевдоним',
-            'description' => 'Описание',
-            'user_id' => 'Автор',
-            'created_at' => 'Создано',
-            'updated_at' => 'Обновлено',
-            'is_public' => 'Опубликовано',
+            'id'              => 'ID',
+            'title'           => 'Заголовок',
+            'slug'            => 'Url псевдоним',
+            'description'     => 'Описание',
+            'user_id'         => 'Автор',
+            'created_at'      => 'Создано',
+            'updated_at'      => 'Обновлено',
+            'is_public'       => 'Опубликовано',
             'cached_tag_list' => 'Закешированный список тегов',
-            'images' => 'Изображения',
-            'tags' => 'Теги',
+            'images'          => 'Изображения',
+            'tags'            => 'Теги',
         ];
     }
 

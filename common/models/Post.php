@@ -13,23 +13,23 @@ use kartik\markdown\Markdown;
  *
  * @property integer $id
  * @property integer $user_id
- * @property string $title
- * @property string $slug
- * @property string $content
+ * @property string  $title
+ * @property string  $slug
+ * @property string  $content
  * @property integer $is_public
- * @property string $created_at
- * @property string $updated_at
+ * @property string  $created_at
+ * @property string  $updated_at
  * @property integer $is_top
  * @property integer $is_video
  * @property integer $content_category_id
  * @property integer $comments_count
  * @property integer $is_cover
  * @property integer $is_index
- * @property string $source_title
- * @property string $source_url
+ * @property string  $source_title
+ * @property string  $source_url
  * @property integer $photo_id
  * @property integer $is_yandex_rss
- * @property string $cached_tag_list
+ * @property string  $cached_tag_list
  * @property integer $allow_comment
  *
  * @property Users $user
@@ -47,12 +47,12 @@ class Post extends ActiveRecord
     const CATEGORY_BLOG = 2;
 
     /**
-     * @var array Images[]
+     * @var array Array of Asset
      */
     public $image;
 
     /**
-     * @var string Coordinates data for crop image
+     * @var string Coordinates for crop image
      */
     public $cropData;
 
@@ -94,28 +94,28 @@ class Post extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID записи',
-            'user_id' => 'Автор',
-            'title' => 'Заголовок',
-            'slug' => 'URL псевдоним',
-            'content' => 'Контент',
-            'is_public' => 'Опубликовано',
-            'created_at' => 'Создано',
-            'updated_at' => 'Обновлено',
-            'is_top' => 'Закреплено',
-            'is_video' => 'С видео',
+            'id'                  => 'ID записи',
+            'user_id'             => 'Автор',
+            'title'               => 'Заголовок',
+            'slug'                => 'URL псевдоним',
+            'content'             => 'Контент',
+            'is_public'           => 'Опубликовано',
+            'created_at'          => 'Создано',
+            'updated_at'          => 'Обновлено',
+            'is_top'              => 'Закреплено',
+            'is_video'            => 'С видео',
             'content_category_id' => 'Категория',
-            'comments_count' => 'Количество комментариев',
-            'is_cover' => 'Обложка',
-            'is_index' => 'Главная',
-            'source_title' => 'Название источника',
-            'source_url' => 'Адрес источника',
-            'photo_id' => 'Фото',
-            'is_yandex_rss' => 'Яндекс RSS',
-            'cached_tag_list' => 'Закешированный список тегов',
-            'allow_comment' => 'Можно комментировать',
-            'image' => 'Изображение',
-            'tags' => 'Теги',
+            'comments_count'      => 'Количество комментариев',
+            'is_cover'            => 'Обложка',
+            'is_index'            => 'Главная',
+            'source_title'        => 'Название источника',
+            'source_url'          => 'Адрес источника',
+            'photo_id'            => 'Фото',
+            'is_yandex_rss'       => 'Яндекс RSS',
+            'cached_tag_list'     => 'Закешированный список тегов',
+            'allow_comment'       => 'Можно комментировать',
+            'image'               => 'Изображение',
+            'tags'                => 'Теги',
         ];
     }
 
@@ -320,6 +320,29 @@ class Post extends ActiveRecord
         $slug = str_replace(" ", "-", $slug);
         $slug = strtolower($slug);
         return $slug;
+    }
+
+    /**
+     * Initialize hierachy of comments to post
+     * 
+     * @return array Array of common\models\Comment
+     */
+    public function getComments() 
+    {
+        $comments = Comment::find()
+            ->where([
+                'commentable_type' => Comment::COMMENTABLE_POST,
+                'commentable_id' => $this->id,
+            ])
+            ->all();
+
+        $sortedComments = [];
+        foreach ($comments as $comment) 
+        {
+            $index = $comment->parent_id == null ? 0 : $comment->parent_id;
+            $sortedComments[$index][] = $comment;
+        }
+        return $sortedComments;
     }
 
 }

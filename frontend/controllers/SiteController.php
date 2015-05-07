@@ -10,6 +10,7 @@ use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
+use yii\web\NotFoundHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -52,16 +53,26 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        $posts = Post::find()
+        $newsPosts = Post::find()
             ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_NEWS])
             ->orderBy(['created_at' => SORT_DESC])
             ->limit(50)
+            ->all();
+
+        $blogPosts = Post::find()
+            ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_BLOG])
+            ->orderBy(['created_at' => SORT_DESC])
+            ->limit(6)
             ->all();
 
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col3',
             'title' => Yii::t('user','Вход'),
             'columnFirst' => [
+                'blog_column' => [
+                    'view' => '@frontend/views/blocks/blog_block',
+                    'data' => ['posts' => $blogPosts],
+                ],
                 'test_block' => [
                     'view' => '@frontend/views/site/test',
                     'data' => [],
@@ -69,8 +80,8 @@ class SiteController extends Controller
             ],
             'columnSecond' => [
                 'short_news' => [
-                    'view' => '@frontend/views/post/short_news',
-                    'data' => compact('posts'),
+                    'view' => '@frontend/views/blocks/news_block',
+                    'data' => ['posts' => $newsPosts],
                 ],
             ],
             'columnThird' => [
@@ -112,8 +123,8 @@ class SiteController extends Controller
             'templateType' => 'col2',
             'title' => 'Новости',
             'columnFirst' => [
-                'short_news' => [
-                    'view' => '@frontend/views/post/news',
+                'news' => [
+                    'view' => '@frontend/views/site/news',
                     'data' => compact('posts','date'),
                 ],
             ],
@@ -131,13 +142,14 @@ class SiteController extends Controller
         $post = $this->findModel($id);
         $image = $post->getAsset();
 
-        return $this->render('@frontend/views/site/index', [
+        $options = [
             'templateType' => 'col2',
             'title' => 'Новости',
             'columnFirst' => [
-                'short_news' => [
-                    'view' => '@frontend/views/post/single',
+                'post' => [
+                    'view' => '@frontend/views/site/post',
                     'data' => compact('post','image'),
+                    'weight' => 0,
                 ],
             ],
             'columnSecond' => [
@@ -146,7 +158,19 @@ class SiteController extends Controller
                     'data' => [],
                 ],
             ],
-        ]);
+        ];
+
+        if ($post->allow_comment) {
+            $comments = $post->getComments();
+            $options['columnFirst']['comments'] = [
+                'view' => '@frontend/views/blocks/comments_block',
+                'data' => compact('comments'),
+                'weight' => 5,
+            ];
+        }
+        usort($options['columnFirst'],'self::cmp');
+
+        return $this->render('@frontend/views/site/index', $options);
     }
     
     /**
@@ -163,6 +187,20 @@ class SiteController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    /**
+     * Comparing a weight of blocks in columns
+     * @param array $a
+     * @param array $b
+     * @return int Result of comparing
+     */
+    private static function cmp($a, $b)
+    {
+        if ($a['weight'] == $b['weight']) {
+            return 0;
+        }
+        return ($a['weight'] < $b['weight']) ? -1 : 1;
     }
 
 }

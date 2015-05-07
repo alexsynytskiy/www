@@ -240,6 +240,16 @@ class Asset extends \yii\db\ActiveRecord
     }
 
     /**
+     * Get default file url
+     *
+     * @return string
+     */
+    public function getDefaultFileUrl()
+    {   
+        return 'http://'.$_SERVER['HTTP_HOST'].'/images/default_user_image.png';
+    }
+
+    /**
      * Get assetable type
      *
      * @return string
