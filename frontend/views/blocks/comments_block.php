@@ -16,7 +16,6 @@ function outCommentsTree($comments, $parent_id, $level)
     { 
         foreach ($comments[$parent_id] as $comment) 
         {
-            // echo $view->render('@frontend/views/site/comment_single', compact('comment', 'level'));
             $username = $comment->user->getDisplayName();
             $avatar = $comment->user->getAsset();
             $imageUrl = empty($avatar->getFileUrl()) ? $avatar->getDefaultFileUrl() : $avatar->getFileUrl();

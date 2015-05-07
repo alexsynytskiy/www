@@ -37,4 +37,10 @@
 		</div>		
 	</div>
 	<?php }	?>
+	<div class="header no-border">
+		<a href="<?= \yii\helpers\Url::to(['site/news']) ?>">
+			<div class="link-to-all-icon"></div>
+			<div class="link-to-all-text">Все новости:</div>
+		</a>
+	</div>
 </div>

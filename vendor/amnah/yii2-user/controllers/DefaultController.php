@@ -8,6 +8,7 @@ use yii\web\Response;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\widgets\ActiveForm;
+use common\models\Post;
 
 /**
  * Default controller for User module
@@ -77,12 +78,26 @@ class DefaultController extends Controller
             return $this->goBack(Yii::$app->getModule("user")->loginRedirect);
         }
 
-        // render
+        // backend render
         if( Yii::getAlias('@app') == Yii::getAlias('@backend')) {
             return $this->render('/backend/login', [
                 'user' => $user,
             ]);
         }
+
+        // frontend render
+        $newsPosts = Post::find()
+            ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_NEWS])
+            ->orderBy(['created_at' => SORT_DESC])
+            ->limit(50)
+            ->all();
+
+        $blogPosts = Post::find()
+            ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_BLOG])
+            ->orderBy(['created_at' => SORT_DESC])
+            ->limit(6)
+            ->all();
+
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col3',
             'title' => Yii::t('user','Вход'),
@@ -91,15 +106,19 @@ class DefaultController extends Controller
                     'view' => '@frontend/views/site/test',
                     'data' => [],
                 ],
+                'blog_column' => [
+                    'view' => '@frontend/views/blocks/blog_block',
+                    'data' => ['posts' => $blogPosts],
+                ],
             ],
             'columnSecond' => [
                 'login_block' => [
                     'view' => '/default/blocks/login_block',
                     'data' => compact('user'),
                 ],
-                'test_block' => [
-                    'view' => '@frontend/views/site/test',
-                    'data' => [],
+                'short_news' => [
+                    'view' => '@frontend/views/blocks/news_block',
+                    'data' => ['posts' => $newsPosts],
                 ],
             ],
             'columnThird' => [
@@ -174,10 +193,23 @@ class DefaultController extends Controller
             }
         }
 
-        // render
+        // backend render
         if( Yii::getAlias('@app') == Yii::getAlias('@backend')) {
             return $this->render('/backend/register', compact('user','profile'));
         }
+
+        // frontend render
+        $newsPosts = Post::find()
+            ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_NEWS])
+            ->orderBy(['created_at' => SORT_DESC])
+            ->limit(50)
+            ->all();
+
+        $blogPosts = Post::find()
+            ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_BLOG])
+            ->orderBy(['created_at' => SORT_DESC])
+            ->limit(6)
+            ->all();
 
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col3',
@@ -187,15 +219,19 @@ class DefaultController extends Controller
                     'view' => '@frontend/views/site/test',
                     'data' => [],
                 ],
+                'blog_column' => [
+                    'view' => '@frontend/views/blocks/blog_block',
+                    'data' => ['posts' => $blogPosts],
+                ],
             ],
             'columnSecond' => [
                 'register_block' => [
                     'view' => '/default/blocks/register_block',
                     'data' => compact('user','profile'),
                 ],
-                'test_block' => [
-                    'view' => '@frontend/views/site/test',
-                    'data' => [],
+                'short_news' => [
+                    'view' => '@frontend/views/blocks/news_block',
+                    'data' => ['posts' => $newsPosts],
                 ],
             ],
             'columnThird' => [

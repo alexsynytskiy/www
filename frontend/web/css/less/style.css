@@ -930,7 +930,6 @@ header .header-wrapper .breadcrumbs .tag:hover {
 }
 .grid-column .news .message .text .icons {
   float: right;
-  width: 35px;
   height: 100%;
   position: absolute;
   top: 0;
@@ -938,7 +937,6 @@ header .header-wrapper .breadcrumbs .tag:hover {
 }
 .grid-column .news .message .text .icons .icons-mokup {
   position: relative;
-  width: 35px;
   height: 100%;
 }
 .grid-column .news .message .text .icons .icons-mokup .comments-count {

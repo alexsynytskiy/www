@@ -983,6 +983,10 @@ body a:focus {
   padding-top: 5px;
   padding-left: 35px;
 }
+.blog-posts,
+.comments-block {
+  margin-bottom: 15px;
+}
 .blog-posts:after,
 .comments-block:after {
   content: ".";

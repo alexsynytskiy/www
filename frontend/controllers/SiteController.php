@@ -69,13 +69,13 @@ class SiteController extends Controller
             'templateType' => 'col3',
             'title' => Yii::t('user','Вход'),
             'columnFirst' => [
-                'blog_column' => [
-                    'view' => '@frontend/views/blocks/blog_block',
-                    'data' => ['posts' => $blogPosts],
-                ],
                 'test_block' => [
                     'view' => '@frontend/views/site/test',
                     'data' => [],
+                ],
+                'blog_column' => [
+                    'view' => '@frontend/views/blocks/blog_block',
+                    'data' => ['posts' => $blogPosts],
                 ],
             ],
             'columnSecond' => [
