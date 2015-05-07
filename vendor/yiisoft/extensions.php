@@ -300,4 +300,13 @@ return array (
       '@dosamigos/selectize' => $vendorDir . '/2amigos/yii2-selectize-widget/src',
     ),
   ),
+  'kartik-v/yii2-slider' => 
+  array (
+    'name' => 'kartik-v/yii2-slider',
+    'version' => '1.3.1.0',
+    'alias' => 
+    array (
+      '@kartik/slider' => $vendorDir . '/kartik-v/yii2-slider',
+    ),
+  ),
 );

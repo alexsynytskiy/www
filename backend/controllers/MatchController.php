@@ -3,18 +3,16 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\Source;
-use common\models\SourceSearch;
+use common\models\Match;
+use common\models\MatchSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\helpers\Json;
-use yii\db\Query;
 
 /**
- * SourceController implements the CRUD actions for Source model.
+ * MatchController implements the CRUD actions for Match model.
  */
-class SourceController extends Controller
+class MatchController extends Controller
 {
     public function behaviors()
     {
@@ -29,12 +27,12 @@ class SourceController extends Controller
     }
 
     /**
-     * Lists all Source models.
+     * Lists all Match models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new SourceSearch();
+        $searchModel = new MatchSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -44,7 +42,7 @@ class SourceController extends Controller
     }
 
     /**
-     * Displays a single Source model.
+     * Displays a single Match model.
      * @param integer $id
      * @return mixed
      */
@@ -56,13 +54,13 @@ class SourceController extends Controller
     }
 
     /**
-     * Creates a new Source model.
+     * Creates a new Match model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Source();
+        $model = new Match();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -74,7 +72,7 @@ class SourceController extends Controller
     }
 
     /**
-     * Updates an existing Source model.
+     * Updates an existing Match model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -82,6 +80,8 @@ class SourceController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+
+        $model->date = date('d.m.Y',strtotime($model->date));
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -93,7 +93,7 @@ class SourceController extends Controller
     }
 
     /**
-     * Deletes an existing Source model.
+     * Deletes an existing Match model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -102,67 +102,19 @@ class SourceController extends Controller
     {
         $this->findModel($id)->delete();
 
-        if(Yii::$app->request->referrer){
-            return $this->redirect(Yii::$app->request->referrer);
-        }else{
-            return $this->redirect(['index']);
-        }
+        return $this->redirect(['index']);
     }
 
     /**
-     * Display list of all source names in json format
-     *
-     * @param string $q Query for search
-     * @return mixed Json data
-     */
-    public function actionSourceNameList($q = null) {
-        if($q == null) {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-        $query = new Query;
-        $query->select('name as value')
-            ->distinct()
-            ->from(Source::tableName())
-            ->where(['like', 'name', $q])
-            ->orderBy('name');
-        $command = $query->createCommand();
-        $data = $command->queryAll();
-        $out = array_values($data);
-        echo Json::encode($out);
-    }
-
-    /**
-     * Display list of all source urls in json format
-     *
-     * @param string $q Query for search
-     * @return mixed Json data
-     */
-    public function actionSourceUrlList($q = null) {
-        if($q == null) {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-        $query = new Query;
-        $query->select('url as value')
-            ->distinct()
-            ->from(Source::tableName())
-            ->where(['like', 'url', $q])
-            ->orderBy('url');
-        $command = $query->createCommand();
-        $data = $command->queryAll();
-        $out = array_values($data);
-        echo Json::encode($out);
-    }
-
-    /**
-     * Finds the Source model based on its primary key value.
+     * Finds the Match model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Source the loaded model
+     * @return Match the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Source::findOne($id)) !== null) {
+        if (($model = Match::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

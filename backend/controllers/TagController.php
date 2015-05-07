@@ -147,6 +147,9 @@ class TagController extends Controller
      * @return mixed Json data
      */
     public function actionTagList($query = null) {
+        if($q == null) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
         $search = urldecode($query);
         $query = new Query;
         $query->select('id as value, name as text')
