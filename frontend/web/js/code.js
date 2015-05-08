@@ -1,5 +1,6 @@
 (function($){
     $(window).load(function() {
+        // BxSlider START
         $('.top-news-slider ul').bxSlider({
             slideWidth: 300,
             slideHeight: 335,
@@ -23,16 +24,20 @@
             minSlides: 1,
             slideMargin: 0
         });
+        // BxSlider END
 
-        //hover functions for matches slider on top of 2nd column at main page
+
+        // Hover functions for matches slider on top of 2nd column at main page START
         $('.top-matches-slider .bx-prev, .top-matches-slider .bx-next').hover( function(){
            $(this).addClass("bx-control-hover");
         },
         function(){
            $(this).removeClass("bx-control-hover");
         });
+        // Hover functions for matches slider on top of 2nd column at main page END
 
-        // masonry tiles view
+
+        // Masonry tiles view START
         $('.inquirers-container').indyMasonry({
               'clName'    : '.inquirer',
               'gap'       : 15,
@@ -47,7 +52,10 @@
               'mBottom'   : 15,
               'column'    : 2,
         });
+        // Masonry tiles view END
 
+
+        // Smooth scroll to some elements START
         $('#table-translation-link').click(function(){
             var target = $(this).attr('href');
             $('html, body').animate({
@@ -63,17 +71,25 @@
             }, 800);
             return false;
         });
+        // Smooth scroll to some elements END
     });
 
 $(document).ready(function() {
 
+    // iCheck START
 	$('input').iCheck({
 		checkboxClass: 'icheckbox_flat-blue',
 		radioClass: 'iradio_flat-blue'
 	});
+    // iCheck END
 
-	//hover functions for header social buttons and rss
-	//hover functions for footer rss and inform buttons
+
+    // Autoresize textarea START
+    $('#comment-form textarea').autoResize();
+    // Autoresize textarea START
+
+
+	// Hover functions for header social buttons, rss and inform buttons START
 	$('.block-top .button, .social-buttons .button').hover( function(){
 	   $(this).addClass("button-hover");
 	}, function(){
@@ -89,8 +105,10 @@ $(document).ready(function() {
 	function(){
 	   $(this).removeClass("hover");
 	});
+    // Hover functions for header social buttons, rss and inform buttons END
 
-	//checking for input name field in register and sign-in forms
+
+	// Checking for input name field in register and sign-in forms START
 	$('.field-username input[type="text"]').on("change paste keyup", function() {
         var empty = false;
 
@@ -121,8 +139,10 @@ $(document).ready(function() {
         	$(this).next().addClass('empty-input');
         }
     });
+    // Checking for input name field in register and sign-in forms END
 
-    //checking for input e-mail field in register form
+
+    // Checking for input e-mail field in register form START
 	$('.field-email input[type="text"]').on("change paste keyup", function() {
         var empty = false;
 
@@ -153,8 +173,10 @@ $(document).ready(function() {
         	$(this).next().addClass('empty-input');
         }
     });
+    // Checking for input e-mail field in register form END
 
-    //checking for input passwords
+
+    // Checking for input passwords START
 	$('.field-pass2 input[type="password"]').on("change paste keyup", function() {
         var emptyfirst = false;
         var emptysecond = false;
@@ -192,8 +214,10 @@ $(document).ready(function() {
         	$(this).next().addClass('empty-input');
         }
     });
+    // Checking for input passwords END
+    
 
-	//checking for input passwords
+	// Checking for input passwords START
 	$('.field-pass1 input[type="password"]').on("change paste keyup", function() {
         var emptyfirst = false;
         var emptysecond = false;
@@ -231,8 +255,10 @@ $(document).ready(function() {
         	$('.field-pass2 input[type="password"]').next().addClass('empty-input');
         }
     });
+    // Checking for input passwords END
 
-    // toggle comments
+
+    // Toggle comments START
     $('.toggle-button').click(function(){
         if($(this).hasClass('toggle-show')) {
             $(this).removeClass('toggle-show');
@@ -252,7 +278,32 @@ $(document).ready(function() {
         $el.text('');
         $el.addClass('no-replies');
     });
+    // Toggle comments END
+    
 
+    $('.comments-block .button-reply').click(function(){
+        var commentId = $(this).attr('data-comment-id');
+        var commentUserName = $(this).parents('.comment').first().find('.user-name a').first().text();
+        var target = $('.comments-block');
+        
+        $('#comment-form #comment-parent_id').val(commentId);
+        $('#comment-form .reply-data .user').text(commentUserName);
+        $('#comment-form .reply-data').show();
+
+        $('#comment-form #comment-content').text(commentUserName + ', ');
+        $('html,body').animate({
+          scrollTop: target.offset().top
+        }, 500);
+        $('#comment-form #comment-content').focus();
+    });
+
+    $('.comments-block .button-cancel').click(function(){
+        $('#comment-form #comment-parent_id').val('');
+        $('#comment-form .reply-data').hide();
+    });
+
+
+    // => Calendar START
     var $datepicker = $('.calendar .content').datepick({
         dateFormat: 'dd.mm.yyyy', // Format for dates, defaults to calendar setting if null
         defaultDate: new Date(2015, 1 - 1, 1),
@@ -262,9 +313,6 @@ $(document).ready(function() {
         changeMonth: false, // True to change month/year via drop-down, false for navigation only
         useMouseWheel: false,
         monthsToShow: [4,3],
-//        onSelect: function(){  // Callback when a date is selected
-//            var date = $(this).datepick('getDate');
-//        },
     });
 
     $('.calendar .o-year').click(function() {
@@ -295,23 +343,17 @@ $(document).ready(function() {
     $('.calendar').on('click', '.cancel-btn', function(){
         $('.datepick-month.selected').removeClass('selected');
     });
+    // => Calendar END
 
+
+    // => Selectize START
     $('.selectize-box select').selectize({
         hideSelected: true,
         item: function(data) {
             return "<div data-value='"+data.value+"' data-default='"+data.type+"' class='item'>"+data.label+" </div>";
         }
     });
-    // $.each($selects, function(){
-    //     var control = $(this)[0].selectize;
-    //     control.on('blur',function(){
-    //         console.log(control.getValue());
-    //         if(control.getValue() == '') {
-    //             control.setValue('all');
-    //         }
-    //     });
-    // });
-
+    // => Selectize END
 
   });
 })(jQuery);

@@ -94,11 +94,13 @@ $currentYear = (int)date('Y',time());
 			<?= $post->getShortContent() ?>
 			</div>
 		</div>
+		<?php if($post->comments_count > 0) { ?>
 		<div class="news-comments-block">
 			<div class="icon"></div>
 			<div class="count"><?= $post->comments_count ?></div>
 			<div class="clearfix"></div>
 		</div>
+		<?php } ?>
 	</div>
 	<?php } ?>
 </div>

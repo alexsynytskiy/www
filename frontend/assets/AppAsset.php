@@ -35,6 +35,7 @@ class AppAsset extends AssetBundle
         'js/datepicker/jquery.datepick-ru.js',
         'js/selectize.js',
         'js/jquery.indyMasonry.js',
+        'js/autoresize.jquery.js',
         'js/code.js',
     ];
     public $depends = [

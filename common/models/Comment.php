@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 use amnah\yii2\user\models\User;
 
 /**
@@ -20,7 +21,7 @@ use amnah\yii2\user\models\User;
  * @property Comment $parent
  * @property Comment[] $comments
  */
-class Comment extends \yii\db\ActiveRecord
+class Comment extends ActiveRecord
 {
     /**
      * @var string commentable types
@@ -65,6 +66,32 @@ class Comment extends \yii\db\ActiveRecord
             'user_id' => 'Пользователь',
             'parent_id' => 'Родительский ID',
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class'      => 'yii\behaviors\TimestampBehavior',
+                'value'      => function () { return date("Y-m-d H:i:s"); },
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'created_at',
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * Get comment content
+     *
+     * @return string
+     */
+    public function getContent()
+    {
+        return strip_tags($this->content);
     }
 
     /**

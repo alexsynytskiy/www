@@ -2,6 +2,7 @@
 /**
  * @var $this yii\web\View
  * @var $comments array Array of common\models\Comment
+ * @var $commentModel common\models\Comment
 **/
 
 /**
@@ -18,7 +19,7 @@ function outCommentsTree($comments, $parent_id, $level)
         {
             $username = $comment->user->getDisplayName();
             $avatar = $comment->user->getAsset();
-            $imageUrl = empty($avatar->getFileUrl()) ? $avatar->getDefaultFileUrl() : $avatar->getFileUrl();
+            $imageUrl = $avatar->getFileUrl();
 
             $commentDate = Yii::$app->formatter->asDate($comment->created_at, 'dd MMMM YYYY HH:mm');
 
@@ -32,11 +33,11 @@ function outCommentsTree($comments, $parent_id, $level)
             $page = 'post';
 
             ?>
-            <div class="comment">
+            <div id="comment-<?= $comment->id ?>" class="comment">
                 <div class="comment-user">
-                    <div class="user-photo"><a href="#"><img src="<?=$imageUrl?>"></a></div>
+                    <div class="user-photo"><a href="<?= \yii\helpers\Url::to('/user/profile/'.$comment->user->id) ?>"><img src="<?=$imageUrl?>"></a></div>
                     <div class="user-info">
-                        <div class="user-name"><a href="#"><?=$username?></a></div>
+                        <div class="user-name"><a href="<?= \yii\helpers\Url::to('/user/profile/'.$comment->user->id) ?>"><?=$username?></a></div>
                         <div class="post-time"><?= $commentDate ?></div>
                     </div>
                 </div>
@@ -47,15 +48,17 @@ function outCommentsTree($comments, $parent_id, $level)
                         <a href="javascript:void(0)" class="rating-down"></a>
                     </div>
                     <?php if($displayType == 'comment'): ?>
-                        <a href="javascript:void(0)" class="button-reply"></a>
+                        <?php if(!Yii::$app->user->isGuest) { ?>
+                        <a href="javascript:void(0)" class="button-reply" title="Ответить" data-comment-id="<?= $comment->id ?>"></a>
+                        <?php } ?>
                         <?php if($page == 'cabinet') { ?>
-                            <a href="javascript:void(0)" class="new-replies-count <?=$classRepliesCount?>">
+                            <a href="javascript:void(0)" class="new-replies-count <?=$classRepliesCount?>" title="Новых ответов">
                                 <?=$textRepliesCount?>
                             </a>
                         <?php } ?>
                     <?php else: ?>
-                        <a href="javascript:void(0)" class="button-edit"></a>
-                        <a href="javascript:void(0)" class="button-remove"></a>
+                        <a href="javascript:void(0)" class="button-edit" title="Изменить"></a>
+                        <a href="javascript:void(0)" class="button-remove" title="Удалить"></a>
                     <?php endif; ?>
                 </div>
                 <?php if($displayType == 'post') { ?>
@@ -64,19 +67,19 @@ function outCommentsTree($comments, $parent_id, $level)
                     </a>
                 <?php } ?>
                 <div class="comment-body">
-                    <?= $comment->content ?>
+                    <?= $comment->getContent() ?>
                 </div>
                 <?php if($repliesCommentsCount > 0) { ?>
                 <div class="comment-replies">
-                    <a class="replies-toggle-btn toggle-button toggle-show" data-target="comment-replies-content-<?= $comment->id ?>" href="javascript:void(0)">
+                    <a class="replies-toggle-btn toggle-button toggle-hide" data-target="comment-replies-content-<?= $comment->id ?>" href="javascript:void(0)">
                         <?php if($displayType == 'comment'): ?>
-                            <div class="toggle-text"><span>Показать</span> ответы</div>
+                            <div class="toggle-text"><span>Скрыть</span> ответы</div>
                         <?php else: ?>
                             <div class="toggle-text"><?=$textRepliesCount?> комментариев</div>
                         <?php endif; ?>
                         <div class="toggle-icon"></div>
                     </a>
-                    <div id="comment-replies-content-<?= $comment->id ?>" class="toggle-content">
+                    <div id="comment-replies-content-<?= $comment->id ?>" class="toggle-content show">
                     <?php
                         $level++;
                         outCommentsTree($comments, $comment->id, $level);
@@ -104,6 +107,12 @@ function outCommentsTree($comments, $parent_id, $level)
             <?php } ?>
         </div>
     </div>
+
+    <?php 
+        if(!Yii::$app->user->isGuest) {
+            echo $this->render('@frontend/views/forms/comment_form', compact('commentModel'));
+        }
+    ?>
 
     <?php 
         if (count($comments) > 0) {

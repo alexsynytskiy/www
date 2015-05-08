@@ -6,8 +6,8 @@
 ?>
 <div class="blogs">
     <div class="title">
-        <div class="title-main">Блоги</div>
-        <div class="title-rss">Rss</div>
+        <div class="title-main"><a href="<?= \yii\helpers\Url::to('/blogs') ?>">Блоги</a></div>
+        <div class="title-rss"><a href="<?= \yii\helpers\Url::to('/rss') ?>">Rss</a></div>
     </div>
     <?php 
     foreach ($posts as $post) { 
@@ -16,9 +16,11 @@
         $imageUrl = empty($avatar->getFileUrl()) ? $avatar->getDefaultFileUrl() : $avatar->getFileUrl();
     ?>
     <div class="blog-preview">
-        <img src="<?= $imageUrl ?>" class="photo" alt="user avatar">
+        <a href="<?= \yii\helpers\Url::to('/user/profile/'.$post->user->id) ?>">
+            <img src="<?= $imageUrl ?>" class="photo" alt="user avatar">
+        </a>
         <div class="about-info">
-            <div class="author"><a href="#"><?= $username ?></a></div>
+            <div class="author"><a href="<?= \yii\helpers\Url::to('/user/profile/'.$post->user->id) ?>"><?= $username ?></a></div>
             <!-- <div class="popular"></div> -->
             <div class="date"><?= Yii::$app->formatter->asDate(strtotime($post->created_at),'full') ?></div>
         </div>

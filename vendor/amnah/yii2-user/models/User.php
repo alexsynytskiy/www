@@ -95,7 +95,6 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public $cropData;
 
-
     /**
      * @inheritdoc
      */
@@ -559,7 +558,11 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getAsset()
     {
-        return Asset::getAssets($this->id, Asset::ASSETABLE_USER, NULL, true);
+        $asset = Asset::getAssets($this->id, Asset::ASSETABLE_USER, NULL, true);
+        if($asset->assetable_type == null) {
+            $asset->assetable_type = Asset::ASSETABLE_USER;
+        }
+        return $asset;
     }
 
     /**

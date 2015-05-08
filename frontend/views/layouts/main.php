@@ -7,6 +7,8 @@ use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use frontend\widgets\Alert;
 
+use amnah\yii2\user\models\User;
+
 /* @var $this \yii\web\View */
 /* @var $content string */
 
@@ -64,12 +66,16 @@ AppAsset::register($this);
 
                         <?php } else { ?>
 
+                        <?php 
+                            $user = User::findOne(Yii::$app->user->id);
+                            $avatar = $user->getAsset();
+                        ?>
                         <div class="logged-in">
                             <div class="photo">
-                                <a href="/user/profile"><img src="/images/papos.jpg"></a>
+                                <a href="<?= Url::to(['/user/profile']) ?>"><img src="<?= $avatar->getFileUrl() ?>"></a>
                             </div>
                             <div class="main-functions">
-                                <div class="name"><?= Yii::$app->user->getDisplayName() ?></div>
+                                <div class="name"><?= $user->getDisplayName() ?></div>
                                 <a href="#">
                                     <div class="create-post">
                                         Создать пост
@@ -77,9 +83,9 @@ AppAsset::register($this);
                                     </div>
 
                                 </a>
-                                <a href="/user/profile"><div class="link-to-cabinet">Личный Кабинет</div></a>
+                                <a href="<?= Url::to(['/user/profile']) ?>"><div class="link-to-cabinet">Личный Кабинет</div></a>
                             </div>
-                            <a href="/user/logout">
+                            <a href="<?= Url::to(['/user/logout']) ?>">
                                 <div class="logout">
                                     <div class="icon"></div>
                                 </div>

@@ -231,11 +231,16 @@ class Asset extends \yii\db\ActiveRecord
     /**
      * Get file url
      *
-     * @return string
+     * @return mixed
      */
     public function getFileUrl()
     {
-        if(!file_exists($this->getFilePath())) return false;
+        if(empty($this->filename) && $this->getAssetableType() != self::ASSETABLE_USER){
+            return false;
+        }
+        if(!file_exists($this->getFilePath())) {
+            return $this->getDefaultFileUrl();
+        }
         return 'http://'.$_SERVER['HTTP_HOST'].'/images/store/'.$this->getAssetableType().'/'.$this->filename;
     }
 
@@ -246,7 +251,14 @@ class Asset extends \yii\db\ActiveRecord
      */
     public function getDefaultFileUrl()
     {   
-        return 'http://'.$_SERVER['HTTP_HOST'].'/images/default_user_image.png';
+        switch ($this->getAssetableType()) {
+            case self::ASSETABLE_COACH:
+            case self::ASSETABLE_PLAYER:
+            case self::ASSETABLE_USER:
+                return 'http://'.$_SERVER['HTTP_HOST'].'/images/default_user_image.png';
+            default:
+                return 'http://'.$_SERVER['HTTP_HOST'].'/images/default_image.png';
+        }
     }
 
     /**
