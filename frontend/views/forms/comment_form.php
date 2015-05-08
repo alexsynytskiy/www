@@ -20,8 +20,8 @@ $avatar = $user->getAsset();
     'id' => 'comment-form',
     'options' => ['class' => 'default-form'],
     'action' => Url::to(['site/comment-add']),
-    'enableClientScript' => false,
-    'enableAjaxValidation' => false,
+    // 'enableClientScript' => false,
+    // 'enableAjaxValidation' => false,
 ]); ?>
 
 <div class="user-photo">

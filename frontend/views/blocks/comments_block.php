@@ -79,7 +79,7 @@ function outCommentsTree($comments, $parent_id, $level)
                         <?php endif; ?>
                         <div class="toggle-icon"></div>
                     </a>
-                    <div id="comment-replies-content-<?= $comment->id ?>" class="toggle-content show">
+                    <div id="comment-replies-content-<?= $comment->id ?>" class="toggle-content visible">
                     <?php
                         $level++;
                         outCommentsTree($comments, $comment->id, $level);

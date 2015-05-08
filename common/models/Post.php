@@ -61,6 +61,8 @@ class Post extends ActiveRecord
      */
     public $tags;
 
+    public static $count = 0;
+
     /**
      * @inheritdoc
      */

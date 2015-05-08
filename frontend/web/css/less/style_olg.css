@@ -784,7 +784,7 @@ body a:focus {
   clear: both;
   display: none;
 }
-.toggle-content.show {
+.toggle-content.visible {
   display: block;
 }
 .comment-theme {

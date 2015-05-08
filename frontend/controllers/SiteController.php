@@ -16,6 +16,7 @@ use yii\web\NotFoundHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\data\ActiveDataProvider;
 
 /**
  * Site controller
@@ -114,7 +115,7 @@ class SiteController extends Controller
         if(!empty($date))
         {
             $startDay = date("Y-m-d 00:00:00", 0);
-            $endDay = date("Y-m-d 00:00:00", strtotime($date));
+            $endDay = date("Y-m-d 00:00:00", strtotime($date) + 60*60*24);
             $query->where(['between', 'created_at', $startDay, $endDay]);
             $query->orderBy(['created_at' => SORT_DESC]);
         } 
@@ -122,8 +123,16 @@ class SiteController extends Controller
         {
             $query->orderBy(['created_at' => SORT_DESC]);
         }
-        $query->limit(15);
-        $posts = $query->all();
+
+        if(!isset($_GET['page']) || $_GET['page'] == 1) {
+            Yii::$app->session['news_post_time_last'] = 1;
+        }
+        $newsDataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 15,
+            ],
+        ]);
 
         $blogPosts = Post::find()
             ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_BLOG])
@@ -137,7 +146,7 @@ class SiteController extends Controller
             'columnFirst' => [
                 'news' => [
                     'view' => '@frontend/views/site/news',
-                    'data' => compact('posts','date'),
+                    'data' => compact('date','newsDataProvider'),
                 ],
             ],
             'columnSecond' => [
