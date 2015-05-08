@@ -84,6 +84,29 @@ class Comment extends ActiveRecord
         ];
     }
 
+    public function afterSave($insert, $changedAttributes)
+    {
+        switch ($this->commentable_type) {
+            case self::COMMENTABLE_POST:
+                $post = Post::findOne($this->commentable_id);
+                if(!empty($post->id))
+                {
+                    $count = Comment::find()
+                        ->where([
+                            'commentable_type' => self::COMMENTABLE_POST,
+                            'commentable_id' => $post->id,
+                        ])->count();
+                    $post->comments_count = $count;
+                    $post->save(false);
+                }
+                break;
+            default:
+                break;
+        }
+
+        parent::afterSave($insert, $changedAttributes);
+    }
+
     /**
      * Get comment content
      *

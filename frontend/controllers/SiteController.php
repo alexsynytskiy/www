@@ -220,10 +220,6 @@ class SiteController extends Controller
         $referrer = Yii::$app->request->referrer;
 
         if ($model->load(Yii::$app->request->post())) {
-            var_dump(Yii::$app->request->post());
-            var_dump($model->commentable_id);
-            var_dump($model->commentable_type);
-            var_dump($model->content);
             $model->user_id = Yii::$app->user->id;
             if($model->save()) {
                 $referrer .= '#comment-'.$model->id;
