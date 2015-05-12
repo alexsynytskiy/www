@@ -40,6 +40,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'arbiter_main_id',
             'arbiter_assistant_1_id',
             'arbiter_assistant_2_id',
+            'arbiter_assistant_3_id',
+            'arbiter_assistant_4_id',
             'arbiter_reserve_id',
             'home_shots',
             'guest_shots',

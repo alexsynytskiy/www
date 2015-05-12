@@ -7,7 +7,8 @@ use yii\grid\GridView;
 /* @var $searchModel common\models\MatchSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Matches';
+
+$this->title = 'Матчи';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="match-index">
@@ -16,24 +17,45 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Match', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Добавить матч', ['create'], ['class' => 'btn btn-success']) ?>
+        <?php
+            if(count(Yii::$app->getRequest()->getQueryParams()) > 0) {
+                echo Html::a('Сброс', ['/'.Yii::$app->controller->id], ['class' => 'btn btn-primary']);
+            } 
+        ?>
     </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'is_visible',
-            'championship_id',
-            'command_home_id',
-            'command_guest_id',
-            // 'stadium_id',
+            [
+                'attribute' => 'id',
+                'options' => ['width' => '100'],
+            ],
+            //'is_visible',
+            [
+                'attribute' => 'championship.name',
+                'label' => 'Турнир',
+                'options' => ['width' => '120'],
+                'format' => 'html',
+            ],
+            [
+                'attribute' => 'commandHome.name',
+                'label' => 'Хозяева',
+                'options' => ['width' => '120'],
+                'format' => 'html',
+            ],
+            [
+                'attribute' => 'commandGuest.name',
+                'label' => 'Гости',
+                'options' => ['width' => '120'],
+                'format' => 'html',
+            ],
+             'stadium_id',
             // 'season_id',
             // 'round',
-            // 'date',
+             'date',
             // 'arbiter_main_id',
             // 'arbiter_assistant_1_id',
             // 'arbiter_assistant_2_id',
@@ -52,8 +74,8 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'guest_yellow_cards',
             // 'home_red_cards',
             // 'guest_red_cards',
-            // 'home_goals',
-            // 'guest_goals',
+             'home_goals',
+             'guest_goals',
             // 'comments_count',
             // 'created_at',
             // 'updated_at',

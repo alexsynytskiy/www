@@ -20,6 +20,8 @@ use yii\db\ActiveRecord;
  * @property integer $arbiter_main_id
  * @property integer $arbiter_assistant_1_id
  * @property integer $arbiter_assistant_2_id
+ * @property integer $arbiter_assistant_3_id
+ * @property integer $arbiter_assistant_4_id
  * @property integer $arbiter_reserve_id
  * @property integer $home_shots
  * @property integer $guest_shots
@@ -75,13 +77,13 @@ class Match extends ActiveRecord
     public function rules()
     {
         return [
-            [['is_visible', 'championship_id', 'command_home_id', 'command_guest_id', 'stadium_id', 'season_id', 'arbiter_main_id', 'arbiter_assistant_1_id', 'arbiter_assistant_2_id', 'arbiter_reserve_id', 'home_shots', 'guest_shots', 'home_shots_in', 'guest_shots_in', 'home_offsides', 'guest_offsides', 'home_corners', 'guest_corners', 'home_fouls', 'guest_fouls', 'home_yellow_cards', 'guest_yellow_cards', 'home_red_cards', 'guest_red_cards', 'home_goals', 'guest_goals', 'comments_count', 'championship_part_id', 'league_id', 'is_finished'], 'integer'],
-            [['date', 'created_at', 'updated_at'], 'safe'],
+            [['is_visible', 'championship_id', 'command_home_id', 'command_guest_id', 'stadium_id', 'season_id', 'home_shots', 'guest_shots', 'home_shots_in', 'guest_shots_in', 'home_offsides', 'guest_offsides', 'home_corners', 'guest_corners', 'home_fouls', 'guest_fouls', 'home_yellow_cards', 'guest_yellow_cards', 'home_red_cards', 'guest_red_cards', 'home_goals', 'guest_goals', 'comments_count', 'championship_part_id', 'league_id', 'is_finished'], 'integer'],
+            [['date', 'created_at', 'updated_at', 'arbiter_assistant_3_id', 'arbiter_assistant_4_id', 'arbiter_main_id', 'arbiter_assistant_1_id', 'arbiter_assistant_2_id', 'arbiter_reserve_id'], 'safe'],
             [['announcement'], 'string'],
             [['round'], 'string', 'max' => 50],
 
             //required
-            [['championship_id', 'command_home_id', 'command_guest_id', 'stadium_id', 'season_id', 'arbiter_main_id', 'arbiter_assistant_1_id', 'arbiter_assistant_2_id', 'arbiter_reserve_id', 'championship_part_id', 'league_id'], 'required'],
+            [['championship_id', 'command_home_id', 'command_guest_id', 'stadium_id', 'season_id', 'arbiter_main_id', 'arbiter_assistant_1_id', 'arbiter_assistant_2_id', 'arbiter_assistant_3_id', 'arbiter_assistant_4_id', 'arbiter_reserve_id', 'championship_part_id', 'league_id'], 'required'],
         ];
     }
 
@@ -93,40 +95,42 @@ class Match extends ActiveRecord
         return [
             'id'                     => 'ID',
             'is_visible'             => 'Видимый',
-            'championship_id'        => 'Championship ID',
-            'command_home_id'        => 'Command Home ID',
-            'command_guest_id'       => 'Command Guest ID',
-            'stadium_id'             => 'Stadium ID',
-            'season_id'              => 'Season ID',
-            'round'                  => 'Round',
-            'date'                   => 'Date',
-            'arbiter_main_id'        => 'Arbiter Main ID',
-            'arbiter_assistant_1_id' => 'Arbiter Assistant 1 ID',
-            'arbiter_assistant_2_id' => 'Arbiter Assistant 2 ID',
-            'arbiter_reserve_id'     => 'Arbiter Reserve ID',
-            'home_shots'             => 'Home Shots',
-            'guest_shots'            => 'Guest Shots',
-            'home_shots_in'          => 'Home Shots In',
-            'guest_shots_in'         => 'Guest Shots In',
-            'home_offsides'          => 'Home Offsides',
-            'guest_offsides'         => 'Guest Offsides',
-            'home_corners'           => 'Home Corners',
-            'guest_corners'          => 'Guest Corners',
-            'home_fouls'             => 'Home Fouls',
-            'guest_fouls'            => 'Guest Fouls',
-            'home_yellow_cards'      => 'Home Yellow Cards',
-            'guest_yellow_cards'     => 'Guest Yellow Cards',
-            'home_red_cards'         => 'Home Red Cards',
-            'guest_red_cards'        => 'Guest Red Cards',
-            'home_goals'             => 'Home Goals',
-            'guest_goals'            => 'Guest Goals',
-            'comments_count'         => 'Comments Count',
-            'created_at'             => 'Created At',
-            'updated_at'             => 'Updated At',
-            'championship_part_id'   => 'Championship Part ID',
-            'league_id'              => 'League ID',
-            'is_finished'            => 'Is Finished',
-            'announcement'           => 'Announcement',
+            'championship_id'        => 'Турнир',
+            'command_home_id'        => 'Хозяева',
+            'command_guest_id'       => 'Гости',
+            'stadium_id'             => 'Стадион',
+            'season_id'              => 'Сезон',
+            'round'                  => 'Тур',
+            'date'                   => 'Дата',
+            'arbiter_main_id'        => 'Главный арбитр',
+            'arbiter_assistant_1_id' => 'Лайнсмен',
+            'arbiter_assistant_2_id' => 'Лайнсмен',
+            'arbiter_assistant_3_id' => 'Арбитр за воротами',
+            'arbiter_assistant_4_id' => 'Арбитр за воротами',
+            'arbiter_reserve_id'     => 'Резервный арбитр',
+            'home_shots'             => 'Удары по воротам(хозяева)',
+            'guest_shots'            => 'Удары по воротам(гости)',
+            'home_shots_in'          => 'Удары в створ(хозяева)',
+            'guest_shots_in'         => 'Удары в створ(гости)',
+            'home_offsides'          => 'Офсайды(хозяева)',
+            'guest_offsides'         => 'Офсайды(гости)',
+            'home_corners'           => 'Угловые(хозяева)',
+            'guest_corners'          => 'Угловые(гости)',
+            'home_fouls'             => 'Фолы(хозяева)',
+            'guest_fouls'            => 'Фолы(гости)',
+            'home_yellow_cards'      => 'Жёлтые карточки(хозяева)',
+            'guest_yellow_cards'     => 'Жёлтые карточки(гости)',
+            'home_red_cards'         => 'Красные карточки(хозяева)',
+            'guest_red_cards'        => 'Красные карточки(гости)',
+            'home_goals'             => 'Голы(хозяева)',
+            'guest_goals'            => 'Голы(гости)',
+            'comments_count'         => 'Количество комментариев',
+            'created_at'             => 'Создано',
+            'updated_at'             => 'Обновлено',
+            'championship_part_id'   => 'Этап турнира',
+            'league_id'              => 'Лига',
+            'is_finished'            => 'Завершён',
+            'announcement'           => 'Где смотреть',
         ];
     }
 
@@ -177,6 +181,22 @@ class Match extends ActiveRecord
     public function getArbiterAssistant2()
     {
         return $this->hasOne(Arbiter::className(), ['id' => 'arbiter_assistant_2_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getArbiterAssistant3()
+    {
+        return $this->hasOne(Arbiter::className(), ['id' => 'arbiter_assistant_3_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getArbiterAssistant4()
+    {
+        return $this->hasOne(Arbiter::className(), ['id' => 'arbiter_assistant_4_id']);
     }
 
     /**

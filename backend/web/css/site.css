@@ -114,3 +114,35 @@ a.desc:after {
     max-width: 100%;
     max-height: 160px;
 }
+
+.badge {
+    margin: 0 10px;    
+}
+
+.match-update .slider.slider-horizontal {
+    width: 100%;
+}
+
+.match-update .slider-handle {
+    width: 30px;
+    height: 30px;
+}
+
+.match-update .tooltip-arrow {
+    display: none;
+}
+
+.match-update .tooltip-inner {
+    width: 30px;
+    padding: 2px 13px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.match-update .slider .tooltip.top {
+    margin-top: 0;
+}
+
+.match-update .tooltip {
+    z-index: 1;
+}

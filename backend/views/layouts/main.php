@@ -35,6 +35,7 @@ AppAsset::register($this);
                     ],
                 ]);
                 $menuItems = [
+                    ['label' => 'Матчи', 'url' => '/admin/match'],
                     ['label' => 'Записи', 'url' => '/admin/post'],
                     ['label' => 'Альбомы', 'url' => '/admin/album'],
                     ['label' => 'Пользователи', 'url' => '/admin/user/admin'],

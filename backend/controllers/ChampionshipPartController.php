@@ -3,18 +3,16 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\Arbiter;
-use common\models\ArbiterSearch;
+use common\models\ChampionshipPart;
+use common\models\ChampionshipPartSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\helpers\Json;
-use yii\db\Query;
 
 /**
- * ArbiterController implements the CRUD actions for Arbiter model.
+ * ChampionshipPartController implements the CRUD actions for ChampionshipPart model.
  */
-class ArbiterController extends Controller
+class ChampionshipPartController extends Controller
 {
     public function behaviors()
     {
@@ -29,12 +27,12 @@ class ArbiterController extends Controller
     }
 
     /**
-     * Lists all Arbiter models.
+     * Lists all ChampionshipPart models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ArbiterSearch();
+        $searchModel = new ChampionshipPartSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -44,7 +42,7 @@ class ArbiterController extends Controller
     }
 
     /**
-     * Displays a single Arbiter model.
+     * Displays a single ChampionshipPart model.
      * @param integer $id
      * @return mixed
      */
@@ -56,13 +54,13 @@ class ArbiterController extends Controller
     }
 
     /**
-     * Creates a new Arbiter model.
+     * Creates a new ChampionshipPart model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Arbiter();
+        $model = new ChampionshipPart();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -74,7 +72,7 @@ class ArbiterController extends Controller
     }
 
     /**
-     * Updates an existing Arbiter model.
+     * Updates an existing ChampionshipPart model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -93,7 +91,7 @@ class ArbiterController extends Controller
     }
 
     /**
-     * Deletes an existing Arbiter model.
+     * Deletes an existing ChampionshipPart model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -106,39 +104,15 @@ class ArbiterController extends Controller
     }
 
     /**
-     * Display list of arbiters in json format
-     *
-     * @param string $q Query for search
-     * @return mixed Json data
-     */
-    public function actionArbiterList($query = null) {
-        if($query == null) {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-        $search = urldecode($query);
-        $query = new Query;
-        $query->select('id as value, name as text')
-            ->from(Arbiter::tableName())
-            ->where(['like', 'name', $search])
-            ->orderBy('name')
-            ->limit(10);
-        $command = $query->createCommand();
-        $data = $command->queryAll();
-        $out = array_values($data);
-        header("Content-type: text/html; charset=utf-8");
-        echo Json::encode($out);
-    }
-
-    /**
-     * Finds the Arbiter model based on its primary key value.
+     * Finds the ChampionshipPart model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Arbiter the loaded model
+     * @return ChampionshipPart the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Arbiter::findOne($id)) !== null) {
+        if (($model = ChampionshipPart::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
