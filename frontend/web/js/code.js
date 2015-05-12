@@ -97,7 +97,7 @@ $(document).ready(function() {
 	});
 
 	$(".upload-button .field-label").click(function () {
-	    $(this).parent().find('input').first().trigger('click');
+	    $(this).parent().find(':file').first().trigger('click');
 	});
 	$('.upload-button').hover( function(){
 	   $(this).addClass("hover");
@@ -108,168 +108,18 @@ $(document).ready(function() {
     // Hover functions for header social buttons, rss and inform buttons END
 
 
-	// Checking for input name field in register and sign-in forms START
-	$('.field-username input[type="text"]').on("change paste keyup", function() {
-        var empty = false;
-
-        $('.field-username input[type="text"]').each(function() {
-            if ($(this).val().length == 0) {
-                empty = true;
-            }
-        });
-
-        if (!empty) {
-        	var name = $(this).val();
-        	var regex = /^[0-9a-zA-ZА-Яа-я]*$/;
-
-        	if(regex.test($(this).val())) {
-        		$(this).next().addClass('success-input');
-        		$(this).next().removeClass('error-input');
-        		$(this).next().removeClass('empty-input');
-        	}
-        	else {
-        		$(this).next().removeClass('success-input');
-        		$(this).next().addClass('error-input');
-        		$(this).next().removeClass('empty-input');
-        	}
-
-        } else {
-            $(this).next().removeClass('success-input');
-        	$(this).next().removeClass('error-input');
-        	$(this).next().addClass('empty-input');
-        }
-    });
-    // Checking for input name field in register and sign-in forms END
-
-
-    // Checking for input e-mail field in register form START
-	$('.field-email input[type="text"]').on("change paste keyup", function() {
-        var empty = false;
-
-        $('.field-email input[type="text"]').each(function() {
-            if ($(this).val().length == 0) {
-                empty = true;
-            }
-        });
-
-        if (!empty) {
-        	var name = $(this).val();
-        	var regex = new RegExp(/^[+a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i);
-
-        	if(regex.test($(this).val())) {
-        		$(this).next().addClass('success-input');
-        		$(this).next().removeClass('error-input');
-        		$(this).next().removeClass('empty-input');
-        	}
-        	else {
-        		$(this).next().removeClass('success-input');
-        		$(this).next().addClass('error-input');
-        		$(this).next().removeClass('empty-input');
-        	}
-
-        } else {
-            $(this).next().removeClass('success-input');
-        	$(this).next().removeClass('error-input');
-        	$(this).next().addClass('empty-input');
-        }
-    });
-    // Checking for input e-mail field in register form END
-
-
-    // Checking for input passwords START
-	$('.field-pass2 input[type="password"]').on("change paste keyup", function() {
-        var emptyfirst = false;
-        var emptysecond = false;
-
-        $('.field-pass1 input[type="password"]').each(function() {
-            if ($(this).val().length == 0) {
-                emptyfirst = true;
-            }
-        });
-
-        $('.field-pass2 input[type="password"]').each(function() {
-            if ($(this).val().length == 0) {
-                emptysecond = true;
-            }
-        });
-
-        if (!emptyfirst && !emptysecond) {
-        	var pass1 = $('.field-pass1 input[type="password"]').val();
-        	var pass2 = $(this).val();
-
-        	if(pass1 == pass2) {
-        		$(this).next().addClass('success-input');
-        		$(this).next().removeClass('error-input');
-        		$(this).next().removeClass('empty-input');
-        	}
-        	else {
-        		$(this).next().removeClass('success-input');
-        		$(this).next().addClass('error-input');
-        		$(this).next().removeClass('empty-input');
-        	}
-
-        } else {
-            $(this).next().removeClass('success-input');
-        	$(this).next().removeClass('error-input');
-        	$(this).next().addClass('empty-input');
-        }
-    });
-    // Checking for input passwords END
-    
-
-	// Checking for input passwords START
-	$('.field-pass1 input[type="password"]').on("change paste keyup", function() {
-        var emptyfirst = false;
-        var emptysecond = false;
-
-        $('.field-pass1 input[type="password"]').each(function() {
-            if ($(this).val().length == 0) {
-                emptyfirst = true;
-            }
-        });
-
-        $('.field-pass2 input[type="password"]').each(function() {
-            if ($(this).val().length == 0) {
-                emptysecond = true;
-            }
-        });
-
-        if (!emptyfirst && !emptysecond) {
-        	var pass1 = $('.field-pass2 input[type="password"]').val();
-        	var pass2 = $(this).val();
-
-        	if(pass1 == pass2) {
-        		$('.field-pass2 input[type="password"]').next().addClass('success-input');
-        		$('.field-pass2 input[type="password"]').next().removeClass('error-input');
-        		$('.field-pass2 input[type="password"]').next().removeClass('empty-input');
-        	}
-        	else {
-        		$('.field-pass2 input[type="password"]').next().removeClass('success-input');
-        		$('.field-pass2 input[type="password"]').next().addClass('error-input');
-        		$('.field-pass2 input[type="password"]').next().removeClass('empty-input');
-        	}
-
-        } else {
-            $('.field-pass2 input[type="password"]').next().removeClass('success-input');
-        	$('.field-pass2 input[type="password"]').next().removeClass('error-input');
-        	$('.field-pass2 input[type="password"]').next().addClass('empty-input');
-        }
-    });
-    // Checking for input passwords END
-
-
     // Toggle comments START
     $('.toggle-button').click(function(){
         if($(this).hasClass('toggle-show')) {
             $(this).removeClass('toggle-show');
             $(this).addClass('toggle-hide');
             $(this).find('.toggle-text span').first().text("Скрыть");
-            $('#' + $(this).attr('data-target')).show(300);
+            $('#' + $(this).attr('data-target')).slideToggle(300);
         } else {
             $(this).removeClass('toggle-hide');
             $(this).addClass('toggle-show');
             $(this).find('.toggle-text span').first().text("Показать");
-            $('#' + $(this).attr('data-target')).hide(300);
+            $('#' + $(this).attr('data-target')).slideToggle(300);
         }
     });
 
@@ -354,6 +204,24 @@ $(document).ready(function() {
         }
     });
     // => Selectize END
+
+
+    // => Alert tick START
+    function alertTick() {
+        second--;
+        if(second > 0) {
+            $('.alert .sec').text(second);
+            setTimeout(alertTick, 1000);
+        } else {
+            $('.alert').parents('.default-box').slideToggle(300);
+        }
+    }
+    if($('.default-box .alert').length > 0) {
+        var second = 11;
+        alertTick();
+    }
+    // => Alert tick END
+    
 
   });
 })(jQuery);
