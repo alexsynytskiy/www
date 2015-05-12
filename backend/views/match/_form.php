@@ -63,7 +63,9 @@ use common\models\Season;
         if(!$model->isNewRecord) {
             $part = ChampionshipPart::findOne($model->championship_part_id);
 
-            $availableChampionshipParts = [$part->id => $part->name];
+            if(isset($season->id)) {
+                $availableChampionshipParts = [$part->id => $part->name];
+            }
         }
 
         echo $form->field($model, 'championship_part_id')->widget(SelectizeDropDownList::classname(), [
@@ -86,9 +88,11 @@ use common\models\Season;
         $availableCommands = [];
         
         if(!$model->isNewRecord) {
-            $command = Command::findOne($model->command_home_id);
+            $team = Command::findOne($model->command_home_id);
 
-            $availableCommands = [$command->id => $command->name];
+            if(isset($season->id)) {
+                $availableCommands = [$team->id => $team->name];
+            }
         }
 
         echo $form->field($model, 'command_home_id')->widget(SelectizeDropDownList::classname(), [
@@ -111,9 +115,11 @@ use common\models\Season;
         $availableCommands = [];
     
         if(!$model->isNewRecord) {
-            $command = Command::findOne($model->command_guest_id);
+            $team = Command::findOne($model->command_guest_id);
 
-            $availableCommands = [$command->id => $command->name];
+            if(isset($season->id)) {
+                $availableCommands = [$team->id => $team->name];
+            }
         }
 
         echo $form->field($model, 'command_guest_id')->widget(SelectizeDropDownList::classname(), [
@@ -138,7 +144,9 @@ use common\models\Season;
         if(!$model->isNewRecord) {
             $stadium = Stadium::findOne($model->stadium_id);
 
-            $availableStadiums = [$stadium->id => $stadium->name];
+            if(isset($season->id)) {
+                $availableStadiums = [$stadium->id => $stadium->name];
+            }
         }
 
         echo $form->field($model, 'stadium_id')->widget(SelectizeDropDownList::classname(), [
@@ -164,7 +172,9 @@ use common\models\Season;
         if(!$model->isNewRecord) {
             $season = Season::findOne($model->season_id);
 
-            $availableSeasons = [$season->id => $season->name];
+            if(isset($season->id)) {
+                $availableSeasons = [$season->id => $season->name];
+            }
         }
 
         echo $form->field($model, 'season_id')->widget(SelectizeDropDownList::classname(), [
@@ -201,7 +211,9 @@ use common\models\Season;
         if(!$model->isNewRecord) {
             $arbiter = Arbiter::findOne($model->arbiter_main_id);
 
-            $availableArbiters = [$arbiter->id => $arbiter->name];
+            if(isset($arbiter->id)) {
+                $availableArbiters = [$arbiter->id => $arbiter->name];
+            }
         }
 
         echo $form->field($model, 'arbiter_main_id')->widget(SelectizeDropDownList::classname(), [
@@ -226,7 +238,9 @@ use common\models\Season;
         if(!$model->isNewRecord) {
             $arbiter = Arbiter::findOne($model->arbiter_assistant_1_id);
 
-            $availableArbiters = [$arbiter->id => $arbiter->name];
+            if(isset($arbiter->id)) {
+                $availableArbiters = [$arbiter->id => $arbiter->name];
+            }
         }
 
         echo $form->field($model, 'arbiter_assistant_1_id')->widget(SelectizeDropDownList::classname(), [
@@ -251,7 +265,9 @@ use common\models\Season;
         if(!$model->isNewRecord) {
             $arbiter = Arbiter::findOne($model->arbiter_assistant_2_id);
 
-            $availableArbiters = [$arbiter->id => $arbiter->name];
+            if(isset($arbiter->id)) {
+                $availableArbiters = [$arbiter->id => $arbiter->name];
+            }
         }
 
         echo $form->field($model, 'arbiter_assistant_2_id')->widget(SelectizeDropDownList::classname(), [
@@ -276,7 +292,9 @@ use common\models\Season;
         if(!$model->isNewRecord) {
             $arbiter = Arbiter::findOne($model->arbiter_assistant_3_id);
 
-            $availableArbiters = [$arbiter->id => $arbiter->name];
+            if(isset($arbiter->id)) {
+                $availableArbiters = [$arbiter->id => $arbiter->name];
+            }
         }
 
         echo $form->field($model, 'arbiter_assistant_3_id')->widget(SelectizeDropDownList::classname(), [
@@ -301,7 +319,9 @@ use common\models\Season;
         if(!$model->isNewRecord) {
             $arbiter = Arbiter::findOne($model->arbiter_assistant_4_id);
 
-            $availableArbiters = [$arbiter->id => $arbiter->name];
+            if(isset($arbiter->id)) {
+                $availableArbiters = [$arbiter->id => $arbiter->name];
+            }
         }
 
         echo $form->field($model, 'arbiter_assistant_4_id')->widget(SelectizeDropDownList::classname(), [
@@ -326,7 +346,9 @@ use common\models\Season;
         if(!$model->isNewRecord) {
             $arbiter = Arbiter::findOne($model->arbiter_reserve_id);
 
-            $availableArbiters = [$arbiter->id => $arbiter->name];
+            if(isset($arbiter->id)) {
+                $availableArbiters = [$arbiter->id => $arbiter->name];
+            }
         }
 
         echo $form->field($model, 'arbiter_reserve_id')->widget(SelectizeDropDownList::classname(), [
@@ -470,7 +492,7 @@ use common\models\Season;
         }
 
         echo '<b class="badge pull-left">0</b>';
-        echo '<b class="badge pull-right">40</b>';
+        echo '<b class="badge pull-right">30</b>';
         echo $form->field($model, 'guest_corners')->widget(Slider::classname(), [
             'pluginOptions' => [
                 'min' => 0,
