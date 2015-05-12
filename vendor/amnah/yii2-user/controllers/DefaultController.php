@@ -164,6 +164,9 @@ class DefaultController extends Controller
         $post = Yii::$app->request->post();
         if ($user->load($post)) {
 
+            // Generate login
+            $user->username = str_replace(['.','-','@'], '', $user->email);
+
             // ensure profile data gets loaded
             $profile->load($post);
 
@@ -184,13 +187,17 @@ class DefaultController extends Controller
 
                 // set flash
                 // don't use $this->refresh() because user may automatically be logged in and get 403 forbidden
-                $successText = Yii::t("user", "Successfully registered [ {displayName} ]", ["displayName" => $user->getDisplayName()]);
                 $guestText = "";
-                if (Yii::$app->user->isGuest) {
-                    $guestText = Yii::t("user", " - Please check your email to confirm your account");
-                }
-                Yii::$app->session->setFlash("Register-success", $successText . $guestText);
+                $successText = $user->getDisplayName().', спасибо за регистрацию.'.
+                    'Администратор портала просит вас подтвердить регистрацию в письме, '.
+                    'отправленном на Ваш e-mail. В ближайшее время Вы получите письмо '.
+                    'с инструкциями по активации Вашей учетной записи.'.
+                    '<div class="blue">Спасибо за выбор портала </div>'.
+                    '<div class="blue">Dynamomania.com</div>';
+
+                Yii::$app->session->setFlash("Register-success", $successText);
             }
+
         }
 
         // backend render

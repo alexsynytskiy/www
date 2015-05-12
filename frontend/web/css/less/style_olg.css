@@ -136,6 +136,16 @@ body a:focus {
   color: #f94351;
   background-position: right -35px;
 }
+.default-box .alert {
+  padding: 5px 0;
+}
+.default-box .alert .blue {
+  color: #1972c4;
+}
+.default-box .alert .sec {
+  color: #1972c4;
+  font-weight: bold;
+}
 .inquirer .inquirer-theme,
 .inquirer .form-description {
   clear: both;
@@ -419,6 +429,21 @@ body a:focus {
 .default-form {
   padding: 5px 0;
 }
+.default-form .status-box {
+  float: left;
+  width: 30px;
+  height: 25px;
+  background: transparent url(/images/sprite.png) no-repeat;
+  background-size: 30px;
+}
+.default-form .has-success .status-box {
+  background-size: 30px;
+  background-position: 0 -90px;
+}
+.default-form .has-error .status-box {
+  background-size: 30px;
+  background-position: 0 -45px;
+}
 .default-form .text-field {
   margin-top: 10px;
   clear: both;
@@ -443,24 +468,6 @@ body a:focus {
 .default-form .text-field input:focus {
   border: none;
   outline: none;
-}
-.default-form .text-field .status-box {
-  float: left;
-  width: 30px;
-  height: 25px;
-  background: transparent url(/images/sprite.png) no-repeat;
-  background-size: 30px;
-}
-.default-form .text-field .success-input {
-  background-size: 30px;
-  background-position: 0 -90px;
-}
-.default-form .text-field .error-input {
-  background-size: 30px;
-  background-position: 0 -45px;
-}
-.default-form .text-field .empty-input {
-  background-size: 30px;
 }
 .default-form .textarea-field {
   margin-top: 10px;

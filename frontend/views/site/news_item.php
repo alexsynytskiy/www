@@ -7,21 +7,12 @@ $outDateLine = false;
 $time = strtotime($model->created_at);
 $date = date('d.m.Y', $time);
 $time = strtotime($date);
-// if(empty($_GET['page']) || $_GET['page'] == 1)
-// {
-//     $outDateLine = true;
-//     Yii::$app->session['news_post_time_last'] = $time;
-// }
-// else
-// {
-    // $day = abs(Yii::$app->session['news_post_time_last'] - $time);
-    // echo $day;
-    if(abs(Yii::$app->session['news_post_time_last'] - $time) >= 60*60*24)
-    {
-        Yii::$app->session['news_post_time_last'] = $time;
-        $outDateLine = true;
-    }
-// }
+
+if(abs(Yii::$app->session['news_post_time_last'] - $time) >= 60*60*24)
+{
+    Yii::$app->session['news_post_time_last'] = $time;
+    $outDateLine = true;
+}
 ?>
 
 <?php if($outDateLine) { ?>

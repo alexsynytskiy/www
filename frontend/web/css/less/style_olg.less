@@ -227,6 +227,18 @@ body {
             }
         }
     }
+
+    .alert {
+        padding: 5px 0;
+
+        .blue {
+            color: @main-blue;
+        }
+        .sec {
+            color: @main-blue;
+            font-weight: bold;
+        }
+    }
 }
 
 .inquirer {
@@ -521,6 +533,24 @@ body {
 .default-form {
     padding: 5px 0;
 
+    @background-width: 30px;
+    .status-box {
+        float: left;
+        width: @background-width;
+        height: 25px;
+        background: transparent url(/images/sprite.png) no-repeat;
+        background-size: @background-width;
+    }
+    .has-success .status-box {
+        background-size: @background-width;
+        background-position: 0 -90px;
+    }
+
+    .has-error .status-box {
+        background-size: @background-width;
+        background-position: 0 -45px;
+    }
+
     .text-field {
         margin-top: 10px;
         clear: both;
@@ -539,29 +569,6 @@ body {
             &:focus {
                 .controls-no-focus;
             }
-        }
-
-        @background-width: 30px;
-        .status-box {
-            float: left;
-            width: @background-width;
-            height: 25px;
-            background: transparent url(/images/sprite.png) no-repeat;
-            background-size: @background-width;
-        }
-
-        .success-input {
-            background-size: @background-width;
-            background-position: 0 -90px;
-        }
-
-        .error-input {
-            background-size: @background-width;
-             background-position: 0 -45px;
-        }
-
-        .empty-input {
-            background-size: @background-width;
         }
     }
 
