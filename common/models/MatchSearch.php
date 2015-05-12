@@ -55,8 +55,8 @@ class MatchSearch extends Match
     public function search($params)
     {
         $query = Match::find();
-        $championship = Championship;
-        $commandHome = Command;
+        $championship = new Championship;
+        $commandHome = new Command;
         $matchTable = Match::tableName();
         $championshipTable = Championship::tableName();
         $commandTable = Command::tableName();
