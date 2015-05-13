@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\Match */
 
-$this->title = $model->id;
+$this->title = $model->commandHome->name . ' - ' . $model->commandGuest->name;
 $this->params['breadcrumbs'][] = ['label' => 'Матчи', 'url' => ['index']];
 $this->params['breadcrumbs'][] =  $model->commandHome->name . ' - ' . $model->commandGuest->name;
 ?>
@@ -33,20 +33,65 @@ $this->params['breadcrumbs'][] =  $model->commandHome->name . ' - ' . $model->co
                 'attribute' => 'is_visible',
                 'value' => $model->is_visible ? 'Да' : 'Нет',
             ],
-            'championship_id',
-            
-            'command_home_id',
-            'command_guest_id',
-            'stadium_id',
-            'season_id',
-            'round',
+            [
+                'attribute' => 'is_finished',
+                'value' => $model->is_finished ? 'Да' : 'Нет',
+            ],
+            [
+                'label' => 'Турнир',
+                'attribute' => 'championship.name',
+            ],
+            [
+                'label' => 'Лига',
+                'attribute' => 'league.name',
+            ],
+            [
+                'label' => 'Этап',
+                'attribute' => 'championshipPart.name',
+            ],
+            [
+                'label' => 'Хозяева',
+                'attribute' => 'commandHome.name',
+            ],
+            [
+                'label' => 'Гости',
+                'attribute' => 'commandGuest.name',
+            ],
+            [
+                'label' => 'Стадион',
+                'attribute' => 'stadium.name',
+            ],
+            [
+                'label' => 'Сезон',
+                'attribute' => 'season.name',
+            ],
             'date',
-            'arbiter_main_id',
-            'arbiter_assistant_1_id',
-            'arbiter_assistant_2_id',
-            'arbiter_assistant_3_id',
-            'arbiter_assistant_4_id',
-            'arbiter_reserve_id',
+            [
+                'label' => 'Главный арбитр',
+                'attribute' => 'arbiterMain.name',
+            ],
+            [
+                'label' => 'Лайнсмен',
+                'attribute' => 'arbiterAssistant1.name',
+            ],
+            [
+                'label' => 'Лайнсмен',
+                'attribute' => 'arbiterAssistant2.name',
+            ],
+            [
+                'label' => 'Арбитр за воротами',
+                'attribute' => 'arbiterAssistant3.name',
+            ],
+            [
+                'label' => 'Арбитр за воротами',
+                'attribute' => 'arbiterAssistant4.name',
+            ],
+            [
+                'label' => 'Резервный арбитр',
+                'attribute' => 'arbiterReserve.name',
+            ],
+            'home_goals',
+            'guest_goals',
             'home_shots',
             'guest_shots',
             'home_shots_in',
@@ -60,15 +105,10 @@ $this->params['breadcrumbs'][] =  $model->commandHome->name . ' - ' . $model->co
             'home_yellow_cards',
             'guest_yellow_cards',
             'home_red_cards',
-            'guest_red_cards',
-            'home_goals',
-            'guest_goals',
+            'guest_red_cards',            
             'comments_count',
             'created_at',
-            'updated_at',
-            'championship_part_id',
-            'league_id',
-            'is_finished',
+            'updated_at',            
             'announcement:ntext',
         ],
     ]) ?>

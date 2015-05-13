@@ -19,7 +19,22 @@ class MatchSearch extends Match
     {
         return [
             [['id', 'is_visible', 'home_shots', 'guest_shots', 'home_shots_in', 'guest_shots_in', 'home_offsides', 'guest_offsides', 'home_corners', 'guest_corners', 'home_fouls', 'guest_fouls', 'home_yellow_cards', 'guest_yellow_cards', 'home_red_cards', 'guest_red_cards', 'home_goals', 'guest_goals', 'comments_count', 'is_finished'], 'integer'],
-            [['championship.name', 'commandGuest.name', 'commandHome.name', 'stadium.name', 'round', 'date', 'created_at', 'updated_at', 'announcement'], 'safe'],
+            [['championship.name', 
+              'commandGuest.name', 
+              'commandHome.name',
+              'arbiterMain.name',
+              'arbiterAssistant1.name',
+              'arbiterAssistant2.name',
+              'arbiterAssistant3.name',
+              'arbiterAssistant4.name',
+              'arbiterReserve.name', 
+              'stadium.name',
+              'championshipPart.name',
+              'round', 
+              'date', 
+              'created_at', 
+              'updated_at', 
+              'announcement'], 'safe'],
         ];
     }
 
@@ -42,6 +57,13 @@ class MatchSearch extends Match
             'championship.name',
             'commandGuest.name',
             'commandHome.name',
+            'arbiterMain.name',
+            'arbiterAssistant1.name',
+            'arbiterAssistant2.name',
+            'arbiterAssistant3.name',
+            'arbiterAssistant4.name',
+            'arbiterReserve.name',
+            'championshipPart.name',
             'stadium.name',
         ]);
     }
@@ -59,10 +81,14 @@ class MatchSearch extends Match
         $championship = new Championship;
         $commandHome = new Command;
         $stadium = new Stadium;
+        $arbiter = new Arbiter;
+        $championshipPart = new ChampionshipPart;
         $matchTable = Match::tableName();
         $championshipTable = Championship::tableName();
+        $championshipPartTable = ChampionshipPart::tableName();
         $commandTable = Command::tableName();
         $stadiumTable = Stadium::tableName();
+        $arbiterTable = Arbiter::tableName();
 
         $query->joinWith(['championship' => function($query) use ($championshipTable) {
             $query->from(['championship' => $championshipTable]);
@@ -74,6 +100,34 @@ class MatchSearch extends Match
 
         $query->joinWith(['commandGuest' => function($query) use ($commandTable) {
             $query->from(['commandGuest' => $commandTable]);
+        }]);
+
+        $query->joinWith(['arbiterMain' => function($query) use ($arbiterTable) {
+            $query->from(['arbiterMain' => $arbiterTable]);
+        }]);
+
+        $query->joinWith(['arbiterAssistant1' => function($query) use ($arbiterTable) {
+            $query->from(['arbiterAssistant1' => $arbiterTable]);
+        }]);
+
+        $query->joinWith(['arbiterAssistant2' => function($query) use ($arbiterTable) {
+            $query->from(['arbiterAssistant2' => $arbiterTable]);
+        }]);
+
+        $query->joinWith(['arbiterAssistant3' => function($query) use ($arbiterTable) {
+            $query->from(['arbiterAssistant3' => $arbiterTable]);
+        }]);
+
+        $query->joinWith(['arbiterAssistant4' => function($query) use ($arbiterTable) {
+            $query->from(['arbiterAssistant4' => $arbiterTable]);
+        }]);
+
+        $query->joinWith(['arbiterReserve' => function($query) use ($arbiterTable) {
+            $query->from(['arbiterReserve' => $arbiterTable]);
+        }]);
+
+        $query->joinWith(['championshipPart' => function($query) use ($championshipPartTable) {
+            $query->from(['championshipPart' => $championshipPartTable]);
         }]);
 
         $query->joinWith(['stadium' => function($query) use ($stadiumTable) {
@@ -107,6 +161,69 @@ class MatchSearch extends Match
 
         // enable sorting for the related columns
         $addSortAttributes = ["commandGuest.name"];
+        foreach ($addSortAttributes as $addSortAttribute) {
+            $dataProvider->sort->attributes[$addSortAttribute] = [
+                'asc'   => [$addSortAttribute => SORT_ASC],
+                'desc'  => [$addSortAttribute => SORT_DESC],
+            ];
+        }
+
+        // enable sorting for the related columns
+        $addSortAttributes = ["arbiterMain.name"];
+        foreach ($addSortAttributes as $addSortAttribute) {
+            $dataProvider->sort->attributes[$addSortAttribute] = [
+                'asc'   => [$addSortAttribute => SORT_ASC],
+                'desc'  => [$addSortAttribute => SORT_DESC],
+            ];
+        }
+
+        // enable sorting for the related columns
+        $addSortAttributes = ["arbiterAssistant1.name"];
+        foreach ($addSortAttributes as $addSortAttribute) {
+            $dataProvider->sort->attributes[$addSortAttribute] = [
+                'asc'   => [$addSortAttribute => SORT_ASC],
+                'desc'  => [$addSortAttribute => SORT_DESC],
+            ];
+        }
+
+        // enable sorting for the related columns
+        $addSortAttributes = ["arbiterAssistant2.name"];
+        foreach ($addSortAttributes as $addSortAttribute) {
+            $dataProvider->sort->attributes[$addSortAttribute] = [
+                'asc'   => [$addSortAttribute => SORT_ASC],
+                'desc'  => [$addSortAttribute => SORT_DESC],
+            ];
+        }
+
+        // enable sorting for the related columns
+        $addSortAttributes = ["arbiterAssistant3.name"];
+        foreach ($addSortAttributes as $addSortAttribute) {
+            $dataProvider->sort->attributes[$addSortAttribute] = [
+                'asc'   => [$addSortAttribute => SORT_ASC],
+                'desc'  => [$addSortAttribute => SORT_DESC],
+            ];
+        }
+
+        // enable sorting for the related columns
+        $addSortAttributes = ["arbiterAssistant4.name"];
+        foreach ($addSortAttributes as $addSortAttribute) {
+            $dataProvider->sort->attributes[$addSortAttribute] = [
+                'asc'   => [$addSortAttribute => SORT_ASC],
+                'desc'  => [$addSortAttribute => SORT_DESC],
+            ];
+        }
+
+        // enable sorting for the related columns
+        $addSortAttributes = ["arbiterReserve.name"];
+        foreach ($addSortAttributes as $addSortAttribute) {
+            $dataProvider->sort->attributes[$addSortAttribute] = [
+                'asc'   => [$addSortAttribute => SORT_ASC],
+                'desc'  => [$addSortAttribute => SORT_DESC],
+            ];
+        }
+
+        // enable sorting for the related columns
+        $addSortAttributes = ["championshipPart.name"];
         foreach ($addSortAttributes as $addSortAttribute) {
             $dataProvider->sort->attributes[$addSortAttribute] = [
                 'asc'   => [$addSortAttribute => SORT_ASC],
@@ -176,6 +293,13 @@ class MatchSearch extends Match
               ->andFilterWhere(['like', "commandHome.name", $this->getAttribute('commandHome.name')])
               ->andFilterWhere(['like', "commandGuest.name", $this->getAttribute('commandGuest.name')])
               ->andFilterWhere(['like', 'championship.name', $this->getAttribute('championship.name')])
+              ->andFilterWhere(['like', 'arbiterMain.name', $this->getAttribute('arbiterMain.name')])
+              ->andFilterWhere(['like', 'arbiterAssistant1.name', $this->getAttribute('arbiterAssistant1.name')])
+              ->andFilterWhere(['like', 'arbiterAssistant2.name', $this->getAttribute('arbiterAssistant2.name')])
+              ->andFilterWhere(['like', 'arbiterAssistant3.name', $this->getAttribute('arbiterAssistant3.name')])
+              ->andFilterWhere(['like', 'arbiterAssistant4.name', $this->getAttribute('arbiterAssistant4.name')])
+              ->andFilterWhere(['like', 'arbiterReserve.name', $this->getAttribute('arbiterReserve.name')])
+              ->andFilterWhere(['like', 'championshipPart.name', $this->getAttribute('championshipPart.name')])
               ->andFilterWhere(['like', 'stadium.name', $this->getAttribute('stadium.name')]);
 
         return $dataProvider;

@@ -58,7 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'options' => ['width' => '180'],
                 'format' => 'html',
             ],
-             [
+            [
                 'attribute' => 'date',
                 'value' => function($model){
                     return date('d.m.Y h:i', strtotime($model->date));
