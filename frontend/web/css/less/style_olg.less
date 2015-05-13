@@ -545,10 +545,23 @@ body {
         background-size: @background-width;
         background-position: 0 -90px;
     }
-
     .has-error .status-box {
         background-size: @background-width;
         background-position: 0 -45px;
+    }
+
+    .error-msg {
+        margin-top: 5px;
+        color: @main-red;
+        // height: 0;
+        // -webkit-transition: all 500ms ease-in-out;
+        // -moz-transition: all 500ms ease-in-out;
+        // -ms-transition: all 500ms ease-in-out;
+        // -o-transition: all 500ms ease-in-out;
+        // transition: all 500ms ease-in-out;
+    }
+    .has-error .error-msg {
+        // height: inherit;
     }
 
     .text-field {
@@ -559,7 +572,7 @@ body {
         input {
             .text-font(14px, normal, @main-blue);
             float: left;
-            width: 248px;
+            width: 250px;
             padding: 1px 10px 0;
             height: 25px;
             line-height: 24px;
@@ -614,6 +627,15 @@ body {
                 color: @main-blue-hover;
                 text-decoration: none;
             }
+        }
+    }
+
+    .preview-image {
+        margin-top: 10px;
+        position: relative;
+
+        img {
+            width: 100%;
         }
     }
 
@@ -689,6 +711,7 @@ body {
 
     .field-submit-register {
         width: 165px;
+        float: right;
         input {
             padding-right: 30px;
             background: #1F73BA url(/images/user_icon.png) right 10px center no-repeat;

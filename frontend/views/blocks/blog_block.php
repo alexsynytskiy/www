@@ -25,7 +25,7 @@
             <div class="date"><?= Yii::$app->formatter->asDate(strtotime($post->created_at),'full') ?></div>
         </div>
         <div class="intro">
-            <a href="<?= \yii\helpers\Url::to(['blog/'.$post->id.'-'.$post->slug]) ?>"><?= $post->title ?></a>
+            <a href="<?= \yii\helpers\Url::to(['/blog/'.$post->id.'-'.$post->slug]) ?>"><?= $post->title ?></a>
         </div>
     </div>
     <?php } ?>

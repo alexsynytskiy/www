@@ -36,12 +36,15 @@ class Profile extends ActiveRecord
             // [['user_id'], 'integer'],
             // [['create_time', 'update_time'], 'safe'],
             [['description'], 'string'],
-            // [['full_name'], 'filter', 'filter' => 'trim'],
-            [['full_name'], 'string', 'min' => 3, 'max' => 30],
-            [['full_name'], 'required', 'message' => 'Пожалуйста, введите имя'],
+            [['full_name'], 'filter', 'filter' => 'trim'],
+            ['full_name', 'string', 
+                'min' => 3, 'tooShort' => '{attribute} должно содержать минимум {min} символа',
+                'max' => 30, 'tooLong' => '{attribute} должно содержать максимум {max} символов'
+            ],
+            [['full_name'], 'required', 'message' => 'Пожалуйста, введите {attribute}'],
             [['full_name'], 'match', 
-                'pattern' => '@^[а-яА-ЯёЁa-zA-Z0-9]+$@u',
-                'message' => 'Некорректно введено имя.'
+                'pattern' => '@^[а-яА-ЯёЁa-zA-Z0-9 _\-]+$@u',
+                'message' => '{attribute} введено не правильно'
             ],
         ];
     }
@@ -56,7 +59,7 @@ class Profile extends ActiveRecord
             'user_id'     => Yii::t('user', 'User ID'),
             'create_time' => Yii::t('user', 'Create Time'),
             'update_time' => Yii::t('user', 'Update Time'),
-            'full_name'   => Yii::t('user', 'Full Name'),
+            'full_name'   => 'Имя',
             'description'   => Yii::t('user', 'Описание'),
         ];
     }

@@ -8,7 +8,10 @@ use yii\web\Response;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\widgets\ActiveForm;
+
+use yii\web\UploadedFile;
 use common\models\Post;
+use common\models\Asset;
 
 /**
  * Default controller for User module
@@ -183,12 +186,25 @@ class DefaultController extends Controller
                 $role = Yii::$app->getModule("user")->model("Role");
                 $user->setRegisterAttributes($role::ROLE_USER, Yii::$app->request->userIP)->save(false);
                 $profile->setUser($user->id)->save(false);
+
+                $user->avatar = UploadedFile::getInstance($user, 'avatar');
+                if(!empty($user->avatar))
+                {
+                    $asset = new Asset;
+                    $asset->type = Asset::TYPE_AVATAR;
+                    $asset->assetable_type = Asset::ASSETABLE_USER;
+                    $asset->assetable_id = $user->id;
+                    $asset->uploadedFile = $user->avatar;
+                    $asset->cropData = $user->cropData;
+                    $asset->saveCroppedAsset();
+                }
+
                 $this->afterRegister($user);
 
                 // set flash
                 // don't use $this->refresh() because user may automatically be logged in and get 403 forbidden
                 $guestText = "";
-                $successText = $user->getDisplayName().', спасибо за регистрацию.'.
+                $successText = $user->getDisplayName().', спасибо за регистрацию. '.
                     'Администратор портала просит вас подтвердить регистрацию в письме, '.
                     'отправленном на Ваш e-mail. В ближайшее время Вы получите письмо '.
                     'с инструкциями по активации Вашей учетной записи.'.

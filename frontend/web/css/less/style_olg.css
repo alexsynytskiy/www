@@ -444,6 +444,10 @@ body a:focus {
   background-size: 30px;
   background-position: 0 -45px;
 }
+.default-form .error-msg {
+  margin-top: 5px;
+  color: #cb181e;
+}
 .default-form .text-field {
   margin-top: 10px;
   clear: both;
@@ -455,7 +459,7 @@ body a:focus {
   font-weight: normal;
   color: #1972c4;
   float: left;
-  width: 248px;
+  width: 250px;
   padding: 1px 10px 0;
   height: 25px;
   line-height: 24px;
@@ -517,6 +521,13 @@ body a:focus {
 .default-form .field-link .link:hover {
   color: #0090e8;
   text-decoration: none;
+}
+.default-form .preview-image {
+  margin-top: 10px;
+  position: relative;
+}
+.default-form .preview-image img {
+  width: 100%;
 }
 .default-form .field-avatar {
   float: left;
@@ -686,6 +697,7 @@ body a:focus {
 }
 .default-form .field-submit-register {
   width: 165px;
+  float: right;
 }
 .default-form .field-submit-register input {
   padding-right: 30px;
