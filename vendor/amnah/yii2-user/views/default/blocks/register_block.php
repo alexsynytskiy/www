@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\file\FileInput;
 
 /**
  * @var yii\web\View $this
@@ -32,34 +33,39 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?php $form = ActiveForm::begin([
             'id' => 'register-form',
-            'options' => ['class' => 'default-form'],
-            'fieldConfig' => [
-                'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-7\">{error}</div>",
-                'labelOptions' => ['class' => 'col-lg-2 control-label'],
+            'options' => [
+                'class' => 'default-form',
+                'enctype' => 'multipart/form-data',
             ],
             'enableAjaxValidation' => true,
         ]); ?>
 
         <?= $form->field($profile, 'full_name', [
-                    'template' => '<div class="field field-username text-field">{input}<div class="status-box"></div></div>',
+            'template' => '<div class="field field-username text-field">{input}<div class="status-box"></div></div><div class="error-msg">{error}</div>',
                 ])->textInput(['placeholder' => 'Имя*']) ?>
 
         <?= $form->field($user, 'email', [
-                    'template' => '<div class="field field-email text-field">{input}<div class="status-box"></div></div>',
+                    'template' => '<div class="field field-email text-field">{input}<div class="status-box"></div></div><div class="error-msg">{error}</div>',
                 ])->textInput(['placeholder' => 'Email*']) ?>
 
         <?= $form->field($user, 'newPassword', [
-                    'template' => '<div class="field field-pass1 text-field">{input}<div class="status-box"></div></div>',
+                    'template' => '<div class="field field-pass1 text-field">{input}<div class="status-box"></div></div><div class="error-msg">{error}</div>',
                 ])->passwordInput(['placeholder' => 'Пароль*']) ?>
 
         <?= $form->field($user, 'newPasswordConfirm', [
-                    'template' => '<div class="field field-pass2 text-field">{input}<div class="status-box"></div></div>',
+                    'template' => '<div class="field field-pass2 text-field">{input}<div class="status-box"></div></div><div class="error-msg">{error}</div>',
                 ])->passwordInput(['placeholder' => 'Повторите пароль*']) ?>
 
-        <div class="field field-avatar upload-button">
-            <div class="field-label">Аватар 80х80</div>
-            <?= Html::activeFileInput($user, 'avatar') ?>
-        </div>
+        <!-- <div class="preview-image"></div> -->
+
+        <?= $form->field($user, 'avatar', [
+                    'template' => '<div class="preview-image"></div><div class="error-msg">{error}</div>'.
+                        '<div class="field field-avatar upload-button">'.
+                        '<div class="field-label">Аватар 80х80</div>{input}</div>',
+                ])->fileInput() ?>
+                
+        <?= $form->field($user, 'cropData')->hiddenInput(['id' => 'crop-data'])->label(false) ?>
+
         <div class="field field-submit field-submit-register">
             <?= Html::submitInput('Зарегистрировать', ['class' => 'btn-register']) ?>
         </div>

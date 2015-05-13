@@ -38,6 +38,7 @@ class AppAsset extends AssetBundle
         'js/selectize.js',
         'js/jquery.indyMasonry.js',
         'js/autoresize.jquery.js',
+        'js/jquery.jcrop.js',
         'js/code.js',
     ];
     public $depends = [

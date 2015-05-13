@@ -223,5 +223,57 @@ $(document).ready(function() {
     // => Alert tick END
     
 
+    // => User image preview on register page START
+    function saveCoords(c) {
+        var x = c.x < 0 ? 0 : c.x/c.imageWidth;
+        var y = c.y < 0 ? 0 : c.y/c.imageHeight;
+
+        var x2 = c.x2 < 0 ? 1 : c.x2/c.imageWidth;
+        var y2 = c.y2 < 0 ? 1 : c.y2/c.imageHeight;
+
+        var w = c.x < 0 ? x2 : c.x2 < 0 ? 1 - x : c.w/c.imageWidth;
+        var h = c.y < 0 ? y2 : c.y2 < 0 ? 1 - y : c.h/c.imageHeight;
+
+        var params = [x,y,w,h];
+        $('#crop-data').val(params.join(';'));
+    }
+
+    function readURL(input, previewBox) {
+        previewBox.html('');
+        if (input.files && input.files[0]) {
+            if(input.files[0].type == "image/jpeg" || 
+                input.files[0].type == "image/png" ||
+                input.files[0].type == "image/gif") {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    previewBox.html('<img src="' + e.target.result + '" alt="preview image" />');
+                    $image = $('#register-form .preview-image img');
+                    var height = $image.height();
+                    var width = $image.width();
+                    var maxSize = height < width ? height : width;
+                    $image.Jcrop({
+                        aspectRatio: 1,
+                        setSelect: [
+                            width > maxSize ? (width-maxSize)/2 : 0,
+                            height > maxSize ? (height-maxSize)/2 : 0,
+                            maxSize,
+                            maxSize
+                        ],
+                        minSize: [100, 100],
+                        onSelect: saveCoords,
+                        onChange: saveCoords,
+                    });
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    }
+
+    $("#register-form :file").change(function(){
+        readURL(this, $('#register-form .preview-image'));
+    });
+    // => User image preview on register page END
+
+
   });
 })(jQuery);
