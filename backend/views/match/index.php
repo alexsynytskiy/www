@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\MatchSearch */
@@ -31,59 +32,57 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             [
                 'attribute' => 'id',
-                'options' => ['width' => '100'],
+                'options' => ['width' => '80'],
             ],
-            //'is_visible',
             [
                 'attribute' => 'championship.name',
                 'label' => 'Турнир',
-                'options' => ['width' => '120'],
+                'options' => ['width' => '170'],
                 'format' => 'html',
             ],
             [
                 'attribute' => 'commandHome.name',
                 'label' => 'Хозяева',
-                'options' => ['width' => '120'],
+                'options' => ['width' => '150'],
                 'format' => 'html',
             ],
             [
                 'attribute' => 'commandGuest.name',
                 'label' => 'Гости',
-                'options' => ['width' => '120'],
+                'options' => ['width' => '150'],
                 'format' => 'html',
             ],
-             'stadium_id',
-            // 'season_id',
-            // 'round',
-             'date',
-            // 'arbiter_main_id',
-            // 'arbiter_assistant_1_id',
-            // 'arbiter_assistant_2_id',
-            // 'arbiter_reserve_id',
-            // 'home_shots',
-            // 'guest_shots',
-            // 'home_shots_in',
-            // 'guest_shots_in',
-            // 'home_offsides',
-            // 'guest_offsides',
-            // 'home_corners',
-            // 'guest_corners',
-            // 'home_fouls',
-            // 'guest_fouls',
-            // 'home_yellow_cards',
-            // 'guest_yellow_cards',
-            // 'home_red_cards',
-            // 'guest_red_cards',
-             'home_goals',
-             'guest_goals',
-            // 'comments_count',
-            // 'created_at',
-            // 'updated_at',
-            // 'championship_part_id',
-            // 'league_id',
-            // 'is_finished',
-            // 'announcement:ntext',
-
+            [
+                'attribute' => 'stadium.name',
+                'label' => 'Стадион',
+                'options' => ['width' => '180'],
+                'format' => 'html',
+            ],
+             [
+                'attribute' => 'date',
+                'value' => function($model){
+                    return date('d.m.Y h:i', strtotime($model->date));
+                },
+                'format' => 'text',
+                'filter' => DatePicker::widget([
+                    'model' => $searchModel,
+                    'attribute' => 'date',
+                    'removeButton' => false,
+                    'pluginOptions' => [
+                        'format' => 'dd.mm.yyyy',
+                        'autoclose' => true,
+                    ]
+                ]),
+                'options' => ['width' => '160'],
+            ],
+            [
+                'attribute' => 'home_goals',
+                'options' => ['width' => '50'],
+            ],
+            [
+                'attribute' => 'guest_goals',
+                'options' => ['width' => '50'],
+            ],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

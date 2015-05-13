@@ -19,7 +19,7 @@ class MatchSearch extends Match
     {
         return [
             [['id', 'is_visible', 'home_shots', 'guest_shots', 'home_shots_in', 'guest_shots_in', 'home_offsides', 'guest_offsides', 'home_corners', 'guest_corners', 'home_fouls', 'guest_fouls', 'home_yellow_cards', 'guest_yellow_cards', 'home_red_cards', 'guest_red_cards', 'home_goals', 'guest_goals', 'comments_count', 'is_finished'], 'integer'],
-            [['championship.name', 'commandGuest.name', 'commandHome.name', 'round', 'date', 'created_at', 'updated_at', 'announcement'], 'safe'],
+            [['championship.name', 'commandGuest.name', 'commandHome.name', 'stadium.name', 'round', 'date', 'created_at', 'updated_at', 'announcement'], 'safe'],
         ];
     }
 
@@ -42,6 +42,7 @@ class MatchSearch extends Match
             'championship.name',
             'commandGuest.name',
             'commandHome.name',
+            'stadium.name',
         ]);
     }
 
@@ -57,9 +58,11 @@ class MatchSearch extends Match
         $query = Match::find();
         $championship = new Championship;
         $commandHome = new Command;
+        $stadium = new Stadium;
         $matchTable = Match::tableName();
         $championshipTable = Championship::tableName();
         $commandTable = Command::tableName();
+        $stadiumTable = Stadium::tableName();
 
         $query->joinWith(['championship' => function($query) use ($championshipTable) {
             $query->from(['championship' => $championshipTable]);
@@ -71,6 +74,10 @@ class MatchSearch extends Match
 
         $query->joinWith(['commandGuest' => function($query) use ($commandTable) {
             $query->from(['commandGuest' => $commandTable]);
+        }]);
+
+        $query->joinWith(['stadium' => function($query) use ($stadiumTable) {
+            $query->from(['stadium' => $stadiumTable]);
         }]);
 
         $dataProvider = new ActiveDataProvider([
@@ -100,6 +107,15 @@ class MatchSearch extends Match
 
         // enable sorting for the related columns
         $addSortAttributes = ["commandGuest.name"];
+        foreach ($addSortAttributes as $addSortAttribute) {
+            $dataProvider->sort->attributes[$addSortAttribute] = [
+                'asc'   => [$addSortAttribute => SORT_ASC],
+                'desc'  => [$addSortAttribute => SORT_DESC],
+            ];
+        }
+
+        // enable sorting for the related columns
+        $addSortAttributes = ["stadium.name"];
         foreach ($addSortAttributes as $addSortAttribute) {
             $dataProvider->sort->attributes[$addSortAttribute] = [
                 'asc'   => [$addSortAttribute => SORT_ASC],
@@ -159,7 +175,8 @@ class MatchSearch extends Match
               ->andFilterWhere(['like', 'announcement', $this->announcement])
               ->andFilterWhere(['like', "commandHome.name", $this->getAttribute('commandHome.name')])
               ->andFilterWhere(['like', "commandGuest.name", $this->getAttribute('commandGuest.name')])
-              ->andFilterWhere(['like', 'championship.name', $this->getAttribute('championship.name')]);
+              ->andFilterWhere(['like', 'championship.name', $this->getAttribute('championship.name')])
+              ->andFilterWhere(['like', 'stadium.name', $this->getAttribute('stadium.name')]);
 
         return $dataProvider;
     }

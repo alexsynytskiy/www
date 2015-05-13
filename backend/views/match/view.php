@@ -7,19 +7,19 @@ use yii\widgets\DetailView;
 /* @var $model common\models\Match */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Matches', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => 'Матчи', 'url' => ['index']];
+$this->params['breadcrumbs'][] =  $model->commandHome->name . ' - ' . $model->commandGuest->name;
 ?>
 <div class="match-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($model->commandHome->name . ' - ' . $model->commandGuest->name) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Вы уверены, что хотите удалить матч?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -29,8 +29,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'is_visible',
+            [
+                'attribute' => 'is_visible',
+                'value' => $model->is_visible ? 'Да' : 'Нет',
+            ],
             'championship_id',
+            
             'command_home_id',
             'command_guest_id',
             'stadium_id',
