@@ -31,16 +31,24 @@ AppAsset::register($this);
 </head>
 <body>
     <?php $this->beginBody() ?>
-    <?php
-        // test
-        $page = array(
-            'query' => 'front',
-        );
-        $page = (object)$page;
-    ?>
+
+    <!-- Preloadding animation START -->
+    <?php if(Yii::$app->controller->action->id == 'post') { ?>
+    <div id="loading">
+        <div id="loading-center">
+            <div id="loading-center-absolute">
+                <div class="object" id="object_one"></div>
+                <div class="object" id="object_two" style="left:20px;"></div>
+                <div class="object" id="object_three" style="left:40px;"></div>
+                <div class="object" id="object_four" style="left:60px;"></div>
+                <div class="object" id="object_five" style="left:80px;"></div>
+            </div>
+        </div>
+    </div>
+    <?php } ?>
+    <!-- Preloadding animation END -->
 
     <div id="page">
-
         <header>
             <div class="header-wrapper">
                 <div class="header-top-part">
@@ -76,7 +84,7 @@ AppAsset::register($this);
                             </div>
                             <div class="main-functions">
                                 <div class="name"><?= $user->getDisplayName() ?></div>
-                                <a href="#">
+                                <a href="<?= Url::to(['/post/add']) ?>">
                                     <div class="create-post">
                                         Создать пост
                                         <div class="icon"></div>
@@ -149,7 +157,6 @@ AppAsset::register($this);
         </div>
 
         <footer id="colophon" class="site-footer" role="contentinfo">
-
             <div class="footer-wrapper">
                 <div class="google-banner-main" style="margin-top: 0;">
                     <img src="/images/730-2.png">
@@ -171,7 +178,6 @@ AppAsset::register($this);
                     </div>
                 </div>
             </div>
-
         </footer>
 
     </div>
