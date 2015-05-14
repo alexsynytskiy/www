@@ -1,4 +1,6 @@
-<?php 
+<?php
+use yii\helpers\Url;
+
 /**
  * @var $this yii\web\View
  * @var $model common\models\Post
@@ -26,7 +28,7 @@ if(abs(Yii::$app->session['news_post_time_last'] - $time) >= 60*60*24)
 
 <div class="news-post">
     <div class="time"><?= date('H:i',strtotime($model->created_at)) ?></div>
-    <a href="<?= \yii\helpers\Url::to(['news/'.$model->id.'-'.$model->slug]) ?>">
+    <a href="<?= Url::to(['/news/'.$model->id.'-'.$model->slug]) ?>">
         <div class="title"><?= $model->title ?></div>
     </a>
     <div class="sub-part">

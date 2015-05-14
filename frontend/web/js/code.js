@@ -1,5 +1,10 @@
 (function($){
     $(window).load(function() {
+
+        // PreLoading page animation turn off START
+        $("#loading").delay(1000).fadeOut(500);
+        // PreLoading page animation turn off END
+
         // BxSlider START
         $('.top-news-slider ul').bxSlider({
             slideWidth: 300,

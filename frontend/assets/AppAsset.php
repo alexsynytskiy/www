@@ -23,6 +23,7 @@ class AppAsset extends AssetBundle
         'css/jquery.Jcrop.css',
         'css/icheck.css',
         'css/spinner.css',
+        'css/loader.css',
         'css/less/selectize.less',
         'css/less/style.less',
         'css/less/style_olg.less',

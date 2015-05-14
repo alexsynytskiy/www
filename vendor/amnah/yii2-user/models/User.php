@@ -9,7 +9,6 @@ use yii\swiftmailer\Mailer;
 use yii\swiftmailer\Message;
 use yii\helpers\Inflector;
 use common\models\Asset;
-// use karpoff\icrop\CropImageUploadBehavior;
 use ReflectionClass;
 
 /**
@@ -399,6 +398,8 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function updateLoginMeta()
     {
+        // Save to session a previous login time for calculate new comments
+        Yii::$app->session['prev_login_time'] = $this->login_time;
         // set data
         $this->login_ip   = Yii::$app->getRequest()->getUserIP();
         $this->login_time = date("Y-m-d H:i:s");

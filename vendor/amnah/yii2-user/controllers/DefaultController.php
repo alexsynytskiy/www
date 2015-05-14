@@ -8,10 +8,13 @@ use yii\web\Response;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\widgets\ActiveForm;
+use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
 
 use yii\web\UploadedFile;
 use common\models\Post;
 use common\models\Asset;
+use common\models\Comment;
 
 /**
  * Default controller for User module
@@ -116,7 +119,7 @@ class DefaultController extends Controller
             ],
             'columnSecond' => [
                 'login_block' => [
-                    'view' => '/default/blocks/login_block',
+                    'view' => '@frontend/views/blocks/login_block',
                     'data' => compact('user'),
                 ],
                 'short_news' => [
@@ -249,7 +252,7 @@ class DefaultController extends Controller
             ],
             'columnSecond' => [
                 'register_block' => [
-                    'view' => '/default/blocks/register_block',
+                    'view' => '@frontend/views/blocks/register_block',
                     'data' => compact('user','profile'),
                 ],
                 'short_news' => [
@@ -392,35 +395,99 @@ class DefaultController extends Controller
 
         // set up profile and load post data
         $profile = Yii::$app->user->identity->profile;
-        $loadedPost = $profile->load(Yii::$app->request->post());
 
-        // validate for ajax request
-        if ($loadedPost && Yii::$app->request->isAjax) {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ActiveForm::validate($profile);
-        }
+        // newsPosts
+        $newsPosts = Post::find()
+            ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_NEWS])
+            ->orderBy(['created_at' => SORT_DESC])
+            ->limit(50)
+            ->all();
 
-        // validate for normal request
-        if ($loadedPost && $profile->validate()) {
-            $profile->save(false);
-            Yii::$app->session->setFlash("Profile-success", Yii::t("user", "Profile updated"));
-            return $this->refresh();
+        // blogPostsDataProvider
+        $query = Post::find()->where([
+            'is_public' => 1, 
+            'user_id' => $profile->user->id,
+            'content_category_id' => Post::CATEGORY_BLOG,
+        ]);
+        $query->orderBy(['created_at' => SORT_DESC]);
+        $blogPostsDataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+
+        // commentsDataProvider
+        if(isset(Yii::$app->session['prev_login_time'])) {
+            $loginTime = Yii::$app->session['prev_login_time'];
+        } else {
+            $loginTime = $profile->user->login_time;
         }
+        Yii::$app->session['prev_login_time'] = $profile->user->login_time;
+        $loginTime = "2012-12-05 22:01:11"; // test
+
+        $sql = 'SELECT c1.id 
+            FROM comments c1 
+            WHERE c1.user_id=1 AND c1.id IN (
+                SELECT c2.parent_id 
+                FROM comments c2 
+                WHERE c2.parent_id = c1.id AND c2.created_at > :time
+            ) ORDER BY c1.id DESC';
+        $connection = Yii::$app->db;
+        $command = $connection->createCommand($sql);
+        $command->bindValue(':time', $loginTime);
+        $commentsQueryData = $command->queryAll();
+        $commentsData = [];
+        foreach ($commentsQueryData as $queryData) {
+            $commentsData[] = $queryData['id'];
+        }
+        $allModels = [];
+        foreach ($commentsData as $id) {
+            $comments = \common\models\Comment::find()->where([
+                'or', ['parent_id' => $id], ['id' => $id],
+            ])->all();
+            $sortedComments = [];
+            foreach ($comments as $comment) 
+            {
+                $index = $comment->parent_id == null ? 0 : $comment->parent_id;
+                $sortedComments[$index][] = $comment;
+            }
+            $allModels[] = $sortedComments;
+        }
+        // DataProvider
+        $commentsDataProvider = new ArrayDataProvider([
+            'allModels' => $allModels,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
 
         // render
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
             'title' => Yii::t('user','Вход'),
             'columnFirst' => [
-                'profile_block' => [
-                    'view' => '/default/blocks/profile_block',
+                'user_comments' => [
+                    'view' => '@frontend/views/profile/user_comments',
+                    'data' => compact('commentsDataProvider'),
+                ],
+                'profile' => [
+                    'view' => '@frontend/views/profile/view',
                     'data' => compact('profile'),
+                ],
+                'blog_posts' => [
+                    'view' => '@frontend/views/profile/blog_posts',
+                    'data' => compact('blogPostsDataProvider'),
                 ],
             ],
             'columnSecond' => [
                 'test_block' => [
                     'view' => '@frontend/views/site/test',
                     'data' => [],
+                ],
+                'short_news' => [
+                    'view' => '@frontend/views/blocks/news_block',
+                    'data' => ['posts' => $newsPosts],
                 ],
             ],
         ]);
@@ -528,7 +595,7 @@ class DefaultController extends Controller
             ],
             'columnSecond' => [
                 'forgot_block' => [
-                    'view' => '/default/blocks/forgot_block',
+                    'view' => '@frontend/views/blocks/forgot_block',
                     'data' => compact('model'),
                 ],
                 'test_block' => [
