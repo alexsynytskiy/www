@@ -15,11 +15,13 @@ use yii\helpers\Url;
         <a href="<?= Url::to(['/post/add']) ?>"><div class="icon"></div></a>
         <div class="clearfix"></div>
     <?php } else { 
+        \yii\widgets\Pjax::begin();
         echo \yii\widgets\ListView::widget([
             'dataProvider' => $blogPostsDataProvider,
             'itemOptions' => ['class' => 'item'],
             'itemView' => '@frontend/views/profile/blog_post_item',
             'summary' => '', 
         ]);
+        \yii\widgets\Pjax::end();
     } ?>
 </div>

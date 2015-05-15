@@ -33,7 +33,7 @@ use yii\helpers\Url;
             </div>
         </div>
         <div class="intro">
-            <a href="<?= Url::to(['/blog/'.$post->id.'-'.$post->slug]) ?>"><?= $post->title ?></a>
+            <a href="<?= $post->getUrl() ?>"><?= $post->title ?></a>
         </div>
     </div>
     <?php } ?>

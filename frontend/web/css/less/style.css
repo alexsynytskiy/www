@@ -731,6 +731,7 @@ header .header-wrapper .breadcrumbs .tag:hover {
   margin-left: 3px;
   line-height: 18px;
   margin-bottom: 7px;
+  clear: both;
 }
 .grid-column .blogs .blog-preview .intro a {
   font-size: 14px;
@@ -1003,7 +1004,7 @@ header .header-wrapper .breadcrumbs .tag:hover {
   box-shadow: 0 2px 0 #d0d0d0;
   background-color: #ffffff;
   margin-bottom: 15px;
-  padding: 12px;
+  padding: 15px 10px;
 }
 .grid-column .cabinet-posts .top-part {
   height: 50px;
@@ -1099,7 +1100,7 @@ header .header-wrapper .breadcrumbs .tag:hover {
   color: #dddddd;
 }
 .grid-column .blog-posts {
-  padding: 20px 10px 15px;
+  padding: 15px 5px;
   border-radius: 5px;
   box-shadow: 0 2px 0 #d0d0d0;
   background-color: #ffffff;
@@ -1493,7 +1494,6 @@ header .header-wrapper .breadcrumbs .tag:hover {
   color: #f94351;
 }
 .grid-column .news-block .news-post .sub-part {
-  margin-bottom: 9px;
   padding-left: 45px;
 }
 .grid-column .news-block .news-post .sub-part .subtitle {
@@ -1527,8 +1527,8 @@ header .header-wrapper .breadcrumbs .tag:hover {
   background-size: 61px;
 }
 .grid-column .news-block .news-post .news-comments-block {
-  padding-left: 45px;
-  margin-bottom: 8px;
+  padding: 10px 0 10px 45px;
+  clear: both;
 }
 .grid-column .news-block .news-post .news-comments-block .icon {
   float: left;

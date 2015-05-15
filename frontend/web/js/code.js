@@ -114,7 +114,7 @@ $(document).ready(function() {
 
 
     // Toggle comments START
-    $('.toggle-button').click(function(){
+    $(document).on('click', '.toggle-button', function(event) {
         if($(this).hasClass('toggle-show')) {
             $(this).removeClass('toggle-show');
             $(this).addClass('toggle-hide');
@@ -279,6 +279,20 @@ $(document).ready(function() {
     });
     // => User image preview on register page END
 
+
+    // => Scroll to begin of pagination block START
+    $(document).on('click', '.blog-posts .pagination a', function(event) {
+        $('html, body').animate({
+            scrollTop: $('.blog-posts').offset().top
+        }, 800);
+    });
+    $(document).on('click', '.cabinet-comments .pagination a', function(event) {
+        $('html, body').animate({
+            scrollTop: $('.cabinet-comments').offset().top
+        }, 800);
+    });
+    // => Scroll to begin of pagination block END
+    
 
   });
 })(jQuery);

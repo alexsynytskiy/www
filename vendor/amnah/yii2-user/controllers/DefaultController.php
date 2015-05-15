@@ -8,10 +8,12 @@ use yii\web\Response;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\widgets\ActiveForm;
+
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
-
 use yii\web\UploadedFile;
+use yii\data\Pagination;
+
 use common\models\Post;
 use common\models\Asset;
 use common\models\Comment;
@@ -413,7 +415,9 @@ class DefaultController extends Controller
         $blogPostsDataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSize' => 10,
+                'pageSize' => 5,
+                'pageParam' => 'bpage',
+                'pageSizeParam' => 'bpsize',
             ],
         ]);
 
@@ -426,41 +430,48 @@ class DefaultController extends Controller
         Yii::$app->session['prev_login_time'] = $profile->user->login_time;
         $loginTime = "2012-12-05 22:01:11"; // test
 
+        $commentsCount = Comment::find()
+            ->where(['comments.user_id' => $profile->user->id])
+            ->join('INNER JOIN','posts','posts.id = comments.commentable_id')
+            ->count();
+        $commentsPagination = new Pagination([
+            'totalCount' => $commentsCount,
+            'pageSize' => 10,
+            'pageParam' => 'cpage',
+            'pageSizeParam' => 'cpsize',
+        ]);
+
         $sql = 'SELECT c1.id 
             FROM comments c1 
-            WHERE c1.user_id=1 AND c1.id IN (
+            LEFT JOIN posts p ON p.id = c1.commentable_id 
+            WHERE c1.user_id = :user_id AND c1.id IN (
                 SELECT c2.parent_id 
                 FROM comments c2 
-                WHERE c2.parent_id = c1.id AND c2.created_at > :time
-            ) ORDER BY c1.id DESC';
+                WHERE c2.parent_id = c1.id
+            ) 
+            ORDER BY c1.created_at DESC 
+            LIMIT :offset, :rows';
         $connection = Yii::$app->db;
         $command = $connection->createCommand($sql);
-        $command->bindValue(':time', $loginTime);
-        $commentsQueryData = $command->queryAll();
-        $commentsData = [];
-        foreach ($commentsQueryData as $queryData) {
-            $commentsData[] = $queryData['id'];
-        }
-        $allModels = [];
-        foreach ($commentsData as $id) {
+        $command->bindValue(':user_id', $profile->user->id);
+        $command->bindValue(':offset', $commentsPagination->offset);
+        $command->bindValue(':rows', $commentsPagination->limit);
+        $commentsData = $command->queryAll();
+
+        $sortedComments = [];
+        foreach ($commentsData as $data) {
             $comments = \common\models\Comment::find()->where([
-                'or', ['parent_id' => $id], ['id' => $id],
+                'or', ['parent_id' => $data['id']], ['id' => $data['id']],
             ])->all();
-            $sortedComments = [];
             foreach ($comments as $comment) 
             {
-                $index = $comment->parent_id == null ? 0 : $comment->parent_id;
+                $index = $comment->parent_id == null || $comment->user_id == $profile->user->id ? 0 : $comment->parent_id;
                 $sortedComments[$index][] = $comment;
             }
-            $allModels[] = $sortedComments;
         }
-        // DataProvider
-        $commentsDataProvider = new ArrayDataProvider([
-            'allModels' => $allModels,
-            'pagination' => [
-                'pageSize' => 10,
-            ],
-        ]);
+        // header('Content-Type: text/html; charset=utf-8');
+        // var_dump($commentsPagination);
+        // die;
 
         // render
         return $this->render('@frontend/views/site/index', [
@@ -469,7 +480,7 @@ class DefaultController extends Controller
             'columnFirst' => [
                 'user_comments' => [
                     'view' => '@frontend/views/profile/user_comments',
-                    'data' => compact('commentsDataProvider'),
+                    'data' => ['comments' => $sortedComments, 'pagination' => $commentsPagination],
                 ],
                 'profile' => [
                     'view' => '@frontend/views/profile/view',

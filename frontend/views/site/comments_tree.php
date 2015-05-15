@@ -7,11 +7,12 @@ use yii\helpers\Url;
 **/
 
 $showReplies = true;
-if(isset($model)) {
-    $comments = $model;
+$posts = false;
+if(Yii::$app->controller->action->id == 'profile') {
     $showReplies = false;
+    $posts = true;
 }
 
-\common\models\Comment::outCommentsTree($comments, 0, 0, $showReplies); 
+\common\models\Comment::outCommentsTree($comments, 0, 0, $showReplies, $posts); 
 
 ?>
