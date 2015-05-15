@@ -7,6 +7,7 @@ use yii\db\ActiveRecord;
 use amnah\yii2\user\models\User;
 use dosamigos\transliterator\TransliteratorHelper;
 use kartik\markdown\Markdown;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "posts".
@@ -222,6 +223,18 @@ class Post extends ActiveRecord
         }
         $content .= '...';
         return $content;
+    }
+
+    /**
+     * @return string Url to post
+     */
+    public function getUrl()
+    {
+        if($this->content_category_id == self::CATEGORY_NEWS) {
+            return Url::to(['/news/'.$this->id.'-'.$this->slug]);
+        } else {
+            return Url::to(['/blog/'.$this->id.'-'.$this->slug]);
+        }
     }
 
     /**

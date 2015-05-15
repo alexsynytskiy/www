@@ -9,7 +9,7 @@ use yii\helpers\Url;
 $userName = $model->user->getDisplayName();
 $avatar = $model->user->getAsset();
 $imageUrl = $avatar->getFileUrl();
-$postDate = Yii::$app->formatter->asDate($model->created_at, 'dd MMMM YYYY HH:mm');
+$postDate = Yii::$app->formatter->asDate($model->created_at, 'd MMMM Y H:m');
 ?>
 <div class="blog-post">
     <div class="blog-user">
@@ -33,15 +33,14 @@ $postDate = Yii::$app->formatter->asDate($model->created_at, 'dd MMMM YYYY HH:mm
         </div>
         <a href="<?= Url::to(['/blog/edit/'.$model->id]) ?>" class="button-edit"></a>
     </div>
-    <a href="<?= Url::to(['/blog/'.$model->id.'-'.$model->slug]) ?>" class="post-title">
+    <a href="<?= $model->getUrl() ?>" class="post-title">
         <?= $model->title ?>
     </a>
     <div class="blog-body">
         <?= $model->getShortContent() ?>
     </div>
     <div class="comment-replies">
-        <a href="<?= Url::to(['/blog/'.$model->id.'-'.$model->slug, 
-        '#' => 'comments']) ?>">
+        <a href="<?= $model->getUrl().'#comments' ?>">
             <div class="toggle-text"><?= $model->comments_count ?> комментариев</div>
             <div class="toggle-icon"></div>
         </a>

@@ -745,7 +745,6 @@ body {
         padding: 0 5px;
         height: 30px;
         line-height: 30px;
-        border-bottom: 1px solid @main-body-background;
 
         .title {
             .text-font(16px, bold, @main-grey);
@@ -759,6 +758,10 @@ body {
             }
         }
     }
+
+    .comment:first-child {
+        padding-top: 5px;
+    }
 }
 
 .comments-status {
@@ -766,6 +769,7 @@ body {
     padding: 0 5px;
     height: 26px;
     line-height: 26px;
+    border-top: 1px solid @main-body-background;
     border-bottom: 1px solid @main-body-background;
     .text-font(13px, normal, @main-grey);
 
@@ -823,16 +827,14 @@ body {
 }
 
 .comment-theme {
-    padding-top: 5px;
-    border-bottom: 1px solid @main-body-background;
+    padding: 5px 5px 0;
 
     .theme-label {
-        padding-top: 10px;
         line-height: 10px;
         .text-font(11px, normal, @main-grey);
     }
     .theme-link a {
-        .text-font(14px, bold, @main-blue);
+        .text-font(18px, bold, @main-blue);
         &:hover {
             color: @main-blue-hover;
             text-decoration: none;
@@ -842,6 +844,7 @@ body {
 
 .comment {
     padding: 0 5px;
+    clear: both;
     .text-font(13px, normal, @main-grey);
 
     &:last-child {
@@ -1811,6 +1814,26 @@ body {
             background: url(/images/report_icon.png) top center no-repeat;
             background-size: 22px;
             cursor: pointer;
+        }
+    }
+}
+
+.pagination {
+    text-align: center;
+
+    li {
+        position: relative;
+        display: inline-block;
+        padding: 3px 5px;
+
+        a {
+            display: block;
+            height: 100%;
+            width: 100%;
+        }
+        &.active a{
+            color: @main-red;
+            font-weight: bold;
         }
     }
 }

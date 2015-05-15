@@ -25,7 +25,6 @@ $currentYear = (int)date('Y',time());
 			{
 				$dateValue = date('d.m.Y', $selectedTime - 60*60*24*$i);
 				$dateText = Yii::$app->formatter->asDate($selectedTime - 60*60*24*$i, 'dd MMMM');
-				// $class = $i == 2 ? 'active' : '';
 			?>
         		<a class="o-day" href="?date=<?= $dateValue ?>"><?= $dateText ?></a>
 			<?php

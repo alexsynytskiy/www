@@ -178,20 +178,17 @@ class Comment extends ActiveRecord
      * @param int $parent_id 
      * @param int $level 
      */
-    public static function outCommentsTree($comments, $parent_id, $level, $showReplies = true) 
+    public static function outCommentsTree($comments, $parent_id, $level, $showReplies = true, $postID = false) 
     {
         if (isset($comments[$parent_id])) 
         { 
             foreach ($comments[$parent_id] as $comment) 
             {
-                // header('Content-Type: text/html; charset=utf-8');
-                // var_dump($comment);
-                // die;
                 $username = $comment->user->getDisplayName();
                 $avatar = $comment->user->getAsset();
                 $imageUrl = $avatar->getFileUrl();
 
-                $commentDate = Yii::$app->formatter->asDate($comment->created_at, 'dd MMMM YYYY HH:mm');
+                $commentDate = Yii::$app->formatter->asDate($comment->created_at, 'd MMMM Y H:m');
 
                 $repliesCommentsCount = isset($comments[$comment->id]) ? count($comments[$comment->id]) : 0;
                 $classRepliesCount = ($repliesCommentsCount == 0) ? 'no-replies' : '';
@@ -199,9 +196,24 @@ class Comment extends ActiveRecord
                 $isReply = $parent_id == 0 ? false : true;
 
                 $rating = 5;
-                $displayType = 'comment';
                 $page = 'post';
 
+                if($postID && $comment->getCommentableType() == Comment::COMMENTABLE_POST) 
+                {
+                    $post = \common\models\Post::findOne($comment->commentable_id);
+                    if (isset($post->id) && $post->id !== $postID)
+                    {
+                        $postID = $post->id; 
+                        ?>
+                        <div class="comment-theme">
+                            <div class="theme-label">Комментарии по теме:</div>
+                            <div class="theme-link">
+                                <a href="<?= $post->getUrl() ?>"><?= $post->title ?></a>
+                            </div>
+                        </div>
+                        <?php 
+                    }
+                }
                 ?>
                 <div id="comment-<?= $comment->id ?>" class="comment">
                     <div class="comment-user">
@@ -217,25 +229,15 @@ class Comment extends ActiveRecord
                             <div class="rating-count <?=($isReply)?'blue':'red'?>"><?=$rating?></div>
                             <a href="javascript:void(0)" class="rating-down"></a>
                         </div>
-                        <?php if($displayType == 'comment'): ?>
-                            <?php if(!Yii::$app->user->isGuest) { ?>
-                            <a href="javascript:void(0)" class="button-reply" title="Ответить" data-comment-id="<?= $comment->id ?>"></a>
-                            <?php } ?>
-                            <?php if($page == 'cabinet') { ?>
-                                <a href="javascript:void(0)" class="new-replies-count <?=$classRepliesCount?>" title="Новых ответов">
-                                    <?=$textRepliesCount?>
-                                </a>
-                            <?php } ?>
-                        <?php else: ?>
-                            <a href="javascript:void(0)" class="button-edit" title="Изменить"></a>
-                            <a href="javascript:void(0)" class="button-remove" title="Удалить"></a>
-                        <?php endif; ?>
+                        <?php if(!Yii::$app->user->isGuest) { ?>
+                        <a href="javascript:void(0)" class="button-reply" title="Ответить" data-comment-id="<?= $comment->id ?>"></a>
+                        <?php } ?>
+                        <?php if($page == 'cabinet') { ?>
+                            <a href="javascript:void(0)" class="new-replies-count <?=$classRepliesCount?>" title="Новых ответов">
+                                <?=$textRepliesCount?>
+                            </a>
+                        <?php } ?>
                     </div>
-                    <?php if($displayType == 'post') { ?>
-                        <a href="#" class="post-title">
-                            <?php // echo $post->title; ?>
-                        </a>
-                    <?php } ?>
                     <div class="comment-body">
                         <?= $comment->getContent() ?>
                     </div>
@@ -250,7 +252,7 @@ class Comment extends ActiveRecord
                         <div id="comment-replies-content-<?= $comment->id ?>" class="toggle-content <?= ($showReplies) ? 'visible' : '' ?>">
                         <?php
                             $level++;
-                            self::outCommentsTree($comments, $comment->id, $level);
+                            self::outCommentsTree($comments, $comment->id, $level, $postID);
                             $level--;
                         ?>
                         </div>
