@@ -63,13 +63,13 @@ use common\models\Season;
         if(!$model->isNewRecord) {
             $part = ChampionshipPart::findOne($model->championship_part_id);
 
-            if(isset($season->id)) {
+            if(isset($part->id)) {
                 $availableChampionshipParts = [$part->id => $part->name];
             }
         }
 
         echo $form->field($model, 'championship_part_id')->widget(SelectizeDropDownList::classname(), [
-            'loadUrl' => Url::to(['championship_part/championship_part-list']),        
+            'loadUrl' => Url::to(['championship-part/championship-part-list']),        
             'items' => $availableChampionshipParts,
             'options' => [
                 'multiple' => false,
@@ -78,8 +78,6 @@ use common\models\Season;
                 'valueField' => 'value',
                 'labelField' => 'text',
                 'persist' => false,
-                'createOnBlur' => true,
-                'create' => new JsExpression('function(input) { return { value: "{new}" + input, text: input } }'),
             ],
         ]);
     ?>
@@ -90,7 +88,7 @@ use common\models\Season;
         if(!$model->isNewRecord) {
             $team = Command::findOne($model->command_home_id);
 
-            if(isset($season->id)) {
+            if(isset($team->id)) {
                 $availableCommands = [$team->id => $team->name];
             }
         }
@@ -105,8 +103,6 @@ use common\models\Season;
                 'valueField' => 'value',
                 'labelField' => 'text',
                 'persist' => false,
-                'createOnBlur' => true,
-                'create' => new JsExpression('function(input) { return { value: "{new}" + input, text: input } }'),
             ],
         ]);
     ?>
@@ -117,7 +113,7 @@ use common\models\Season;
         if(!$model->isNewRecord) {
             $team = Command::findOne($model->command_guest_id);
 
-            if(isset($season->id)) {
+            if(isset($team->id)) {
                 $availableCommands = [$team->id => $team->name];
             }
         }
@@ -132,8 +128,6 @@ use common\models\Season;
                 'valueField' => 'value',
                 'labelField' => 'text',
                 'persist' => false,
-                'createOnBlur' => true,
-                'create' => new JsExpression('function(input) { return { value: "{new}" + input, text: input } }'),
             ],
         ]);
     ?>
@@ -142,9 +136,9 @@ use common\models\Season;
         $availableStadiums = [];
     
         if(!$model->isNewRecord) {
-            $stadium = Stadium::findOne($model->stadium_id);
-
-            if(isset($season->id)) {
+            $stadium = Stadium::findOne($model->stadium_id);   
+            
+            if(isset($stadium->id)) {
                 $availableStadiums = [$stadium->id => $stadium->name];
             }
         }
@@ -159,14 +153,11 @@ use common\models\Season;
                 'valueField' => 'value',
                 'labelField' => 'text',
                 'persist' => false,
-                'createOnBlur' => true,
-                'create' => new JsExpression('function(input) { return { value: "{new}" + input, text: input } }'),
             ],
         ]);
     ?>
 
     <?php
-
         $availableSeasons = [];
     
         if(!$model->isNewRecord) {
@@ -187,11 +178,8 @@ use common\models\Season;
                 'valueField' => 'value',
                 'labelField' => 'text',
                 'persist' => false,
-                'createOnBlur' => true,
-                'create' => new JsExpression('function(input) { return { value: "{new}" + input, text: input } }'),
             ],
         ]);
-
     ?>
 
     <?php
@@ -226,8 +214,6 @@ use common\models\Season;
                 'valueField' => 'value',
                 'labelField' => 'text',
                 'persist' => false,
-                'createOnBlur' => true,
-                'create' => new JsExpression('function(input) { return { value: "{new}" + input, text: input } }'),
             ],
         ]);
     ?>
@@ -253,8 +239,6 @@ use common\models\Season;
                 'valueField' => 'value',
                 'labelField' => 'text',
                 'persist' => false,
-                'createOnBlur' => true,
-                'create' => new JsExpression('function(input) { return { value: "{new}" + input, text: input } }'),
             ],
         ]);
     ?>
@@ -280,8 +264,6 @@ use common\models\Season;
                 'valueField' => 'value',
                 'labelField' => 'text',
                 'persist' => false,
-                'createOnBlur' => true,
-                'create' => new JsExpression('function(input) { return { value: "{new}" + input, text: input } }'),
             ],
         ]);
     ?>
@@ -307,8 +289,6 @@ use common\models\Season;
                 'valueField' => 'value',
                 'labelField' => 'text',
                 'persist' => false,
-                'createOnBlur' => true,
-                'create' => new JsExpression('function(input) { return { value: "{new}" + input, text: input } }'),
             ],
         ]);
     ?>
@@ -334,8 +314,6 @@ use common\models\Season;
                 'valueField' => 'value',
                 'labelField' => 'text',
                 'persist' => false,
-                'createOnBlur' => true,
-                'create' => new JsExpression('function(input) { return { value: "{new}" + input, text: input } }'),
             ],
         ]);
     ?>
@@ -361,8 +339,6 @@ use common\models\Season;
                 'valueField' => 'value',
                 'labelField' => 'text',
                 'persist' => false,
-                'createOnBlur' => true,
-                'create' => new JsExpression('function(input) { return { value: "{new}" + input, text: input } }'),
             ],
         ]);
     ?>

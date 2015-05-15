@@ -4,6 +4,7 @@ namespace frontend\controllers;
 use Yii;
 use common\models\LoginForm;
 use common\models\Post;
+use common\models\Match;
 use common\models\Comment;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
@@ -236,6 +237,42 @@ class SiteController extends Controller
         }
 
         return $this->redirect($referrer);
+    }
+    
+    /**
+     * Adds a new comment
+     * If adding is successful, the browser will be redirected to the 'previ' page.
+     * 
+     * @return mixed
+     */
+    public function actionMatches() 
+    {
+        $query = Match::find()->where(['is_visible' => 1]);
+        $query->orderBy(['date' => SORT_DESC]);
+        
+        $matchDataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 100,
+            ],
+        ]);
+        
+        return $this->render('@frontend/views/site/index', [
+            'templateType' => 'col2',
+            'title' => 'Матчи',
+            'columnFirst' => [
+                'matches' => [
+                    'view' => '@frontend/views/site/matches',
+                    'data' => compact('matchDataProvider'),
+                ],
+            ],
+            'columnSecond' => [
+                'test_block' => [
+                    'view' => '@frontend/views/site/test',
+                    'data' => [],
+                ],                
+            ],
+        ]);
     }
     
     /**

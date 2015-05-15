@@ -119,30 +119,30 @@ a.desc:after {
     margin: 0 10px;    
 }
 
-.match-update .slider.slider-horizontal {
+.slider.slider-horizontal {
     width: 100%;
 }
 
-.match-update .slider-handle {
+.slider-handle {
     width: 30px;
     height: 30px;
 }
 
-.match-update .tooltip-arrow {
+.tooltip-arrow {
     display: none;
 }
 
-.match-update .tooltip-inner {
+.tooltip-inner {
     width: 30px;
     padding: 2px 13px;
     background-color: transparent;
     cursor: pointer;
 }
 
-.match-update .slider .tooltip.top {
+.slider .tooltip.top {
     margin-top: 0;
 }
 
-.match-update .tooltip {
+.tooltip {
     z-index: 1;
 }

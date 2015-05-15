@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use kartik\markdown\Markdown;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Match */
@@ -108,8 +109,12 @@ $this->params['breadcrumbs'][] =  $model->commandHome->name . ' - ' . $model->co
             'guest_red_cards',            
             'comments_count',
             'created_at',
-            'updated_at',            
-            'announcement:ntext',
+            'updated_at',
+            [
+                'attribute' => 'announcement',
+                'value' => Markdown::convert($model->announcement),
+                'format' => 'html',
+            ],
         ],
     ]) ?>
 

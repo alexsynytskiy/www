@@ -1,4 +1,6 @@
 <?php
+    
+
 
 namespace common\models;
 
@@ -64,6 +66,59 @@ use yii\db\ActiveRecord;
 class Match extends ActiveRecord
 {
     /**
+     * @var int team for matches
+     */
+    const TEAM_DK_FIRST = 213;
+    /**
+     * @var int team for matches
+     */
+    const TEAM_DK_FIRST_FULL_NAME = 1;
+    /**
+      * @var int team for matches
+     */
+    const TEAM_DK_M = 616;
+    /**
+      * @var int team for matches
+     */
+    const TEAM_DK2 = 8;
+    /**
+      * @var int team for matches
+     */
+    const TEAM_U19 = 878;
+    /**
+      * @var int team for matches
+     */
+    const TEAM_UKRAINE = 7;
+    /**
+      * @var int team for matches
+     */
+    const TEAM_UKRAINE_M = 117;
+    /**
+      * @var int team for matches
+     */
+    const TEAM_DK_KIDS = 221;
+    /**
+      * @var int team for matches
+     */
+    const TEAM_DK3 = 9;
+    
+    public static function getTeamsConstants()
+    {
+        $teamsConstants = [];
+        
+        $teamsConstants[] = self::TEAM_DK_FIRST;
+        $teamsConstants[] = self::TEAM_DK_FIRST_FULL_NAME;
+        $teamsConstants[] = self::TEAM_DK_M;
+        $teamsConstants[] = self::TEAM_DK2;
+        $teamsConstants[] = self::TEAM_U19;
+        $teamsConstants[] = self::TEAM_UKRAINE;
+        $teamsConstants[] = self::TEAM_UKRAINE_M;
+        $teamsConstants[] = self::TEAM_DK_KIDS;
+        $teamsConstants[] = self::TEAM_DK3;
+        
+        return $teamsConstants;
+    }
+    /**
      * @inheritdoc
      */
     public static function tableName()
@@ -83,7 +138,7 @@ class Match extends ActiveRecord
             [['round'], 'string', 'max' => 50],
 
             //required
-            [['championship_id', 'command_home_id', 'command_guest_id', 'stadium_id', 'season_id', 'arbiter_main_id', 'arbiter_assistant_1_id', 'arbiter_assistant_2_id', 'arbiter_assistant_3_id', 'arbiter_assistant_4_id', 'arbiter_reserve_id', 'championship_part_id', 'league_id'], 'required'],
+            [['championship_id', 'command_home_id', 'command_guest_id', 'stadium_id', 'season_id', 'championship_part_id', 'league_id'], 'required'],
         ];
     }
 
@@ -132,6 +187,36 @@ class Match extends ActiveRecord
             'is_finished'            => 'Завершён',
             'announcement'           => 'Где смотреть',
         ];
+    }
+    
+    /**
+     * @return match result for our teams of interest
+     */
+    public function checkMatchWinner()
+    {
+        $teamsConstants = self::getTeamsConstants();
+        
+        if(isset($this->home_goals) && isset($this->guest_goals)) {
+            if ($this->home_goals == $this->guest_goals) {
+                return "yellow";
+            }
+            elseif (in_array($this->command_home_id, $teamsConstants)) {
+                if($this->home_goals > $this->guest_goals) {
+                    return "green";
+                }
+                if($this->home_goals < $this->guest_goals) {
+                    return "red";
+                }
+            }
+            elseif (in_array($this->command_guest_id, $teamsConstants)) {
+                if($this->home_goals < $this->guest_goals) {
+                    return "green";
+                }
+                if($this->home_goals > $this->guest_goals) {
+                    return "red";
+                }
+            }
+        }
     }
 
     /**

@@ -1577,6 +1577,9 @@ header .header-wrapper .breadcrumbs .tag:hover {
 .grid-column .matches tr {
   height: 35px;
 }
+.grid-column .matches th {
+	line-height: 20px;
+}
 .grid-column .matches .score {
   font-weight: bold;
 }
@@ -1589,9 +1592,11 @@ header .header-wrapper .breadcrumbs .tag:hover {
 .grid-column .matches .date {
   text-align: left;
 }
-.grid-column .matches .date,
 .grid-column .matches .visitors {
   padding-left: 5px;
+}
+.grid-column .matches .date {
+  padding: 0 10px;
 }
 .grid-column .matches .logo img {
   display: block;

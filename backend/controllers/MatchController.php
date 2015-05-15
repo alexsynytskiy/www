@@ -62,7 +62,8 @@ class MatchController extends Controller
     {
         $model = new Match();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $model->save(FALSE);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -83,7 +84,8 @@ class MatchController extends Controller
 
         $model->date = date('d.m.Y',strtotime($model->date));
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $model->save(FALSE);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
