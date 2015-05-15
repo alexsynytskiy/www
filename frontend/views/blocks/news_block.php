@@ -7,7 +7,7 @@
 <div class="news">
 	<div class="header">
 		<div class="title">Новости</div>
-		<a href="<?= \yii\helpers\Url::to(['site/news']) ?>">
+		<a href="<?= \yii\helpers\Url::to(['/site/news']) ?>">
 			<div class="link-to-all-icon"></div>
 			<div class="link-to-all-text">Все новости:</div>
 		</a>
@@ -15,7 +15,7 @@
 	<?php foreach($posts as $post) { ?>
 	<div class="message">		
 		<div class="text">
-			<a href="<?= \yii\helpers\Url::to(['news/'.$post->id.'-'.$post->slug]) ?>">
+			<a href="<?= \yii\helpers\Url::to(['/news/'.$post->id.'-'.$post->slug]) ?>">
 				<div class="time">
 					<?= date('H:i',strtotime($post->created_at)) ?>
 				</div>
@@ -38,7 +38,7 @@
 	</div>
 	<?php }	?>
 	<div class="header no-border">
-		<a href="<?= \yii\helpers\Url::to(['site/news']) ?>">
+		<a href="<?= \yii\helpers\Url::to(['/site/news']) ?>">
 			<div class="link-to-all-icon"></div>
 			<div class="link-to-all-text">Все новости:</div>
 		</a>

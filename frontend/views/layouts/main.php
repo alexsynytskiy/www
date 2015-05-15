@@ -7,6 +7,8 @@ use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use frontend\widgets\Alert;
 
+use amnah\yii2\user\models\User;
+
 /* @var $this \yii\web\View */
 /* @var $content string */
 
@@ -29,16 +31,24 @@ AppAsset::register($this);
 </head>
 <body>
     <?php $this->beginBody() ?>
-    <?php
-        // test
-        $page = array(
-            'query' => 'front',
-        );
-        $page = (object)$page;
-    ?>
+
+    <!-- Preloadding animation START -->
+    <?php if(Yii::$app->controller->action->id == 'post') { ?>
+    <div id="loading">
+        <div id="loading-center">
+            <div id="loading-center-absolute">
+                <div class="object" id="object_one"></div>
+                <div class="object" id="object_two" style="left:20px;"></div>
+                <div class="object" id="object_three" style="left:40px;"></div>
+                <div class="object" id="object_four" style="left:60px;"></div>
+                <div class="object" id="object_five" style="left:80px;"></div>
+            </div>
+        </div>
+    </div>
+    <?php } ?>
+    <!-- Preloadding animation END -->
 
     <div id="page">
-
         <header>
             <div class="header-wrapper">
                 <div class="header-top-part">
@@ -64,22 +74,26 @@ AppAsset::register($this);
 
                         <?php } else { ?>
 
+                        <?php 
+                            $user = User::findOne(Yii::$app->user->id);
+                            $avatar = $user->getAsset();
+                        ?>
                         <div class="logged-in">
                             <div class="photo">
-                                <a href="/user/profile"><img src="/images/papos.jpg"></a>
+                                <a href="<?= Url::to(['/user/profile']) ?>"><img src="<?= $avatar->getFileUrl() ?>"></a>
                             </div>
                             <div class="main-functions">
-                                <div class="name"><?= Yii::$app->user->getDisplayName() ?></div>
-                                <a href="#">
+                                <div class="name"><?= $user->getDisplayName() ?></div>
+                                <a href="<?= Url::to(['/post/add']) ?>">
                                     <div class="create-post">
                                         Создать пост
                                         <div class="icon"></div>
                                     </div>
 
                                 </a>
-                                <a href="/user/profile"><div class="link-to-cabinet">Личный Кабинет</div></a>
+                                <a href="<?= Url::to(['/user/profile']) ?>"><div class="link-to-cabinet">Личный Кабинет</div></a>
                             </div>
-                            <a href="/user/logout">
+                            <a href="<?= Url::to(['/user/logout']) ?>">
                                 <div class="logout">
                                     <div class="icon"></div>
                                 </div>
@@ -102,9 +116,9 @@ AppAsset::register($this);
                 <div class="menu">
                     <ul>
                         <a href="#"><li class="special-project">Спецпроект</li></a>
-                        <a href="<?= Url::to(['site/news']) ?>"><li class="<?= Yii::$app->controller->action->id == 'news' ? 'current-page' : '' ?>">Новости</li></a>
+                        <a href="<?= Url::to(['/site/news']) ?>"><li class="<?= Yii::$app->controller->action->id == 'news' ? 'current-page' : '' ?>">Новости</li></a>
                         <a href="#"><li>Команда</li></a>
-                        <a href="<?= Url::to(['site/matches']) ?>"><li class="<?= Yii::$app->controller->action->id == 'matches' ? 'current-page' : '' ?>">Матчи</li></a>
+                        <a href="<?= Url::to(['/site/matches']) ?>"><li class="<?= Yii::$app->controller->action->id == 'matches' ? 'current-page' : '' ?>">Матчи</li></a>
                         <a href="#"><li>Трансферы</li></a>
                         <a href="#"><li>Блоги</li></a>
                         <a href="#"><li>Фото</li></a>
@@ -143,7 +157,6 @@ AppAsset::register($this);
         </div>
 
         <footer id="colophon" class="site-footer" role="contentinfo">
-
             <div class="footer-wrapper">
                 <div class="google-banner-main" style="margin-top: 0;">
                     <img src="/images/730-2.png">
@@ -165,7 +178,6 @@ AppAsset::register($this);
                     </div>
                 </div>
             </div>
-
         </footer>
 
     </div>

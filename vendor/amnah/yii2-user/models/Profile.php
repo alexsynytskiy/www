@@ -32,11 +32,20 @@ class Profile extends ActiveRecord
     public function rules()
     {
         return [
-            //            [['user_id'], 'required'],
-            //            [['user_id'], 'integer'],
-            //            [['create_time', 'update_time'], 'safe'],
-            [['full_name'], 'string', 'max' => 255],
+            // [['user_id'], 'required'],
+            // [['user_id'], 'integer'],
+            // [['create_time', 'update_time'], 'safe'],
             [['description'], 'string'],
+            [['full_name'], 'filter', 'filter' => 'trim'],
+            ['full_name', 'string', 
+                'min' => 3, 'tooShort' => '{attribute} должно содержать минимум {min} символа',
+                'max' => 30, 'tooLong' => '{attribute} должно содержать максимум {max} символов'
+            ],
+            [['full_name'], 'required', 'message' => 'Пожалуйста, введите {attribute}'],
+            [['full_name'], 'match', 
+                'pattern' => '@^[а-яА-ЯёЁa-zA-Z0-9 _\-]+$@u',
+                'message' => '{attribute} введено не правильно'
+            ],
         ];
     }
 
@@ -50,7 +59,7 @@ class Profile extends ActiveRecord
             'user_id'     => Yii::t('user', 'User ID'),
             'create_time' => Yii::t('user', 'Create Time'),
             'update_time' => Yii::t('user', 'Update Time'),
-            'full_name'   => Yii::t('user', 'Full Name'),
+            'full_name'   => 'Имя',
             'description'   => Yii::t('user', 'Описание'),
         ];
     }

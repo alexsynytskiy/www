@@ -56,6 +56,7 @@ class PostSearch extends Post
         $postTable = Post::tableName();
         // set up query with relation to `user.username`
         $userTable = $user::tableName();
+
         $query->joinWith(['user' => function($query) use ($userTable) {
             $query->from(['user' => $userTable]);
         }]);
@@ -81,7 +82,6 @@ class PostSearch extends Post
         }
 
         $query->andFilterWhere([
-            "{$userTable}.id" => $this->user_id,
             "{$postTable}.id" => $this->id,
             'user_id' => $this->user_id,
             'is_public' => $this->is_public,

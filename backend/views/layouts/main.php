@@ -18,6 +18,7 @@ AppAsset::register($this);
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/images/favicon.png" type="image/png" />
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
@@ -28,20 +29,22 @@ AppAsset::register($this);
         <?php
             if(Yii::$app->user->can("admin")) {
                 NavBar::begin([
-                    'brandLabel' => 'Динамомания',
+                    //'' => 'Динамомания',
+                    'brandLabel' => '<img src="/images/logotype_admin.png" class="img-responsive" style="margin-top: -7px; width: 250px;">',
                     'brandUrl' => Yii::$app->homeUrl,
                     'options' => [
                         'class' => 'navbar-inverse navbar-fixed-top',
                     ],
                 ]);
                 $menuItems = [
-                    ['label' => 'Записи', 'url' => '/admin/post'],
+                    ['label' => 'Матчи', 'url' => '/admin/match'],                    
                     ['label' => 'Альбомы', 'url' => '/admin/album'],
                     ['label' => 'Пользователи', 'url' => '/admin/user/admin'],
-                    ['label' => 'Настройки', 'items' => [
-                        ['label' => 'Теги', 'url' => '/admin/tag'],
-                        ['label' => 'Источники', 'url' => '/admin/source'],
+                    ['label' => 'Публикации', 'items' => [
+                        ['label' => 'Записи', 'url' => '/admin/post'],
                         ['label' => 'Комментарии', 'url' => '/admin/comment'],
+                        ['label' => 'Источники', 'url' => '/admin/source'],
+                        ['label' => 'Теги', 'url' => '/admin/tag'],
                     ]],
                     ['label' => 'Сайт', 'url' => ('http://'.$_SERVER['HTTP_HOST']) ],
                 ];

@@ -22,12 +22,15 @@ class AppAsset extends AssetBundle
         'css/jquery.datepick.css',
         'css/jquery.Jcrop.css',
         'css/icheck.css',
+        'css/spinner.css',
+        'css/loader.css',
         'css/less/selectize.less',
         'css/less/style.less',
         'css/less/style_olg.less',
     ];
     public $js = [
-        'https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js',
+        // 'http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js',
+        // 'https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js',
         'js/jquery.bxslider.js',
         'js/icheck.min.js',
         'js/datepicker/jquery.plugin.min.js',
@@ -35,10 +38,12 @@ class AppAsset extends AssetBundle
         'js/datepicker/jquery.datepick-ru.js',
         'js/selectize.js',
         'js/jquery.indyMasonry.js',
+        'js/autoresize.jquery.js',
+        'js/jquery.jcrop.js',
         'js/code.js',
     ];
     public $depends = [
-        // 'yii\web\YiiAsset',
+        'yii\web\YiiAsset',
         // 'yii\bootstrap\BootstrapAsset',
     ];
 }

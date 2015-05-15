@@ -1,11 +1,12 @@
 <?php
 /**
  * @var $this yii\web\View
- * @var $posts Array of common\models\Post
- * @var $date string | bool Selected date
+ * @var $newsDataProvider yii\data\ActiveDataProvider
+ * @var $date string Selected date
 **/
 $currentYear = (int)date('Y',time());
 ?>
+
 <div class="date-news-search calendar">
 	<div class="calendar-title">
 		<div class="text">Выбрать другую дату <div>с помощью календаря: </div></div>
@@ -24,9 +25,9 @@ $currentYear = (int)date('Y',time());
 			{
 				$dateValue = date('d.m.Y', $selectedTime - 60*60*24*$i);
 				$dateText = Yii::$app->formatter->asDate($selectedTime - 60*60*24*$i, 'dd MMMM');
-				$class = $i == 2 ? 'active' : '';
+				// $class = $i == 2 ? 'active' : '';
 			?>
-        		<a class="o-day <?= $class ?>" href="?date=<?= $dateValue ?>"><?= $dateText ?></a>
+        		<a class="o-day" href="?date=<?= $dateValue ?>"><?= $dateText ?></a>
 			<?php
 			}	
 		?>
@@ -54,51 +55,20 @@ $currentYear = (int)date('Y',time());
 </div>
 
 <div class="news-block">
-	<?php if(count($posts) == 0) { ?>
-		<div class="empty-result">По заданному запросу материалов не найдено</div>
-	<?php } ?>
 	<?php
-		$prevTime = 0;
-		foreach($posts as $post) { 
-			$currentTime = strtotime(date("Y-m-d 00:00:00", strtotime($post->created_at)));
-			if($date && $currentTime - $prevTime >= 60*60*24 ||
-				!$date && $prevTime - $currentTime >= 60*60*24 ||
-				$prevTime == 0)
-			{
-			?>
-				<div class="date">
-					<div class="line"></div>
-					<div class="day-month-year"><?= date('d.m.Y',$currentTime) ?></div>
-					<div class="line"></div>
-					<div class="clearfix"></div>
-				</div>
-			<?php
-				$prevTime = $currentTime;
-			}
+	echo \yii\widgets\ListView::widget([
+		'dataProvider' => $newsDataProvider,
+		'itemOptions' => ['class' => 'item'],
+		'itemView' => '@frontend/views/site/news_item',
+		'pager' => [
+	     	'class' => \kop\y2sp\ScrollPager::className(),
+	     	'delay' => 1500,
+	     	'noneLeftText' => 'Больше нет новостей',
+	     	'triggerOffset' => 100,
+	     	'spinnerTemplate' => '<div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>',
+	     ],
+	     'summary' => '', 
+	]);
 	?>
-	<div class="news-post">
-		<div class="time"><?= date('H:i',strtotime($post->created_at)) ?></div>
-		<a href="<?= \yii\helpers\Url::to(['news/'.$post->id.'-'.$post->slug]) ?>">
-			<div class="title"><?= $post->title ?></div>
-		</a>
-		<div class="sub-part">
-			<?php
-				$image = $post->getAsset(\common\models\Asset::THUMBNAIL_NEWS);
-				if (!empty($image->getFileUrl())) {
-			?>
-			<div class="photo-img">
-				<img src="<?= $image->getFileUrl() ?>">
-			</div>
-			<?php } ?>
-			<div class="subtitle">
-			<?= $post->getShortContent() ?>
-			</div>
-		</div>
-		<div class="news-comments-block">
-			<div class="icon"></div>
-			<div class="count"><?= $post->comments_count ?></div>
-			<div class="clearfix"></div>
-		</div>
-	</div>
-	<?php } ?>
 </div>
+

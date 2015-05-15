@@ -35,24 +35,6 @@
             });
         };
 
-        // $.each($('.file-preview-thumbnails img'),function(){
-        //     var height = $(this).height();
-        //     var width = $(this).width();
-        //     var maxSize = height < width ? height : width;
-        //     $(this).Jcrop({
-        //         aspectRatio: 1,
-        //         setSelect: [
-        //             width > maxSize ? (width-maxSize)/2 : 0,
-        //             height > maxSize ? (height-maxSize)/2 : 0,
-        //             maxSize,
-        //             maxSize,
-        //         ],
-        //         minSize: [100, 100],
-        //         onSelect: saveCoords,
-        //         onChange: saveCoords,
-        //     });
-        // });
-
         var $inputJcrop = $(".file-input :file.jcrop");
         $inputJcrop.on('fileimageloaded', function(event, previewId){
             $('img.file-preview-image').css('width','auto');
@@ -64,12 +46,8 @@
         $input.on("filepredelete", function(event, key) {
             var imagesData = $("#images-data").val();
             if(imagesData) {
-                console.log(key);
-                console.log(imagesData);
                 var keys = imagesData.split(';');
-                console.log(keys);
                 var index = keys.indexOf(key.toString());
-                console.log(index);
                 if (index > -1) {
                     keys.splice(index, 1);
                 }

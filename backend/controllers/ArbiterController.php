@@ -125,6 +125,7 @@ class ArbiterController extends Controller
         $command = $query->createCommand();
         $data = $command->queryAll();
         $out = array_values($data);
+        header("Content-type: text/html; charset=utf-8");
         echo Json::encode($out);
     }
 

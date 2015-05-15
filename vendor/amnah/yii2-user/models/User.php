@@ -9,7 +9,6 @@ use yii\swiftmailer\Mailer;
 use yii\swiftmailer\Message;
 use yii\helpers\Inflector;
 use common\models\Asset;
-// use karpoff\icrop\CropImageUploadBehavior;
 use ReflectionClass;
 
 /**
@@ -95,7 +94,6 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public $cropData;
 
-
     /**
      * @inheritdoc
      */
@@ -113,17 +111,17 @@ class User extends ActiveRecord implements IdentityInterface
         $rules = [
             // general email and username rules
             [['email', 'username'], 'string', 'max' => 255],
-            [['email', 'username'], 'unique', 'on' => ['register','create']],
+            [['email', 'username'], 'unique', 'on' => ['register', 'create']],
             [['email', 'username'], 'filter', 'filter' => 'trim'],
-            [['email'], 'email'],
+            [['email'], 'email', 'message' => '{attribute} не является правильным адресом.'],
             [['username'], 'match', 'pattern' => '/^[A-Za-z0-9_-]+$/u', 'message' => Yii::t('user', '{attribute} can contain only letters, numbers, "_" and "-"')],
 
             // password rules
             [['newPassword'], 'string', 'min' => 3],
             [['newPassword'], 'filter', 'filter' => 'trim'],
-            [['newPassword'], 'required', 'on' => ['register', 'reset']],
-            [['newPasswordConfirm'], 'required', 'on' => ['reset']],
-            [['newPasswordConfirm'], 'compare', 'compareAttribute' => 'newPassword', 'message' => Yii::t('user','Passwords do not match')],
+            [['newPassword'], 'required', 'on' => ['register', 'reset'], 'message' => 'Пожалуйста, введите Пароль'],
+            [['newPasswordConfirm'], 'required', 'on' => ['register', 'reset'], 'message' => 'Пожалуйста, подтвердите Пароль'],
+            [['newPasswordConfirm'], 'compare', 'compareAttribute' => 'newPassword', 'message' => 'Пароли не совпадают'],
 
             // account page
             [['currentPassword'], 'required', 'on' => ['account']],
@@ -136,10 +134,10 @@ class User extends ActiveRecord implements IdentityInterface
             [['ban_reason'], 'string', 'max' => 255, 'on' => 'admin'],
 
             // required rules
-            [['email', 'username'], 'required'],
+            [['email', 'username'], 'required', 'message' => 'Пожалуйста, введите {attribute}'],
 
             // image
-            [['avatar'], 'file', 'extensions' => 'jpeg, gif, png', 'on' => ['create', 'update']],
+            [['avatar'], 'file', 'extensions' => 'jpeg, jpg , gif, png'],
             [['cropData'], 'safe'],
         ];
 
@@ -162,13 +160,13 @@ class User extends ActiveRecord implements IdentityInterface
     public function attributeLabels()
     {
         return [
-            'id'          => Yii::t('user', 'ID'),
-            'role_id'     => Yii::t('user', 'Роль'),
-            'status'      => Yii::t('user', 'Status'),
-            'email'       => Yii::t('user', 'Email'),
-            'new_email'   => Yii::t('user', 'New Email'),
-            'username'    => Yii::t('user', 'Username'),
-            'password'    => Yii::t('user', 'Password'),
+            'id'          => 'ID',
+            'role_id'     => 'Роль',
+            'status'      => 'Статус',
+            'email'       => 'E-mail',
+            'new_email'   => 'Новый Email',
+            'username'    => 'Логин',
+            'password'    => 'Пароль',
             'auth_key'    => Yii::t('user', 'Auth Key'),
             'api_key'     => Yii::t('user', 'Api Key'),
             'login_ip'    => Yii::t('user', 'Login Ip'),
@@ -176,12 +174,12 @@ class User extends ActiveRecord implements IdentityInterface
             'create_ip'   => Yii::t('user', 'Create Ip'),
             'create_time' => Yii::t('user', 'Create Time'),
             'update_time' => Yii::t('user', 'Update Time'),
-            'ban_time'    => Yii::t('user', 'Ban Time'),
-            'ban_reason'  => Yii::t('user', 'Ban Reason'),
+            'ban_time'    => 'Время бана',
+            'ban_reason'  => 'Причина бана',
 
-            'currentPassword' => Yii::t('user', 'Current Password'),
-            'newPassword'     => Yii::t('user', 'New Password'),
-            'newPasswordConfirm' => Yii::t('user', 'New Password Confirm'),
+            'currentPassword' => 'Текущий пароль',
+            'newPassword'     => 'Новый пароль',
+            'newPasswordConfirm' => 'Подтверждение пароля',
             'avatar' => 'Аватар',
 
         ];
@@ -400,6 +398,8 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function updateLoginMeta()
     {
+        // Save to session a previous login time for calculate new comments
+        Yii::$app->session['prev_login_time'] = $this->login_time;
         // set data
         $this->login_ip   = Yii::$app->getRequest()->getUserIP();
         $this->login_time = date("Y-m-d H:i:s");
@@ -559,7 +559,11 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getAsset()
     {
-        return Asset::getAssets($this->id, Asset::ASSETABLE_USER, NULL, true);
+        $asset = Asset::getAssets($this->id, Asset::ASSETABLE_USER, NULL, true);
+        if($asset->assetable_type == null) {
+            $asset->assetable_type = Asset::ASSETABLE_USER;
+        }
+        return $asset;
     }
 
     /**
