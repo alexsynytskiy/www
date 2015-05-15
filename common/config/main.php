@@ -15,6 +15,7 @@ return [
             'rules' => [
                 '/' => 'site/index',
                 'news'=>'site/news',
+                'matches'=>'site/matches',
                 'news/<id:\d+>-<slug>'=>'site/post',
                 'blog/<id:\d+>-<slug>'=>'site/post',
                 '<controller:\w+>/<id:\d+>'=>'<controller>/view',

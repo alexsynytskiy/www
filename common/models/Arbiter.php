@@ -55,4 +55,6 @@ class Arbiter extends ActiveRecord
     {
         return $this->hasOne(Country::className(), ['id' => 'country_id']);
     }
+    
+    
 }
