@@ -525,9 +525,7 @@ body a:focus {
 .default-form .preview-image {
   margin-top: 10px;
   position: relative;
-}
-.default-form .preview-image img {
-  width: 100%;
+  margin: 0 auto;
 }
 .default-form .field-avatar {
   float: left;
@@ -1168,13 +1166,14 @@ body a:focus {
   height: 130px;
 }
 #edit-profile-form .form-actions {
-  padding-top: 20px;
+  padding-top: 5px;
   clear: both;
 }
 #edit-profile-form .field-submit-subscribe {
-  width: 176px;
+  width: 175px;
 }
 #edit-profile-form .replies-subscribe-box {
+  margin-left: 5px;
   float: left;
 }
 #edit-profile-form .replies-subscribe-box .input-box {
@@ -1183,11 +1182,13 @@ body a:focus {
 }
 #edit-profile-form .replies-subscribe-box label {
   margin: 0;
-  width: 190px;
+  display: block;
+  width: 230px;
   font-family: 'Fira Sans', sans-serif;
   font-size: 13px;
   font-weight: normal;
   color: #727272;
+  line-height: 15px;
 }
 #edit-profile-form .replies-subscribe-box label:hover {
   cursor: pointer;

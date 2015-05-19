@@ -633,9 +633,10 @@ body {
     .preview-image {
         margin-top: 10px;
         position: relative;
+        margin: 0 auto;
 
         img {
-            width: 100%;
+            // display: block;
         }
     }
 
@@ -1183,14 +1184,15 @@ body {
     }
 
     .form-actions {
-        padding-top: 20px;
+        padding-top: 5px;
         clear: both;
     }
     .field-submit-subscribe {
-        width: 176px;
+        width: 175px;
     }
 
     .replies-subscribe-box {
+        margin-left: 5px;
         float: left;
 
         .input-box {
@@ -1200,8 +1202,10 @@ body {
 
         label {
             margin: 0;
-            width: 190px;
+            display: block;
+            width: 230px;
             .text-font(13px, normal, @main-grey);
+            line-height: 15px;
             &:hover {
                 cursor: pointer;
                 color: @main-grey-hover;

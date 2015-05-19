@@ -346,7 +346,7 @@ class Asset extends \yii\db\ActiveRecord
         switch ($this->getAssetableType())
         {
             case self::ASSETABLE_USER:
-                return new Box(100,100);
+                return new Box(80,80);
             case self::ASSETABLE_POST:
                 switch (strtolower($this->thumbnail))
                 {

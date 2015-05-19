@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ]); ?>
 
         <?= $form->field($profile, 'full_name', [
-            'template' => '<div class="field field-username text-field">{input}<div class="status-box"></div></div><div class="error-msg">{error}</div>',
+                    'template' => '<div class="field field-username text-field">{input}<div class="status-box"></div></div><div class="error-msg">{error}</div>',
                 ])->textInput(['placeholder' => 'Имя*']) ?>
 
         <?= $form->field($user, 'email', [
@@ -55,8 +55,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($user, 'newPasswordConfirm', [
                     'template' => '<div class="field field-pass2 text-field">{input}<div class="status-box"></div></div><div class="error-msg">{error}</div>',
                 ])->passwordInput(['placeholder' => 'Повторите пароль*']) ?>
-
-        <!-- <div class="preview-image"></div> -->
 
         <?= $form->field($user, 'avatar', [
                     'template' => '<div class="preview-image"></div><div class="error-msg">{error}</div>'.

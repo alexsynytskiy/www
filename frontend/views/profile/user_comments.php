@@ -14,8 +14,8 @@ $showComments = isset($_GET['cpage']) ? true : false;
         <div class="title">
             Ваш Кабинет
         </div>
-        <a id="comments-toggle-btn" class="toggle-button toggle-<?= $showComments ? 'show' : 'hide' ?>" data-target="comments-content" href="javascript:void(0)">
-            <div class="toggle-text"><span><?= $showComments ? 'Показать' : 'Скрыть' ?></span> комментарии</div>
+        <a id="comments-toggle-btn" class="toggle-button toggle-<?= $showComments ? 'hide' : 'show' ?>" data-target="comments-content" href="javascript:void(0)">
+            <div class="toggle-text"><span><?= $showComments ? 'Скрыть' : 'Показать' ?></span> комментарии</div>
             <div class="toggle-icon"></div>
         </a>
     </div>

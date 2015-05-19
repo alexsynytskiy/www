@@ -178,8 +178,15 @@ class Comment extends ActiveRecord
      * @param int $parent_id 
      * @param int $level 
      */
-    public static function outCommentsTree($comments, $parent_id, $level, $showReplies = true, $postID = false) 
+    public static function outCommentsTree($comments, $parent_id, $options)
     {
+        if(!isset($options) || !is_object($options)) 
+        {
+            $showReplies = isset($options['showReplies']) ? $options['showReplies'] : true;
+            $showReplyButton = isset($options['showReplyButton']) ? $options['showReplyButton'] : true;
+            $postID = isset($options['postID']) ? $options['postID'] : false;
+            $options = (object) compact('showReplies','showReplyButton','postID');
+        }
         if (isset($comments[$parent_id])) 
         { 
             foreach ($comments[$parent_id] as $comment) 
@@ -198,12 +205,12 @@ class Comment extends ActiveRecord
                 $rating = 5;
                 $page = 'post';
 
-                if($postID && $comment->getCommentableType() == Comment::COMMENTABLE_POST) 
+                if($options->postID && $comment->getCommentableType() == Comment::COMMENTABLE_POST) 
                 {
                     $post = \common\models\Post::findOne($comment->commentable_id);
-                    if (isset($post->id) && $post->id !== $postID)
+                    if (isset($post->id) && $post->id !== $options->postID)
                     {
-                        $postID = $post->id; 
+                        $options->postID = $post->id; 
                         ?>
                         <div class="comment-theme">
                             <div class="theme-label">Комментарии по теме:</div>
@@ -229,7 +236,7 @@ class Comment extends ActiveRecord
                             <div class="rating-count <?=($isReply)?'blue':'red'?>"><?=$rating?></div>
                             <a href="javascript:void(0)" class="rating-down"></a>
                         </div>
-                        <?php if(!Yii::$app->user->isGuest) { ?>
+                        <?php if(!Yii::$app->user->isGuest && $options->showReplyButton) { ?>
                         <a href="javascript:void(0)" class="button-reply" title="Ответить" data-comment-id="<?= $comment->id ?>"></a>
                         <?php } ?>
                         <?php if($page == 'cabinet') { ?>
@@ -243,17 +250,15 @@ class Comment extends ActiveRecord
                     </div>
                     <?php if($repliesCommentsCount > 0) { ?>
                     <div class="comment-replies">
-                        <a class="replies-toggle-btn toggle-button toggle-<?= ($showReplies) ? 'hide' : 'show' ?>" data-target="comment-replies-content-<?= $comment->id ?>" href="javascript:void(0)">
+                        <a class="replies-toggle-btn toggle-button toggle-<?= ($options->showReplies) ? 'hide' : 'show' ?>" data-target="comment-replies-content-<?= $comment->id ?>" href="javascript:void(0)">
                             <div class="toggle-text">
-                                <span><?= ($showReplies) ? 'Скрыть' : 'Показать' ?></span> ответы
+                                <span><?= ($options->showReplies) ? 'Скрыть' : 'Показать' ?></span> ответы
                             </div>
                             <div class="toggle-icon"></div>
                         </a>
-                        <div id="comment-replies-content-<?= $comment->id ?>" class="toggle-content <?= ($showReplies) ? 'visible' : '' ?>">
+                        <div id="comment-replies-content-<?= $comment->id ?>" class="toggle-content <?= ($options->showReplies) ? 'visible' : '' ?>">
                         <?php
-                            $level++;
-                            self::outCommentsTree($comments, $comment->id, $level, $postID);
-                            $level--;
+                            self::outCommentsTree($comments, $comment->id, $options);
                         ?>
                         </div>
                     </div>

@@ -999,41 +999,41 @@ header .header-wrapper .breadcrumbs .tag:hover {
   width: 300px;
   height: 250px;
 }
-.grid-column .cabinet-posts {
+.grid-column .profile-box {
   border-radius: 5px;
   box-shadow: 0 2px 0 #d0d0d0;
   background-color: #ffffff;
   margin-bottom: 15px;
   padding: 15px 10px;
 }
-.grid-column .cabinet-posts .top-part {
+.grid-column .profile-box .top-part {
   height: 50px;
   margin-bottom: 10px;
 }
-.grid-column .cabinet-posts .top-part .photo {
+.grid-column .profile-box .top-part .photo {
   height: 50px;
   width: 50px;
   float: left;
   margin-right: 10px;
   border-radius: 5px;
 }
-.grid-column .cabinet-posts .top-part .info-about-user {
+.grid-column .profile-box .top-part .info-about-user {
   height: 50px;
   float: left;
 }
-.grid-column .cabinet-posts .top-part .info-about-user .user-name {
+.grid-column .profile-box .top-part .info-about-user .user-name {
   font-size: 14px;
   font-weight: normal;
   color: #727272;
   margin-bottom: 5px;
 }
-.grid-column .cabinet-posts .top-part .info-about-user .user-date {
+.grid-column .profile-box .top-part .info-about-user .user-date {
   font-size: 12px;
   font-weight: normal;
   color: #727272;
   line-height: 14px;
 }
-.grid-column .cabinet-posts .top-part .edit-button {
+.grid-column .profile-box .top-part .edit-button {
   float: right;
   width: 38px;
   height: 54px;
@@ -1042,57 +1042,57 @@ header .header-wrapper .breadcrumbs .tag:hover {
   background-color: #ffffff;
   margin-left: 6px;
 }
-.grid-column .cabinet-posts .top-part .new-post {
+.grid-column .profile-box .top-part .new-post {
   background-color: #1972c4;
   padding-top: 15px;
   padding-left: 7px;
 }
-.grid-column .cabinet-posts .top-part .new-post .icon {
+.grid-column .profile-box .top-part .new-post .icon {
   width: 25px;
   height: 23px;
   background: url('/images/write_active.png') no-repeat center;
   background-size: 23px;
 }
-.grid-column .cabinet-posts .top-part .new-post:hover {
+.grid-column .profile-box .top-part .new-post:hover {
   background-color: #0090e8;
 }
-.grid-column .cabinet-posts .top-part .edit-profile {
+.grid-column .profile-box .top-part .edit-profile {
   background-color: #e9e9e9;
   padding-top: 15px;
   padding-left: 7px;
 }
-.grid-column .cabinet-posts .top-part .edit-profile .icon {
+.grid-column .profile-box .top-part .edit-profile .icon {
   width: 25px;
   height: 23px;
   background: url('/images/settings_sprite.png') no-repeat;
   background-size: 23px;
 }
-.grid-column .cabinet-posts .top-part .edit-profile:hover {
+.grid-column .profile-box .top-part .edit-profile:hover {
   background-color: #CECECE;
 }
-.grid-column .cabinet-posts .top-part .edit-profile:hover .icon {
+.grid-column .profile-box .top-part .edit-profile:hover .icon {
   background-position: 0 -42px;
   background-size: 23px;
 }
-.grid-column .cabinet-posts .top-part .show-profile {
+.grid-column .profile-box .top-part .show-profile {
   background-color: #e9e9e9;
   padding-top: 15px;
   padding-left: 7px;
 }
-.grid-column .cabinet-posts .top-part .show-profile .icon {
+.grid-column .profile-box .top-part .show-profile .icon {
   width: 25px;
   height: 23px;
   background: url('/images/user_sprite.png') no-repeat;
   background-size: 23px;
 }
-.grid-column .cabinet-posts .top-part .show-profile:hover {
+.grid-column .profile-box .top-part .show-profile:hover {
   background-color: #CECECE;
 }
-.grid-column .cabinet-posts .top-part .show-profile:hover .icon {
+.grid-column .profile-box .top-part .show-profile:hover .icon {
   background-position: 0 -42px;
   background-size: 23px;
 }
-.grid-column .cabinet-posts .empty-history {
+.grid-column .profile-box .empty-history {
   width: 470px;
   text-align: left;
   font-size: 24px;
@@ -1554,6 +1554,9 @@ header .header-wrapper .breadcrumbs .tag:hover {
   font-weight: bold;
   color: #cb181e;
 }
+.grid-column .matches th {
+  line-height: 20px;
+}
 .grid-column .matches .box-content {
   padding: 0;
 }
@@ -1576,9 +1579,6 @@ header .header-wrapper .breadcrumbs .tag:hover {
 }
 .grid-column .matches tr {
   height: 35px;
-}
-.grid-column .matches th {
-	line-height: 20px;
 }
 .grid-column .matches .score {
   font-weight: bold;

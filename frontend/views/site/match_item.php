@@ -6,8 +6,10 @@ use yii\helpers\Url;
  * @var $model common\models\Match
 **/
 
-
-
+if(!isset($model->championshipPart)) {
+var_dump($model->id);
+die;
+}
 ?>
 
 <tr>

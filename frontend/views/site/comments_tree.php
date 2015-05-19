@@ -6,13 +6,15 @@ use yii\helpers\Url;
  * @var $comments array Array of common\models\Comment
 **/
 
-$showReplies = true;
-$posts = false;
+$options = [];
 if(Yii::$app->controller->action->id == 'profile') {
-    $showReplies = false;
-    $posts = true;
+    $options = [
+        'showReplies' => false,
+        'showReplyButton' => false,
+        'posts' => true,
+    ];
 }
 
-\common\models\Comment::outCommentsTree($comments, 0, 0, $showReplies, $posts); 
+\common\models\Comment::outCommentsTree($comments, 0, $options); 
 
 ?>

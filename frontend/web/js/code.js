@@ -5,6 +5,7 @@
         $("#loading").delay(1000).fadeOut(500);
         // PreLoading page animation turn off END
 
+
         // BxSlider START
         $('.top-news-slider ul').bxSlider({
             slideWidth: 300,
@@ -228,7 +229,7 @@ $(document).ready(function() {
     // => Alert tick END
     
 
-    // => User image preview on register page START
+    // => User image preview on register and settings page START
     function saveCoords(c) {
         var x = c.x < 0 ? 0 : c.x/c.imageWidth;
         var y = c.y < 0 ? 0 : c.y/c.imageHeight;
@@ -243,16 +244,26 @@ $(document).ready(function() {
         $('#crop-data').val(params.join(';'));
     }
 
-    function readURL(input, previewBox) {
-        previewBox.html('');
+    function readURL(input, $previewBox) {
+        $previewBox.html('');
         if (input.files && input.files[0]) {
             if(input.files[0].type == "image/jpeg" || 
                 input.files[0].type == "image/png" ||
                 input.files[0].type == "image/gif") {
                 var reader = new FileReader();
                 reader.onload = function (e) {
-                    previewBox.html('<img src="' + e.target.result + '" alt="preview image" />');
-                    $image = $('#register-form .preview-image img');
+                    $previewBox.html('<img src="' + e.target.result + '" alt="preview image" />');
+                    var $image = $(input).parents('form').find('.preview-image img').first();
+                    var $form = $previewBox.parents('form').first();
+                    // If the image bigger than form box
+                    if($form.length > 0 && $image.width() > $form.width())
+                    {
+                        $image.width($form.width());
+                        $previewBox.css('margin', 0);
+                    } else {
+                        $previewBox.width($image.width());
+                        $previewBox.css('margin', '0 auto');
+                    }
                     var height = $image.height();
                     var width = $image.width();
                     var maxSize = height < width ? height : width;
@@ -264,7 +275,7 @@ $(document).ready(function() {
                             maxSize,
                             maxSize
                         ],
-                        minSize: [100, 100],
+                        minSize: [80, 80],
                         onSelect: saveCoords,
                         onChange: saveCoords,
                     });
@@ -274,8 +285,8 @@ $(document).ready(function() {
         }
     }
 
-    $("#register-form :file").change(function(){
-        readURL(this, $('#register-form .preview-image'));
+    $(".default-form :file").change(function(){
+        readURL(this, $('.default-form .preview-image'));
     });
     // => User image preview on register page END
 

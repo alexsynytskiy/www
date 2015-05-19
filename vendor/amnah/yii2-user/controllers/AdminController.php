@@ -163,8 +163,6 @@ class AdminController extends Controller
                 $asset->uploadedFile = $user->avatar;
                 $asset->cropData = $user->cropData;
 
-
-
                 $asset->saveCroppedAsset();
             }
 

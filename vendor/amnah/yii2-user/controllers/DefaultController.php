@@ -374,17 +374,59 @@ class DefaultController extends Controller
                 }
             }
 
+            // save avatar
+            $user->avatar = UploadedFile::getInstance($user, 'avatar');
+            if(!empty($user->avatar))
+            {
+                $asset = $user->getAsset();
+                // If asset model does not exist for current user
+                if(!isset($asset->assetable_id))
+                {
+                    $asset = new Asset;
+                    $asset->type = Asset::TYPE_AVATAR;
+                    $asset->assetable_type = Asset::ASSETABLE_USER;
+                    $asset->assetable_id = $user->id;
+                }
+                $asset->uploadedFile = $user->avatar;
+                $asset->cropData = $user->cropData;
+                $asset->saveCroppedAsset();
+            }
+                
+
             // save, set flash, and refresh page
             $user->save(false);
             $profile->save(false);
             Yii::$app->session->setFlash("Account-success", Yii::t("user", "Account updated"));
-            return $this->refresh();
+            return $this->redirect('/user/profile');
         }
 
+        // newsPosts
+        $newsPosts = Post::find()
+            ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_NEWS])
+            ->orderBy(['created_at' => SORT_DESC])
+            ->limit(50)
+            ->all();
+
         // render
-        return $this->render("account", [
-            'user' => $user,
-            'profile' => $profile,
+        return $this->render('@frontend/views/site/index', [
+            'templateType' => 'col2',
+            'title' => Yii::t('user','Вход'),
+            'columnFirst' => [
+                'profile_edit' => [
+                    'view' => '@frontend/views/profile/profile_edit',
+                    'data' => compact('user', 'profile'),
+                ],
+            ],
+            'columnSecond' => [
+                'test_block' => [
+                    'view' => '@frontend/views/site/test',
+                    'data' => [],
+                ],
+                'short_news' => [
+                    'view' => '@frontend/views/blocks/news_block',
+                    'data' => ['posts' => $newsPosts],
+                ],
+            ],
         ]);
     }
 
@@ -469,9 +511,6 @@ class DefaultController extends Controller
                 $sortedComments[$index][] = $comment;
             }
         }
-        // header('Content-Type: text/html; charset=utf-8');
-        // var_dump($commentsPagination);
-        // die;
 
         // render
         return $this->render('@frontend/views/site/index', [
@@ -483,7 +522,7 @@ class DefaultController extends Controller
                     'data' => ['comments' => $sortedComments, 'pagination' => $commentsPagination],
                 ],
                 'profile' => [
-                    'view' => '@frontend/views/profile/view',
+                    'view' => '@frontend/views/profile/profile_view',
                     'data' => compact('profile'),
                 ],
                 'blog_posts' => [
