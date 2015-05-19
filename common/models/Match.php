@@ -190,7 +190,7 @@ class Match extends ActiveRecord
     }
     
     /**
-     * @return match result for our teams of interest
+     * @return string match result for our teams of interest
      */
     public function checkMatchWinner()
     {
@@ -217,6 +217,30 @@ class Match extends ActiveRecord
                 }
             }
         }
+    }
+
+    /**
+     * @return string match championshipPart name
+     */
+    public function getChampionshipPartName()
+    {
+        if(isset($this->championshipPart->name)) {
+          return $this->championshipPart->name;
+        } else {
+          return '';
+        }
+    }
+
+    /**
+     * @return string match championshipPart name
+     */
+    public function getTournamentName()
+    {
+        $name = $this->championship->name;
+        if($this->getChampionshipPartName() != '') {
+          $name .= ', '.$this->getChampionshipPartName();
+        } 
+        return $name;
     }
 
     /**
