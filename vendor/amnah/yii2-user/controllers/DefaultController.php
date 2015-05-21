@@ -10,7 +10,6 @@ use yii\filters\VerbFilter;
 use yii\widgets\ActiveForm;
 
 use yii\data\ActiveDataProvider;
-use yii\data\ArrayDataProvider;
 use yii\web\UploadedFile;
 use yii\data\Pagination;
 
@@ -464,13 +463,13 @@ class DefaultController extends Controller
         ]);
 
         // commentsDataProvider
-        if(isset(Yii::$app->session['prev_login_time'])) {
-            $loginTime = Yii::$app->session['prev_login_time'];
-        } else {
-            $loginTime = $profile->user->login_time;
-        }
-        Yii::$app->session['prev_login_time'] = $profile->user->login_time;
-        $loginTime = "2012-12-05 22:01:11"; // test
+        // if(isset(Yii::$app->session['prev_login_time'])) {
+        //     $loginTime = Yii::$app->session['prev_login_time'];
+        // } else {
+        //     $loginTime = $profile->user->login_time;
+        // }
+        // Yii::$app->session['prev_login_time'] = $profile->user->login_time;
+        // $loginTime = "2012-12-05 22:01:11"; // test
 
         $commentsCount = Comment::find()
             ->where(['comments.user_id' => $profile->user->id])
@@ -494,11 +493,11 @@ class DefaultController extends Controller
             ORDER BY c1.created_at DESC 
             LIMIT :offset, :rows';
         $connection = Yii::$app->db;
-        $command = $connection->createCommand($sql);
-        $command->bindValue(':user_id', $profile->user->id);
-        $command->bindValue(':offset', $commentsPagination->offset);
-        $command->bindValue(':rows', $commentsPagination->limit);
-        $commentsData = $command->queryAll();
+        $cmd = $connection->createCommand($sql);
+        $cmd->bindValue(':user_id', $profile->user->id);
+        $cmd->bindValue(':offset', $commentsPagination->offset);
+        $cmd->bindValue(':rows', $commentsPagination->limit);
+        $commentsData = $cmd->queryAll();
 
         $sortedComments = [];
         foreach ($commentsData as $data) {

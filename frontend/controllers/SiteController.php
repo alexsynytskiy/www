@@ -18,6 +18,8 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
+use yii\data\Pagination;
 
 /**
  * Site controller
@@ -203,13 +205,66 @@ class SiteController extends Controller
         ];
 
         if ($post->allow_comment) {
-            $comments = $post->getComments();
+            // out all comments
+            
             $commentModel = new Comment();
             $commentModel->commentable_id = $post->id;
             $commentModel->commentable_type = Comment::COMMENTABLE_POST;
+
+            // out comments with pagination
+            $commentsCount = Comment::find()
+                ->where([
+                    'commentable_id' => $post->id,
+                    'commentable_type' => Comment::COMMENTABLE_POST,
+                    'parent_id' => null,
+                ])->count();
+            $commentsPagination = new Pagination([
+                'totalCount' => $commentsCount,
+                'pageSize' => 10,
+                'pageParam' => 'cpage',
+                'pageSizeParam' => 'cpsize',
+            ]);
+
+            $initialComments = Comment::find()
+                ->where([
+                    'commentable_id' => $post->id,
+                    'commentable_type' => Comment::COMMENTABLE_POST,
+                    'parent_id' => null,
+                ])->orderBy(['created_at' => SORT_DESC])
+                ->limit($commentsPagination->limit)
+                ->offset($commentsPagination->offset)
+                ->all();
+
+            $comments = $initialComments;
+            while (true) {
+                $ids = [];
+                foreach ($comments as $comment) {
+                    $ids[] = $comment->id;
+                }
+                $childComments = Comment::find()
+                    ->where(['parent_id' => $ids])->orderBy(['created_at' => SORT_ASC])->all();
+                if(count($childComments) > 0) {
+                    $initialComments = array_merge($initialComments, $childComments);
+                    $comments = $childComments;
+                } else {
+                    break;
+                }
+            }
+
+            $sortedComments = [];
+            foreach ($initialComments as $comment) 
+            {
+                $index = $comment->parent_id == null ? 0 : $comment->parent_id;
+                $sortedComments[$index][] = $comment;
+            }
+            
             $options['columnFirst']['comments'] = [
                 'view' => '@frontend/views/blocks/comments_block',
-                'data' => compact('comments','commentModel'),
+                'data' => [
+                    'comments' => $sortedComments,
+                    'commentModel' => $commentModel,
+                    'pagination' => $commentsPagination,
+                ],
                 'weight' => 5,
             ];
         }

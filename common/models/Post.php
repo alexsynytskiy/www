@@ -360,4 +360,24 @@ class Post extends ActiveRecord
         return $sortedComments;
     }
 
+    /**
+     * Get rating
+     * 
+     * @return integer 
+     */
+    public function getRating()
+    {
+        return Vote::getRating($this->id, Vote::VOTEABLE_POST);
+    }
+
+    /**
+     * Get user vote for comment
+     * 
+     * @return integer 
+     */
+    public function getUserVote()
+    {
+        return Vote::getUserVote($this->id, Vote::VOTEABLE_POST);
+    }
+
 }

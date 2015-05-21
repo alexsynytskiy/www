@@ -305,5 +305,24 @@ $(document).ready(function() {
     // => Scroll to begin of pagination block END
     
 
+    // => Vote buttons START 
+    $(document).on('click', '.rating-counter a', function(event) {
+        if($(this).hasClass('disable')) return;
+        if($(this).hasClass('voted')) return;
+        var vote = $(this).hasClass('rating-up') ? 1 : 0;
+        var voteableId = $(this).attr('data-id');
+        var voteableType = $(this).attr('data-type');
+        $ratingCounter = $(this);
+        $.getJSON( "/admin/vote/vote", { 'id': voteableId, 'type': voteableType, 'vote' : vote}, function( data ) {
+            if(data.success) {
+                $ratingCounter.parent().find('.rating-count').first().text(data.rating);
+                $ratingCounter.parent().find('.voted').removeClass('voted');
+                $ratingCounter.addClass('voted');
+            }
+        });
+    });
+    // => Vote buttons END 
+
+
   });
 })(jQuery);

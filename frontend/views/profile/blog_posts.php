@@ -12,7 +12,7 @@ use yii\helpers\Url;
             Тут будут отображаться записи Вашего блога
             <div>Нажмите на иконку, и сделайте первый пост</div>
         </div>
-        <a href="<?= Url::to(['/post/add']) ?>"><div class="icon"></div></a>
+        <a href="<?= Url::to(['/blog/add-post']) ?>"><div class="icon"></div></a>
         <div class="clearfix"></div>
     <?php } else { 
         \yii\widgets\Pjax::begin();

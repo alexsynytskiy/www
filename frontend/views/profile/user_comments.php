@@ -1,6 +1,5 @@
 <?php
 use yii\helpers\Url;
-use yii\data\ArrayDataProvider;
 use yii\widgets\LinkPager;
 
 /**

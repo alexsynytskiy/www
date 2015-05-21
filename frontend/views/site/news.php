@@ -61,7 +61,7 @@ $currentYear = (int)date('Y',time());
 		'itemView' => '@frontend/views/site/news_item',
 		'pager' => [
 	     	'class' => \kop\y2sp\ScrollPager::className(),
-	     	'delay' => 1500,
+	     	'delay' => 0,
 	     	'noneLeftText' => 'Больше нет новостей',
 	     	'triggerOffset' => 100,
 	     	'spinnerTemplate' => '<div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>',

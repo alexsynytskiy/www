@@ -945,48 +945,6 @@ body {
         .button-remove {
             background-image: url(/images/trash_icon.png);
         }
-
-        .rating-counter {
-            float: right;
-
-            .rating-count {
-                font-weight: bold;
-                text-align: center;
-                line-height: 22px;
-                height: 22px;
-                width: 30px;
-
-                &.red {
-                    color: @main-red;
-                }
-                &.blue {
-                    color: @main-blue;
-                }
-            }
-
-            .rating-up {
-                display: block;
-                margin: 2px 0;
-                width: 30px;
-                height: 10px;
-                background: url(/images/plus_icon.png) center 0 no-repeat;
-                background-size: 10px;
-                &:hover {
-                    background-position: center -30px;
-                }
-            }
-            .rating-down {
-                display: block;
-                margin: 2px 0;
-                width: 30px;
-                height: 10px;
-                background: url(/images/minus_icon.png) center 0 no-repeat;
-                background-size: 10px;
-                &:hover {
-                    background-position: center -30px;
-                }
-            }
-        }
     }
 
     .comment-body {
@@ -1061,48 +1019,6 @@ body {
         .button-remove {
             background-image: url(/images/trash_icon.png);
         }
-
-        .rating-counter {
-            float: right;
-
-            .rating-count {
-                font-weight: bold;
-                text-align: center;
-                line-height: 22px;
-                height: 22px;
-                width: 30px;
-
-                &.red {
-                    color: @main-red;
-                }
-                &.blue {
-                    color: @main-blue;
-                }
-            }
-
-            .rating-up {
-                display: block;
-                margin: 2px 0;
-                width: 30px;
-                height: 10px;
-                background: url(/images/plus_icon.png) center 0 no-repeat;
-                background-size: 10px;
-                &:hover {
-                    background-position: center -30px;
-                }
-            }
-            .rating-down {
-                display: block;
-                margin: 2px 0;
-                width: 30px;
-                height: 10px;
-                background: url(/images/minus_icon.png) center 0 no-repeat;
-                background-size: 10px;
-                &:hover {
-                    background-position: center -30px;
-                }
-            }
-        }
     }
 
     .post-title {
@@ -1120,6 +1036,64 @@ body {
         clear: both;
     }
 
+}
+
+.rating-counter {
+    float: right;
+
+    .rating-count {
+        font-weight: bold;
+        text-align: center;
+        line-height: 22px;
+        height: 22px;
+        width: 30px;
+
+        &.red {
+            color: @main-red;
+        }
+        &.blue {
+            color: @main-blue;
+        }
+    }
+
+    .rating-up {
+        display: block;
+        margin: 2px 0;
+        width: 30px;
+        height: 10px;
+        background: url(/images/plus_icon.png) center 0 no-repeat;
+        background-size: 10px;
+        &:hover {
+            background-position: center -30px;
+        }
+        &.voted {
+            background-position: center -30px;
+            cursor: default;
+        }
+        &.disable {
+            background-position: center 0;
+            cursor: default;
+        }
+    }
+    .rating-down {
+        display: block;
+        margin: 2px 0;
+        width: 30px;
+        height: 10px;
+        background: url(/images/minus_icon.png) center 0 no-repeat;
+        background-size: 10px;
+        &:hover {
+            background-position: center -30px;
+        }
+        &.voted {
+            background-position: center -30px;
+            cursor: default;
+        }
+        &.disable {
+            background-position: center 0;
+            cursor: default;
+        }
+    }
 }
 
 .comment-replies {

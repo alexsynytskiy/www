@@ -10,6 +10,22 @@ $userName = $model->user->getDisplayName();
 $avatar = $model->user->getAsset();
 $imageUrl = $avatar->getFileUrl();
 $postDate = Yii::$app->formatter->asDate($model->created_at, 'd MMMM Y H:m');
+
+$rating = $model->getRating();
+$ratingUpClass = '';
+$ratingDownClass = '';
+if(!Yii::$app->user->isGuest)
+{
+    $userRating = $model->getUserVote();
+    if($userRating == 1) {
+        $ratingUpClass = 'voted';
+    } elseif ($userRating == -1) {
+        $ratingDownClass = 'voted';
+    }
+} else {
+    $ratingUpClass = 'disable';
+    $ratingDownClass = 'disable';
+}
 ?>
 <div class="blog-post">
     <div class="blog-user">
@@ -27,9 +43,9 @@ $postDate = Yii::$app->formatter->asDate($model->created_at, 'd MMMM Y H:m');
     </div>
     <div class="blog-links">
         <div class="rating-counter">
-            <a href="javascript:void(0)" class="rating-up"></a>
-            <div class="rating-count red">9</div>
-            <a href="javascript:void(0)" class="rating-down"></a>
+            <a href="javascript:void(0)" class="rating-up <?= $ratingUpClass ?>" data-id="<?= $model->id ?>" data-type="post"></a>
+            <div class="rating-count <?=($rating >= 0) ? 'blue' : 'red'?>"><?=$rating?></div>
+            <a href="javascript:void(0)" class="rating-down <?= $ratingDownClass ?>" data-id="<?= $model->id ?>" data-type="post"></a>
         </div>
         <a href="<?= Url::to(['/blog/edit/'.$model->id]) ?>" class="button-edit"></a>
     </div>

@@ -1,9 +1,12 @@
 <?php
 use yii\helpers\Url;
+use yii\widgets\LinkPager;
+
 /**
  * @var $this yii\web\View
  * @var $comments array Array of common\models\Comment
  * @var $commentModel common\models\Comment
+ * @var $pagination 
 **/
 ?>
 <div id="comments" class="comments-block">
@@ -24,10 +27,18 @@ use yii\helpers\Url;
         }
     ?>
 
+    <div class="comments-container">
     <?php 
-        if (count($comments) > 0) {
-            echo $this->render('@frontend/views/site/comments_tree', compact('comments'));
-        }
+        echo $this->render('@frontend/views/site/comments_tree', compact('comments'));
+        echo \kop\y2sp\ScrollPager::widget([
+            'pagination' => $pagination,
+            'container' => '.comments-container',
+            'item' => '.comment',
+            'delay' => 0,
+            'noneLeftText' => '',
+            'triggerOffset' => 500,
+            'spinnerTemplate' => '<div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>',
+        ]);
     ?>
-
+    </div>
 </div>

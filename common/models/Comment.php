@@ -149,6 +149,26 @@ class Comment extends ActiveRecord
     }
 
     /**
+     * Get rating 
+     * 
+     * @return integer 
+     */
+    public function getRating()
+    {
+        return Vote::getRating($this->id, Vote::VOTEABLE_COMMENT);
+    }
+
+    /**
+     * Get user vote for comment
+     * 
+     * @return integer 
+     */
+    public function getUserVote()
+    {
+        return Vote::getUserVote($this->id, Vote::VOTEABLE_COMMENT);
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getUser()
@@ -171,12 +191,12 @@ class Comment extends ActiveRecord
     {
         return $this->hasMany(Comment::className(), ['parent_id' => 'id']);
     }
-
+    
     /**
      * Output tree of comments
      * @param array $comments Array of Comment
      * @param int $parent_id 
-     * @param int $level 
+     * @param array $options 
      */
     public static function outCommentsTree($comments, $parent_id, $options)
     {
@@ -195,15 +215,29 @@ class Comment extends ActiveRecord
                 $avatar = $comment->user->getAsset();
                 $imageUrl = $avatar->getFileUrl();
 
-                $commentDate = Yii::$app->formatter->asDate($comment->created_at, 'd MMMM Y H:m');
+                $commentDate = Yii::$app->formatter->asDate($comment->created_at, 'd MMMM Y HH:mm');
 
                 $repliesCommentsCount = isset($comments[$comment->id]) ? count($comments[$comment->id]) : 0;
                 $classRepliesCount = ($repliesCommentsCount == 0) ? 'no-replies' : '';
                 $textRepliesCount = ($repliesCommentsCount == 0) ? '' : $repliesCommentsCount;
                 $isReply = $parent_id == 0 ? false : true;
 
-                $rating = 5;
-                $page = 'post';
+                $rating = $comment->getRating();
+                $ratingUpClass = '';
+                $ratingDownClass = '';
+                if(!Yii::$app->user->isGuest)
+                {
+                    $userRating = $comment->getUserVote();
+                    if($userRating == 1) {
+                        $ratingUpClass = 'voted';
+                    } elseif ($userRating == -1) {
+                        $ratingDownClass = 'voted';
+                    }
+                } else {
+                    $ratingUpClass = 'disable';
+                    $ratingDownClass = 'disable';
+                }
+                $page = 'post'; // test
 
                 if($options->postID && $comment->getCommentableType() == Comment::COMMENTABLE_POST) 
                 {
@@ -232,18 +266,18 @@ class Comment extends ActiveRecord
                     </div>
                     <div class="comment-links">
                         <div class="rating-counter">
-                            <a href="javascript:void(0)" class="rating-up"></a>
-                            <div class="rating-count <?=($isReply)?'blue':'red'?>"><?=$rating?></div>
-                            <a href="javascript:void(0)" class="rating-down"></a>
+                            <a href="javascript:void(0)" class="rating-up <?= $ratingUpClass ?>" data-id="<?= $comment->id ?>" data-type="comment"></a>
+                            <div class="rating-count <?=($rating >= 0) ? 'blue' : 'red'?>"><?=$rating?></div>
+                            <a href="javascript:void(0)" class="rating-down <?= $ratingDownClass ?>" data-id="<?= $comment->id ?>" data-type="comment"></a>
                         </div>
                         <?php if(!Yii::$app->user->isGuest && $options->showReplyButton) { ?>
                         <a href="javascript:void(0)" class="button-reply" title="Ответить" data-comment-id="<?= $comment->id ?>"></a>
                         <?php } ?>
-                        <?php if($page == 'cabinet') { ?>
+                        <?php if($page == 'cabinet') { // test ?>
                             <a href="javascript:void(0)" class="new-replies-count <?=$classRepliesCount?>" title="Новых ответов">
                                 <?=$textRepliesCount?>
                             </a>
-                        <?php } ?>
+                        <?php } // test?>
                     </div>
                     <div class="comment-body">
                         <?= $comment->getContent() ?>
