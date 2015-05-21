@@ -14,7 +14,7 @@ $postDate = Yii::$app->formatter->asDate($model->created_at, 'd MMMM Y H:m');
 $rating = $model->getRating();
 $ratingUpClass = '';
 $ratingDownClass = '';
-if(!Yii::$app->user->isGuest)
+if(!Yii::$app->user->isGuest && Yii::$app->user->id != $model->user->id)
 {
     $userRating = $model->getUserVote();
     if($userRating == 1) {

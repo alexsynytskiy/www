@@ -225,7 +225,7 @@ class Comment extends ActiveRecord
                 $rating = $comment->getRating();
                 $ratingUpClass = '';
                 $ratingDownClass = '';
-                if(!Yii::$app->user->isGuest)
+                if(!Yii::$app->user->isGuest && Yii::$app->user->id != $comment->user->id)
                 {
                     $userRating = $comment->getUserVote();
                     if($userRating == 1) {
