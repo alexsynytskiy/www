@@ -33,9 +33,10 @@ Yii::$app->formatter->locale = 'ru-RU';
 				$tags = explode(',',$post->cached_tag_list);
 				foreach($tags as $tag) {
                     $tag = trim($tag);
+                    if($tag != '') {
 			    ?>
                     <a class="tag" href="/search?t=<?= $tag ?>">#<?= $tag ?></a>
-			<?php } ?>
+			<?php } }?>
             <div class="clearfix"></div>
         </div>
 

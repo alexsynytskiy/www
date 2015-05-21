@@ -224,7 +224,7 @@ class PostController extends Controller
             $existingTags = [];
             // Remove tags
             foreach ($tags as $tag) {
-                if(!in_array($tag->id, $model->tags)) {
+                if(!is_array($model->tags) || !in_array($tag->id, $model->tags)) {
                     $model->removeTag($tag->id);
                 } else $existingTags[] = $tag->id;
             }
