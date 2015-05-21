@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel common\models\StadiumSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Stadia';
+$this->title = 'Стадионы';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="stadium-index">
@@ -16,18 +16,34 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Stadium', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Добавить стадион', ['create'], ['class' => 'btn btn-success']) ?>
+        <?php
+            if(count(Yii::$app->getRequest()->getQueryParams()) > 0) {
+                echo Html::a('Сброс', ['/'.Yii::$app->controller->id], ['class' => 'btn btn-primary']);
+            } 
+        ?>
     </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'name',
-            'spectators',
+            [
+                'attribute' => 'id',
+                'options' => ['width' => '80'],
+            ],
+            [
+                'attribute' => 'name',
+                'label' => 'Название',
+                'options' => ['width' => '370'],
+                'format' => 'html',
+            ],
+            [
+                'attribute' => 'spectators',
+                'label' => 'Вместимость',
+                'options' => ['width' => '170'],
+                'format' => 'html',
+            ],
             'country_id',
 
             ['class' => 'yii\grid\ActionColumn'],

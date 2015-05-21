@@ -37,6 +37,7 @@ AppAsset::register($this);
                     ],
                 ]);
                 $menuItems = [
+                    ['label' => 'Стадионы', 'url' => '/admin/stadium'],
                     ['label' => 'Матчи', 'url' => '/admin/match'],                    
                     ['label' => 'Альбомы', 'url' => '/admin/album'],
                     ['label' => 'Пользователи', 'url' => '/admin/user/admin'],
