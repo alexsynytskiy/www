@@ -36,11 +36,14 @@ AppAsset::register($this);
                         'class' => 'navbar-inverse navbar-fixed-top',
                     ],
                 ]);
-                $menuItems = [
-                    ['label' => 'Стадионы', 'url' => '/admin/stadium'],
-                    ['label' => 'Матчи', 'url' => '/admin/match'],                    
+                $menuItems = [              
                     ['label' => 'Альбомы', 'url' => '/admin/album'],
                     ['label' => 'Пользователи', 'url' => '/admin/user/admin'],
+                    ['label' => 'Данные по матчам', 'items' => [
+                        ['label' => 'Матчи', 'url' => '/admin/match'],
+                        ['label' => 'Стадионы', 'url' => '/admin/stadium'],
+                        ['label' => 'Страны', 'url' => '/admin/country'],
+                    ]],
                     ['label' => 'Публикации', 'items' => [
                         ['label' => 'Записи', 'url' => '/admin/post'],
                         ['label' => 'Комментарии', 'url' => '/admin/comment'],

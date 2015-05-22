@@ -34,7 +34,8 @@ class Stadium extends ActiveRecord
     {
         return [
             [['spectators', 'country_id'], 'integer'],
-            [['name'], 'string', 'max' => 255]
+            [['name', 'country_id'], 'required'],
+            [['name'], 'string', 'max' => 100]
         ];
     }
 
@@ -45,16 +46,16 @@ class Stadium extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'spectators' => 'Spectators',
-            'country_id' => 'Country ID',
+            'name' => 'Название',
+            'spectators' => 'Вместимость',
+            'country_id' => 'Страна',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getMatches()
+    public function getMatch()
     {
         return $this->hasMany(Match::className(), ['stadium_id' => 'id']);
     }

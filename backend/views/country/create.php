@@ -4,13 +4,13 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Stadium */
+/* @var $model common\models\Country */
 
-$this->title = 'Создать стадион';
-$this->params['breadcrumbs'][] = ['label' => 'Стадионы', 'url' => ['index']];
+$this->title = 'Добавить страну';
+$this->params['breadcrumbs'][] = ['label' => 'Страны', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="stadium-create">
+<div class="country-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Stadium */
+/* @var $model common\models\Country */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Стадионы', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Страны', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="stadium-view">
+<div class="country-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Вы уверены, что хотите удалить стадион?',
+                'confirm' => 'Вы уверены, что хотите удалить страну?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -29,17 +29,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            [
-                'attribute' => 'name',
+             [
                 'label' => 'Название',
+                'attribute' => 'name',
             ],
             [
-                'attribute' => 'spectators',
-                'label' => 'Вместимость',
-            ],
-            [
-                'attribute' => 'country.name',
-                'label' => 'Страна',
+                'label' => 'Флаг',
+                'value' => empty($image->filename) ? null : Html::img($image->getFileUrl()),
+                'format' => 'html',
             ],
         ],
     ]) ?>
