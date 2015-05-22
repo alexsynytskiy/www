@@ -20,6 +20,11 @@ use yii\db\ActiveRecord;
 class Country extends ActiveRecord
 {
     /**
+     * @var image from Asset
+     */
+    public $flag;
+
+    /**
      * @inheritdoc
      */
     public static function tableName()
@@ -79,5 +84,15 @@ class Country extends ActiveRecord
     public function getStadium()
     {
         return $this->hasMany(Stadia::className(), ['country_id' => 'id']);
+    }
+
+    /**
+     * Get single asset
+     *     *
+     * @return Asset
+     */
+    public function getAsset()
+    {
+        return Asset::getAssets($this->id, Asset::ASSETABLE_COUNTRY, NULL, true);
     }
 }

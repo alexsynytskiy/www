@@ -86,7 +86,7 @@ class StadiumSearch extends Stadium
             'spectators' => $this->spectators,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
+        $query->andFilterWhere(['like', "{$stadiumTable}.name", $this->name])
               ->andFilterWhere(['like', 'country.name', $this->getAttribute('country.name')]);
 
         return $dataProvider;

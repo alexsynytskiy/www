@@ -9,6 +9,9 @@ use yii\widgets\DetailView;
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Страны', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+$flag = $model->getAsset();
+$flagIMG = '<img src="'.$flag->getFileUrl().'" style="height:22px; width: 32px;">';
 ?>
 <div class="country-view">
 
@@ -35,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'label' => 'Флаг',
-                'value' => empty($image->filename) ? null : Html::img($image->getFileUrl()),
+                'value' => $flagIMG,
                 'format' => 'html',
             ],
         ],

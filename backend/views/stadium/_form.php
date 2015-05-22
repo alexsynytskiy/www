@@ -33,7 +33,7 @@ use common\models\Country;
         }
 
         echo $form->field($model, 'country_id')->widget(SelectizeDropDownList::classname(), [
-            'loadUrl' => Url::to(['country-part/country-part-list']),
+            'loadUrl' => Url::to(['country/country-part-list']),
             'items' => $availableCountries,
             'options' => [
                 'multiple' => false,

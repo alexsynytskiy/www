@@ -39,12 +39,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
             ],
             [
-                'attribute' => 'image',
                 'label' => 'Флаг',
-                'options' => ['width' => '570'],
+                'options' => ['width' => '60'],
                 'format' => 'html',
+                'value' => function($model){
+                    $flag = $model->getAsset();
+                    return '<img src="'.$flag->getFileUrl().'" style="height:22px; width: 32px;">';
+                },
             ],
-
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

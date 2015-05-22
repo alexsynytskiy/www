@@ -10,6 +10,8 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
 use yii\db\Query;
+use yii\web\UploadedFile;
+use common\models\Asset;
 
 /**
  * CountryController implements the CRUD actions for Country model.
@@ -82,14 +84,37 @@ class CountryController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $flag = $model->getAsset();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+
+            $model->flag = UploadedFile::getInstance($model,'flag');
+
+            // If image was uploaded
+            if(!empty($model->flag))
+            {
+                // If asset model did't exist for current model
+                if(!isset($flag->assetable_id))
+                {
+                    $flag = new Asset;
+                    $flag->type = Asset::TYPE_FLAG;
+                    $flag->assetable_type = Asset::ASSETABLE_COUNTRY;
+                    $flag->assetable_id = $model->id;
+                }
+
+                $flag->uploadedFile = $model->flag;
+                $flag->saveAsset();
+            }
+
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
+
+        return $this->render('update', [
+            'model' => $model,
+            'flag' => $flag,
+        ]);
     }
 
     /**
