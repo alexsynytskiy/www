@@ -3,7 +3,7 @@
   height: 100%;
   width: 100%;
   position: fixed;
-  z-index: 1;
+  z-index: 100;
   margin-top: 0px;
   top: 0px;
 }
@@ -50,40 +50,6 @@
     animation-delay: -0.32s;
   
   }
-
-/*@-webkit-keyframes object_one {
-75% { -webkit-transform: scale(0); }
-}
-
-@keyframes object_one {
-  75% { 
-    transform: scale(0);
-    -webkit-transform: scale(0);
-  }
-}
-
-@-webkit-keyframes object_two {
-  75% { -webkit-transform: scale(0); }
-}
-
-@keyframes object_two {
-  75% { 
-    transform: scale(0);
-    -webkit-transform:  scale(0);
-  }
-
-}
-
-@-webkit-keyframes object_three {
-  75% { -webkit-transform: scale(0); }
-}
-
-@keyframes object_three {
-  75% { 
-    transform: scale(0);
-    -webkit-transform: scale(0);
-  }
-}*/
 
 @-webkit-keyframes bouncedelay {
   0%, 80%, 100% { -webkit-transform: scale(0.0) }
