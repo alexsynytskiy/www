@@ -100,24 +100,8 @@ class Match extends ActiveRecord
     /**
       * @var int team for matches
      */
-    const TEAM_DK3 = 9;
+    const TEAM_DK3 = 9;    
     
-    public static function getTeamsConstants()
-    {
-        $teamsConstants = [];
-        
-        $teamsConstants[] = self::TEAM_DK_FIRST;
-        $teamsConstants[] = self::TEAM_DK_FIRST_FULL_NAME;
-        $teamsConstants[] = self::TEAM_DK_M;
-        $teamsConstants[] = self::TEAM_DK2;
-        $teamsConstants[] = self::TEAM_U19;
-        $teamsConstants[] = self::TEAM_UKRAINE;
-        $teamsConstants[] = self::TEAM_UKRAINE_M;
-        $teamsConstants[] = self::TEAM_DK_KIDS;
-        $teamsConstants[] = self::TEAM_DK3;
-        
-        return $teamsConstants;
-    }
     /**
      * @inheritdoc
      */
@@ -189,6 +173,23 @@ class Match extends ActiveRecord
         ];
     }
     
+    public static function getTeamsConstants()
+    {
+        $teamsConstants = [];
+        
+        $teamsConstants[] = self::TEAM_DK_FIRST;
+        $teamsConstants[] = self::TEAM_DK_FIRST_FULL_NAME;
+        $teamsConstants[] = self::TEAM_DK_M;
+        $teamsConstants[] = self::TEAM_DK2;
+        $teamsConstants[] = self::TEAM_U19;
+        $teamsConstants[] = self::TEAM_UKRAINE;
+        $teamsConstants[] = self::TEAM_UKRAINE_M;
+        $teamsConstants[] = self::TEAM_DK_KIDS;
+        $teamsConstants[] = self::TEAM_DK3;
+        
+        return $teamsConstants;
+    }
+    
     /**
      * @return string match result for our teams of interest
      */
@@ -217,6 +218,26 @@ class Match extends ActiveRecord
                 }
             }
         }
+    }
+    
+    /**
+     * Get home team logo asset
+     *     
+     * @return Asset
+     */
+    public function getAssetHome()
+    {
+        return Asset::getAssets($this->command_home_id, Asset::ASSETABLE_COMMAND, NULL, true);
+    }
+    
+     /**
+     * Get guest team logo asset
+     *
+     * @return Asset
+     */
+    public function getAssetGuest()
+    {
+        return Asset::getAssets($this->command_guest_id, Asset::ASSETABLE_COMMAND, NULL, true);
     }
 
     /**

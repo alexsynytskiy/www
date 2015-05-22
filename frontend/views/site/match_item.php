@@ -13,13 +13,29 @@ use yii\helpers\Url;
     <th class="date"><?= date("j.n.Y", strtotime($model->date)) ?> </th>
     <th class="competition"><?= $model->getTournamentName() ?></th>
     <th class="home"><?= $model->commandHome->name ?></th>
+    <?php
+        $image = $model->getAssetHome();        
+    ?>
     <th class="logo">
-        <img src="/images/1.jpg">
-    </th>
+        <?php if (!empty($image->getFileUrl())) { ?>
+            <img src="<?= $image->getFileUrl() ?>" style="height: 30px; width: 30px;">
+        <?php } 
+        else { ?>
+            <img src="<?= $image->getDefaultFileUrl() ?>" style="height: 30px; width: 30px;">
+        <?php } ?>
+    </th>    
     <th class="score"><?= $model->home_goals.':'.$model->guest_goals ?></th>
+    <?php
+        $image = $model->getAssetGuest();        
+    ?>
     <th class="logo">
-        <img src="/images/17.jpg">
-    </th>
+        <?php if (!empty($image->getFileUrl())) { ?>
+            <img src="<?= $image->getFileUrl() ?>" style="height: 30px; width: 30px;">
+        <?php } 
+        else { ?>
+            <img src="<?= $image->getDefaultFileUrl() ?>" style="height: 30px; width: 30px;">
+        <?php } ?>
+    </th>    
     <th class="visitors"><?= $model->commandGuest->name ?></th>
     <th class="more">
         <a href="/?q=translation">

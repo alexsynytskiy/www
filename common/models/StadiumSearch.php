@@ -18,8 +18,8 @@ class StadiumSearch extends Stadium
     public function rules()
     {
         return [
-            [['id', 'spectators', 'country_id'], 'integer'],
-            [['name'], 'safe'],
+            [['id', 'spectators'], 'integer'],
+            [['name', 'country.name'], 'safe'],
         ];
     }
 
@@ -30,6 +30,17 @@ class StadiumSearch extends Stadium
     {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function attributes()
+    {
+        // add related fields to searchable attributes
+        return array_merge(parent::attributes(), [
+            'country.name',
+        ]);
     }
 
     /**
@@ -42,26 +53,41 @@ class StadiumSearch extends Stadium
     public function search($params)
     {
         $query = Stadium::find();
+        $country = new Country;
+        $stadiumTable = Stadium::tableName();
+        $countryTable = Country::tableName();
+        
+         $query->joinWith(['country' => function($query) use ($countryTable) {
+            $query->from(['country' => $countryTable]);
+        }]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
         ]);
+        
+        // enable sorting for the related columns
+        $addSortAttributes = ["country.name"];
+        foreach ($addSortAttributes as $addSortAttribute) {
+            $dataProvider->sort->attributes[$addSortAttribute] = [
+                'asc'   => [$addSortAttribute => SORT_ASC],
+                'desc'  => [$addSortAttribute => SORT_DESC],
+            ];
+        }
 
-        $this->load($params);
-
-        if (!$this->validate()) {
-            // uncomment the following line if you do not want to any records when validation fails
-            // $query->where('0=1');
+        if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
+            "{$stadiumTable}.id" => $this->id,
             'spectators' => $this->spectators,
-            'country_id' => $this->country_id,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', "{$stadiumTable}.name", $this->name])
+              ->andFilterWhere(['like', 'country.name', $this->getAttribute('country.name')]);
 
         return $dataProvider;
     }
