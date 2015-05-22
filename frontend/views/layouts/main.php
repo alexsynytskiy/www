@@ -33,7 +33,6 @@ AppAsset::register($this);
     <?php $this->beginBody() ?>
 
     <!-- Preloadding animation START -->
-    <?php if(Yii::$app->controller->action->id == 'post') { ?>
     <div id="loading">
         <div id="loading-center">
             <div id="loading-center-absolute">
@@ -43,7 +42,6 @@ AppAsset::register($this);
             </div>
         </div>
     </div>
-    <?php } ?>
     <!-- Preloadding animation END -->
 
     <div id="page">

@@ -395,7 +395,7 @@ header .header-wrapper .breadcrumbs .tag:hover {
   float: left;
 }
 .grid-column .top-news-slider {
-  height: 337px;
+  height: 347px;
   overflow: hidden;
   margin-bottom: 13px;
 }
@@ -405,7 +405,7 @@ header .header-wrapper .breadcrumbs .tag:hover {
   border-radius: 5px 5px 0 0;
 }
 .grid-column .top-news-slider .intro {
-  height: 135px;
+  height: 145px;
   width: 300px;
   background-color: #fff;
   border-radius: 0 0 5px 5px;
@@ -1185,8 +1185,12 @@ header .header-wrapper .breadcrumbs .tag:hover {
   margin-bottom: 13px;
 }
 .grid-column .post-page .main-img-text-block .content img {
-  width: 100%;
+  max-width: 100%;
   display: block;
+}
+.grid-column .post-page .main-img-text-block .content iframe {
+  width: 595px !important;
+  height: 335px !important;
 }
 .grid-column .post-page .main-img-text-block .main-text {
   float: left;

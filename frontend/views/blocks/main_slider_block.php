@@ -22,7 +22,7 @@ Yii::$app->formatter->locale = 'ru-RU';
                 <div class="date">
                     <?= Yii::$app->formatter->asDate(strtotime($post->created_at),'d MMMM Y HH:mm') ?>
                 </div>
-                <div class="preview"><?= $post->getShortContent(100, 150) ?></div>
+                <div class="preview"><?= $post->getShortContent(100, 100) ?></div>
             </div>
         </div>
         <?php } ?>
