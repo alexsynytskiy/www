@@ -295,13 +295,13 @@ class Asset extends \yii\db\ActiveRecord
         switch ($assetableType) {
             case self::ASSETABLE_POST:
                 return [
-                    self::THUMBNAIL_ALBUM,
                     self::THUMBNAIL_BIG,
-                    self::THUMBNAIL_SMALL,
-                    self::THUMBNAIL_POSTER,
                     self::THUMBNAIL_NEWS,
                     self::THUMBNAIL_COVER,
-                    self::THUMBNAIL_CONTENT,
+                    // self::THUMBNAIL_ALBUM,
+                    // self::THUMBNAIL_SMALL,
+                    // self::THUMBNAIL_POSTER,
+                    // self::THUMBNAIL_CONTENT,
                 ];
             default: return [];
         }
@@ -350,21 +350,26 @@ class Asset extends \yii\db\ActiveRecord
             case self::ASSETABLE_POST:
                 switch (strtolower($this->thumbnail))
                 {
-                    case self::THUMBNAIL_ALBUM:
-                        return new Box(150,150);
+                    // To slider
                     case self::THUMBNAIL_BIG:
-                        return new Box($size->getWidth()*290/$size->getHeight(),290);
-                    case self::THUMBNAIL_SMALL:
-                        return new Box(50,50);
-                    case self::THUMBNAIL_POSTER:
-                        return new Box(100,75);
+                        // return new Box($size->getWidth()*290/$size->getHeight(),290);
+                        return new Box(300,200);
+                    // To news preview
                     case self::THUMBNAIL_NEWS:
-                        return new Box(130,90);
+                        return new Box(172,116);
+                    // To top 6 news
                     case self::THUMBNAIL_COVER:
-                        return new Box(95,150);
-                    case self::THUMBNAIL_CONTENT:
-                        return new Box($size->getWidth(),$size->getHeight());
+                        return new Box(166,109);
+                    // original
                     default: return new Box($size->getWidth(),$size->getHeight());
+                    // case self::THUMBNAIL_ALBUM:
+                    //     return new Box(150,150);
+                    // case self::THUMBNAIL_SMALL:
+                    //     return new Box(50,50);
+                    // case self::THUMBNAIL_POSTER:
+                    //     return new Box(100,75);
+                    // case self::THUMBNAIL_CONTENT:
+                    //     return new Box($size->getWidth(),$size->getHeight());
                 }
             default: return new Box($size->getWidth(),$size->getHeight());
         }

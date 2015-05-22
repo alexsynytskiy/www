@@ -6,7 +6,6 @@ use Yii;
 use yii\db\ActiveRecord;
 use amnah\yii2\user\models\User;
 use dosamigos\transliterator\TransliteratorHelper;
-use kartik\markdown\Markdown;
 use yii\helpers\Url;
 
 /**
@@ -20,15 +19,15 @@ use yii\helpers\Url;
  * @property integer $is_public
  * @property string  $created_at
  * @property string  $updated_at
+ * @property integer $is_index
  * @property integer $is_top
- * @property integer $is_video
+ * @property integer $is_pin
+ * @property integer $with_video
+ * @property integer $with_photo
  * @property integer $content_category_id
  * @property integer $comments_count
- * @property integer $is_cover
- * @property integer $is_index
  * @property string  $source_title
  * @property string  $source_url
- * @property integer $photo_id
  * @property integer $is_yandex_rss
  * @property string  $cached_tag_list
  * @property integer $allow_comment
@@ -78,7 +77,7 @@ class Post extends ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'is_public', 'is_top', 'is_video', 'content_category_id', 'comments_count', 'is_cover', 'is_index', 'photo_id', 'is_yandex_rss', 'allow_comment'], 'integer'],
+            [['user_id', 'is_public', 'is_index', 'is_top', 'is_pin', 'with_video', 'with_photo', 'content_category_id', 'comments_count', 'is_yandex_rss', 'allow_comment'], 'integer'],
             [['content'], 'string'],
             [['created_at', 'updated_at', 'tags'], 'safe'],
             [['title', 'slug', 'source_title', 'source_url', 'cached_tag_list'], 'string', 'max' => 255],
@@ -87,7 +86,7 @@ class Post extends ActiveRecord
             [['title', 'content', 'content_category_id'], 'required'],
 
             // image
-            [['image'], 'file', 'extensions' => 'jpeg, gif, png', 'on' => ['create', 'update']],
+            [['image'], 'file', 'extensions' => 'jpeg, jpg, gif, png'],
         ];
     }
 
@@ -105,15 +104,15 @@ class Post extends ActiveRecord
             'is_public'           => 'Опубликовано',
             'created_at'          => 'Создано',
             'updated_at'          => 'Обновлено',
-            'is_top'              => 'Закреплено',
-            'is_video'            => 'С видео',
+            'with_video'          => 'С видео',
+            'with_photo'          => 'С фото',
+            'is_index'            => 'Топ 3',
+            'is_top'              => 'Топ 6',
+            'is_pin'              => 'Закреплено',
             'content_category_id' => 'Категория',
             'comments_count'      => 'Количество комментариев',
-            'is_cover'            => 'Обложка',
-            'is_index'            => 'Главная',
             'source_title'        => 'Название источника',
             'source_url'          => 'Адрес источника',
-            'photo_id'            => 'Фото',
             'is_yandex_rss'       => 'Яндекс RSS',
             'cached_tag_list'     => 'Закешированный список тегов',
             'allow_comment'       => 'Можно комментировать',
@@ -203,22 +202,22 @@ class Post extends ActiveRecord
      *
      * @return string
      */
-    public function getShortContent()
+    public function getShortContent($min = 200, $max = 350)
     {
-        $content = Markdown::convert($this->content);
+        $content = $this->content;
         $content = strip_tags($content);
-        if(mb_strlen($content,'UTF-8') <= 200)
+        if(mb_strlen($content,'UTF-8') <= $min)
         {
             return $content;          
         }
-        $cutLength = mb_strpos($content,'. ', 200, 'UTF-8');
-        if($cutLength && $cutLength < 350) 
+        $cutLength = mb_strpos($content,'. ', $min, 'UTF-8');
+        if($cutLength && $cutLength < $max) 
         {
             $content = mb_substr($content, 0, $cutLength, 'UTF-8');
         } 
         else 
         {
-            $content = mb_substr($content, 0, 200, 'UTF-8');
+            $content = mb_substr($content, 0, $min, 'UTF-8');
             $content = trim($content);
         }
         $content .= '...';
@@ -231,9 +230,9 @@ class Post extends ActiveRecord
     public function getUrl()
     {
         if($this->content_category_id == self::CATEGORY_NEWS) {
-            return Url::to(['/news/'.$this->id.'-'.$this->slug]);
+            return Url::to('/news/'.$this->id.'-'.$this->slug);
         } else {
-            return Url::to(['/blog/'.$this->id.'-'.$this->slug]);
+            return Url::to('/blog/'.$this->id.'-'.$this->slug);
         }
     }
 

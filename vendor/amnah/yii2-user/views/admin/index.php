@@ -77,12 +77,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     'model' => $searchModel,
                     'attribute' => 'create_time',
                     'removeButton' => false,
+                    'type' => DatePicker::TYPE_INPUT,
                     'pluginOptions' => [
                         'format' => 'dd.mm.yyyy',
                         'autoclose' => true,
                     ]
                 ]),
-                'options' => ['width' => '160'],
+                'options' => ['width' => '140'],
             ],
             // 'new_email:email',
             // 'username',

@@ -53,12 +53,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     'model' => $searchModel,
                     'attribute' => 'created_at',
                     'removeButton' => false,
+                    'type' => DatePicker::TYPE_INPUT,
                     'pluginOptions' => [
                         'format' => 'dd.mm.yyyy',
                         'autoclose' => true,
                     ]
                 ]),
-                'options' => ['width' => '160'],
+                'options' => ['width' => '140'],
             ],
             [
                 'label' => 'Сущность',

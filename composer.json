@@ -30,7 +30,8 @@
         "yiisoft/yii2-imagine": "~2.0",
         "2amigos/yii2-selectize-widget": "~1.0",
         "kartik-v/yii2-slider": "*",
-        "kop/yii2-scroll-pager": "dev-master"
+        "kop/yii2-scroll-pager": "dev-master",
+        "vova07/yii2-imperavi-widget": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

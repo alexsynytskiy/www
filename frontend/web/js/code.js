@@ -7,7 +7,7 @@
 
 
         // BxSlider START
-        $('.top-news-slider ul').bxSlider({
+        $('.top-news-slider .slider').bxSlider({
             slideWidth: 300,
             slideHeight: 335,
             maxSlides: 1,

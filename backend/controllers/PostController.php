@@ -166,6 +166,9 @@ class PostController extends Controller
         $model->title = html_entity_decode($model->title);
         $model->content = html_entity_decode($model->content);
 
+        // var_dump($model);
+        // die;
+
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
             // Set slug

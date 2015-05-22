@@ -5,7 +5,6 @@ use yii\widgets\ActiveForm;
 use kartik\checkbox\CheckboxX;
 use kartik\widgets\DatePicker;
 use kartik\slider\Slider;
-use kartik\markdown\MarkdownEditor;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 use kartik\widgets\Typeahead;
@@ -615,8 +614,21 @@ use common\models\Season;
         ]);
     ?>    
 
-    <?= $form->field($model, 'announcement')->widget(MarkdownEditor::classname()); ?>
-
+    <?php
+    echo $form->field($model, 'announcement')->widget(\vova07\imperavi\Widget::className(), [
+        'settings' => [
+            'lang' => 'ru',
+            'minHeight' => 200,
+            'plugins' => [
+                // 'clips',
+                'fullscreen',
+                'table',
+                'video',
+                'fontcolor',
+            ]
+        ]
+    ]);
+    ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Добавить' : 'Изменить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

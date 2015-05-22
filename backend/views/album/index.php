@@ -60,12 +60,13 @@ $this->params['breadcrumbs'][] = $this->title;
             //         'model' => $searchModel,
             //         'attribute' => 'created_at',
             //         'removeButton' => false,
+            //         'type' => DatePicker::TYPE_INPUT,
             //         'pluginOptions' => [
             //             'format' => 'dd.mm.yyyy',
             //             'autoclose' => true,
             //         ]
             //     ]),
-            //     'options' => ['width' => '160'],
+            //     'options' => ['width' => '140'],
             // ],
             [
                 'attribute' => 'updated_at',
@@ -77,12 +78,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     'model' => $searchModel,
                     'attribute' => 'updated_at',
                     'removeButton' => false,
+                    'type' => DatePicker::TYPE_INPUT,
                     'pluginOptions' => [
                         'format' => 'dd.mm.yyyy',
                         'autoclose' => true,
                     ]
                 ]),
-                'options' => ['width' => '160'],
+                'options' => ['width' => '140'],
             ],
             [
                 'attribute' => 'is_public',

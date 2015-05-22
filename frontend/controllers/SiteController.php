@@ -4,6 +4,7 @@ namespace frontend\controllers;
 use Yii;
 use common\models\LoginForm;
 use common\models\Post;
+use common\models\Asset;
 use common\models\Match;
 use common\models\Comment;
 use frontend\models\PasswordResetRequestForm;
@@ -54,11 +55,20 @@ class SiteController extends Controller
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
+            'image-upload' => [
+                'class' => 'vova07\imperavi\actions\UploadAction',
+                'url' => 'http://dynamomania.dev/images/store/post_attachments/', // Directory URL address, where files are stored.
+                // 'url' => 'http://'.$_SERVER['HTTP_HOST'].'/post_images/', // Directory URL address, where files are stored.
+                'path' => '@frontend/web/images/store/post_attachments' // Or absolute path to directory where files are stored.
+            ],
         ];
     }
 
     public function actionIndex()
     {
+        $postTable = Post::tableName();
+        $assetTable = Asset::tableName();
+
         $newsPosts = Post::find()
             ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_NEWS])
             ->orderBy(['created_at' => SORT_DESC])
@@ -70,14 +80,50 @@ class SiteController extends Controller
             ->orderBy(['created_at' => SORT_DESC])
             ->limit(6)
             ->all();
+        
+        $top3News = Post::find()
+            ->innerJoin($assetTable, "{$assetTable}.assetable_id = {$postTable}.id")
+            ->where([
+                'is_public' => 1, 
+                'is_index' => 1, 
+                'content_category_id' => Post::CATEGORY_NEWS,
+                "{$assetTable}.assetable_type" => Asset::ASSETABLE_POST,
+                "{$assetTable}.thumbnail" => Asset::THUMBNAIL_BIG,
+            ])
+            ->orderBy(['created_at' => SORT_DESC])
+            ->limit(3)
+            ->all();
+
+        $excludeIds = [];
+        foreach ($top3News as $post) {
+            $excludeIds[] = $post->id;
+        }
+
+        $query = Post::find()
+            ->innerJoin($assetTable, "{$assetTable}.assetable_id = {$postTable}.id")
+            ->where([
+                'is_public' => 1, 
+                'is_top' => 1, 
+                'content_category_id' => Post::CATEGORY_NEWS,
+                "{$assetTable}.assetable_type" => Asset::ASSETABLE_POST,
+                "{$assetTable}.thumbnail" => Asset::THUMBNAIL_COVER,
+            ]);
+        $top6News = $query->andWhere(['not in', "{$postTable}.id", $excludeIds])
+            ->orderBy(['created_at' => SORT_DESC])
+            ->limit(6)
+            ->all();
 
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col3',
-            'title' => Yii::t('user','Вход'),
+            'title' => 'Главная',
             'columnFirst' => [
-                'test_block' => [
-                    'view' => '@frontend/views/site/test',
-                    'data' => [],
+                'top3News' => [
+                    'view' => '@frontend/views/blocks/main_slider_block',
+                    'data' => compact('top3News'),
+                ],
+                'top6News' => [
+                    'view' => '@frontend/views/blocks/main_news_block',
+                    'data' => compact('top6News'),
                 ],
                 'blog_column' => [
                     'view' => '@frontend/views/blocks/blog_block',
@@ -173,7 +219,7 @@ class SiteController extends Controller
     public function actionPost($id, $slug) 
     {
         $post = $this->findModel($id);
-        $image = $post->getAsset();
+        $image = $post->getAsset(Asset::THUMBNAIL_NEWS);
 
         $blogPosts = Post::find()
             ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_BLOG])
@@ -183,7 +229,7 @@ class SiteController extends Controller
 
         $options = [
             'templateType' => 'col2',
-            'title' => 'Новости',
+            'title' => $post->title,
             'columnFirst' => [
                 'post' => [
                     'view' => '@frontend/views/site/post',

@@ -22,10 +22,4 @@ class Request extends \yii\web\Request
         }
     }
 
-    public static function dpm($var) {
-        echo '<pre>';
-        echo var_dump($var);
-        echo '</pre>';
-        die;
-    }
 }

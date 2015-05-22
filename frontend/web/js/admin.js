@@ -1,6 +1,11 @@
 (function($){
     $(window).load(function() {
 
+        if($('.redactor-toolbar').length > 0) {
+            $('nav.navbar-fixed-top').removeClass('navbar-fixed-top');
+            $('.wrap > .container').css('padding-top','10px');
+        }
+
         function saveCoords(c) {
             var x = c.x < 0 ? 0 : c.x/c.imageWidth;
             var y = c.y < 0 ? 0 : c.y/c.imageHeight;

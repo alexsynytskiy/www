@@ -25,36 +25,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'content') ?>
 
-    <?php // echo $form->field($model, 'is_public') ?>
-
-    <?php // echo $form->field($model, 'created_at') ?>
-
-    <?php // echo $form->field($model, 'updated_at') ?>
-
-    <?php // echo $form->field($model, 'is_top') ?>
-
-    <?php // echo $form->field($model, 'is_video') ?>
-
-    <?php // echo $form->field($model, 'content_category_id') ?>
-
-    <?php // echo $form->field($model, 'comments_count') ?>
-
-    <?php // echo $form->field($model, 'is_cover') ?>
-
-    <?php // echo $form->field($model, 'is_index') ?>
-
-    <?php // echo $form->field($model, 'source_title') ?>
-
-    <?php // echo $form->field($model, 'source_url') ?>
-
-    <?php // echo $form->field($model, 'photo_id') ?>
-
-    <?php // echo $form->field($model, 'is_yandex_rss') ?>
-
-    <?php // echo $form->field($model, 'cached_tag_list') ?>
-
-    <?php // echo $form->field($model, 'allow_comment') ?>
-
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
         <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>

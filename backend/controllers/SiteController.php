@@ -22,7 +22,7 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error'],
+                        'actions' => ['login', 'error', 'image-upload'],
                         'allow' => true,
                     ],
                     [
@@ -49,6 +49,12 @@ class SiteController extends Controller
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
+            ],
+            'image-upload' => [
+                'class' => 'vova07\imperavi\actions\UploadAction',
+                'url' => 'http://dynamomania.dev/images/store/post_attachments/', // Directory URL address, where files are stored.
+                // 'url' => 'http://'.$_SERVER['HTTP_HOST'].'/post_images/', // Directory URL address, where files are stored.
+                'path' => '@frontend/web/images/store/post_attachments' // Or absolute path to directory where files are stored.
             ],
         ];
     }

@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use kartik\markdown\Markdown;
 use common\models\Asset;
 
 /* @var $this yii\web\View */
@@ -42,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'slug',
             [
                 'attribute' => 'description',
-                'value' => Markdown::convert($model->description),
+                'value' => $model->description,
                 'format' => 'html',
             ],
             // [

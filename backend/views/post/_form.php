@@ -5,7 +5,6 @@ use yii\widgets\ActiveForm;
 use kartik\checkbox\CheckboxX;
 use kartik\select2\Select2;
 use yii\web\JsExpression;
-use kartik\markdown\MarkdownEditor;
 use kartik\file\FileInput;
 use kartik\widgets\Typeahead;
 use dosamigos\selectize\SelectizeDropDownList;
@@ -56,12 +55,30 @@ SCRIPT;
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => 255]) ?>
 
-    <?= $form->field($model, 'content')->widget(MarkdownEditor::classname()); ?>
+    <?php 
+    echo $form->field($model, 'content')->widget(\vova07\imperavi\Widget::className(), [
+        'settings' => [
+            'lang' => 'ru',
+            'minHeight' => 200,
+            'imageUpload' => \yii\helpers\Url::to(['/site/image-upload']),
+            'plugins' => [
+                // 'clips',
+                'fullscreen',
+                'table',
+                'video',
+                'fontcolor',
+            ]
+        ]
+    ]);
+    ?>
 
     <?php
     echo $form->field($model, 'source_title')->widget(Typeahead::classname(), [
         'options' => ['placeholder' => 'Поиск источника при вводе ...'],
-        'pluginOptions' => ['highlight' => true],
+        'pluginOptions' => [
+            'highlight' => true,
+            'imageUpload' => '/upload.php',
+        ],
         'dataset' => [
             [
                 'remote' => \yii\helpers\Url::to(['source/source-name-list']) . '?q=%QUERY',
@@ -139,13 +156,15 @@ SCRIPT;
 
     <?= $form->field($model, 'is_public')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState' => false]]) ?>
 
+    <?= $form->field($model, 'is_index')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState'=>false]]) ?>
+    
     <?= $form->field($model, 'is_top')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState'=>false]]) ?>
 
-    <?= $form->field($model, 'is_video')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState'=>false]]) ?>
-
-    <?= $form->field($model, 'is_cover')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState'=>false]]) ?>
-
-    <?= $form->field($model, 'is_index')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState'=>false]]) ?>
+    <?= $form->field($model, 'is_pin')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState'=>false]]) ?>
+    
+    <?= $form->field($model, 'with_video')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState'=>false]]) ?>
+    
+    <?= $form->field($model, 'with_photo')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState'=>false]]) ?>
 
     <?= $form->field($model, 'is_yandex_rss')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState'=>false]]) ?>
 

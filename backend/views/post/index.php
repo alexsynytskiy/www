@@ -50,23 +50,24 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'format' => 'html',
             ],
-            // [
-            //     'attribute' => 'created_at',
-            //     'value' => function($model){
-            //         return date('d.m.Y h:i', strtotime($model->created_at));
-            //     },
-            //     'format' => 'text',
-            //     'filter' => DatePicker::widget([
-            //         'model' => $searchModel,
-            //         'attribute' => 'created_at',
-            //         'removeButton' => false,
-            //         'pluginOptions' => [
-            //             'format' => 'dd.mm.yyyy',
-            //             'autoclose' => true,
-            //         ]
-            //     ]),
-            //     'options' => ['width' => '160'],
-            // ],
+            [
+                'attribute' => 'created_at',
+                'value' => function($model){
+                    return date('d.m.Y h:i', strtotime($model->created_at));
+                },
+                'format' => 'text',
+                'filter' => DatePicker::widget([
+                    'model' => $searchModel,
+                    'attribute' => 'created_at',
+                    'removeButton' => false,
+                    'type' => DatePicker::TYPE_INPUT,
+                    'pluginOptions' => [
+                        'format' => 'dd.mm.yyyy',
+                        'autoclose' => true,
+                    ]
+                ]),
+                'options' => ['width' => '140'],
+            ],
             [
                 'attribute' => 'updated_at',
                 'value' => function($model){
@@ -77,12 +78,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     'model' => $searchModel,
                     'attribute' => 'updated_at',
                     'removeButton' => false,
+                    'type' => DatePicker::TYPE_INPUT,
                     'pluginOptions' => [
                         'format' => 'dd.mm.yyyy',
                         'autoclose' => true,
                     ]
                 ]),
-                'options' => ['width' => '160'],
+                'options' => ['width' => '140'],
             ],
             [
                 'attribute' => 'content_category_id',

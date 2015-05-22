@@ -17,11 +17,11 @@ Yii::$app->formatter->locale = 'ru-RU';
  	<div class="main-img-text-block">
  		<div class="main-text">
 			<?php if(!empty($image->getFileUrl())) { ?>
- 				<img src="<?= $image->getFileUrl() ?>">
+ 				<img class="post-image" src="<?= $image->getFileUrl() ?>">
 			 <?php } ?>
  			<div class="title"><?= $post->title ?></div>
  			<div class="content">
-				 <?= \kartik\markdown\Markdown::convert($post->content) ?>
+				 <?= $post->content ?>
 			 </div>
  		</div>
         <div class="footer-part-top">

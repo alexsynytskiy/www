@@ -5,7 +5,6 @@ use yii\widgets\ActiveForm;
 use kartik\checkbox\CheckboxX;
 use kartik\select2\Select2;
 use yii\web\JsExpression;
-use kartik\markdown\MarkdownEditor;
 use kartik\file\FileInput;
 use dosamigos\selectize\SelectizeDropDownList;
 
@@ -25,8 +24,21 @@ use dosamigos\selectize\SelectizeDropDownList;
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => 255]) ?>
 
-    <?= $form->field($model, 'description')->widget(MarkdownEditor::classname()); ?>
-
+    <?php
+    echo $form->field($model, 'description')->widget(\vova07\imperavi\Widget::className(), [
+        'settings' => [
+            'lang' => 'ru',
+            'minHeight' => 200,
+            'plugins' => [
+                // 'clips',
+                'fullscreen',
+                'table',
+                'video',
+                'fontcolor',
+            ]
+        ]
+    ]);
+    ?>
     <?php
     $availableTags = [];
     if(isset($tags))

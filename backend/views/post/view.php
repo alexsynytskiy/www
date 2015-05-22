@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use kartik\markdown\Markdown;
 use common\models\Asset;
 use common\models\Vote;
 
@@ -42,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'slug',
             [
                 'attribute' => 'content',
-                'value' => Markdown::convert($model->content),
+                'value' => $model->content,
                 'format' => 'html',
             ],
             [
@@ -59,6 +58,26 @@ $this->params['breadcrumbs'][] = $this->title;
             'created_at',
             'updated_at',
             [
+                'attribute' => 'is_index',
+                'value' => $model->is_index ? 'Да' : 'Нет',
+            ],
+            [
+                'attribute' => 'is_top',
+                'value' => $model->is_top ? 'Да' : 'Нет',
+            ],
+            [
+                'attribute' => 'is_pin',
+                'value' => $model->is_pin ? 'Да' : 'Нет',
+            ],
+            [
+                'attribute' => 'with_video',
+                'value' => $model->with_video ? 'Да' : 'Нет',
+            ],
+            [
+                'attribute' => 'with_photo',
+                'value' => $model->with_photo ? 'Да' : 'Нет',
+            ],
+            [
                 'attribute' => 'is_public',
                 'value' => $model->is_public ? 'Да' : 'Нет',
             ],
@@ -67,26 +86,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => $model->allow_comment ? 'Да' : 'Нет',
             ],
             [
-                'attribute' => 'is_top',
-                'value' => $model->is_top ? 'Да' : 'Нет',
-            ],
-            [
-                'attribute' => 'is_video',
-                'value' => $model->is_video ? 'Да' : 'Нет',
-            ],
-            [
-                'attribute' => 'is_cover',
-                'value' => $model->is_cover ? 'Да' : 'Нет',
-            ],
-            [
-                'attribute' => 'is_index',
-                'value' => $model->is_index ? 'Да' : 'Нет',
-            ],
-            [
                 'attribute' => 'is_yandex_rss',
                 'value' => $model->is_yandex_rss ? 'Да' : 'Нет',
             ],
-            'photo_id',
             'comments_count',
             'cached_tag_list',
             [

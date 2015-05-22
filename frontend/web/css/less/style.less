@@ -482,51 +482,40 @@ header {
 		overflow: hidden;
 		margin-bottom: @main-margin - 2;
 
-		a, a:hover {
-			text-decoration: none;
+		.image {
+			height: 200px;
+			width: 300px;
+			border-radius: @main-margin / 3 @main-margin / 3 0 0;
 		}
 
-		ul {
-			padding: 0 !important;
-			list-style: none outside none;
-		}
+		.intro {
+			height: 135px;
+			width: 300px;
+			background-color: #fff;
+			border-radius: 0 0 @main-margin / 3 @main-margin / 3;
+			padding: 10px 10px 0;
 
-		li {
-			.image {
-				height: 200px;
-				width: 300px;
-				border-radius: @main-margin / 3 @main-margin / 3 0 0;
+			.title {
+				display: block;
+				line-height: 19px;
+				margin-bottom: 10px;
+				.text-font(16px, bold, @main-blue);
+
+				&:hover {
+					.text-font(16px, bold, @main-blue-hover);
+				}
 			}
 
-			.intro {
-				height: 135px;
-				width: 300px;
-				background-color: #fff;
-				border-radius: 0 0 @main-margin / 3 @main-margin / 3;
-				padding-left: 10px;
-				padding-top: 10px;
+			.date {
+				line-height: 23px;
+				.text-font(12px, normal, @main-grey);
+			}
 
-				.title {
-					line-height: 19px;
-					margin-bottom: 10px;
-					.text-font(16px, bold, @main-blue);
-
-					&:hover {
-						.text-font(16px, bold, @main-blue-hover);
-					}
-				}
-
-				.date {
-					line-height: 23px;
-					.text-font(12px, normal, @main-grey);
-				}
-
-				.preview {
-					.text-font(14px, normal, @main-grey);
-					line-height: 16px;
-					margin-top: @main-margin - 5;
-					text-align: left;
-				}
+			.preview {
+				.text-font(14px, normal, @main-grey);
+				line-height: 16px;
+				margin-top: @main-margin - 5;
+				text-align: left;
 			}
 		}
 
@@ -545,13 +534,13 @@ header {
 				width: 70px;
 
 				a {
-					background: url('/images/unactive.png') no-repeat center;
+					background: url(/images/unactive.png) no-repeat center;
 					background-size: 6px;
 					margin: 0 2px;
 				}
 
 				a.active {
-					background: url('/images/active.png') no-repeat center;
+					background: url(/images/active.png) no-repeat center;
 					background-size: 10px;
 				}
 			}
@@ -1326,13 +1315,21 @@ header {
 
 		.main-img-text-block {
 
-			img {
+			.post-image {
 				float: left;
 				height: 116px;
 				width: 172px;
 				border-radius: @box-border-radius;
 				margin-right: 10px;
 				margin-bottom: 13px;
+			}
+			
+			.content {
+				img {
+					width: 100%;
+  					display: block;
+				}
+				
 			}
 
 			.main-text {
@@ -1370,6 +1367,7 @@ header {
 					margin-top: 25px;
 				}
 			}
+
 
 			.footer-part-top {
 				line-height: 24px;

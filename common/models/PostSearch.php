@@ -18,7 +18,7 @@ class PostSearch extends Post
     public function rules()
     {
         return [
-            [['id', 'user_id', 'is_public', 'is_top', 'is_video', 'content_category_id', 'comments_count', 'is_cover', 'is_index', 'photo_id', 'is_yandex_rss', 'allow_comment'], 'integer'],
+            [['id', 'user_id', 'is_public', 'is_index', 'is_top', 'is_pin', 'with_video', 'with_photo', 'content_category_id', 'comments_count', 'is_yandex_rss', 'allow_comment'], 'integer'],
             [['user.username', 'title', 'slug', 'content', 'created_at', 'updated_at', 'source_title', 'source_url', 'cached_tag_list'], 'safe'],
         ];
     }
@@ -66,6 +66,7 @@ class PostSearch extends Post
             'pagination' => [
                 'pageSize' => 10,
             ],
+            'sort' => ['defaultOrder' => ['created_at' => SORT_DESC]]
         ]);
 
         // enable sorting for the related columns
@@ -86,13 +87,13 @@ class PostSearch extends Post
             'user_id' => $this->user_id,
             'is_public' => $this->is_public,
             'updated_at' => $this->updated_at,
+            'is_index' => $this->is_index,
             'is_top' => $this->is_top,
-            'is_video' => $this->is_video,
+            'is_pin' => $this->is_pin,
+            'with_video' => $this->with_video,
+            'with_photo' => $this->with_photo,
             'content_category_id' => $this->content_category_id,
             'comments_count' => $this->comments_count,
-            'is_cover' => $this->is_cover,
-            'is_index' => $this->is_index,
-            'photo_id' => $this->photo_id,
             'is_yandex_rss' => $this->is_yandex_rss,
             'allow_comment' => $this->allow_comment,
         ]);
