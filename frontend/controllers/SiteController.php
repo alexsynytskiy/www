@@ -113,6 +113,20 @@ class SiteController extends Controller
             ->limit(6)
             ->all();
 
+        $sliderPreviousMatches = Match::find()
+            ->where(['is_visible' => 1,'is_finished' => 1])
+            ->orderBy(['created_at' => SORT_DESC])
+            ->limit(5)
+            ->all();
+
+        $sliderFutureMatches = Match::find()
+            ->where(['is_finished' => 0])
+            ->orderBy(['created_at' => SORT_ASC])
+            ->limit(5)
+            ->all();
+
+        $sliderMatches = array_merge($sliderPreviousMatches, $sliderFutureMatches);
+
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col3',
             'title' => 'Главная',
@@ -131,6 +145,10 @@ class SiteController extends Controller
                 ],
             ],
             'columnSecond' => [
+                'slider_matches' => [
+                    'view' => '@frontend/views/blocks/matches_slider_block',
+                    'data' => ['matches' => $sliderMatches],
+                ],
                 'short_news' => [
                     'view' => '@frontend/views/blocks/news_block',
                     'data' => ['posts' => $newsPosts],
