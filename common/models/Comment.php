@@ -211,6 +211,7 @@ class Comment extends ActiveRecord
         { 
             foreach ($comments[$parent_id] as $comment) 
             {
+
                 $username = $comment->user->getDisplayName();
                 $avatar = $comment->user->getAsset();
                 $imageUrl = $avatar->getFileUrl();
@@ -237,6 +238,7 @@ class Comment extends ActiveRecord
                     $ratingUpClass = 'disable';
                     $ratingDownClass = 'disable';
                 }
+                $commentLevelClass = $parent_id == 0 ? 'lvl-one' : '';
                 $page = 'post'; // test
 
                 if($options->postID && $comment->getCommentableType() == Comment::COMMENTABLE_POST) 
@@ -254,16 +256,16 @@ class Comment extends ActiveRecord
                         </div>
                         <?php 
                     }
-                }
+                } 
+                echo '<div id="comment-'. $comment->id .'" class="comment '. $commentLevelClass .'">';
+                    echo '<div class="comment-user">';
+                        echo '<div class="user-photo"><a href="'. Url::to('/user/profile/'.$comment->user->id) .'"><img src="'.$imageUrl.'"></a></div>';
+                        echo '<div class="user-info">';
+                            echo '<div class="user-name"><a href="'. Url::to('/user/profile/'.$comment->user->id) .'">'.$username.'</a></div>';
+                            echo '<div class="post-time">'. $commentDate .'</div>';
+                        echo '</div>';
+                    echo '</div>';
                 ?>
-                <div id="comment-<?= $comment->id ?>" class="comment">
-                    <div class="comment-user">
-                        <div class="user-photo"><a href="<?= Url::to('/user/profile/'.$comment->user->id) ?>"><img src="<?=$imageUrl?>"></a></div>
-                        <div class="user-info">
-                            <div class="user-name"><a href="<?= Url::to('/user/profile/'.$comment->user->id) ?>"><?=$username?></a></div>
-                            <div class="post-time"><?= $commentDate ?></div>
-                        </div>
-                    </div>
                     <div class="comment-links">
                         <div class="rating-counter">
                             <a href="javascript:void(0)" class="rating-up <?= $ratingUpClass ?>" data-id="<?= $comment->id ?>" data-type="comment"></a>

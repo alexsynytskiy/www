@@ -297,7 +297,7 @@ class Asset extends \yii\db\ActiveRecord
                 return [
                     self::THUMBNAIL_BIG,
                     self::THUMBNAIL_NEWS,
-                    self::THUMBNAIL_COVER,
+                    self::THUMBNAIL_CONTENT,
                     // self::THUMBNAIL_ALBUM,
                     // self::THUMBNAIL_SMALL,
                     // self::THUMBNAIL_POSTER,
@@ -354,12 +354,15 @@ class Asset extends \yii\db\ActiveRecord
                     case self::THUMBNAIL_BIG:
                         // return new Box($size->getWidth()*290/$size->getHeight(),290);
                         return new Box(300,200);
-                    // To news preview
+                    // To top 6 news and other preview news
                     case self::THUMBNAIL_NEWS:
-                        return new Box(172,116);
+                        return new Box(166,110);
                     // To top 6 news
-                    case self::THUMBNAIL_COVER:
-                        return new Box(166,109);
+                    case self::THUMBNAIL_CONTENT:
+                        $width = 595;
+                        $height = $size->getHeight()*$width/$size->getWidth();
+                        $height = $height > 400 ? 400 : $height;
+                        return new Box($width, $height);
                     // original
                     default: return new Box($size->getWidth(),$size->getHeight());
                     // case self::THUMBNAIL_ALBUM:

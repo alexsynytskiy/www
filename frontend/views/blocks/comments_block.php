@@ -33,7 +33,7 @@ use yii\widgets\LinkPager;
         echo \kop\y2sp\ScrollPager::widget([
             'pagination' => $pagination,
             'container' => '.comments-container',
-            'item' => '.comment',
+            'item' => '.lvl-one',
             'delay' => 0,
             'noneLeftText' => '',
             'triggerOffset' => 500,

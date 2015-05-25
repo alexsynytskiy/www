@@ -14,16 +14,14 @@ Yii::$app->formatter->locale = 'ru-RU';
  		<div class="comments-count"><?= $post->comments_count ?></div>
  		<div class="comments-icon"></div>
  	</div>
- 	<div class="main-img-text-block">
- 		<div class="main-text">
-			<?php if(!empty($image->getFileUrl())) { ?>
- 				<img class="post-image" src="<?= $image->getFileUrl() ?>">
-			 <?php } ?>
- 			<div class="title"><?= $post->title ?></div>
- 			<div class="content">
-				 <?= $post->content ?>
-			 </div>
- 		</div>
+ 	<div class="post-container">
+		<div class="title"><?= $post->title ?></div>
+        <?php if(!empty($image->getFileUrl())) { ?>
+            <img class="post-image" src="<?= $image->getFileUrl() ?>">
+         <?php } ?>
+         <div class="content">
+            <?= $post->content ?>
+        </div>
         <div class="footer-part-top">
             <?php if(!empty($post->source_title)) { ?>
                 <div class="source">Источник:</div>

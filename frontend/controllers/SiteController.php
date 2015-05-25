@@ -106,7 +106,7 @@ class SiteController extends Controller
                 'is_top' => 1, 
                 'content_category_id' => Post::CATEGORY_NEWS,
                 "{$assetTable}.assetable_type" => Asset::ASSETABLE_POST,
-                "{$assetTable}.thumbnail" => Asset::THUMBNAIL_COVER,
+                "{$assetTable}.thumbnail" => Asset::THUMBNAIL_NEWS,
             ]);
         $top6News = $query->andWhere(['not in', "{$postTable}.id", $excludeIds])
             ->orderBy(['created_at' => SORT_DESC])
@@ -219,7 +219,7 @@ class SiteController extends Controller
     public function actionPost($id, $slug) 
     {
         $post = $this->findModel($id);
-        $image = $post->getAsset(Asset::THUMBNAIL_NEWS);
+        $image = $post->getAsset(Asset::THUMBNAIL_CONTENT);
 
         $blogPosts = Post::find()
             ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_BLOG])
