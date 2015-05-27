@@ -4,16 +4,10 @@ use yii\helpers\Url;
 /**
  * @var $this yii\web\View
  * @var $comments array Array of common\models\Comment
+ * @var $options array Options
 **/
 
-$options = [];
-if(Yii::$app->controller->action->id == 'profile') {
-    $options = [
-        'showReplies' => false,
-        'showReplyButton' => false,
-        'posts' => true,
-    ];
-}
+if(!isset($options)) $options = [];
 
 \common\models\Comment::outCommentsTree($comments, 0, $options); 
 

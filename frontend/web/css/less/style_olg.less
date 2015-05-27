@@ -408,7 +408,8 @@ body {
             position: relative;
 
             img {
-                width: 100%;
+                width: 280px;
+                height: 190px;
             }
         }
         .title {
@@ -737,7 +738,6 @@ body {
 }
 
 .cabinet-comments {
-
     .simple-rounded-box;
     padding: 0 5px;
     margin-bottom: @main-margin;
@@ -763,6 +763,14 @@ body {
     .comment:first-child {
         padding-top: 5px;
     }
+    #comment-form {
+        width: 100%;
+        display: none;
+
+        .comment-field {
+            width: 535px;
+        }
+    }
 }
 
 .comments-status {
@@ -770,6 +778,7 @@ body {
     padding: 0 5px;
     height: 26px;
     line-height: 26px;
+    margin-bottom: 15px;
     border-top: 1px solid @main-body-background;
     border-bottom: 1px solid @main-body-background;
     .text-font(13px, normal, @main-grey);
@@ -790,7 +799,7 @@ body {
 
     .toggle-text {
         float: left;
-        margin-right: 3px;
+        margin-right: 5px;
     }
     .toggle-icon {
         float: left;
@@ -798,7 +807,7 @@ body {
         height: 8px;
         background: url(/images/down_arrow_sprite.png) center top 0 no-repeat;
         background-size: 15px;
-        margin-top: 7px;
+        margin-top: 6px;
     }
 
     &:hover {
@@ -828,7 +837,7 @@ body {
 }
 
 .comment-theme {
-    padding: 5px 5px 0;
+    padding: 5px;
 
     .theme-label {
         line-height: 10px;
@@ -1107,6 +1116,7 @@ body {
     .toggle-button {
         display: block;
         height: 20px;
+        line-height: 20px;
     }
 
     .toggle-content {
@@ -1741,7 +1751,6 @@ body {
 }
 
 #comment-form {
-    .clearfix;
     padding: 0 5px;
     margin-bottom: 15px;
 
@@ -1771,7 +1780,8 @@ body {
         }
     }
     .comment-bottom {
-        .clearfix;
+        height: 35px;
+        clear: both;
     }
     .reply-data {
         display: none;
@@ -1794,10 +1804,16 @@ body {
             cursor: pointer;
         }
     }
+    .help-block {
+        display: none;
+    }
 }
 
 .pagination {
     text-align: center;
+    &.hidden {
+        display: none;
+    }
 
     li {
         position: relative;

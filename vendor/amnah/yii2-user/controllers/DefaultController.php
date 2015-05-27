@@ -16,6 +16,7 @@ use yii\data\Pagination;
 use common\models\Post;
 use common\models\Asset;
 use common\models\Comment;
+use common\models\CommentForm;
 
 /**
  * Default controller for User module
@@ -462,15 +463,6 @@ class DefaultController extends Controller
             ],
         ]);
 
-        // commentsDataProvider
-        // if(isset(Yii::$app->session['prev_login_time'])) {
-        //     $loginTime = Yii::$app->session['prev_login_time'];
-        // } else {
-        //     $loginTime = $profile->user->login_time;
-        // }
-        // Yii::$app->session['prev_login_time'] = $profile->user->login_time;
-        // $loginTime = "2012-12-05 22:01:11"; // test
-
         $commentsCount = Comment::find()
             ->where(['comments.user_id' => $profile->user->id])
             ->join('INNER JOIN','posts','posts.id = comments.commentable_id')
@@ -482,6 +474,7 @@ class DefaultController extends Controller
             'pageSizeParam' => 'cpsize',
         ]);
 
+        // AND c1.parent_id IS NULL
         $sql = 'SELECT c1.id 
             FROM comments c1 
             LEFT JOIN posts p ON p.id = c1.commentable_id 
@@ -499,17 +492,47 @@ class DefaultController extends Controller
         $cmd->bindValue(':rows', $commentsPagination->limit);
         $commentsData = $cmd->queryAll();
 
-        $sortedComments = [];
+        $ids = [];
         foreach ($commentsData as $data) {
-            $comments = \common\models\Comment::find()->where([
-                'or', ['parent_id' => $data['id']], ['id' => $data['id']],
-            ])->all();
-            foreach ($comments as $comment) 
-            {
-                $index = $comment->parent_id == null || $comment->user_id == $profile->user->id ? 0 : $comment->parent_id;
-                $sortedComments[$index][] = $comment;
-            }
+            $ids[] = $data['id'];
         }
+
+        $initialComments = Comment::find()
+            ->where([
+                'id' => $ids,
+            ])->orderBy(['created_at' => SORT_DESC])
+            ->all();
+
+        $comments = $initialComments;
+        $ids = [];
+        foreach ($comments as $comment) {
+            $ids[] = $comment->id;
+        }
+        $childComments = Comment::find()
+            ->where(['parent_id' => $ids])->orderBy(['created_at' => SORT_ASC])->all();
+        if(count($childComments) > 0) {
+            $initialComments = array_merge($initialComments, $childComments);
+        }
+
+        $parentIDs = [];
+        foreach ($initialComments as $comment) {
+            if($comment->parent_id != null) $parentIDs[] = $comment->parent_id;
+        }
+
+        $sortedComments = [];
+        foreach ($initialComments as $comment) 
+        {
+            if($comment->parent_id == null
+                || $comment->user_id == $profile->user->id 
+                && in_array($comment->id, $parentIDs)){
+                $index = 0;
+            } else {
+                $index = $comment->parent_id;
+            }
+            $sortedComments[$index][] = $comment;
+        }
+
+        $commentForm = new CommentForm();
 
         // render
         return $this->render('@frontend/views/site/index', [
@@ -518,7 +541,11 @@ class DefaultController extends Controller
             'columnFirst' => [
                 'user_comments' => [
                     'view' => '@frontend/views/profile/user_comments',
-                    'data' => ['comments' => $sortedComments, 'pagination' => $commentsPagination],
+                    'data' => [
+                        'comments' => $sortedComments, 
+                        'pagination' => $commentsPagination,
+                        'commentForm' => $commentForm,
+                    ],
                 ],
                 'profile' => [
                     'view' => '@frontend/views/profile/profile_view',

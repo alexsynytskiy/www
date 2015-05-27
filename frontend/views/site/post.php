@@ -5,6 +5,13 @@
  * @var $image common\models\Asset
 **/
 Yii::$app->formatter->locale = 'ru-RU';
+
+$editLink = '';
+if(!Yii::$app->user->isGuest && Yii::$app->user->can("admin")){
+    $editUrl = \yii\helpers\Url::to('/admin/post/update/'.$post->id);
+    $editLink = '<a class="edit-link" href="'.$editUrl.'">Редактировать</a>';
+}
+
 ?>
 
 <div class="post-page">
@@ -15,7 +22,7 @@ Yii::$app->formatter->locale = 'ru-RU';
  		<div class="comments-icon"></div>
  	</div>
  	<div class="post-container">
-		<div class="title"><?= $post->title ?></div>
+		<div class="title"><?= $post->title.$editLink ?></div>
         <?php if(!empty($image->getFileUrl())) { ?>
             <img class="post-image" src="<?= $image->getFileUrl() ?>">
          <?php } ?>

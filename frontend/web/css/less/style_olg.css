@@ -296,7 +296,8 @@ body a:focus {
 }
 .video-photo-reports .video-preview .image img,
 .video-photo-reports .photo-preview .image img {
-  width: 100%;
+  width: 280px;
+  height: 190px;
 }
 .video-photo-reports .video-preview .title,
 .video-photo-reports .photo-preview .title {
@@ -748,11 +749,19 @@ body a:focus {
 .cabinet-comments .comment:first-child {
   padding-top: 5px;
 }
+.cabinet-comments #comment-form {
+  width: 100%;
+  display: none;
+}
+.cabinet-comments #comment-form .comment-field {
+  width: 535px;
+}
 .comments-status {
   clear: both;
   padding: 0 5px;
   height: 26px;
   line-height: 26px;
+  margin-bottom: 15px;
   border-top: 1px solid #e9e9e9;
   border-bottom: 1px solid #e9e9e9;
   font-family: 'Fira Sans', sans-serif;
@@ -778,7 +787,7 @@ body a:focus {
 }
 .toggle-button .toggle-text {
   float: left;
-  margin-right: 3px;
+  margin-right: 5px;
 }
 .toggle-button .toggle-icon {
   float: left;
@@ -786,7 +795,7 @@ body a:focus {
   height: 8px;
   background: url(/images/down_arrow_sprite.png) center top 0 no-repeat;
   background-size: 15px;
-  margin-top: 7px;
+  margin-top: 6px;
 }
 .toggle-button:hover {
   color: #0090e8;
@@ -808,7 +817,7 @@ body a:focus {
   display: block;
 }
 .comment-theme {
-  padding: 5px 5px 0;
+  padding: 5px;
 }
 .comment-theme .theme-label {
   line-height: 10px;
@@ -1090,6 +1099,7 @@ body a:focus {
 .comment-replies .toggle-button {
   display: block;
   height: 20px;
+  line-height: 20px;
 }
 .comment-replies .toggle-content {
   padding-top: 5px;
@@ -1680,13 +1690,6 @@ body a:focus {
   padding: 0 5px;
   margin-bottom: 15px;
 }
-#comment-form:after {
-  content: ".";
-  display: block;
-  height: 0;
-  clear: both;
-  visibility: hidden;
-}
 #comment-form .user-photo {
   float: left;
   margin-right: 10px;
@@ -1711,12 +1714,9 @@ body a:focus {
   padding: 3px 10px;
   overflow: hidden;
 }
-#comment-form .comment-bottom:after {
-  content: ".";
-  display: block;
-  height: 0;
+#comment-form .comment-bottom {
+  height: 35px;
   clear: both;
-  visibility: hidden;
 }
 #comment-form .reply-data {
   display: none;
@@ -1738,8 +1738,14 @@ body a:focus {
   background-size: 22px;
   cursor: pointer;
 }
+#comment-form .help-block {
+  display: none;
+}
 .pagination {
   text-align: center;
+}
+.pagination.hidden {
+  display: none;
 }
 .pagination li {
   position: relative;

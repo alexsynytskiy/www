@@ -1,11 +1,12 @@
 <?php
 use yii\helpers\Url;
 use yii\widgets\LinkPager;
+use yii\widgets\Pjax;
 
 /**
  * @var $this yii\web\View
  * @var $comments array Array of common\models\Comment
- * @var $commentModel common\models\Comment
+ * @var $commentForm common\models\Comment
  * @var $pagination 
 **/
 ?>
@@ -23,16 +24,18 @@ use yii\widgets\LinkPager;
 
     <?php 
         if(!Yii::$app->user->isGuest) {
-            echo $this->render('@frontend/views/forms/comment_form', compact('commentModel'));
+            echo $this->render('@frontend/views/forms/comment_form', compact('commentForm'));
         }
     ?>
-
+    
     <div class="comments-container">
     <?php 
+        Pjax::begin(['id' => 'comments-container']);
         echo $this->render('@frontend/views/site/comments_tree', compact('comments'));
+        Pjax::end();
         echo \kop\y2sp\ScrollPager::widget([
             'pagination' => $pagination,
-            'container' => '.comments-container',
+            'container' => '#comments-container',
             'item' => '.lvl-one',
             'delay' => 0,
             'noneLeftText' => '',

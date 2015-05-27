@@ -4,7 +4,9 @@ use yii\widgets\LinkPager;
 
 /**
  * @var $this yii\web\View
- * @var $commentsData Array
+ * @var $comments Array of common\models\Comment
+ * @var $commentForm common\models\CommentForm 
+ * @var $pagination yii\data\Pagination 
 **/
 $showComments = isset($_GET['cpage']) ? true : false;
 ?>
@@ -30,9 +32,17 @@ $showComments = isset($_GET['cpage']) ? true : false;
             </div>
         </div>
         <?php 
+
+        echo $this->render('@frontend/views/forms/comment_form', compact('commentForm'));
         
-        \yii\widgets\Pjax::begin();
-        echo $this->render('@frontend/views/site/comments_tree', compact('comments'));
+        $options = [
+            'showReplies' => false,
+            'showReplyButton' => true,
+            'postID' => true,
+        ];
+
+        \yii\widgets\Pjax::begin(['id' => 'comments-container']);
+        echo $this->render('@frontend/views/site/comments_tree', compact('comments', 'options'));
         echo LinkPager::widget([
             'pagination' => $pagination,
         ]);

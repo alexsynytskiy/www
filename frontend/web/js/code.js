@@ -9,7 +9,7 @@
         // BxSlider START
         $('.top-news-slider .slider').bxSlider({
             slideWidth: 300,
-            adaptiveHeight: true,
+            preloadImages: 'all',
             maxSlides: 1,
             minSlides: 1,
             slideMargin: 0
@@ -23,9 +23,9 @@
             slideMargin: 0
         });
 
-        $('.video-report ul.video-list, .photo-report ul.photo-list').bxSlider({
+        $('.video-report .video-list, .photo-report .photo-list').bxSlider({
             slideWidth: 290,
-            slideHeight: 240,
+            preloadImages: 'all',
             maxSlides: 1,
             minSlides: 1,
             slideMargin: 0
@@ -91,7 +91,7 @@ $(document).ready(function() {
 
 
     // Autoresize textarea START
-    $('#comment-form textarea').autoResize();
+    autosize($('#comment-form textarea'));
     // Autoresize textarea START
 
 
@@ -137,26 +137,80 @@ $(document).ready(function() {
     // Toggle comments END
     
 
-    $(document).on('click', '.comments-block .button-reply', function(){
-        var commentId = $(this).attr('data-comment-id');
-        var commentUserName = $(this).parents('.comment').first().find('.user-name a').first().text();
-        var target = $('.comments-block');
+    // => Comments form START
+    $('#comment-form').on('beforeSubmit', function () {
+        $.ajax({
+            url: $(this).attr('action'),
+            type: 'post',
+            dataType: 'json',
+            data: $(this).serialize(),
+            success: function(data) {
+                if(data.success) {
+                    var parent_id = $('#commentform-parent_id').val();
+                    target = parent_id == '' ? $('#comments-container') : $('#comment-' + parent_id);
+                    $('#commentform-content').val('');
+                    $('#commentform-parent_id').val('');
+                    $('#comment-form .reply-data').hide();
+                    if($('.cabinet-comments').length > 0) $('#comment-form').slideUp(500);
+                    $.pjax.reload({container:'#comments-container'});
+                }
+            }
+        });
+        return false;
+    });
+
+    $("#comments-container").on("pjax:end", function() {
+        $.ias().reinitialize();
+    });
+
+    function replyButtonHandle($btn, $target){
+        var $comment = $btn.parents('.comment').first();
+        var commentId = $comment.attr('data-comment-id');
+        var own = $comment.attr('data-own');
+        var commentUserName = $comment.find('.user-name a').first().text().trim();
         
-        $('#comment-form #comment-parent_id').val(commentId);
+        $('#commentform-parent_id').val(commentId);
         $('#comment-form .reply-data .user').text(commentUserName);
         $('#comment-form .reply-data').show();
 
-        $('#comment-form #comment-content').text(commentUserName + ', ');
+        if(own == 'no') {
+            $('#commentform-content').text(commentUserName + ', ');
+        } else {
+            $('#commentform-content').text('');
+        }
         $('html,body').animate({
-          scrollTop: target.offset().top
+            scrollTop: $target.offset().top
         }, 500);
-        $('#comment-form #comment-content').focus();
-    });
+        $('#commentform-content').focus();
+    }
 
+    // Comments on post page
+    $(document).on('click', '.comments-block .button-reply', function(){
+        replyButtonHandle($(this), $('.comments-block'));
+    });
     $(document).on('click', '.comments-block .button-cancel', function(){
-        $('#comment-form #comment-parent_id').val('');
+        $('#commentform-parent_id').val('');
         $('#comment-form .reply-data').hide();
     });
+
+    // Comments on profile page
+    $(document).on('click', '.cabinet-comments .button-reply', function(){
+        var $comment = $(this).parents('.comment').first();
+        if($('#comment-form').css('display') == 'none') {
+            $('#comment-form').slideDown(500);
+        }
+        $('#commentform-commentable_type').val($comment.attr('data-commentable-type'));
+        $('#commentform-commentable_id').val($comment.attr('data-commentable-id'));
+        replyButtonHandle($(this), $('.cabinet-comments'));
+    });
+    $(document).on('click', '.cabinet-comments .button-cancel', function(){
+        $('#comment-form').slideUp(500);
+        $('#commentform-commentable_id').val('');
+        $('#commentform-commentable_type').val('');
+        $('#commentform-parent_id').val('');
+        $('#comment-form .reply-data').hide();
+    });
+    // => Comments form END
 
 
     // => Calendar START

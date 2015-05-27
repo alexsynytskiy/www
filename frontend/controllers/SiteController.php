@@ -7,6 +7,7 @@ use common\models\Post;
 use common\models\Asset;
 use common\models\Match;
 use common\models\Comment;
+use common\models\CommentForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
@@ -21,6 +22,7 @@ use yii\filters\AccessControl;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\data\Pagination;
+use yii\helpers\Json;
 
 /**
  * Site controller
@@ -69,18 +71,21 @@ class SiteController extends Controller
         $postTable = Post::tableName();
         $assetTable = Asset::tableName();
 
+        // News list
         $newsPosts = Post::find()
             ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_NEWS])
             ->orderBy(['created_at' => SORT_DESC])
             ->limit(50)
             ->all();
 
+        // Blog posts
         $blogPosts = Post::find()
             ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_BLOG])
             ->orderBy(['created_at' => SORT_DESC])
             ->limit(6)
             ->all();
         
+        // TOP 3
         $top3News = Post::find()
             ->innerJoin($assetTable, "{$assetTable}.assetable_id = {$postTable}.id")
             ->where([
@@ -99,6 +104,7 @@ class SiteController extends Controller
             $excludeIds[] = $post->id;
         }
 
+        // TOP 6
         $query = Post::find()
             ->innerJoin($assetTable, "{$assetTable}.assetable_id = {$postTable}.id")
             ->where([
@@ -111,6 +117,44 @@ class SiteController extends Controller
         $top6News = $query->andWhere(['not in', "{$postTable}.id", $excludeIds])
             ->orderBy(['created_at' => SORT_DESC])
             ->limit(6)
+            ->all();
+
+        foreach ($top6News as $post) {
+            $excludeIds[] = $post->id;
+        }
+
+        // Photo review
+        $query = Post::find()
+            ->innerJoin($assetTable, "{$assetTable}.assetable_id = {$postTable}.id")
+            ->where([
+                'is_public' => 1, 
+                'with_photo' => 1,
+                'content_category_id' => Post::CATEGORY_NEWS,
+                "{$assetTable}.assetable_type" => Asset::ASSETABLE_POST,
+                "{$assetTable}.thumbnail" => Asset::THUMBNAIL_BIG,
+            ]);
+        $photoReviewNews = $query->andWhere(['not in', "{$postTable}.id", $excludeIds])
+            ->orderBy(['created_at' => SORT_DESC])
+            ->limit(3)
+            ->all();
+
+        foreach ($photoReviewNews as $post) {
+            $excludeIds[] = $post->id;
+        }
+
+        // Video review
+        $query = Post::find()
+            ->innerJoin($assetTable, "{$assetTable}.assetable_id = {$postTable}.id")
+            ->where([
+                'is_public' => 1, 
+                'with_video' => 1,
+                'content_category_id' => Post::CATEGORY_NEWS,
+                "{$assetTable}.assetable_type" => Asset::ASSETABLE_POST,
+                "{$assetTable}.thumbnail" => Asset::THUMBNAIL_BIG,
+            ]);
+        $videoReviewNews = $query->andWhere(['not in', "{$postTable}.id", $excludeIds])
+            ->orderBy(['created_at' => SORT_DESC])
+            ->limit(3)
             ->all();
 
         return $this->render('@frontend/views/site/index', [
@@ -137,9 +181,9 @@ class SiteController extends Controller
                 ],
             ],
             'columnThird' => [
-                'test_block' => [
-                    'view' => '@frontend/views/site/test',
-                    'data' => [],
+                'reviewNews' => [
+                    'view' => '@frontend/views/blocks/review_news_block',
+                    'data' => compact('photoReviewNews','videoReviewNews'),
                 ],
             ],
         ]);
@@ -253,9 +297,9 @@ class SiteController extends Controller
         if ($post->allow_comment) {
             // out all comments
             
-            $commentModel = new Comment();
-            $commentModel->commentable_id = $post->id;
-            $commentModel->commentable_type = Comment::COMMENTABLE_POST;
+            $commentForm = new CommentForm();
+            $commentForm->commentable_id = $post->id;
+            $commentForm->commentable_type = Comment::COMMENTABLE_POST;
 
             // out comments with pagination
             $commentsCount = Comment::find()
@@ -308,7 +352,7 @@ class SiteController extends Controller
                 'view' => '@frontend/views/blocks/comments_block',
                 'data' => [
                     'comments' => $sortedComments,
-                    'commentModel' => $commentModel,
+                    'commentForm' => $commentForm,
                     'pagination' => $commentsPagination,
                 ],
                 'weight' => 5,
@@ -327,17 +371,20 @@ class SiteController extends Controller
      */
     public function actionCommentAdd() 
     {
-        $model = new Comment();
-        $referrer = Yii::$app->request->referrer;
+        $model = new CommentForm();
 
+        $out = ['success' => false];
         if ($model->load(Yii::$app->request->post())) {
             $model->user_id = Yii::$app->user->id;
             if($model->save()) {
-                $referrer .= '#comment-'.$model->id;
+                $out = [
+                    'success' => true,
+                    'newID' => $model->id,
+                ];
             }
         }
 
-        return $this->redirect($referrer);
+        echo Json::encode($out);
     }
     
     /**

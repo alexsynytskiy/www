@@ -15,7 +15,7 @@ use yii\helpers\Url;
         <a href="<?= Url::to(['/blog/add-post']) ?>"><div class="icon"></div></a>
         <div class="clearfix"></div>
     <?php } else { 
-        \yii\widgets\Pjax::begin();
+        \yii\widgets\Pjax::begin(['id' => 'blog-posts-data']);
         echo \yii\widgets\ListView::widget([
             'dataProvider' => $blogPostsDataProvider,
             'itemOptions' => ['class' => 'item'],

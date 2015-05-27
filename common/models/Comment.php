@@ -32,6 +32,8 @@ class Comment extends ActiveRecord
     const COMMENTABLE_POST     = 'post';
     const COMMENTABLE_TRANSFER = 'transfer';
 
+    private $lastPost = 0;
+
     /**
      * @inheritdoc
      */
@@ -222,6 +224,7 @@ class Comment extends ActiveRecord
                 $classRepliesCount = ($repliesCommentsCount == 0) ? 'no-replies' : '';
                 $textRepliesCount = ($repliesCommentsCount == 0) ? '' : $repliesCommentsCount;
                 $isReply = $parent_id == 0 ? false : true;
+                $own = isset(Yii::$app->user->id) && Yii::$app->user->id == $comment->user_id ? 'yes' : 'no';
 
                 $rating = $comment->getRating();
                 $ratingUpClass = '';
@@ -241,7 +244,7 @@ class Comment extends ActiveRecord
                 $commentLevelClass = $parent_id == 0 ? 'lvl-one' : '';
                 $page = 'post'; // test
 
-                if($options->postID && $comment->getCommentableType() == Comment::COMMENTABLE_POST) 
+                if($parent_id == 0 && $options->postID && $comment->getCommentableType() == Comment::COMMENTABLE_POST) 
                 {
                     $post = \common\models\Post::findOne($comment->commentable_id);
                     if (isset($post->id) && $post->id !== $options->postID)
@@ -251,21 +254,33 @@ class Comment extends ActiveRecord
                         <div class="comment-theme">
                             <div class="theme-label">Комментарии по теме:</div>
                             <div class="theme-link">
-                                <a href="<?= $post->getUrl() ?>"><?= $post->title ?></a>
+                                <a href="<?= $post->getUrl() ?>" data-pjax="0"><?= $post->title ?></a>
                             </div>
                         </div>
                         <?php 
                     }
                 } 
-                echo '<div id="comment-'. $comment->id .'" class="comment '. $commentLevelClass .'">';
-                    echo '<div class="comment-user">';
-                        echo '<div class="user-photo"><a href="'. Url::to('/user/profile/'.$comment->user->id) .'"><img src="'.$imageUrl.'"></a></div>';
-                        echo '<div class="user-info">';
-                            echo '<div class="user-name"><a href="'. Url::to('/user/profile/'.$comment->user->id) .'">'.$username.'</a></div>';
-                            echo '<div class="post-time">'. $commentDate .'</div>';
-                        echo '</div>';
-                    echo '</div>';
                 ?>
+                <div id="comment-<?= $comment->id ?>" class="comment <?= $commentLevelClass ?>" 
+                    data-own="<?= $own ?>"
+                    data-comment-id="<?= $comment->id ?>"
+                    data-commentable-type="<?= $comment->getCommentableType() ?>"
+                    data-commentable-id="<?= $comment->commentable_id ?>" >
+                    <div class="comment-user">
+                        <div class="user-photo">
+                            <a href="<?= Url::to('/user/profile/'.$comment->user->id) ?>" data-pjax="0">
+                                <img src="<?= $imageUrl ?>">
+                            </a>
+                        </div>
+                        <div class="user-info">
+                            <div class="user-name">
+                                <a href="<?= Url::to('/user/profile/'.$comment->user->id) ?> data-pjax="0"">
+                                    <?= $username ?>
+                                </a>
+                            </div>
+                            <div class="post-time"><?= $commentDate ?></div>
+                        </div>
+                    </div>
                     <div class="comment-links">
                         <div class="rating-counter">
                             <a href="javascript:void(0)" class="rating-up <?= $ratingUpClass ?>" data-id="<?= $comment->id ?>" data-type="comment"></a>
@@ -273,7 +288,7 @@ class Comment extends ActiveRecord
                             <a href="javascript:void(0)" class="rating-down <?= $ratingDownClass ?>" data-id="<?= $comment->id ?>" data-type="comment"></a>
                         </div>
                         <?php if(!Yii::$app->user->isGuest && $options->showReplyButton) { ?>
-                        <a href="javascript:void(0)" class="button-reply" title="Ответить" data-comment-id="<?= $comment->id ?>"></a>
+                        <a href="javascript:void(0)" class="button-reply" title="Ответить"></a>
                         <?php } ?>
                         <?php if($page == 'cabinet') { // test ?>
                             <a href="javascript:void(0)" class="new-replies-count <?=$classRepliesCount?>" title="Новых ответов">
