@@ -114,16 +114,17 @@ class SiteController extends Controller
             ->all();
 
         $sliderPreviousMatches = Match::find()
-            ->where(['is_visible' => 1,'is_finished' => 1])
-            ->orderBy(['created_at' => SORT_DESC])
+            ->where(['is_visible' => 1])
+            ->andWhere(['<', 'date', date('Y-m.d H:i:s')])
+            ->orderBy(['date' => SORT_DESC])
             ->limit(5)
             ->all();
 
         $sliderFutureMatches = Match::find()
-            ->where(['is_finished' => 0])
-            ->orderBy(['created_at' => SORT_ASC])
+            ->where(['>', 'date', date('Y-m.d H:i:s')])
+            ->orderBy(['date' => SORT_ASC])
             ->limit(5)
-            ->all();
+            ->all();        
 
         $sliderMatches = array_merge($sliderPreviousMatches, $sliderFutureMatches);
 

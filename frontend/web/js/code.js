@@ -12,7 +12,7 @@
             slideHeight: 335,
             maxSlides: 1,
             minSlides: 1,
-            slideMargin: 0
+            slideMargin: 0            
         });
 
         $('.top-matches-slider ul').bxSlider({
@@ -20,7 +20,9 @@
             slideHeight: 80,
             maxSlides: 1,
             minSlides: 1,
-            slideMargin: 0
+            slideMargin: 0,
+            infiniteLoop: false,
+            startSlide:5,
         });
 
         $('.video-report ul.video-list, .photo-report ul.photo-list').bxSlider({
