@@ -111,7 +111,7 @@ $this->params['breadcrumbs'][] =  $model->commandHome->name . ' - ' . $model->co
             'updated_at',
             [
                 'attribute' => 'announcement',
-                'value' => $model->announcemen,
+                'value' => $model->announcement,
                 'format' => 'html',
             ],
         ],

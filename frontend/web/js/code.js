@@ -12,7 +12,7 @@
             preloadImages: 'all',
             maxSlides: 1,
             minSlides: 1,
-            slideMargin: 0
+            slideMargin: 0            
         });
 
         $('.top-matches-slider ul').bxSlider({
@@ -20,7 +20,9 @@
             slideHeight: 80,
             maxSlides: 1,
             minSlides: 1,
-            slideMargin: 0
+            slideMargin: 0,
+            infiniteLoop: false,
+            startSlide:5,
         });
 
         $('.video-report .video-list, .photo-report .photo-list').bxSlider({

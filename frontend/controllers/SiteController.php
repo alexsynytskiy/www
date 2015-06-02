@@ -119,6 +119,7 @@ class SiteController extends Controller
             ->limit(6)
             ->all();
 
+
         foreach ($top6News as $post) {
             $excludeIds[] = $post->id;
         }
@@ -157,6 +158,22 @@ class SiteController extends Controller
             ->limit(3)
             ->all();
 
+        $sliderPreviousMatches = Match::find()
+            ->where(['is_visible' => 1])
+            ->andWhere(['<', 'date', date('Y-m.d H:i:s')])
+            ->orderBy(['date' => SORT_DESC])
+            ->limit(5)
+            ->all();
+
+        $sliderFutureMatches = Match::find()
+            ->where(['>', 'date', date('Y-m.d H:i:s')])
+            ->orderBy(['date' => SORT_ASC])
+            ->limit(5)
+            ->all();        
+
+        $sliderMatches = array_merge($sliderPreviousMatches, $sliderFutureMatches);
+
+
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col3',
             'title' => 'Главная',
@@ -175,6 +192,10 @@ class SiteController extends Controller
                 ],
             ],
             'columnSecond' => [
+                'slider_matches' => [
+                    'view' => '@frontend/views/blocks/matches_slider_block',
+                    'data' => ['matches' => $sliderMatches],
+                ],
                 'short_news' => [
                     'view' => '@frontend/views/blocks/news_block',
                     'data' => ['posts' => $newsPosts],
