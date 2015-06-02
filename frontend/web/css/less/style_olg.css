@@ -1444,6 +1444,15 @@ body a:focus {
   color: #ffffff;
   background-color: #1972c4;
 }
+.search-box .club-select .active .select {
+  margin-top: 5px;
+  margin-left: 8px;
+  height: 13px;
+  width: 15px;
+  background: url(/images/Select.png) no-repeat;
+  background-size: 15px;
+  float: right;
+}
 .search-box .club-select .active:hover {
   background-color: #0090e8;
   font-family: 'Fira Sans', sans-serif;

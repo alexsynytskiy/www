@@ -484,7 +484,6 @@ header {
 .grid-column {
 
 	.top-news-slider {
-		overflow: hidden;
 		margin-bottom: @main-margin - 2;
 
 		.image {
@@ -2161,6 +2160,158 @@ header {
 					line-height: 30px;
 					.text-font(14px, normal, @main-grey);
 					text-align: center;
+				}
+			}
+		}
+	}
+
+	.transfers {
+		.main-title {
+			margin: 0 5px;
+			float: left;
+			font-family: 'Fira Sans', sans-serif;
+			font-size: 16px;
+			font-weight: bold;
+		}
+
+		.buy {			
+			color: #00CF86;
+		}
+
+		.sell {
+			color: #FF4B4B;
+		}
+
+		.rent {
+			color: #EFC514;
+		}
+
+		.icon {
+			margin-top: 4px;
+			height: 22px;
+			width: 17px;
+			float: left;
+			background-repeat: no-repeat;
+		}
+
+		.buy-icon {			
+			background-image: url('/images/priobretenia.png');			
+			background-size: 17px; 
+		}
+
+		.sell-icon {
+			background-image: url('/images/poteri.png');
+			background-size: 17px; 
+		}
+
+		.rent-icon {
+			background-image: url('/images/arenda.png');
+			background-size: 17px; 
+		}
+
+		thead {
+			.player {
+				text-align: left;
+			}
+
+			.comments {
+				margin-top: 5px;
+				float: left;
+				width: 24px;
+				height: 21px;
+				background-image: url('/images/comments_icon.png');
+				background-repeat: no-repeat;
+				background-size: 21px; 
+			}
+
+			td,th {
+				font-weight: bold;
+			}
+		}
+
+		tbody {
+			.photo {
+				img {
+					border-radius: @box-border-radius;
+					margin-top: 11px;
+					height: 50px;
+					width: 50px;
+				}
+			}
+
+			.possibility {
+				font-weight: bold;
+			}
+
+			.sum {
+				width: 40px;
+  				line-height: 15px;
+			}
+
+			.others {
+				width: 100px;
+			}
+
+			.from,.where {
+				max-width: 90px;
+				line-height: 16px;
+  				text-align: left;
+
+				.club-logo {
+					img {
+						float: left;
+						margin-right: 5px;
+						height: 30px;
+						width: 30px;						
+					}
+				}
+			}
+
+			.arrow {
+				.right-arrow {
+					width: 11px;
+					height: 11px;
+					background: url(/images/arrow_y.png) no-repeat;
+	                background-size: 11px;
+	            }
+			}
+
+			.player {
+				div {
+					line-height: 14px;
+	  				text-align: left;
+	  			}
+
+				a {
+					color: @main-blue;
+
+					&:hover {
+						color: @main-blue-hover;
+					}
+				}
+			}
+
+	  		.more {
+	  			width: 16px;
+	  			height: 18px;
+	  			background: url('/images/materials_sprite.png') no-repeat;
+	  			background-size: 16px;
+	  			margin-left: 2px;
+
+	  			&:hover {
+			  		background: url('/images/materials_sprite.png') no-repeat;
+			  		background-size: 16px;
+			  		background-position: 0 -38px;
+			  	}
+	  		}
+
+			.rent-other-info {
+				border-top: none;
+				
+				td {
+					text-align: left;
+					font-size: 12px;
+					line-height: 16px;
 				}
 			}
 		}

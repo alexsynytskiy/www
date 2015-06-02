@@ -1461,14 +1461,24 @@ body {
 	  	}
 
 	  	.active {
-	  		.text-font(12px, normal, #fff);
-			background-color: @main-blue;
+            .text-font(12px, normal, #fff);
+            background-color: @main-blue;
 
-			&:hover {
-				background-color: @main-blue-hover;
-	  			.text-font(12px, normal, #fff);
-			}
-	  	}
+            .select {
+                margin-top: @main-margin / 3;
+                margin-left: 8px;
+                height: 13px;
+                width: 15px;
+                background: url(/images/Select.png) no-repeat;
+                background-size: 15px;
+                float: right;
+            }
+
+            &:hover {
+                background-color: @main-blue-hover;
+                .text-font(12px, normal, #fff);
+            }
+        }
     }
     
     label {

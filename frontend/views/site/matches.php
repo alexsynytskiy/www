@@ -8,19 +8,19 @@
 <div class="search-box default-box">
     <div class="club-select">
         <a href="#">
-            <div class="button active">"Динамо" Киев</div>
+            <div class="button active">"Динамо" Киев<div class="select"></div></div>
         </a>
         <a href="#">
-            <div class="button">"Динамо" U-19</div>
+            <div class="button">"Динамо" U-19<div class="select"></div></div>
         </a>
         <a href="#">
-            <div class="button">"Динамо-2"</div>
+            <div class="button">"Динамо-2"<div class="select"></div></div>
         </a>
         <a href="#">
-            <div class="button">"Динамо" М</div>
+            <div class="button">"Динамо" М<div class="select"></div></div>
         </a>
         <a href="#">
-            <div class="button">Сборная Украины</div>
+            <div class="button">Сборная Украины<div class="select"></div></div>
         </a>
     </div>
     <div class="box-content">

@@ -395,7 +395,6 @@ header .header-wrapper .breadcrumbs .tag:hover {
   float: left;
 }
 .grid-column .top-news-slider {
-  overflow: hidden;
   margin-bottom: 13px;
 }
 .grid-column .top-news-slider .image {
@@ -2057,6 +2056,122 @@ header .header-wrapper .breadcrumbs .tag:hover {
   font-weight: normal;
   color: #727272;
   text-align: center;
+}
+.grid-column .transfers .main-title {
+  margin: 0 5px;
+  float: left;
+  font-family: 'Fira Sans', sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+}
+.grid-column .transfers .buy {
+  color: #00CF86;
+}
+.grid-column .transfers .sell {
+  color: #FF4B4B;
+}
+.grid-column .transfers .rent {
+  color: #EFC514;
+}
+.grid-column .transfers .icon {
+  margin-top: 4px;
+  height: 22px;
+  width: 17px;
+  float: left;
+  background-repeat: no-repeat;
+}
+.grid-column .transfers .buy-icon {
+  background-image: url('/images/priobretenia.png');
+  background-size: 17px;
+}
+.grid-column .transfers .sell-icon {
+  background-image: url('/images/poteri.png');
+  background-size: 17px;
+}
+.grid-column .transfers .rent-icon {
+  background-image: url('/images/arenda.png');
+  background-size: 17px;
+}
+.grid-column .transfers thead .player {
+  text-align: left;
+}
+.grid-column .transfers thead .comments {
+  margin-top: 5px;
+  float: left;
+  width: 24px;
+  height: 21px;
+  background-image: url('/images/comments_icon.png');
+  background-repeat: no-repeat;
+  background-size: 21px;
+}
+.grid-column .transfers thead td,
+.grid-column .transfers thead th {
+  font-weight: bold;
+}
+.grid-column .transfers tbody .photo img {
+  border-radius: 5px;
+  margin-top: 11px;
+  height: 50px;
+  width: 50px;
+}
+.grid-column .transfers tbody .possibility {
+  font-weight: bold;
+}
+.grid-column .transfers tbody .sum {
+  width: 40px;
+  line-height: 15px;
+}
+.grid-column .transfers tbody .others {
+  width: 100px;
+}
+.grid-column .transfers tbody .from,
+.grid-column .transfers tbody .where {
+  max-width: 90px;
+  line-height: 16px;
+  text-align: left;
+}
+.grid-column .transfers tbody .from .club-logo img,
+.grid-column .transfers tbody .where .club-logo img {
+  float: left;
+  margin-right: 5px;
+  height: 30px;
+  width: 30px;
+}
+.grid-column .transfers tbody .arrow .right-arrow {
+  width: 11px;
+  height: 11px;
+  background: url(/images/arrow_y.png) no-repeat;
+  background-size: 11px;
+}
+.grid-column .transfers tbody .player div {
+  line-height: 14px;
+  text-align: left;
+}
+.grid-column .transfers tbody .player a {
+  color: #1972c4;
+}
+.grid-column .transfers tbody .player a:hover {
+  color: #0090e8;
+}
+.grid-column .transfers tbody .more {
+  width: 16px;
+  height: 18px;
+  background: url('/images/materials_sprite.png') no-repeat;
+  background-size: 16px;
+  margin-left: 2px;
+}
+.grid-column .transfers tbody .more:hover {
+  background: url('/images/materials_sprite.png') no-repeat;
+  background-size: 16px;
+  background-position: 0 -38px;
+}
+.grid-column .transfers tbody .rent-other-info {
+  border-top: none;
+}
+.grid-column .transfers tbody .rent-other-info td {
+  text-align: left;
+  font-size: 12px;
+  line-height: 16px;
 }
 .footer-wrapper {
   width: 930px;
