@@ -290,7 +290,7 @@ class Asset extends \yii\db\ActiveRecord
      *
      * @return array Array of possible thumbnail names
      */
-    public function getThumbnails($assetableType)
+    public static function getThumbnails($assetableType)
     {
         switch ($assetableType) {
             case self::ASSETABLE_POST:
