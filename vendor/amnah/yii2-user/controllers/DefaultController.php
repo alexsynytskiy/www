@@ -17,6 +17,7 @@ use common\models\Post;
 use common\models\Asset;
 use common\models\Comment;
 use common\models\CommentForm;
+use common\models\SiteBlock;
 
 /**
  * Default controller for User module
@@ -93,19 +94,6 @@ class DefaultController extends Controller
             ]);
         }
 
-        // frontend render
-        $newsPosts = Post::find()
-            ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_NEWS])
-            ->orderBy(['created_at' => SORT_DESC])
-            ->limit(50)
-            ->all();
-
-        $blogPosts = Post::find()
-            ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_BLOG])
-            ->orderBy(['created_at' => SORT_DESC])
-            ->limit(6)
-            ->all();
-
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col3',
             'title' => Yii::t('user','Вход'),
@@ -114,20 +102,14 @@ class DefaultController extends Controller
                     'view' => '@frontend/views/site/test',
                     'data' => [],
                 ],
-                'blog_column' => [
-                    'view' => '@frontend/views/blocks/blog_block',
-                    'data' => ['posts' => $blogPosts],
-                ],
+                'blog_column' => SiteBlock::getBlogPosts(),
             ],
             'columnSecond' => [
                 'login_block' => [
                     'view' => '@frontend/views/blocks/login_block',
                     'data' => compact('user'),
                 ],
-                'short_news' => [
-                    'view' => '@frontend/views/blocks/news_block',
-                    'data' => ['posts' => $newsPosts],
-                ],
+                'short_news' => SiteBlock::getShortNews(),
             ],
             'columnThird' => [
                 'test_block' => [
@@ -226,19 +208,6 @@ class DefaultController extends Controller
             return $this->render('/backend/register', compact('user','profile'));
         }
 
-        // frontend render
-        $newsPosts = Post::find()
-            ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_NEWS])
-            ->orderBy(['created_at' => SORT_DESC])
-            ->limit(50)
-            ->all();
-
-        $blogPosts = Post::find()
-            ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_BLOG])
-            ->orderBy(['created_at' => SORT_DESC])
-            ->limit(6)
-            ->all();
-
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col3',
             'title' => Yii::t('user','Вход'),
@@ -247,20 +216,14 @@ class DefaultController extends Controller
                     'view' => '@frontend/views/site/test',
                     'data' => [],
                 ],
-                'blog_column' => [
-                    'view' => '@frontend/views/blocks/blog_block',
-                    'data' => ['posts' => $blogPosts],
-                ],
+                'blog_column' => SiteBlock::getBlogPosts(),
             ],
             'columnSecond' => [
                 'register_block' => [
                     'view' => '@frontend/views/blocks/register_block',
                     'data' => compact('user','profile'),
                 ],
-                'short_news' => [
-                    'view' => '@frontend/views/blocks/news_block',
-                    'data' => ['posts' => $newsPosts],
-                ],
+                'short_news' => SiteBlock::getShortNews(),
             ],
             'columnThird' => [
                 'test_block' => [
@@ -400,13 +363,6 @@ class DefaultController extends Controller
             return $this->redirect('/user/profile');
         }
 
-        // newsPosts
-        $newsPosts = Post::find()
-            ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_NEWS])
-            ->orderBy(['created_at' => SORT_DESC])
-            ->limit(50)
-            ->all();
-
         // render
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
@@ -422,10 +378,7 @@ class DefaultController extends Controller
                     'view' => '@frontend/views/site/test',
                     'data' => [],
                 ],
-                'short_news' => [
-                    'view' => '@frontend/views/blocks/news_block',
-                    'data' => ['posts' => $newsPosts],
-                ],
+                'short_news' => SiteBlock::getShortNews(),
             ],
         ]);
     }
@@ -439,13 +392,6 @@ class DefaultController extends Controller
 
         // set up profile and load post data
         $profile = Yii::$app->user->identity->profile;
-
-        // newsPosts
-        $newsPosts = Post::find()
-            ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_NEWS])
-            ->orderBy(['created_at' => SORT_DESC])
-            ->limit(50)
-            ->all();
 
         // blogPostsDataProvider
         $query = Post::find()->where([
@@ -551,20 +497,14 @@ class DefaultController extends Controller
                     'view' => '@frontend/views/profile/profile_view',
                     'data' => compact('profile'),
                 ],
-                'blog_posts' => [
-                    'view' => '@frontend/views/profile/blog_posts',
-                    'data' => compact('blogPostsDataProvider'),
-                ],
+                'blog_column' => SiteBlock::getBlogPosts(),
             ],
             'columnSecond' => [
                 'test_block' => [
                     'view' => '@frontend/views/site/test',
                     'data' => [],
                 ],
-                'short_news' => [
-                    'view' => '@frontend/views/blocks/news_block',
-                    'data' => ['posts' => $newsPosts],
-                ],
+                'short_news' => SiteBlock::getShortNews(),
             ],
         ]);
     }

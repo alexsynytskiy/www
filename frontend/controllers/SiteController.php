@@ -8,6 +8,7 @@ use common\models\Asset;
 use common\models\Match;
 use common\models\Comment;
 use common\models\CommentForm;
+use common\models\SiteBlock;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
@@ -50,9 +51,6 @@ class SiteController extends Controller
     public function actions()
     {
         return [
-            // 'error' => [
-            //     'class' => 'yii\web\ErrorAction',
-            // ],
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
@@ -60,7 +58,6 @@ class SiteController extends Controller
             'image-upload' => [
                 'class' => 'vova07\imperavi\actions\UploadAction',
                 'url' => 'http://dynamomania.dev/images/store/post_attachments/', // Directory URL address, where files are stored.
-                // 'url' => 'http://'.$_SERVER['HTTP_HOST'].'/post_images/', // Directory URL address, where files are stored.
                 'path' => '@frontend/web/images/store/post_attachments' // Or absolute path to directory where files are stored.
             ],
         ];
@@ -70,20 +67,6 @@ class SiteController extends Controller
     {
         $postTable = Post::tableName();
         $assetTable = Asset::tableName();
-
-        // News list
-        $newsPosts = Post::find()
-            ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_NEWS])
-            ->orderBy(['created_at' => SORT_DESC])
-            ->limit(50)
-            ->all();
-
-        // Blog posts
-        $blogPosts = Post::find()
-            ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_BLOG])
-            ->orderBy(['created_at' => SORT_DESC])
-            ->limit(6)
-            ->all();
         
         // TOP 3
         $top3News = Post::find()
@@ -169,16 +152,10 @@ class SiteController extends Controller
                     'view' => '@frontend/views/blocks/main_news_block',
                     'data' => compact('top6News'),
                 ],
-                'blog_column' => [
-                    'view' => '@frontend/views/blocks/blog_block',
-                    'data' => ['posts' => $blogPosts],
-                ],
+                'blog_column' => SiteBlock::getBlogPosts(),
             ],
             'columnSecond' => [
-                'short_news' => [
-                    'view' => '@frontend/views/blocks/news_block',
-                    'data' => ['posts' => $newsPosts],
-                ],
+                'short_news' => SiteBlock::getShortNews(),
             ],
             'columnThird' => [
                 'reviewNews' => [
@@ -227,12 +204,6 @@ class SiteController extends Controller
             ],
         ]);
 
-        $blogPosts = Post::find()
-            ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_BLOG])
-            ->orderBy(['created_at' => SORT_DESC])
-            ->limit(6)
-            ->all();
-
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
             'title' => 'Новости',
@@ -247,10 +218,7 @@ class SiteController extends Controller
                     'view' => '@frontend/views/site/test',
                     'data' => [],
                 ],
-                'blog_column' => [
-                    'view' => '@frontend/views/blocks/blog_block',
-                    'data' => ['posts' => $blogPosts],
-                ],
+                'blog_column' => SiteBlock::getBlogPosts(),
             ],
         ]);
     }
@@ -264,12 +232,6 @@ class SiteController extends Controller
     {
         $post = $this->findModel($id);
         $image = $post->getAsset(Asset::THUMBNAIL_CONTENT);
-
-        $blogPosts = Post::find()
-            ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_BLOG])
-            ->orderBy(['created_at' => SORT_DESC])
-            ->limit(6)
-            ->all();
 
         $options = [
             'templateType' => 'col2',
@@ -286,10 +248,7 @@ class SiteController extends Controller
                     'view' => '@frontend/views/site/test',
                     'data' => [],
                 ],
-                'blog_column' => [
-                    'view' => '@frontend/views/blocks/blog_block',
-                    'data' => ['posts' => $blogPosts],
-                ],
+                'blog_column' => SiteBlock::getBlogPosts(),
             ],
 
         ];

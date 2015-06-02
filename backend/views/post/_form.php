@@ -136,7 +136,7 @@ SCRIPT;
         'showRemove' => false,
         'overwriteInitial' => true,
         'browseLabel' => "Обзор...",
-        'allowedFileExtensions' => ['jpg', 'gif', 'png'],
+        'allowedFileExtensions' => ['jpg', 'jpeg', 'gif', 'png'],
     ];
     if (isset($image) && $image->getFileUrl())
     {

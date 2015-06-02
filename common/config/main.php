@@ -45,9 +45,6 @@ return [
             'class' => 'amnah\yii2\user\Module',
             // set custom module properties here ...
         ],
-        'markdown' => [
-            'class' => 'kartik\markdown\Module',
-        ],
         'yii2images' => [
             'class' => 'rico\yii2images\Module',
             //be sure, that permissions ok
