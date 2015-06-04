@@ -146,6 +146,7 @@ a.desc:after {
 .tooltip {
     z-index: 1;
 }
-.post-view img {
-    max-width: 560px;
+
+.wrap table img {
+    max-width: 600px;
 }

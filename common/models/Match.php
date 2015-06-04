@@ -49,19 +49,19 @@ use yii\db\ActiveRecord;
  * @property integer $is_finished
  * @property string $announcement
  *
- * @property Compositions[] $compositions
- * @property MatchEvents[] $matchEvents
- * @property Championships $championship
- * @property Arbiters $arbiterAssistant2
- * @property Leagues $league
- * @property ChampionshipParts $championshipPart
- * @property Commands $commandHome
- * @property Commands $commandGuest
+ * @property Composition[] $compositions
+ * @property MatchEvent[] $matchEvents
+ * @property Championship $championship
+ * @property Arbiter $arbiterAssistant2
+ * @property League $league
+ * @property ChampionshipPart $championshipPart
+ * @property Team $commandHome
+ * @property Team $commandGuest
  * @property Stadia $stadium
- * @property Seasons $season
- * @property Arbiters $arbiterMain
- * @property Arbiters $arbiterReserve
- * @property Arbiters $arbiterAssistant1
+ * @property Season $season
+ * @property Arbiter $arbiterMain
+ * @property Arbiter $arbiterReserve
+ * @property Arbiter $arbiterAssistant1
  */
 class Match extends ActiveRecord
 {
@@ -141,7 +141,7 @@ class Match extends ActiveRecord
      */
     public function checkMatchWinner()
     {
-        $teamsConstants = Command::getTeamsConstants();
+        $teamsConstants = Team::getTeamsConstants();
         
         if(isset($this->home_goals) && isset($this->guest_goals)) {
             if ($this->home_goals == $this->guest_goals) {
@@ -294,17 +294,17 @@ class Match extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCommandHome()
+    public function getTeamHome()
     {
-        return $this->hasOne(Command::className(), ['id' => 'command_home_id']);
+        return $this->hasOne(Team::className(), ['id' => 'command_home_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCommandGuest()
+    public function getTeamGuest()
     {
-        return $this->hasOne(Command::className(), ['id' => 'command_guest_id']);
+        return $this->hasOne(Team::className(), ['id' => 'command_guest_id']);
     }
 
     /**

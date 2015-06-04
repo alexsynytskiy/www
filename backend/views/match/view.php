@@ -6,13 +6,13 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\Match */
 
-$this->title = $model->commandHome->name . ' - ' . $model->commandGuest->name;
+$this->title = $model->teamHome->name . ' - ' . $model->teamGuest->name;
 $this->params['breadcrumbs'][] = ['label' => 'Матчи', 'url' => ['index']];
-$this->params['breadcrumbs'][] =  $model->commandHome->name . ' - ' . $model->commandGuest->name;
+$this->params['breadcrumbs'][] =  $model->teamHome->name . ' - ' . $model->teamGuest->name;
 ?>
 <div class="match-view">
 
-    <h1><?= Html::encode($model->commandHome->name . ' - ' . $model->commandGuest->name) ?></h1>
+    <h1><?= Html::encode($model->teamHome->name . ' - ' . $model->teamGuest->name) ?></h1>
 
     <p>
         <?= Html::a('Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
@@ -51,11 +51,11 @@ $this->params['breadcrumbs'][] =  $model->commandHome->name . ' - ' . $model->co
             ],
             [
                 'label' => 'Хозяева',
-                'attribute' => 'commandHome.name',
+                'attribute' => 'teamHome.name',
             ],
             [
                 'label' => 'Гости',
-                'attribute' => 'commandGuest.name',
+                'attribute' => 'teamGuest.name',
             ],
             [
                 'label' => 'Стадион',

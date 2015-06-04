@@ -41,13 +41,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
             ],
             [
-                'attribute' => 'commandHome.name',
+                'attribute' => 'teamHome.name',
                 'label' => 'Хозяева',
                 'options' => ['width' => '150'],
                 'format' => 'html',
             ],
             [
-                'attribute' => 'commandGuest.name',
+                'attribute' => 'teamGuest.name',
                 'label' => 'Гости',
                 'options' => ['width' => '150'],
                 'format' => 'html',

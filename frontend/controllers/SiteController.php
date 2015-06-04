@@ -6,7 +6,7 @@ use common\models\LoginForm;
 use common\models\Post;
 use common\models\Asset;
 use common\models\Match;
-use common\models\Command;
+use common\models\Team;
 use common\models\Comment;
 use common\models\Season;
 use common\models\Championship;
@@ -265,18 +265,18 @@ class SiteController extends Controller
     {
         //select teams of interest for page matches sort
         $selectTeamsOI = [
-            Command::TEAM_DK_FIRST_FULL_NAME => Command::findOne(Command::TEAM_DK_FIRST_FULL_NAME),
-            Command::TEAM_DK_M => Command::findOne(Command::TEAM_DK_M),
-            Command::TEAM_DK2 => Command::findOne(Command::TEAM_DK2),
-            Command::TEAM_U19 => Command::findOne(Command::TEAM_U19),
-            Command::TEAM_UKRAINE => Command::findOne(Command::TEAM_UKRAINE),
+            Team::TEAM_DK_FIRST_FULL_NAME => Team::findOne(Team::TEAM_DK_FIRST_FULL_NAME),
+            Team::TEAM_DK_M => Team::findOne(Team::TEAM_DK_M),
+            Team::TEAM_DK2 => Team::findOne(Team::TEAM_DK2),
+            Team::TEAM_U19 => Team::findOne(Team::TEAM_U19),
+            Team::TEAM_UKRAINE => Team::findOne(Team::TEAM_UKRAINE),
         ];        
 
         if (isset($_GET['team'])) {
             $activeTeam = $_GET['team'];
         }
         else {
-            $activeTeam = Command::TEAM_DK_FIRST_FULL_NAME;
+            $activeTeam = Team::TEAM_DK_FIRST_FULL_NAME;
         }
 
         //select seasons

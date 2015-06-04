@@ -16,7 +16,7 @@ use yii\web\JsExpression;
 use common\models\League;
 use common\models\Championship;
 use common\models\Arbiter;
-use common\models\Command;
+use common\models\Team;
 use common\models\Stadium;
 use common\models\ChampionshipPart;
 use common\models\Season;
@@ -82,19 +82,19 @@ use common\models\Season;
     ?>
 
     <?php
-        $availableCommands = [];
+        $availableTeams = [];
         
         if(!$model->isNewRecord) {
-            $team = Command::findOne($model->command_home_id);
+            $team = Team::findOne($model->command_home_id);
 
             if(isset($team->id)) {
-                $availableCommands = [$team->id => $team->name];
+                $availableTeams = [$team->id => $team->name];
             }
         }
 
         echo $form->field($model, 'command_home_id')->widget(SelectizeDropDownList::classname(), [
-            'loadUrl' => Url::to(['command/command-list']),        
-            'items' => $availableCommands,
+            'loadUrl' => Url::to(['team/team-list']),        
+            'items' => $availableTeams,
             'options' => [
                 'multiple' => false,
             ],
@@ -107,19 +107,19 @@ use common\models\Season;
     ?>
 
     <?php
-        $availableCommands = [];
+        $availableTeams = [];
     
         if(!$model->isNewRecord) {
-            $team = Command::findOne($model->command_guest_id);
+            $team = Team::findOne($model->command_guest_id);
 
             if(isset($team->id)) {
-                $availableCommands = [$team->id => $team->name];
+                $availableTeams = [$team->id => $team->name];
             }
         }
 
         echo $form->field($model, 'command_guest_id')->widget(SelectizeDropDownList::classname(), [
-            'loadUrl' => Url::to(['command/command-list']),        
-            'items' => $availableCommands,
+            'loadUrl' => Url::to(['team/team-list']),        
+            'items' => $availableTeams,
             'options' => [
                 'multiple' => false,
             ],
@@ -186,6 +186,7 @@ use common\models\Season;
             'options' => ['placeholder' => 'Выберите дату матча'],
             'removeButton' => false,
             'pluginOptions' => [
+                'language' => 'ru',
                 'autoclose' => true,
                 'format' => 'dd.mm.yyyy'
             ]

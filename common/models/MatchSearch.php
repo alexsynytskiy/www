@@ -20,8 +20,8 @@ class MatchSearch extends Match
         return [
             [['id', 'is_visible', 'home_shots', 'guest_shots', 'home_shots_in', 'guest_shots_in', 'home_offsides', 'guest_offsides', 'home_corners', 'guest_corners', 'home_fouls', 'guest_fouls', 'home_yellow_cards', 'guest_yellow_cards', 'home_red_cards', 'guest_red_cards', 'home_goals', 'guest_goals', 'comments_count', 'is_finished'], 'integer'],
             [['championship.name', 
-              'commandGuest.name', 
-              'commandHome.name',
+              'teamGuest.name', 
+              'teamHome.name',
               'arbiterMain.name',
               'arbiterAssistant1.name',
               'arbiterAssistant2.name',
@@ -55,8 +55,8 @@ class MatchSearch extends Match
         // add related fields to searchable attributes
         return array_merge(parent::attributes(), [
             'championship.name',
-            'commandGuest.name',
-            'commandHome.name',
+            'teamGuest.name',
+            'teamHome.name',
             'arbiterMain.name',
             'arbiterAssistant1.name',
             'arbiterAssistant2.name',
@@ -79,14 +79,14 @@ class MatchSearch extends Match
     {
         $query = Match::find();
         $championship = new Championship;
-        $commandHome = new Command;
+        $teamHome = new Team;
         $stadium = new Stadium;
         $arbiter = new Arbiter;
         $championshipPart = new ChampionshipPart;
         $matchTable = Match::tableName();
         $championshipTable = Championship::tableName();
         $championshipPartTable = ChampionshipPart::tableName();
-        $commandTable = Command::tableName();
+        $teamTable = Team::tableName();
         $stadiumTable = Stadium::tableName();
         $arbiterTable = Arbiter::tableName();
 
@@ -94,12 +94,12 @@ class MatchSearch extends Match
             $query->from(['championship' => $championshipTable]);
         }]);
 
-        $query->joinWith(['commandHome' => function($query) use ($commandTable) {
-            $query->from(['commandHome' => $commandTable]);
+        $query->joinWith(['teamHome' => function($query) use ($teamTable) {
+            $query->from(['teamHome' => $teamTable]);
         }]);
 
-        $query->joinWith(['commandGuest' => function($query) use ($commandTable) {
-            $query->from(['commandGuest' => $commandTable]);
+        $query->joinWith(['teamGuest' => function($query) use ($teamTable) {
+            $query->from(['teamGuest' => $teamTable]);
         }]);
 
         $query->joinWith(['arbiterMain' => function($query) use ($arbiterTable) {
@@ -151,7 +151,7 @@ class MatchSearch extends Match
         }
 
         // enable sorting for the related columns
-        $addSortAttributes = ["commandHome.name"];
+        $addSortAttributes = ["teamHome.name"];
         foreach ($addSortAttributes as $addSortAttribute) {
             $dataProvider->sort->attributes[$addSortAttribute] = [
                 'asc'   => [$addSortAttribute => SORT_ASC],
@@ -160,7 +160,7 @@ class MatchSearch extends Match
         }
 
         // enable sorting for the related columns
-        $addSortAttributes = ["commandGuest.name"];
+        $addSortAttributes = ["teamGuest.name"];
         foreach ($addSortAttributes as $addSortAttribute) {
             $dataProvider->sort->attributes[$addSortAttribute] = [
                 'asc'   => [$addSortAttribute => SORT_ASC],
@@ -290,8 +290,8 @@ class MatchSearch extends Match
 
         $query->andFilterWhere(['like', 'round', $this->round])
               ->andFilterWhere(['like', 'announcement', $this->announcement])
-              ->andFilterWhere(['like', "commandHome.name", $this->getAttribute('commandHome.name')])
-              ->andFilterWhere(['like', "commandGuest.name", $this->getAttribute('commandGuest.name')])
+              ->andFilterWhere(['like', "teamHome.name", $this->getAttribute('teamHome.name')])
+              ->andFilterWhere(['like', "teamGuest.name", $this->getAttribute('teamGuest.name')])
               ->andFilterWhere(['like', 'championship.name', $this->getAttribute('championship.name')])
               ->andFilterWhere(['like', 'arbiterMain.name', $this->getAttribute('arbiterMain.name')])
               ->andFilterWhere(['like', 'arbiterAssistant1.name', $this->getAttribute('arbiterAssistant1.name')])
