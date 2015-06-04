@@ -1,7 +1,5 @@
 <?php
 use yii\helpers\Url;
-use yii\widgets\LinkPager;
-use yii\widgets\Pjax;
 
 /**
  * @var $this yii\web\View
@@ -25,10 +23,12 @@ use yii\widgets\Pjax;
                 <li class="photo-preview">
                     <div class="image"><img src="<?= $image->getFileUrl() ?>" alt=""></div>
                     <div class="title"><a href="<?= $post->getUrl() ?>"><?= $post->title ?></a></div>
+                    <?php if($post->comments_count > 0) { ?>
                     <div class="comments">
                         <div class="count"><?= $post->comments_count ?></div>
                         <div class="icon"></div>
                     </div>
+                    <?php } ?>
                 </li>
                 <?php } ?>
             </ul>
@@ -48,10 +48,12 @@ use yii\widgets\Pjax;
                 <li class="video-preview">
                     <div class="image"><img src="<?= $image->getFileUrl() ?>" alt=""></div>
                     <div class="title"><a href="<?= $post->getUrl() ?>"><?= $post->title ?></a></div>
+                    <?php if($post->comments_count > 0) { ?>
                     <div class="comments">
                         <div class="count"><?= $post->comments_count ?></div>
                         <div class="icon"></div>
                     </div>
+                    <?php } ?>
                 </li>
                 <?php } ?>
             </ul>

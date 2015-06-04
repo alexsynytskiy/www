@@ -51,10 +51,6 @@ class SiteController extends Controller
     public function actions()
     {
         return [
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-            ],
             'image-upload' => [
                 'class' => 'vova07\imperavi\actions\UploadAction',
                 'url' => 'http://dynamomania.dev/images/store/post_attachments/', // Directory URL address, where files are stored.
@@ -65,103 +61,19 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        $postTable = Post::tableName();
-        $assetTable = Asset::tableName();
-        
-        // TOP 3
-        $top3News = Post::find()
-            ->innerJoin($assetTable, "{$assetTable}.assetable_id = {$postTable}.id")
-            ->where([
-                'is_public' => 1, 
-                'is_index' => 1, 
-                'content_category_id' => Post::CATEGORY_NEWS,
-                "{$assetTable}.assetable_type" => Asset::ASSETABLE_POST,
-                "{$assetTable}.thumbnail" => Asset::THUMBNAIL_BIG,
-            ])
-            ->orderBy(['created_at' => SORT_DESC])
-            ->limit(3)
-            ->all();
-
-        $excludeIds = [];
-        foreach ($top3News as $post) {
-            $excludeIds[] = $post->id;
-        }
-
-        // TOP 6
-        $query = Post::find()
-            ->innerJoin($assetTable, "{$assetTable}.assetable_id = {$postTable}.id")
-            ->where([
-                'is_public' => 1, 
-                'is_top' => 1, 
-                'content_category_id' => Post::CATEGORY_NEWS,
-                "{$assetTable}.assetable_type" => Asset::ASSETABLE_POST,
-                "{$assetTable}.thumbnail" => Asset::THUMBNAIL_NEWS,
-            ]);
-        $top6News = $query->andWhere(['not in', "{$postTable}.id", $excludeIds])
-            ->orderBy(['created_at' => SORT_DESC])
-            ->limit(6)
-            ->all();
-
-        foreach ($top6News as $post) {
-            $excludeIds[] = $post->id;
-        }
-
-        // Photo review
-        $query = Post::find()
-            ->innerJoin($assetTable, "{$assetTable}.assetable_id = {$postTable}.id")
-            ->where([
-                'is_public' => 1, 
-                'with_photo' => 1,
-                'content_category_id' => Post::CATEGORY_NEWS,
-                "{$assetTable}.assetable_type" => Asset::ASSETABLE_POST,
-                "{$assetTable}.thumbnail" => Asset::THUMBNAIL_BIG,
-            ]);
-        $photoReviewNews = $query->andWhere(['not in', "{$postTable}.id", $excludeIds])
-            ->orderBy(['created_at' => SORT_DESC])
-            ->limit(3)
-            ->all();
-
-        foreach ($photoReviewNews as $post) {
-            $excludeIds[] = $post->id;
-        }
-
-        // Video review
-        $query = Post::find()
-            ->innerJoin($assetTable, "{$assetTable}.assetable_id = {$postTable}.id")
-            ->where([
-                'is_public' => 1, 
-                'with_video' => 1,
-                'content_category_id' => Post::CATEGORY_NEWS,
-                "{$assetTable}.assetable_type" => Asset::ASSETABLE_POST,
-                "{$assetTable}.thumbnail" => Asset::THUMBNAIL_BIG,
-            ]);
-        $videoReviewNews = $query->andWhere(['not in', "{$postTable}.id", $excludeIds])
-            ->orderBy(['created_at' => SORT_DESC])
-            ->limit(3)
-            ->all();
-
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col3',
             'title' => 'Главная',
             'columnFirst' => [
-                'top3News' => [
-                    'view' => '@frontend/views/blocks/main_slider_block',
-                    'data' => compact('top3News'),
-                ],
-                'top6News' => [
-                    'view' => '@frontend/views/blocks/main_news_block',
-                    'data' => compact('top6News'),
-                ],
+                'top3News' => SiteBlock::getTop3News(),
+                'top6News' => SiteBlock::getTop6News(),
                 'blog_column' => SiteBlock::getBlogPosts(),
             ],
             'columnSecond' => [
                 'short_news' => SiteBlock::getShortNews(),
             ],
             'columnThird' => [
-                'reviewNews' => [
-                    'view' => '@frontend/views/blocks/review_news_block',
-                    'data' => compact('photoReviewNews','videoReviewNews'),
-                ],
+                'reviewNews' => SiteBlock::getPhotoVideoNews(),
             ],
         ]);
     }
@@ -214,10 +126,6 @@ class SiteController extends Controller
                 ],
             ],
             'columnSecond' => [
-                'test_block' => [
-                    'view' => '@frontend/views/site/test',
-                    'data' => [],
-                ],
                 'blog_column' => SiteBlock::getBlogPosts(),
             ],
         ]);
@@ -244,10 +152,6 @@ class SiteController extends Controller
                 ],
             ],
             'columnSecond' => [
-                'test_block' => [
-                    'view' => '@frontend/views/site/test',
-                    'data' => [],
-                ],
                 'blog_column' => SiteBlock::getBlogPosts(),
             ],
 

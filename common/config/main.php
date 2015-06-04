@@ -31,7 +31,7 @@ return [
             'translations' => [
                 '*' => [
                     'class' => 'yii\i18n\PhpMessageSource',
-                    'basePath' => '@app/messages', // if advanced application, set @frontend/messages
+                    'basePath' => '@frontend/messages',
                     'sourceLanguage' => 'ru',
                     'fileMap' => [
                         //'main' => 'main.php',
