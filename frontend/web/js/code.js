@@ -267,6 +267,13 @@ $(document).ready(function() {
     });
     // => Selectize END
 
+    $(document).on("change", "#select-season", function(){
+        $(this).parents("form").first().submit();
+    });
+
+    $(document).on("change", "#select-championship", function(){
+        $(this).parents("form").first().submit();
+    });
 
     // => Alert tick START
     function alertTick() {
