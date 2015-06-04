@@ -31,7 +31,7 @@ return [
             'translations' => [
                 '*' => [
                     'class' => 'yii\i18n\PhpMessageSource',
-                    'basePath' => '@app/messages', // if advanced application, set @frontend/messages
+                    'basePath' => '@frontend/messages',
                     'sourceLanguage' => 'ru',
                     'fileMap' => [
                         //'main' => 'main.php',
@@ -44,9 +44,6 @@ return [
         'user' => [
             'class' => 'amnah\yii2\user\Module',
             // set custom module properties here ...
-        ],
-        'markdown' => [
-            'class' => 'kartik\markdown\Module',
         ],
         'yii2images' => [
             'class' => 'rico\yii2images\Module',

@@ -8,6 +8,7 @@ use common\models\Asset;
 use common\models\Match;
 use common\models\Comment;
 use common\models\CommentForm;
+use common\models\SiteBlock;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
@@ -50,17 +51,9 @@ class SiteController extends Controller
     public function actions()
     {
         return [
-            // 'error' => [
-            //     'class' => 'yii\web\ErrorAction',
-            // ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-            ],
             'image-upload' => [
                 'class' => 'vova07\imperavi\actions\UploadAction',
                 'url' => 'http://dynamomania.dev/images/store/post_attachments/', // Directory URL address, where files are stored.
-                // 'url' => 'http://'.$_SERVER['HTTP_HOST'].'/post_images/', // Directory URL address, where files are stored.
                 'path' => '@frontend/web/images/store/post_attachments' // Or absolute path to directory where files are stored.
             ],
         ];
@@ -68,144 +61,21 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        $postTable = Post::tableName();
-        $assetTable = Asset::tableName();
-
-        // News list
-        $newsPosts = Post::find()
-            ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_NEWS])
-            ->orderBy(['created_at' => SORT_DESC])
-            ->limit(50)
-            ->all();
-
-        // Blog posts
-        $blogPosts = Post::find()
-            ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_BLOG])
-            ->orderBy(['created_at' => SORT_DESC])
-            ->limit(6)
-            ->all();
         
-        // TOP 3
-        $top3News = Post::find()
-            ->innerJoin($assetTable, "{$assetTable}.assetable_id = {$postTable}.id")
-            ->where([
-                'is_public' => 1, 
-                'is_index' => 1, 
-                'content_category_id' => Post::CATEGORY_NEWS,
-                "{$assetTable}.assetable_type" => Asset::ASSETABLE_POST,
-                "{$assetTable}.thumbnail" => Asset::THUMBNAIL_BIG,
-            ])
-            ->orderBy(['created_at' => SORT_DESC])
-            ->limit(3)
-            ->all();
-
-        $excludeIds = [];
-        foreach ($top3News as $post) {
-            $excludeIds[] = $post->id;
-        }
-
-        // TOP 6
-        $query = Post::find()
-            ->innerJoin($assetTable, "{$assetTable}.assetable_id = {$postTable}.id")
-            ->where([
-                'is_public' => 1, 
-                'is_top' => 1, 
-                'content_category_id' => Post::CATEGORY_NEWS,
-                "{$assetTable}.assetable_type" => Asset::ASSETABLE_POST,
-                "{$assetTable}.thumbnail" => Asset::THUMBNAIL_NEWS,
-            ]);
-        $top6News = $query->andWhere(['not in', "{$postTable}.id", $excludeIds])
-            ->orderBy(['created_at' => SORT_DESC])
-            ->limit(6)
-            ->all();
-
-
-        foreach ($top6News as $post) {
-            $excludeIds[] = $post->id;
-        }
-
-        // Photo review
-        $query = Post::find()
-            ->innerJoin($assetTable, "{$assetTable}.assetable_id = {$postTable}.id")
-            ->where([
-                'is_public' => 1, 
-                'with_photo' => 1,
-                'content_category_id' => Post::CATEGORY_NEWS,
-                "{$assetTable}.assetable_type" => Asset::ASSETABLE_POST,
-                "{$assetTable}.thumbnail" => Asset::THUMBNAIL_BIG,
-            ]);
-        $photoReviewNews = $query->andWhere(['not in', "{$postTable}.id", $excludeIds])
-            ->orderBy(['created_at' => SORT_DESC])
-            ->limit(3)
-            ->all();
-
-        foreach ($photoReviewNews as $post) {
-            $excludeIds[] = $post->id;
-        }
-
-        // Video review
-        $query = Post::find()
-            ->innerJoin($assetTable, "{$assetTable}.assetable_id = {$postTable}.id")
-            ->where([
-                'is_public' => 1, 
-                'with_video' => 1,
-                'content_category_id' => Post::CATEGORY_NEWS,
-                "{$assetTable}.assetable_type" => Asset::ASSETABLE_POST,
-                "{$assetTable}.thumbnail" => Asset::THUMBNAIL_BIG,
-            ]);
-        $videoReviewNews = $query->andWhere(['not in', "{$postTable}.id", $excludeIds])
-            ->orderBy(['created_at' => SORT_DESC])
-            ->limit(3)
-            ->all();
-
-        $sliderPreviousMatches = Match::find()
-            ->where(['is_visible' => 1])
-            ->andWhere(['<', 'date', date('Y-m.d H:i:s')])
-            ->orderBy(['date' => SORT_DESC])
-            ->limit(5)
-            ->all();
-
-        $sliderFutureMatches = Match::find()
-            ->where(['>', 'date', date('Y-m.d H:i:s')])
-            ->orderBy(['date' => SORT_ASC])
-            ->limit(5)
-            ->all();        
-
-        $sliderMatches = array_merge($sliderPreviousMatches, $sliderFutureMatches);
-
-
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col3',
             'title' => 'Главная',
             'columnFirst' => [
-                'top3News' => [
-                    'view' => '@frontend/views/blocks/main_slider_block',
-                    'data' => compact('top3News'),
-                ],
-                'top6News' => [
-                    'view' => '@frontend/views/blocks/main_news_block',
-                    'data' => compact('top6News'),
-                ],
-                'blog_column' => [
-                    'view' => '@frontend/views/blocks/blog_block',
-                    'data' => ['posts' => $blogPosts],
-                ],
+                'top3News' => SiteBlock::getTop3News(),
+                'top6News' => SiteBlock::getTop6News(),
+                'blog_column' => SiteBlock::getBlogPosts(),
             ],
             'columnSecond' => [
-                'slider_matches' => [
-                    'view' => '@frontend/views/blocks/matches_slider_block',
-                    'data' => ['matches' => $sliderMatches],
-                ],
-                'short_news' => [
-                    'view' => '@frontend/views/blocks/news_block',
-                    'data' => ['posts' => $newsPosts],
-                ],
+                'slider_matches' => SiteBlock::getMatchesSlider(),
+                'short_news' => SiteBlock::getShortNews(),
             ],
             'columnThird' => [
-                'reviewNews' => [
-                    'view' => '@frontend/views/blocks/review_news_block',
-                    'data' => compact('photoReviewNews','videoReviewNews'),
-                ],
+                'reviewNews' => SiteBlock::getPhotoVideoNews(),
             ],
         ]);
     }
@@ -248,12 +118,6 @@ class SiteController extends Controller
             ],
         ]);
 
-        $blogPosts = Post::find()
-            ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_BLOG])
-            ->orderBy(['created_at' => SORT_DESC])
-            ->limit(6)
-            ->all();
-
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
             'title' => 'Новости',
@@ -264,14 +128,7 @@ class SiteController extends Controller
                 ],
             ],
             'columnSecond' => [
-                'test_block' => [
-                    'view' => '@frontend/views/site/test',
-                    'data' => [],
-                ],
-                'blog_column' => [
-                    'view' => '@frontend/views/blocks/blog_block',
-                    'data' => ['posts' => $blogPosts],
-                ],
+                'blog_column' => SiteBlock::getBlogPosts(),
             ],
         ]);
     }
@@ -286,12 +143,6 @@ class SiteController extends Controller
         $post = $this->findModel($id);
         $image = $post->getAsset(Asset::THUMBNAIL_CONTENT);
 
-        $blogPosts = Post::find()
-            ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_BLOG])
-            ->orderBy(['created_at' => SORT_DESC])
-            ->limit(6)
-            ->all();
-
         $options = [
             'templateType' => 'col2',
             'title' => $post->title,
@@ -303,14 +154,7 @@ class SiteController extends Controller
                 ],
             ],
             'columnSecond' => [
-                'test_block' => [
-                    'view' => '@frontend/views/site/test',
-                    'data' => [],
-                ],
-                'blog_column' => [
-                    'view' => '@frontend/views/blocks/blog_block',
-                    'data' => ['posts' => $blogPosts],
-                ],
+                'blog_column' => SiteBlock::getBlogPosts(),
             ],
 
         ];
