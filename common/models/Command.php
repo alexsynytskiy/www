@@ -25,6 +25,60 @@ use yii\db\ActiveRecord;
 class Command extends ActiveRecord
 {
     /**
+     * @var int team for matches
+     */
+    const TEAM_DK_FIRST = 213;
+    /**
+     * @var int team for matches
+     */
+    const TEAM_DK_FIRST_FULL_NAME = 1;
+    /**
+      * @var int team for matches
+     */
+    const TEAM_DK_M = 616;
+    /**
+      * @var int team for matches
+     */
+    const TEAM_DK2 = 8;
+    /**
+      * @var int team for matches
+     */
+    const TEAM_U19 = 878;
+    /**
+      * @var int team for matches
+     */
+    const TEAM_UKRAINE = 7;
+    /**
+      * @var int team for matches
+     */
+    const TEAM_UKRAINE_M = 117;
+    /**
+      * @var int team for matches
+     */
+    const TEAM_DK_KIDS = 221;
+    /**
+      * @var int team for matches
+     */
+    const TEAM_DK3 = 9;
+
+    public static function getTeamsConstants()
+    {
+        $teamsConstants = [];
+        
+        $teamsConstants[] = self::TEAM_DK_FIRST;
+        $teamsConstants[] = self::TEAM_DK_FIRST_FULL_NAME;
+        $teamsConstants[] = self::TEAM_DK_M;
+        $teamsConstants[] = self::TEAM_DK2;
+        $teamsConstants[] = self::TEAM_U19;
+        $teamsConstants[] = self::TEAM_UKRAINE;
+        $teamsConstants[] = self::TEAM_UKRAINE_M;
+        $teamsConstants[] = self::TEAM_DK_KIDS;
+        $teamsConstants[] = self::TEAM_DK3;
+        
+        return $teamsConstants;
+    }
+    
+    /**
      * @inheritdoc
      */
     public static function tableName()

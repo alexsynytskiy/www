@@ -6,7 +6,10 @@ use common\models\LoginForm;
 use common\models\Post;
 use common\models\Asset;
 use common\models\Match;
+use common\models\Command;
 use common\models\Comment;
+use common\models\Season;
+use common\models\Championship;
 use common\models\CommentForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
@@ -416,7 +419,72 @@ class SiteController extends Controller
      */
     public function actionMatches() 
     {
-        $query = Match::find()->where(['is_visible' => 1]);
+        //select teams of interest for page matches sort
+        $selectTeamsOI = [
+            Command::TEAM_DK_FIRST_FULL_NAME => Command::findOne(Command::TEAM_DK_FIRST_FULL_NAME),
+            Command::TEAM_DK_M => Command::findOne(Command::TEAM_DK_M),
+            Command::TEAM_DK2 => Command::findOne(Command::TEAM_DK2),
+            Command::TEAM_U19 => Command::findOne(Command::TEAM_U19),
+            Command::TEAM_UKRAINE => Command::findOne(Command::TEAM_UKRAINE),
+        ];        
+
+        if (isset($_GET['team'])) {
+            $activeTeam = $_GET['team'];
+        }
+        else {
+            $activeTeam = Command::TEAM_DK_FIRST_FULL_NAME;
+        }
+
+        //select seasons
+        $seasons = Season::find()
+        ->where(['>', 'id', 42])
+        ->orderBy(['id' => SORT_DESC])
+        ->all();
+
+        foreach ($seasons as $key => $season) {
+           if (strpos($season->name, '/') === false) {
+               unset($seasons[$key]);
+           }
+        }
+
+        if (isset($_GET['season'])) {
+            $activeSeason = $_GET['season'];
+        }
+        else {
+            $activeSeason = $seasons[0]->id;
+        }
+
+        //select tournaments
+        $tableTournament = Championship::tableName();
+        $tableMatch = Match::tableName();
+
+        $tournaments = Championship::find()
+        ->innerJoin($tableMatch, "{$tableMatch}.championship_id = {$tableTournament}.id")
+        ->where(['is_visible' => 1])
+        ->andWhere(['or', ["{$tableMatch}.command_home_id" => $activeTeam], ["{$tableMatch}.command_guest_id" => $activeTeam]])
+        ->orderBy(['id' => SORT_DESC])
+        ->all();
+
+        $query = NULL;     
+
+        if (isset($_GET['championship'])) {
+            $activeTournament = $_GET['championship'];
+            if ($_GET['championship'] == 'all-tournaments') {
+                $activeTournament = NULL;
+            }
+        }
+        else {
+            $activeTournament = NULL;
+        }
+
+        $query = Match::find()
+        ->where(['is_visible' => 1, 'season_id' => $activeSeason])
+        ->andWhere(['or', ['command_home_id' => $activeTeam], ['command_guest_id' => $activeTeam]]);
+
+        if (isset($activeTournament)) {
+            $query->andWhere(['championship_id' => $activeTournament]);
+        }
+
         $query->orderBy(['date' => SORT_DESC]);
         
         $matchDataProvider = new ActiveDataProvider([
@@ -432,7 +500,13 @@ class SiteController extends Controller
             'columnFirst' => [
                 'matches' => [
                     'view' => '@frontend/views/site/matches',
-                    'data' => compact('matchDataProvider'),
+                    'data' => compact('matchDataProvider', 
+                                      'selectTeamsOI', 
+                                      'activeTeam', 
+                                      'seasons', 
+                                      'activeSeason', 
+                                      'tournaments', 
+                                      'activeTournament'),
                 ],
             ],
             'columnSecond' => [

@@ -1,4 +1,5 @@
 <?php
+use yii\helpers\Url;
 /**
  * @var $this yii\web\View
  * @var $matchDataProvider yii\data\ActiveDataProvider
@@ -7,33 +8,44 @@
 
 <div class="search-box default-box">
     <div class="club-select">
-        <a href="#">
-            <div class="button active">"Динамо" Киев<div class="select"></div></div>
-        </a>
-        <a href="#">
-            <div class="button">"Динамо" U-19<div class="select"></div></div>
-        </a>
-        <a href="#">
-            <div class="button">"Динамо-2"<div class="select"></div></div>
-        </a>
-        <a href="#">
-            <div class="button">"Динамо" М<div class="select"></div></div>
-        </a>
-        <a href="#">
-            <div class="button">Сборная Украины<div class="select"></div></div>
-        </a>
+        <?php 
+            foreach ($selectTeamsOI as $team) {
+                if($team->id == $activeTeam) {
+                    $active = 'active';
+                }
+                else {
+                    $active = '';
+                }
+        ?>
+            <a href="/matches?team=<?= $team->id ?>">
+                <div class="button <?= $active ?>"><?= $team->name ?><div class="select"></div></div>
+            </a>
+        <?php
+            }
+        ?>
     </div>
     <div class="box-content">
-        <form class="search-matches" action="">           
+        <form class="search-matches" action="">
+            <input type="hidden" name="team" value="<?= $activeTeam ?>">
 
             <div class="select-championship selectize-box">
                 <label for="select-championship">Выбрать турнир</label>
                 <select name="championship" id="select-championship" placeholder="Выбрать турнир">
-                    <option value="all-champ" selected class="data-default">Все турниры</option>
-                    <option value="euro2012">Евро 2012</option>
-                    <option value="euro2016">Евро 2016 Отборочный турнир</option>
-                    <option value="ukr">Кубок Украины</option>
-                    <option value="world2014">Чемпионат мира-2014. Отборочный турнир</option>
+                    <option value="all-tournaments" selected class="data-default">Все турниры</option>
+
+                    <?php 
+                        foreach ($tournaments as $tournament) {
+                            if($tournament->id == $activeTournament) {
+                                $active = 'selected class="data-default"';
+                            }
+                            else {
+                                $active = '';
+                            }
+                    ?>
+                        <option value="<?= $tournament->id ?>" <?= $active ?>><?= $tournament->name ?></option>
+                    <?php
+                        }
+                    ?>
                 </select>
             </div>
 
@@ -41,13 +53,19 @@
                 <label for="select-season">Выбрать сезон</label>
                 <select name="season" id="select-season" placeholder="Выбрать сезон">
                     <option value="">Выбрать сезон</option>
-                    <option value="2014" selected class="data-default">Cезон 2014/15</option>
-                    <option value="2013">Cезон 2013/14</option>
-                    <option value="2012">Cезон 2012/13</option>
-                    <option value="2011">Cезон 2011/12</option>
-                    <option value="2010">Cезон 2010/11</option>
-                    <option value="2009">Cезон 2009/10</option>
-                    <option value="2008">Cезон 2008/09</option>
+                    <?php 
+                        foreach ($seasons as $season) {
+                            if($season->id == $activeSeason) {
+                                $active = 'selected class="data-default"';
+                            }
+                            else {
+                                $active = '';
+                            }
+                    ?>
+                        <option value="<?= $season->id ?>" <?= $active ?>>Cезон <?= $season->name ?></option>
+                    <?php
+                        }
+                    ?>
                 </select>
             </div>
         </form>
@@ -57,6 +75,14 @@
 <div class="matches default-box">
 	
 	<div class="box-content">
+
+    <?php 
+        if (count($matchDataProvider->getModels()) == 0) {
+            echo "Таких матчей нет";
+        }
+        else {
+    ?>
+
         <table class="default-table">
             <thead>
                 <tr>
@@ -74,15 +100,16 @@
             <tbody>
 		
 				<?php
-				echo \yii\widgets\ListView::widget([
-					'dataProvider' => $matchDataProvider,
-					'itemOptions' => ['class' => 'item'],
-					'itemView' => '@frontend/views/site/match_item',
-				    'summary' => '',
-				]);
+    				echo \yii\widgets\ListView::widget([
+    					'dataProvider' => $matchDataProvider,
+    					'itemOptions' => ['class' => 'item'],
+    					'itemView' => '@frontend/views/site/match_item',
+    				    'summary' => '',
+    				]);
 				?>
 				
 			</tbody>
         </table>
+        <?php } ?>
     </div>
 </div>
