@@ -13,12 +13,12 @@ use yii\helpers\Url;
 		<li>
 			<div class="main-part">
 				<div class="team no-border">
-					<div class="name"><?= $match->commandHome->name ?></div>
+					<div class="name"><?= $match->teamHome->name ?></div>
 					<div class="goals"><?= $match->home_goals ?></div>
 				</div>
 				<div class="small-line"></div>
 				<div class="team">
-					<div class="name"><?= $match->commandGuest->name ?></div>
+					<div class="name"><?= $match->teamGuest->name ?></div>
 					<div class="goals"><?= $match->guest_goals ?></div>
 				</div>
 				<div class="intro">

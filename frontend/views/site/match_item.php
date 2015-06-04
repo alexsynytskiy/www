@@ -12,7 +12,7 @@ use yii\helpers\Url;
     <td class="status <?= $model->checkMatchWinner() ?>"></td>
     <th class="date"><?= date("d.m.Y", strtotime($model->date)) ?></th>
     <th class="competition"><?= $model->getTournamentName() ?></th>
-    <th class="home"><?= $model->commandHome->name ?></th>
+    <th class="home"><?= $model->teamHome->name ?></th>
     <?php
         $image = $model->getAssetHome();        
     ?>
@@ -36,7 +36,7 @@ use yii\helpers\Url;
             <img src="<?= $image->getDefaultFileUrl() ?>" style="height: 30px; width: 30px;">
         <?php } ?>
     </th>    
-    <th class="visitors"><?= $model->commandGuest->name ?></th>
+    <th class="visitors"><?= $model->teamGuest->name ?></th>
     <th class="more">
         <a href="/?q=translation">
             <div class="link">
