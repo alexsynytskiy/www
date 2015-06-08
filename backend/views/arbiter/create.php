@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Arbiter */
 
-$this->title = 'Create Arbiter';
-$this->params['breadcrumbs'][] = ['label' => 'Arbiters', 'url' => ['index']];
+$this->title = 'Создать арбитра';
+$this->params['breadcrumbs'][] = ['label' => 'Арбитры', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="arbiter-create">

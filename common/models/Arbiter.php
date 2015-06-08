@@ -43,8 +43,8 @@ class Arbiter extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'country_id' => 'Country ID',
+            'name' => 'Имя',
+            'country_id' => 'Страна',
         ];
     }
 

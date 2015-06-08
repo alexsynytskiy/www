@@ -57,7 +57,7 @@ class StadiumSearch extends Stadium
         $stadiumTable = Stadium::tableName();
         $countryTable = Country::tableName();
         
-         $query->joinWith(['country' => function($query) use ($countryTable) {
+        $query->joinWith(['country' => function($query) use ($countryTable) {
             $query->from(['country' => $countryTable]);
         }]);
 

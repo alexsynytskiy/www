@@ -38,7 +38,7 @@ use common\models\Season;
         echo $form->field($model, 'championship_id')->widget(Select2::classname(), [
             'data' => ArrayHelper::map(Championship::find()->all(), 'id', 'name'),
             'language' => 'en',
-            'options' => ['placeholder' => 'Выберите лигу...'],
+            'options' => ['placeholder' => 'Выберите турнир...'],
             'pluginOptions' => [
                 'allowClear' => true
             ],
