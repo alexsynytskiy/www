@@ -479,6 +479,7 @@ header .header-wrapper .breadcrumbs .tag:hover {
   box-shadow: 0 2px 0 #d0d0d0;
   background-color: #ffffff;
   margin-bottom: 15px;
+  overflow: hidden;
 }
 .grid-column .main-news .main-news-header {
   padding-top: 5px;

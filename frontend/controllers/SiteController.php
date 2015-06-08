@@ -295,7 +295,8 @@ class SiteController extends Controller
             $activeSeason = $_GET['season'];
         }
         else {
-            $activeSeason = $seasons[0]->id;
+            $activeSeasonObj = array_values($seasons)[0];
+            $activeSeason = $activeSeasonObj->id;
         }
 
         //select tournaments
