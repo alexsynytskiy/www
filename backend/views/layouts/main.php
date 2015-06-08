@@ -43,6 +43,8 @@ AppAsset::register($this);
                         ['label' => 'Матчи', 'url' => '/admin/match'],
                         ['label' => 'Команды', 'url' => '/admin/team'],
                         ['label' => 'Арбитры', 'url' => '/admin/arbiter'],
+                        ['label' => 'Турниры', 'url' => '/admin/championship'],
+                        ['label' => 'Типы лиг', 'url' => '/admin/league'],
                         ['label' => 'Стадионы', 'url' => '/admin/stadium'],
                         ['label' => 'Страны', 'url' => '/admin/country'],
                     ]],

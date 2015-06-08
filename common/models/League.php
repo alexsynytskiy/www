@@ -43,8 +43,8 @@ class League extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'abr' => 'Abr',
+            'name' => 'Название',
+            'abr' => 'Аббревиатура',
         ];
     }
 
