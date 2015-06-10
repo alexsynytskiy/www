@@ -4,13 +4,13 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Arbiter */
+/* @var $model common\models\League */
 
-$this->title = 'Создать арбитра';
-$this->params['breadcrumbs'][] = ['label' => 'Арбитры', 'url' => ['index']];
+$this->title = 'Добавить лигу';
+$this->params['breadcrumbs'][] = ['label' => 'Типы лиг', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="arbiter-create">
+<div class="league-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

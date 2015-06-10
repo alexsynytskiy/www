@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Arbiter */
+/* @var $model common\models\League */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Арбитры', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Типы лиг', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="arbiter-view">
+<div class="league-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Вы уверены, что хотите удалить этого арбитра?',
+                'confirm' => 'Вы уверены, что хотите удалить лигу?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -28,14 +28,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            [
-                'attribute' => 'name',
-                'label' => 'Имя',
-            ],
-            [
-                'attribute' => 'country.name',
-                'label' => 'Страна',
-            ],
+            'id',
+            'name',
+            'abr',
         ],
     ]) ?>
 

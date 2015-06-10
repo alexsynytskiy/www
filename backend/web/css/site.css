@@ -150,3 +150,20 @@ a.desc:after {
 .wrap table img {
     max-width: 600px;
 }
+
+html .navbar-inverse {
+    background: linear-gradient(to bottom, #4193df, #1972c4);
+    border: none;
+}
+
+html .dropdown-menu {
+    box-shadow: none;
+}
+
+html .navbar-inverse .navbar-nav > li > a {
+  color: #fff;
+}
+
+html .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
+  background-color: rgba(0,0,0,0.2);
+}

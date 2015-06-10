@@ -4,20 +4,20 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel common\models\ArbiterSearch */
+/* @var $searchModel common\models\LeagueSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Арбитры';
+$this->title = 'Типы лиг';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="arbiter-index">
+<div class="league-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Добавить арбитра', ['create'], ['class' => 'btn btn-success']) ?>
-        <?php
+        <?= Html::a('Добавить лигу', ['create'], ['class' => 'btn btn-success']) ?>
+         <?php
             if(count(Yii::$app->getRequest()->getQueryParams()) > 0) {
                 echo Html::a('Сброс', ['/'.Yii::$app->controller->id], ['class' => 'btn btn-primary']);
             } 
@@ -30,21 +30,20 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             [
                 'attribute' => 'id',
-                'options' => ['width' => '80'],
+                'options' => ['width' => '120'],
             ],
             [
                 'attribute' => 'name',
                 'label' => 'Имя',
-                'options' => ['width' => '570'],
+                'options' => ['width' => '600'],
                 'format' => 'html',
             ],
             [
-                'attribute' => 'country.name',
-                'label' => 'Страна',
-                'options' => ['width' => '350'],
+                'attribute' => 'abr',
+                'label' => 'Аббревиатура',
+                'options' => ['width' => '270'],
                 'format' => 'html',
             ],
-
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

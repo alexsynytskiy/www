@@ -18,8 +18,8 @@ class ArbiterSearch extends Arbiter
     public function rules()
     {
         return [
-            [['id', 'country_id'], 'integer'],
-            [['name'], 'safe'],
+            [['id'], 'integer'],
+            [['name', 'country.name'], 'safe'],
         ];
     }
 
@@ -33,6 +33,17 @@ class ArbiterSearch extends Arbiter
     }
 
     /**
+     * @inheritdoc
+     */
+    public function attributes()
+    {
+        // add related fields to searchable attributes
+        return array_merge(parent::attributes(), [
+            'country.name',
+        ]);
+    }
+
+    /**
      * Creates data provider instance with search query applied
      *
      * @param array $params
@@ -42,25 +53,40 @@ class ArbiterSearch extends Arbiter
     public function search($params)
     {
         $query = Arbiter::find();
+        $country = new Country;
+        $arbiterTable = Arbiter::tableName();
+        $countryTable = Country::tableName();       
 
-        $dataProvider = new ActiveDataProvider([
+        $query->joinWith(['country' => function($query) use ($countryTable) {
+            $query->from(['country' => $countryTable]);
+        }]);
+
+         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
         ]);
 
-        $this->load($params);
+        // enable sorting for the related columns
+        $addSortAttributes = ["country.name"];
+        foreach ($addSortAttributes as $addSortAttribute) {
+            $dataProvider->sort->attributes[$addSortAttribute] = [
+                'asc'   => [$addSortAttribute => SORT_ASC],
+                'desc'  => [$addSortAttribute => SORT_DESC],
+            ];
+        }
 
-        if (!$this->validate()) {
-            // uncomment the following line if you do not want to any records when validation fails
-            // $query->where('0=1');
+        if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
-            'country_id' => $this->country_id,
+            "{$arbiterTable}.id" => $this->id,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', "{$arbiterTable}.name", $this->name])
+              ->andFilterWhere(['like', 'country.name', $this->getAttribute('country.name')]);
 
         return $dataProvider;
     }

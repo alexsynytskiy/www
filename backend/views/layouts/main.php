@@ -36,20 +36,28 @@ AppAsset::register($this);
                         'class' => 'navbar-inverse navbar-fixed-top',
                     ],
                 ]);
-                $menuItems = [              
-                    ['label' => 'Альбомы', 'url' => '/admin/album'],
+                $menuItems = [
                     ['label' => 'Пользователи', 'url' => '/admin/user/admin'],
-                    ['label' => 'Данные по матчам', 'items' => [
-                        ['label' => 'Матчи', 'url' => '/admin/match'],
-                        ['label' => 'Игроки', 'url' => '/admin/player'],
+                    ['label' => 'Трансферы', 'items' => [
                         ['label' => 'Трансферы', 'url' => '/admin/transfer'],
                         ['label' => 'Типы трансферов', 'url' => '/admin/transfer-type'],
-                        ['label' => 'Амплуа', 'url' => '/admin/amplua'],
-                        ['label' => 'Стадионы', 'url' => '/admin/stadium'],
-                        ['label' => 'Страны', 'url' => '/admin/country'],
                     ]],
+                    ['label' => 'Команда', 'items' => [
+                        ['label' => 'Игроки', 'url' => '/admin/player'],                        
+                        ['label' => 'Амплуа', 'url' => '/admin/amplua'],
+                    ]],
+                    ['label' => 'Матчи', 'items' => [
+                        ['label' => 'Матчи', 'url' => '/admin/match'],                        
+                        ['label' => 'Команды', 'url' => '/admin/team'],
+                        ['label' => 'Арбитры', 'url' => '/admin/arbiter'],
+                        ['label' => 'Турниры', 'url' => '/admin/championship'],
+                        ['label' => 'Типы лиг', 'url' => '/admin/league'],
+                        ['label' => 'Стадионы', 'url' => '/admin/stadium'],                        
+                    ]],
+                    ['label' => 'Страны', 'url' => '/admin/country'],
                     ['label' => 'Публикации', 'items' => [
                         ['label' => 'Записи', 'url' => '/admin/post'],
+                        ['label' => 'Альбомы', 'url' => '/admin/album'],
                         ['label' => 'Комментарии', 'url' => '/admin/comment'],
                         ['label' => 'Источники', 'url' => '/admin/source'],
                         ['label' => 'Теги', 'url' => '/admin/tag'],
