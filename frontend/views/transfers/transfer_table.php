@@ -31,8 +31,10 @@ use yii\helpers\Url;
                         <th class="arrow"></th>
                         <th class="where">Куда</th>
                     <?php } ?>
-                    <th class="sum">Сумма</th>
-                    <th class="others">Претенденты</th>
+                    <?php if($className != 'rent') { ?>
+                        <th class="sum">Сумма</th>
+                        <th class="others">Претенденты</th>
+                    <?php } ?>
                     <?php if(Yii::$app->controller->action->id == 'transfers') { ?>
                         <th class="comments"></th>
                     <?php } ?>
@@ -75,6 +77,8 @@ use yii\helpers\Url;
                         $teamTo = new \common\models\Team;
                         $teamToIconUrl = $teamTo->getAsset()->getFileUrl();
                     }
+                    $others = ($transfer->clubs == '') ? '-' : $transfer->clubs;
+                    $sum = ($transfer->sum == '') ? '-' : $transfer->sum;
                 ?>
                 <tr>
                     <?php if(Yii::$app->controller->action->id == 'transfers') { ?>
@@ -108,8 +112,10 @@ use yii\helpers\Url;
                             <?= $teamToName ?>
                         </td> 
                     <?php } ?>
-                    <td class="sum"><?= $transfer->sum ?></td>
-                    <td class="others"><?= $transfer->clubs ?></td>
+                    <?php if($className != 'rent') { ?>
+                        <td class="sum"><?= $sum ?></td>
+                        <td class="others"><?= $others ?></td>
+                    <?php } ?>
                     <?php if(Yii::$app->controller->action->id == 'transfers') { ?>
                         <td class="comments">
                             <a href="<?= $transfer->getUrl() ?>">
@@ -118,6 +124,14 @@ use yii\helpers\Url;
                         </td>
                     <?php } ?>
                 </tr>
+                <?php if($className == 'rent') { ?>
+                    <tr class="rent-other-info">
+                        <td class="number"></td>
+                        <td class="photo"></td>
+                        <td colspan="3" class="sum">Сумма: <?= $sum ?></td>
+                        <td colspan="4" class="others">Претенденты: <?= $others ?></td>
+                    </tr>
+                <?php } ?>
                 <?php } ?>
             </tbody>
         </table>
