@@ -395,13 +395,7 @@ class DefaultController extends Controller
             ],
         ]);
 
-        // $commentsCount = Comment::find()
-        //     ->where(['comments.user_id' => $profile->user->id])
-        //     ->join('INNER JOIN','posts','posts.id = comments.commentable_id')
-        //     ->count();
-
         $connection = Yii::$app->db;
-
         $countSql = 'SELECT COUNT(*) as count  
             FROM comments c1 
             LEFT JOIN posts p ON p.id = c1.commentable_id 
@@ -495,10 +489,13 @@ class DefaultController extends Controller
                     ],
                 ],
                 'profile' => [
+                    'view' => '@frontend/views/profile/blog_posts',
+                    'data' => compact('blogPostsDataProvider'),
+                ],
+                'blog_column' => [
                     'view' => '@frontend/views/profile/profile_view',
                     'data' => compact('profile'),
                 ],
-                'blog_column' => SiteBlock::getBlogPosts(),
             ],
             'columnSecond' => [
                 'short_news' => SiteBlock::getShortNews(),

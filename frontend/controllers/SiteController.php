@@ -9,6 +9,8 @@ use common\models\Match;
 use common\models\Team;
 use common\models\Comment;
 use common\models\Season;
+use common\models\TransferType;
+use common\models\Transfer;
 use common\models\Championship;
 use common\models\CommentForm;
 use common\models\SiteBlock;
@@ -354,11 +356,83 @@ class SiteController extends Controller
                                       'activeTournament'),
                 ],
             ],
-            'columnSecond' => [
-                'test_block' => [
-                    'view' => '@frontend/views/site/test',
-                    'data' => [],
-                ],                
+            'columnSecond' => [  
+                'short_news' => SiteBlock::getShortNews(),
+            ],
+        ]);
+    }
+
+    /**
+     * Transfers page
+     * 
+     * @return mixed
+     */
+    public function actionTransfers() 
+    {
+        $transferTypes = TransferType::find()->all();
+        $activeTransferType = 'all-types';
+        if(isset($_GET['transfer-type'])) {
+            foreach ($transferTypes as $transferType) {
+                if($_GET['transfer-type'] == $transferType->id){
+                    $activeTransferType = $_GET['transfer-type'];
+                } 
+            }
+        }
+        $transferTypesData = [
+            'all-types' => ['value' => 'all-types', 'text' => 'Все трансферы', 'active' => false],
+        ];
+        foreach ($transferTypes as $transferType) {
+            $transferTypesData[$transferType->id] = [
+                'value' => $transferType->id,
+                'text' => $transferType->name,
+                'active' => false,
+            ];
+        }
+        $transferTypesData[$activeTransferType]['active'] = true;
+
+        $seasons = Season::find()
+            ->where(['>', 'id', 42])
+            ->orderBy(['id' => SORT_DESC])
+            ->all();
+        foreach ($seasons as $key => $season) {
+           if (strpos($season->name, '/') === false) {
+               unset($seasons[$key]);
+           }
+        }
+        $firstSeasonObj = array_values($seasons)[0];
+        $firstSeasonId = $firstSeasonObj->id;
+        $activeSeason = $firstSeasonId;
+        if(isset($_GET['season'])) {
+            foreach ($seasons as $season) {
+                if($_GET['season'] == $season->id){
+                    $activeSeason = $_GET['season'];
+                } 
+            }
+        }
+        // die;
+        $seasonsData = [];
+        foreach ($seasons as $season) {
+            $seasonsData[$season->id] = [
+                'value' => $season->id,
+                'text' => $season->name,
+                'active' => false,
+            ];
+        }
+        $seasonsData[$activeSeason]['active'] = true;
+        // var_dump($seasonsData);
+
+
+        return $this->render('@frontend/views/site/index', [
+            'templateType' => 'col2',
+            'title' => 'Трансферы',
+            'columnFirst' => [
+                'transfers' => [
+                    'view' => '@frontend/views/transfers/transfers',
+                    'data' => compact('transferTypesData', 'seasonsData'),
+                ],
+            ],
+            'columnSecond' => [ 
+                'short_news' => SiteBlock::getShortNews(),
             ],
         ]);
     }

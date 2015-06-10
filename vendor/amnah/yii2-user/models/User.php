@@ -288,8 +288,14 @@ class User extends ActiveRecord implements IdentityInterface
         // new validation
         if(strtotime($this->create_time) < strtotime('12-02-2009')) {
             $passwordHash = sha1("--$this->salt--$password--");
+            // var_dump($passwordHash);
+            // die;
         } else {
-            $passwordHash = sha1(implode('--', [self::SECURITY_KEY, $this->salt, $password, self::SECURITY_KEY]));
+            $digest = self::SECURITY_KEY;
+            for ($i=0; $i < 10; $i++) { 
+                $digest = sha1(implode('--', [$digest, $this->salt, $password, self::SECURITY_KEY]));
+            }
+            $passwordHash = $digest;
         }
         return $this->password == $passwordHash;
         // return Yii::$app->security->validatePassword($password, $this->password);

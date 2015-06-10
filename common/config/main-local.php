@@ -3,7 +3,7 @@ return [
     'components' => [
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=localhost;dbname=last_dynamo',
+            'dsn' => 'mysql:host=localhost;dbname=dynamo_sqlready',
             'username' => 'root',
             'password' => '',
             'charset' => 'utf8',

@@ -38,7 +38,7 @@ $avatar = $user->getAsset();
             'email:email',
             [
                 'label' => 'Аватар',
-                'value' => !empty($avatar->filename) ? Html::img($avatar->getFileUrl()) : null,
+                'value' => Html::img($avatar->getFileUrl()),
                 'format' => 'html',
             ],
             'role.name',

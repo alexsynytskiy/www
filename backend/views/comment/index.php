@@ -54,6 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attribute' => 'created_at',
                     'removeButton' => false,
                     'type' => DatePicker::TYPE_INPUT,
+                    'language' => 'ru-RU',
                     'pluginOptions' => [
                         'format' => 'dd.mm.yyyy',
                         'autoclose' => true,

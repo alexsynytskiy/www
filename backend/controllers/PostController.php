@@ -78,7 +78,7 @@ class PostController extends Controller
         $model->content_category_id = 1;
         $model->user_id = Yii::$app->user->id;
 
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
             // Set slug
             $model->slug = $model->genSlug($model->title);

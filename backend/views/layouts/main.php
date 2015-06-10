@@ -41,6 +41,10 @@ AppAsset::register($this);
                     ['label' => 'Пользователи', 'url' => '/admin/user/admin'],
                     ['label' => 'Данные по матчам', 'items' => [
                         ['label' => 'Матчи', 'url' => '/admin/match'],
+                        ['label' => 'Игроки', 'url' => '/admin/player'],
+                        ['label' => 'Трансферы', 'url' => '/admin/transfer'],
+                        ['label' => 'Типы трансферов', 'url' => '/admin/transfer-type'],
+                        ['label' => 'Амплуа', 'url' => '/admin/amplua'],
                         ['label' => 'Стадионы', 'url' => '/admin/stadium'],
                         ['label' => 'Страны', 'url' => '/admin/country'],
                     ]],

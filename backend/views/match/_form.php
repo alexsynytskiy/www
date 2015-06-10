@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\checkbox\CheckboxX;
-use kartik\widgets\DatePicker;
+use kartik\date\DatePicker;
 use kartik\slider\Slider;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
@@ -37,7 +37,7 @@ use common\models\Season;
     <?php 
         echo $form->field($model, 'championship_id')->widget(Select2::classname(), [
             'data' => ArrayHelper::map(Championship::find()->all(), 'id', 'name'),
-            'language' => 'en',
+            'language' => 'ru',
             'options' => ['placeholder' => 'Выберите лигу...'],
             'pluginOptions' => [
                 'allowClear' => true
@@ -48,7 +48,7 @@ use common\models\Season;
     <?php 
         echo $form->field($model, 'league_id')->widget(Select2::classname(), [
             'data' => ArrayHelper::map(League::find()->all(), 'id', 'name'),
-            'language' => 'en',
+            'language' => 'ru',
             'options' => ['placeholder' => 'Выберите лигу...'],
             'pluginOptions' => [
                 'allowClear' => true

@@ -3,18 +3,16 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\Team;
-use common\models\TeamSearch;
+use common\models\Transfer;
+use common\models\TransferSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\helpers\Json;
-use yii\db\Query;
 
 /**
- * TeamController implements the CRUD actions for Team model.
+ * TransferController implements the CRUD actions for Transfer model.
  */
-class TeamController extends Controller
+class TransferController extends Controller
 {
     public function behaviors()
     {
@@ -29,12 +27,12 @@ class TeamController extends Controller
     }
 
     /**
-     * Lists all Team models.
+     * Lists all Transfer models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new TeamSearch();
+        $searchModel = new TransferSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -44,7 +42,7 @@ class TeamController extends Controller
     }
 
     /**
-     * Displays a single Team model.
+     * Displays a single Transfer model.
      * @param integer $id
      * @return mixed
      */
@@ -56,13 +54,13 @@ class TeamController extends Controller
     }
 
     /**
-     * Creates a new Team model.
+     * Creates a new Transfer model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Team();
+        $model = new Transfer();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -74,7 +72,7 @@ class TeamController extends Controller
     }
 
     /**
-     * Updates an existing Team model.
+     * Updates an existing Transfer model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -82,6 +80,8 @@ class TeamController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+
+        $clubs = explode(', ', $model->clubs);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -91,33 +91,9 @@ class TeamController extends Controller
             ]);
         }
     }
-    
-        /**
-     * Display list of teams in json format
-     *
-     * @param string $query Query for search
-     * @return mixed Json data
-     */
-    public function actionTeamList($query = null) {
-        if($query == null) {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-        $search = urldecode($query);
-        $query = new Query;
-        $query->select('id as value, name as text')
-            ->from(Team::tableName())
-            ->where(['like', 'name', $search])
-            ->orderBy('name')
-            ->limit(10);
-        $command = $query->createCommand();
-        $data = $command->queryAll();
-        $out = array_values($data);
-        header("Content-type: text/html; charset=utf-8");
-        echo Json::encode($out);
-    }
 
     /**
-     * Deletes an existing Team model.
+     * Deletes an existing Transfer model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -130,15 +106,15 @@ class TeamController extends Controller
     }
 
     /**
-     * Finds the Team model based on its primary key value.
+     * Finds the Transfer model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Team the loaded model
+     * @return Transfer the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Team::findOne($id)) !== null) {
+        if (($model = Transfer::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

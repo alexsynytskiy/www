@@ -195,6 +195,8 @@ class AdminController extends Controller
         UserAuth::deleteAll(['user_id' => $user->id]);
         $profile->delete();
         $user->delete();
+        $asset = $user->getAsset();
+        $asset->delete();
 
         if(Yii::$app->request->referrer){
             return $this->redirect(Yii::$app->request->referrer);

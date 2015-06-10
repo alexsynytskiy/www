@@ -15,10 +15,12 @@ $showComments = isset($_GET['cpage']) ? true : false;
         <div class="title">
             Ваш Кабинет
         </div>
-        <a id="comments-toggle-btn" class="toggle-button toggle-<?= $showComments ? 'hide' : 'show' ?>" data-target="comments-content" href="javascript:void(0)">
-            <div class="toggle-text"><span><?= $showComments ? 'Скрыть' : 'Показать' ?></span> комментарии</div>
-            <div class="toggle-icon"></div>
-        </a>
+        <?php if(count($comments) > 0) { ?> 
+            <a id="comments-toggle-btn" class="toggle-button toggle-<?= $showComments ? 'hide' : 'show' ?>" data-target="comments-content" href="javascript:void(0)">
+                <div class="toggle-text"><span><?= $showComments ? 'Скрыть' : 'Показать' ?></span> комментарии</div>
+                <div class="toggle-icon"></div>
+            </a>
+        <?php } ?>
     </div>
     <div id="comments-content" class="toggle-content <?= $showComments ? 'visible' : '' ?>">
         <div class="comments-status">

@@ -66,7 +66,7 @@ class Asset extends \yii\db\ActiveRecord
     const THUMBNAIL_THUMB   = 'thumb';
 
     /**
-     * @var string asset types
+     * @var string asset types NOT used
      */
     const TYPE_PHOTO      = 'photo';
     const TYPE_ATTACHMENT = 'attachment';
@@ -357,25 +357,20 @@ class Asset extends \yii\db\ActiveRecord
                     // To top 6 news and other preview news
                     case self::THUMBNAIL_NEWS:
                         return new Box(166,110);
-                    // To top 6 news
+                    // To content
                     case self::THUMBNAIL_CONTENT:
                         $width = 595;
                         $height = $size->getHeight()*$width/$size->getWidth();
                         $height = $height > 400 ? 400 : $height;
                         return new Box($width, $height);
                     // original
-                    default: return new Box($size->getWidth(),$size->getHeight());
-                    // case self::THUMBNAIL_ALBUM:
-                    //     return new Box(150,150);
-                    // case self::THUMBNAIL_SMALL:
-                    //     return new Box(50,50);
-                    // case self::THUMBNAIL_POSTER:
-                    //     return new Box(100,75);
-                    // case self::THUMBNAIL_CONTENT:
-                    //     return new Box($size->getWidth(),$size->getHeight());
+                    default: break;
                 }
-            default: return new Box($size->getWidth(),$size->getHeight());
+            case self::ASSETABLE_PLAYER:
+                return new Box(200,200);
+            default: break;
         }
+        return new Box($size->getWidth(),$size->getHeight());
     }
 
     /**

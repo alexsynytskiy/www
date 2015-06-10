@@ -275,6 +275,10 @@ $(document).ready(function() {
         $(this).parents("form").first().submit();
     });
 
+    $(document).on("change", "#select-transfer-type", function(){
+        $(this).parents("form").first().submit();
+    });
+
     // => Alert tick START
     function alertTick() {
         second--;

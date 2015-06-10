@@ -78,6 +78,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attribute' => 'create_time',
                     'removeButton' => false,
                     'type' => DatePicker::TYPE_INPUT,
+                    'language' => 'ru-RU',
                     'pluginOptions' => [
                         'format' => 'dd.mm.yyyy',
                         'autoclose' => true,
