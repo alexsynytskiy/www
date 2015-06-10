@@ -112,10 +112,16 @@ AppAsset::register($this);
                 <div class="menu">
                     <ul>
                         <a href="#"><li class="special-project">Спецпроект</li></a>
-                        <a href="<?= Url::to(['/site/news']) ?>"><li class="<?= Yii::$app->controller->action->id == 'news' ? 'current-page' : '' ?>">Новости</li></a>
+                        <a href="<?= Url::to(['/site/news']) ?>">
+                            <li class="<?= Yii::$app->controller->action->id == 'news' ? 'current-page' : '' ?>">Новости</li>
+                        </a>
                         <a href="#"><li>Команда</li></a>
-                        <a href="<?= Url::to(['/site/matches']) ?>"><li class="<?= Yii::$app->controller->action->id == 'matches' ? 'current-page' : '' ?>">Матчи</li></a>
-                        <a href="<?= Url::to(['/site/transfers']) ?>"><li>Трансферы</li></a>
+                        <a href="<?= Url::to(['/site/matches']) ?>">
+                            <li class="<?= Yii::$app->controller->action->id == 'matches' ? 'current-page' : '' ?>">Матчи</li>
+                        </a>
+                        <a href="<?= Url::to(['/site/transfers']) ?>">
+                            <li class="<?= Yii::$app->controller->action->id == 'transfers' ? 'current-page' : '' ?>">Трансферы</li>
+                        </a>
                         <a href="#"><li>Блоги</li></a>
                         <a href="#"><li>Фото</li></a>
                         <a href="#"><li>Видео</li></a>

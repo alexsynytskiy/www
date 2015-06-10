@@ -2058,6 +2058,9 @@ header .header-wrapper .breadcrumbs .tag:hover {
   color: #727272;
   text-align: center;
 }
+.grid-column .transfers td {
+  font-size: 12px;
+}
 .grid-column .transfers .main-title {
   margin: 0 5px;
   float: left;
@@ -2105,7 +2108,6 @@ header .header-wrapper .breadcrumbs .tag:hover {
   background-repeat: no-repeat;
   background-size: 21px;
 }
-.grid-column .transfers thead td,
 .grid-column .transfers thead th {
   font-weight: bold;
 }

@@ -369,7 +369,8 @@ class SiteController extends Controller
      */
     public function actionTransfers() 
     {
-        $transferTypes = TransferType::find()->all();
+        // transfer type select
+        $transferTypes = TransferType::find()->orderBy(['id' => SORT_DESC])->all();
         $activeTransferType = 'all-types';
         if(isset($_GET['transfer-type'])) {
             foreach ($transferTypes as $transferType) {
@@ -389,7 +390,11 @@ class SiteController extends Controller
             ];
         }
         $transferTypesData[$activeTransferType]['active'] = true;
+        foreach ($transferTypesData as $key => $transferType) {
+            $transferTypesData[$key] = (object) $transferType;
+        }
 
+        // season select
         $seasons = Season::find()
             ->where(['>', 'id', 42])
             ->orderBy(['id' => SORT_DESC])
@@ -409,7 +414,6 @@ class SiteController extends Controller
                 } 
             }
         }
-        // die;
         $seasonsData = [];
         foreach ($seasons as $season) {
             $seasonsData[$season->id] = [
@@ -419,7 +423,18 @@ class SiteController extends Controller
             ];
         }
         $seasonsData[$activeSeason]['active'] = true;
-        // var_dump($seasonsData);
+        foreach ($seasonsData as $key => $season) {
+            $seasonsData[$key] = (object) $season;
+        }
+
+        // transfers tables
+        $transferQuery = Transfer::find()
+            ->where(['season_id' => $activeSeason])
+            ->orderBy(['created_at' => SORT_ASC]);
+        if($activeTransferType != 'all-types') {
+            $transferQuery->andWhere(['transfer_type_id' => $activeTransferType]);
+        }
+        $transfers = $transferQuery->all();
 
 
         return $this->render('@frontend/views/site/index', [
@@ -428,7 +443,7 @@ class SiteController extends Controller
             'columnFirst' => [
                 'transfers' => [
                     'view' => '@frontend/views/transfers/transfers',
-                    'data' => compact('transferTypesData', 'seasonsData'),
+                    'data' => compact('transferTypesData', 'seasonsData', 'transfers'),
                 ],
             ],
             'columnSecond' => [ 
@@ -436,7 +451,95 @@ class SiteController extends Controller
             ],
         ]);
     }
-    
+
+    /**
+     * Transfers page
+     * 
+     * @return mixed
+     */
+    public function actionTransfer($id) 
+    {
+        $transfer = Transfer::findOne($id);
+        
+        if(!isset($transfer)) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+
+        $commentForm = new CommentForm();
+        $commentForm->commentable_id = $transfer->id;
+        $commentForm->commentable_type = Comment::COMMENTABLE_TRANSFER;
+
+        // out comments with pagination
+        $commentsCount = Comment::find()
+            ->where([
+                'commentable_id' => $transfer->id,
+                'commentable_type' => Comment::COMMENTABLE_TRANSFER,
+                'parent_id' => null,
+            ])->count();
+        $commentsPagination = new Pagination([
+            'totalCount' => $commentsCount,
+            'pageSize' => 10,
+            'pageParam' => 'cpage',
+            'pageSizeParam' => 'cpsize',
+        ]);
+
+        $initialComments = Comment::find()
+            ->where([
+                'commentable_id' => $transfer->id,
+                'commentable_type' => Comment::COMMENTABLE_TRANSFER,
+                'parent_id' => null,
+            ])->orderBy(['created_at' => SORT_DESC])
+            ->limit($commentsPagination->limit)
+            ->offset($commentsPagination->offset)
+            ->all();
+
+        $comments = $initialComments;
+        while (true) {
+            $ids = [];
+            foreach ($comments as $comment) {
+                $ids[] = $comment->id;
+            }
+            $childComments = Comment::find()
+                ->where(['parent_id' => $ids])->orderBy(['created_at' => SORT_ASC])->all();
+            if(count($childComments) > 0) {
+                $initialComments = array_merge($initialComments, $childComments);
+                $comments = $childComments;
+            } else {
+                break;
+            }
+        }
+
+        $sortedComments = [];
+        foreach ($initialComments as $comment) 
+        {
+            $index = $comment->parent_id == null ? 0 : $comment->parent_id;
+            $sortedComments[$index][] = $comment;
+        }
+        $comments = $sortedComments;
+
+        return $this->render('@frontend/views/site/index', [
+            'templateType' => 'col2',
+            'title' => 'Трансферы',
+            'columnFirst' => [
+                'transfers' => [
+                    'view' => '@frontend/views/transfers/transfer_single',
+                    'data' => compact('transfer'),
+                ],
+                'comments' => [
+                    'view' => '@frontend/views/blocks/comments_block',
+                    'data' => [
+                        'comments' => $sortedComments,
+                        'commentForm' => $commentForm,
+                        'pagination' => $commentsPagination,
+                    ],
+                ],
+            ],
+            'columnSecond' => [ 
+                'short_news' => SiteBlock::getShortNews(),
+            ],
+        ]);
+    }
+
     /**
      * Finds the Post model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

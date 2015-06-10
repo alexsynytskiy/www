@@ -5,6 +5,7 @@ use dosamigos\selectize\SelectizeDropDownList;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
+use kartik\file\FileInput;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Command */
@@ -13,29 +14,12 @@ use yii\widgets\ActiveForm;
 
 <div class="command-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => [
+        'autocomplete' => 'off',
+        'enctype' => 'multipart/form-data',
+    ]]); ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
-
-    <?php 
-    echo $form->field($model, 'info')->widget(\vova07\imperavi\Widget::className(), [
-        'settings' => [
-            'lang' => 'ru',
-            'minHeight' => 200,
-            'imageUpload' => \yii\helpers\Url::to(['/site/image-upload']),
-            'buttons' => ['html', 'formatting', 'bold', 'italic', 'underline', 'deleted',
-                'unorderedlist', 'orderedlist', 'outdent', 'indent',
-                'image', 'link', 'alignment', 'horizontalrule'],
-            'plugins' => [
-                // 'clips',
-                'fullscreen',
-                'table',
-                'video',
-                'fontcolor',
-            ]
-        ]
-    ]);
-    ?>
 
     <?php
         $availableCountries = [];
@@ -60,6 +44,50 @@ use yii\widgets\ActiveForm;
                 'persist' => false,
             ],
         ]);
+    ?>
+
+    <?php
+    $pluginOptions = [
+        'showUpload' => false,
+        'showRemove' => false,
+        'overwriteInitial' => true,
+        'browseLabel' => "Обзор...",
+        'allowedFileExtensions' => ['jpg', 'gif', 'png'],
+    ];
+    $icon = $model->getAsset();
+    if (!$model->isNewRecord && $icon->getFileUrl())
+    {
+        $pluginOptions['initialPreview'] = [
+            Html::img($icon->getFileUrl()),
+        ];
+    }
+    echo $form->field($model, 'icon')->widget(FileInput::classname(), [
+        'options' => [
+            'accept' => 'image/*',
+            'multiple' => false,
+        ],
+        'pluginOptions' => $pluginOptions,
+    ]);
+    ?>
+
+    <?php 
+    echo $form->field($model, 'info')->widget(\vova07\imperavi\Widget::className(), [
+        'settings' => [
+            'lang' => 'ru',
+            'minHeight' => 200,
+            'imageUpload' => \yii\helpers\Url::to(['/site/image-upload']),
+            'buttons' => ['html', 'formatting', 'bold', 'italic', 'underline', 'deleted',
+                'unorderedlist', 'orderedlist', 'outdent', 'indent',
+                'image', 'link', 'alignment', 'horizontalrule'],
+            'plugins' => [
+                // 'clips',
+                'fullscreen',
+                'table',
+                'video',
+                'fontcolor',
+            ]
+        ]
+    ]);
     ?>
 
     <div class="form-group">

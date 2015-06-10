@@ -68,17 +68,17 @@ class PlayerController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
-            $model->avatar = UploadedFile::getInstance($model,'avatar');
+            $uploadedFile = UploadedFile::getInstance($model,'avatar');
 
             $model->slug = $model->genSlug();
             $model->save(false);
 
-            if(!empty($model->avatar))
+            if(!empty($uploadedFile))
             {
                 $asset = new Asset;
                 $asset->assetable_type = Asset::ASSETABLE_PLAYER;
                 $asset->assetable_id = $model->id;
-                $asset->uploadedFile = $model->avatar;
+                $asset->uploadedFile = $uploadedFile;
                 $asset->cropData = $model->cropData;
                 $asset->saveCroppedAsset();
             }
@@ -103,10 +103,10 @@ class PlayerController extends Controller
         $asset = $model->getAsset();
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            $model->avatar = UploadedFile::getInstance($model,'avatar');
+            $uploadedFile = UploadedFile::getInstance($model,'avatar');
 
             // If image was uploaded
-            if(!empty($model->avatar))
+            if(!empty($uploadedFile))
             {
                 // If asset model did't exist for current model
                 if(!isset($asset->assetable_id))
@@ -116,7 +116,7 @@ class PlayerController extends Controller
                     $asset->assetable_id = $model->id;
                 }
 
-                $asset->uploadedFile = $model->avatar;
+                $asset->uploadedFile = $uploadedFile;
                 $asset->cropData = $model->cropData;
 
                 $asset->saveCroppedAsset();

@@ -14,14 +14,14 @@ use yii\widgets\Pjax;
 ]); ?>
 <div class="search-box default-box" style="min-height: 0;">
     <div class="box-content">
-        <form class="search-matches" action="">
+        <form class="search-matches" action="<?= Url::to(['/site/transfers']) ?>">
             <div class="select-championship selectize-box">
                 <label for="select-championship">Выбрать тип трансферов</label>
                 <select name="transfer-type" id="select-transfer-type" placeholder="Выбрать тип трансферов">
                     <?php foreach ($transferTypesData as $transferType) {
-                        $active = ($transferType['active']) ? 'selected class="data-default"' : '';
+                        $active = ($transferType->active) ? 'selected class="data-default"' : '';
                     ?>
-                        <option value="<?= $transferType['value'] ?>" <?= $active ?>><?= $transferType['text'] ?></option>
+                        <option value="<?= $transferType->value ?>" <?= $active ?>><?= $transferType->text ?></option>
                     <?php } ?>
                 </select>
             </div>
@@ -30,9 +30,9 @@ use yii\widgets\Pjax;
                 <label for="select-season">Выбрать сезон</label>
                 <select name="season" id="select-season" placeholder="Выбрать сезон">
                     <?php foreach ($seasonsData as $season) {
-                        $active = ($season['active']) ? 'selected class="data-default"' : '';
+                        $active = ($season->active) ? 'selected class="data-default"' : '';
                     ?>
-                        <option value="<?= $season['value'] ?>" <?= $active ?>><?= $season['text'] ?></option>
+                        <option value="<?= $season->value ?>" <?= $active ?>><?= $season->text ?></option>
                     <?php } ?>
                 </select>
             </div>
@@ -41,12 +41,25 @@ use yii\widgets\Pjax;
 </div>
 
 <?php
-    if(isset($buyTransfers)) 
-        echo $this->render('@frontend/views/transfers/transfer_table', compact('buyTransfers'));
-    if(isset($sellTransfers)) 
-        echo $this->render('@frontend/views/transfers/transfer_table', compact('sellTransfers')); 
-    if(isset($rentTransfers)) 
-        echo $this->render('@frontend/views/transfers/transfer_table', compact('rentTransfers'));
+    foreach ($transferTypesData as $transferType) {
+        if(is_numeric($transferType->value)){
+            $selectedTransfers = [];
+            foreach ($transfers as $transfer) {
+                if($transfer->transfer_type_id == $transferType->value) {
+                    $selectedTransfers[] = $transfer;
+                }
+            }
+            if(count($selectedTransfers) > 0) {
+                $firstTransfer = $selectedTransfers[0];
+                $className = $firstTransfer->getTransferTypeAbr();
+                echo $this->render('@frontend/views/transfers/transfer_table', [
+                    'transfers' => $selectedTransfers,
+                    'title' => $transferType->text,
+                    'className' => $className,
+                ]);
+            }
+        }
+    }
 ?>
 
 <?php Pjax::end(); ?>

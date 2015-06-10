@@ -3,111 +3,124 @@ use yii\helpers\Url;
 
 /**
  * @var $this yii\web\View
+ * @var $title string Transfers title
+ * @var $className string 
+ * @var $transfers array Array of common\models\Transfer 
 **/
 ?>
 
 <div class="default-box transfers">
     <div class="box-header">
-        <div class="buy main-title">Прибретения</div>
-        <div class="buy-icon icon"></div>
+        <div class="<?= $className ?> main-title"><?= $title ?></div>
+        <div class="<?= $className ?>-icon icon"></div>
     </div>
     <div class="box-content" style="padding: 0;">
+
         <table class="default-table">
             <thead>
                 <tr>
-                    <td class="number">№</td>
+                    <?php if(Yii::$app->controller->action->id == 'transfers') { ?>
+                        <th class="number">№</th>
+                    <?php } ?>
                     <th class="photo">Фото</th>
                     <th class="player">Игрок</th>
                     <th class="possibility">ВП</th>
                     <th class="position">Амплуа</th>
                     <th class="from">Откуда</th>
+                    <?php if($className == 'rent') { ?>
+                        <th class="arrow"></th>
+                        <th class="where">Куда</th>
+                    <?php } ?>
                     <th class="sum">Сумма</th>
                     <th class="others">Претенденты</th>
-                    <th class="comments"></th>
+                    <?php if(Yii::$app->controller->action->id == 'transfers') { ?>
+                        <th class="comments"></th>
+                    <?php } ?>
                 </tr>
             </thead>
             <tbody>
+                <?php 
+                $count = 0;
+                foreach ($transfers as $transfer) { 
+                    $count++;
+                    $player = $transfer->player;
+                    if(!isset($player)) {
+                        $player = new \common\models\Player;
+                    }
+                    $playerImage = $player->getAsset();
+                    $probability = $transfer->probability;
+                    if(is_numeric($transfer->probability)){
+                        $probability .= '%';
+                    }
+                    if(isset($player->amplua)){
+                        $amplua = $player->amplua->abr;
+                    } else {
+                        $amplua = '-';
+                    }
+                    if(isset($transfer->teamFrom)){
+                        $teamFromName = $transfer->teamFrom->name;
+                        $teamFromIconUrl = $transfer->teamFrom->getAsset()->getFileUrl();
+                    } else {
+                        $teamFromName = '';
+                        $teamFrom = new \common\models\Team;
+                        $teamFromIconUrl = $teamFrom->getAsset()->getFileUrl();
+                    }
+                    // var_dump($transfer->teamFrom->getAsset());
+                    // die;
+                    if(isset($transfer->teamTo)){
+                        $teamToName = $transfer->teamTo->name;
+                        $teamToIconUrl = $transfer->teamTo->getAsset()->getFileUrl();
+                    } else {
+                        $teamToName = '';
+                        $teamTo = new \common\models\Team;
+                        $teamToIconUrl = $teamTo->getAsset()->getFileUrl();
+                    }
+                ?>
                 <tr>
-                    <td class="number">1</td>
-                    <th class="photo">
-                        <img src="/images/mbokani.jpg">
-                    </th>
-                    <th class="player">
+                    <?php if(Yii::$app->controller->action->id == 'transfers') { ?>
+                        <td class="number"><?= $count ?></td>
+                    <?php } ?>
+                    <td class="photo">
+                        <img src="<?= $playerImage->getFileUrl() ?>">
+                    </td>
+                    <td class="player">
                         <a href="#">
-                            <div>Малхаз</div>
-                            <div>Асатиани</div>
+                            <div><?= $player->firstname ?></div>
+                            <div><?= $player->lastname ?></div>
                         </a>
-                    </th>
-                    <th class="possibility">100%</th>
-                    <th class="position">зщ</th>
-                    <th class="from">
+                    </td>
+                    <td class="possibility"><?= $probability ?></td>
+                    <td class="position"><?= $amplua ?></td>
+                    <td class="from">
                         <div class="club-logo">
-                            <img src="/images/1.jpg">
+                            <img src="<?= $teamFromIconUrl ?>">
                         </div>
-                        "Локомотив" М, Россия
-                    </th>
-                    <th class="sum">-</th>
-                    <th class="others">-</th>
-                    <th class="comments">
-                        <a href="#">
-                            <div class="more"></div>
-                        </a>
-                    </th>
+                        <?= $teamFromName ?>
+                    </td>
+                    <?php if($className == 'rent') { ?>
+                        <td class="arrow">
+                            <div class="right-arrow"></div>
+                        </td>
+                        <td class="where">
+                            <div class="club-logo">
+                                <img src="<?= $teamToIconUrl ?>">
+                            </div>
+                            <?= $teamToName ?>
+                        </td> 
+                    <?php } ?>
+                    <td class="sum"><?= $transfer->sum ?></td>
+                    <td class="others"><?= $transfer->clubs ?></td>
+                    <?php if(Yii::$app->controller->action->id == 'transfers') { ?>
+                        <td class="comments">
+                            <a href="<?= $transfer->getUrl() ?>">
+                                <div class="more"></div>
+                            </a>
+                        </td>
+                    <?php } ?>
                 </tr>
-                <tr>
-                    <td class="number">2</td>
-                    <th class="photo">
-                        <img src="/images/mbokani.jpg">
-                    </th>
-                    <th class="player">
-                        <a href="#">
-                            <div>Бетао</div>
-                        </a>
-                    </th>
-                    <th class="possibility">94%</th>
-                    <th class="position">зщ</th>
-                    <th class="from">
-                        <div class="club-logo">
-                            <img src="/images/17.jpg">
-                        </div>
-                        "Сантос", Бразилия
-                    </th>
-                    <th class="sum">-</th>
-                    <th class="others">-</th>
-                    <th class="comments">
-                        <a href="#">
-                            <div class="more"></div>
-                        </a>
-                    </th>
-                </tr>
-                <tr>
-                    <td class="number">3</td>
-                    <th class="photo">
-                        <img src="/images/mbokani.jpg">
-                    </th>
-                    <th class="player">
-                        <a href="#">
-                            <div>Огнен</div>
-                            <div>Вукоевич</div>
-                        </a>
-                    </th>
-                    <th class="possibility">80%</th>
-                    <th class="position">пз</th>
-                    <th class="from">
-                        <div class="club-logo">
-                            <img src="/images/7.jpg">
-                        </div>
-                        "Динамо" З, Хорватия
-                    </th>
-                    <th class="sum">-</th>
-                    <th class="others">-</th>
-                    <th class="comments">
-                        <a href="#">
-                            <div class="more"></div>
-                        </a>
-                    </th>
-                </tr>
+                <?php } ?>
             </tbody>
         </table>
+
     </div>
 </div>

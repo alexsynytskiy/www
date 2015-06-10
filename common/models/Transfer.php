@@ -91,7 +91,7 @@ class Transfer extends ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return string
      */
     public function getName()
     {
@@ -101,6 +101,30 @@ class Transfer extends ActiveRecord
         $name .= ' ('.$teamFromName.' > '.$teamToName.')';
         return $name;
     }
+
+    /**
+     * @return string
+     */
+    public function getTransferTypeAbr()
+    {
+        $abr = 'none';
+        if(isset($this->transferType)){
+            if($this->transferType->id == 1) $abr = 'rent';
+            if($this->transferType->id == 2) $abr = 'sell';
+            if($this->transferType->id == 3) $abr = 'buy';
+        }
+        return $abr;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl()
+    {
+        return \yii\helpers\Url::to(['/site/transfer/','id' => $this->id]);
+    }
+
+    
 
     /**
      * @return \yii\db\ActiveQuery

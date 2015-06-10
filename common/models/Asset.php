@@ -47,7 +47,7 @@ class Asset extends \yii\db\ActiveRecord
     const ASSETABLE_ALBUM   = 'album';
     const ASSETABLE_BANNER  = 'banner';
     const ASSETABLE_COACH   = 'coach';
-    const ASSETABLE_COMMAND = 'command';
+    const ASSETABLE_TEAM    = 'team';
     const ASSETABLE_COUNTRY = 'country';
     const ASSETABLE_PLAYER  = 'player';
     const ASSETABLE_POST    = 'post';
@@ -159,6 +159,7 @@ class Asset extends \yii\db\ActiveRecord
                 $imagine->resize($imageBox);
             }
         }
+        
         $imagine->save($this->getFilePath());
 
         return $this->save(false);
@@ -235,7 +236,7 @@ class Asset extends \yii\db\ActiveRecord
      */
     public function getFileUrl()
     {
-        if(empty($this->filename) && $this->getAssetableType() != self::ASSETABLE_USER){
+        if(empty($this->filename) && $this->getAssetableType() == self::ASSETABLE_POST) {
             return false;
         }
         if(!file_exists($this->getFilePath())) {
@@ -286,28 +287,6 @@ class Asset extends \yii\db\ActiveRecord
     }
 
     /**
-     * Get possible thumbnail names by assetable type
-     *
-     * @return array Array of possible thumbnail names
-     */
-    public static function getThumbnails($assetableType)
-    {
-        switch ($assetableType) {
-            case self::ASSETABLE_POST:
-                return [
-                    self::THUMBNAIL_BIG,
-                    self::THUMBNAIL_NEWS,
-                    self::THUMBNAIL_CONTENT,
-                    // self::THUMBNAIL_ALBUM,
-                    // self::THUMBNAIL_SMALL,
-                    // self::THUMBNAIL_POSTER,
-                    // self::THUMBNAIL_CONTENT,
-                ];
-            default: return [];
-        }
-    }
-
-    /**
      * Get all assets file for assetable entity
      *
      * @param int $assetableId
@@ -339,6 +318,30 @@ class Asset extends \yii\db\ActiveRecord
     }
 
     /**
+     * Get possible thumbnail names by assetable type
+     *
+     * @return array Array of possible thumbnail names
+     */
+    public static function getThumbnails($assetableType)
+    {
+        switch ($assetableType) {
+            case self::ASSETABLE_POST:
+                return [
+                    self::THUMBNAIL_BIG,
+                    self::THUMBNAIL_NEWS,
+                    self::THUMBNAIL_CONTENT,
+                    // self::THUMBNAIL_ALBUM,
+                    // self::THUMBNAIL_SMALL,
+                    // self::THUMBNAIL_POSTER,
+                    // self::THUMBNAIL_CONTENT,
+                ];
+            default: return [];
+        }
+    }
+
+    /**
+     * @param boolean $size Imagine\Image\Size
+     * 
      * @return Imagine\Image\Box Return size of image
      */
     public function getImageBox($size)
@@ -368,6 +371,8 @@ class Asset extends \yii\db\ActiveRecord
                 }
             case self::ASSETABLE_PLAYER:
                 return new Box(200,200);
+            case self::ASSETABLE_TEAM:
+                return new Box($size->getWidth(),$size->getHeight());
             default: break;
         }
         return new Box($size->getWidth(),$size->getHeight());

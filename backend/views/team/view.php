@@ -9,6 +9,8 @@ use yii\widgets\DetailView;
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Команды', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+$icon = $model->getAsset();
 ?>
 <div class="command-view">
 
@@ -30,8 +32,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'name',
-            'info:html',
+            [
+                'label' => 'Лого клуба',
+                'value' => Html::img($icon->getFileUrl()),
+                'format' => 'html',
+            ],
             'country.name',
+            'info:html',
             'created_at',
             'updated_at',
         ],

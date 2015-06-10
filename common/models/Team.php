@@ -25,41 +25,22 @@ use yii\db\ActiveRecord;
 class Team extends ActiveRecord
 {
     /**
-     * @var int team for matches
+     * @var int main teams for matches
      */
     const TEAM_DK_FIRST = 213;
-    /**
-     * @var int team for matches
-     */
     const TEAM_DK_FIRST_FULL_NAME = 1;
-    /**
-      * @var int team for matches
-     */
     const TEAM_DK_M = 616;
-    /**
-      * @var int team for matches
-     */
     const TEAM_DK2 = 8;
-    /**
-      * @var int team for matches
-     */
     const TEAM_U19 = 878;
-    /**
-      * @var int team for matches
-     */
     const TEAM_UKRAINE = 7;
-    /**
-      * @var int team for matches
-     */
     const TEAM_UKRAINE_M = 117;
-    /**
-      * @var int team for matches
-     */
     const TEAM_DK_KIDS = 221;
-    /**
-      * @var int team for matches
-     */
     const TEAM_DK3 = 9;
+
+    /**
+     * @var File Team icon
+     */
+    public $icon;
 
     public static function getTeamsConstants()
     {
@@ -95,7 +76,14 @@ class Team extends ActiveRecord
             [['info'], 'string'],
             [['country_id'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
-            [['name'], 'string', 'max' => 255]
+            [['name'], 'string', 'max' => 255],
+
+            // required
+            [['name'], 'required'],
+
+            // image
+            [['icon'], 'file', 'extensions' => 'jpeg, jpg , gif, png'],
+
         ];
     }
 
@@ -111,6 +99,7 @@ class Team extends ActiveRecord
             'country_id' => 'Страна',
             'created_at' => 'Создано',
             'updated_at' => 'Обновлено',
+            'icon' => 'Лого клуба',
         ];
     }
 
@@ -129,6 +118,18 @@ class Team extends ActiveRecord
                 ],
             ],
         ];
+    }
+
+    /**
+     * @return Asset
+     */
+    public function getAsset()
+    {
+        $asset = Asset::getAssets($this->id, Asset::ASSETABLE_TEAM, NULL, true);
+        if($asset->assetable_type == null) {
+            $asset->assetable_type = Asset::ASSETABLE_TEAM;
+        }
+        return $asset;
     }
 
     /**

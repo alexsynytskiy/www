@@ -17,6 +17,7 @@ return [
                 'news'                                   => 'site/news',
                 'matches'                                => 'site/matches',
                 'transfers'                              => 'site/transfers',
+                'transfer/<id:\d+>'                      => 'site/transfer',
                 'news/<id:\d+>-<slug>'                   => 'site/post',
                 'blog/<id:\d+>-<slug>'                   => 'site/post',
                 'user/profile'                           => 'user/default/profile',

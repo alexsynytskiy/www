@@ -10,6 +10,8 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
 use yii\db\Query;
+use yii\web\UploadedFile;
+use common\models\Asset;
 
 /**
  * TeamController implements the CRUD actions for Team model.
@@ -64,7 +66,20 @@ class TeamController extends Controller
     {
         $model = new Team();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+
+            $uploadedFile = UploadedFile::getInstance($model,'icon');
+            $model->save(false);
+
+            if(!empty($uploadedFile))
+            {
+                $asset = new Asset;
+                $asset->assetable_type = Asset::ASSETABLE_TEAM;
+                $asset->assetable_id = $model->id;
+                $asset->uploadedFile = $uploadedFile;
+                $asset->saveAsset();
+            }
+
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -82,14 +97,32 @@ class TeamController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $asset = $model->getAsset();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+
+            $uploadedFile = UploadedFile::getInstance($model,'icon');
+
+            // If image was uploaded
+            if(!empty($uploadedFile))
+            {
+                // If asset model did't exist for current model
+                if(!isset($asset->assetable_id))
+                {
+                    $asset = new Asset;
+                    $asset->assetable_type = Asset::ASSETABLE_TEAM;
+                    $asset->assetable_id = $model->id;
+                }
+                $asset->uploadedFile = $uploadedFile;
+                $asset->saveAsset();
+            }
+
+            $model->save(false);
             return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
         }
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
     
         /**
@@ -124,7 +157,10 @@ class TeamController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $asset = $model->getAsset();
+        $asset->delete();
+        $model->delete();
 
         return $this->redirect(['index']);
     }
