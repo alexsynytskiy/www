@@ -173,7 +173,7 @@ class Match extends ActiveRecord
      */
     public function getAssetHome()
     {
-        return Asset::getAssets($this->command_home_id, Asset::ASSETABLE_COMMAND, NULL, true);
+        return Asset::getAssets($this->command_home_id, Asset::ASSETABLE_TEAM, NULL, true);
     }
     
      /**
@@ -183,7 +183,7 @@ class Match extends ActiveRecord
      */
     public function getAssetGuest()
     {
-        return Asset::getAssets($this->command_guest_id, Asset::ASSETABLE_COMMAND, NULL, true);
+        return Asset::getAssets($this->command_guest_id, Asset::ASSETABLE_TEAM, NULL, true);
     }
 
     /**
