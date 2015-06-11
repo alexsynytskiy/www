@@ -43,17 +43,19 @@ AppAsset::register($this);
                         ['label' => 'Типы трансферов', 'url' => '/admin/transfer-type'],
                     ]],
                     ['label' => 'Команда', 'items' => [
+                        ['label' => 'Команды', 'url' => '/admin/team'],
                         ['label' => 'Турнирная таблица', 'url' => '/admin/tournament'],
                         ['label' => 'Игроки', 'url' => '/admin/player'],                        
                         ['label' => 'Амплуа', 'url' => '/admin/amplua'],
                     ]],
                     ['label' => 'Матчи', 'items' => [
-                        ['label' => 'Матчи', 'url' => '/admin/match'],                        
-                        ['label' => 'Команды', 'url' => '/admin/team'],
+                        ['label' => 'Матчи', 'url' => '/admin/match'],
                         ['label' => 'Арбитры', 'url' => '/admin/arbiter'],
                         ['label' => 'Турниры', 'url' => '/admin/championship'],
                         ['label' => 'Типы лиг', 'url' => '/admin/league'],
-                        ['label' => 'Стадионы', 'url' => '/admin/stadium'],                        
+                        ['label' => 'Этап соревнования', 'url' => '/admin/championship-part'],
+                        ['label' => 'Стадионы', 'url' => '/admin/stadium'],
+                        ['label' => 'События матча', 'url' => '/admin/match-event-type'],
                     ]],
                     ['label' => 'Страны', 'url' => '/admin/country'],
                     ['label' => 'Публикации', 'items' => [

@@ -49,8 +49,9 @@ class Country extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'image' => 'Image',
+            'name' => 'Название',
+            'image' => 'Флаг',
+            'flag' => 'Флаг',
         ];
     }
 
