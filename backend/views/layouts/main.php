@@ -43,6 +43,7 @@ AppAsset::register($this);
                         ['label' => 'Типы трансферов', 'url' => '/admin/transfer-type'],
                     ]],
                     ['label' => 'Команда', 'items' => [
+                        ['label' => 'Турнирная таблица', 'url' => '/admin/tournament'],
                         ['label' => 'Игроки', 'url' => '/admin/player'],                        
                         ['label' => 'Амплуа', 'url' => '/admin/amplua'],
                     ]],

@@ -2126,19 +2126,27 @@ header .header-wrapper .breadcrumbs .tag:hover {
 }
 .grid-column .transfers tbody .others {
   width: 100px;
+  line-height: 16px;
 }
 .grid-column .transfers tbody .from,
 .grid-column .transfers tbody .where {
   max-width: 90px;
   line-height: 16px;
   text-align: left;
+  position: relative;
 }
 .grid-column .transfers tbody .from .club-logo img,
 .grid-column .transfers tbody .where .club-logo img {
-  float: left;
-  margin-right: 5px;
   height: 30px;
   width: 30px;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  margin-top: -15px;
+}
+.grid-column .transfers tbody .from .club-name,
+.grid-column .transfers tbody .where .club-name {
+  margin-left: 35px;
 }
 .grid-column .transfers tbody .arrow .right-arrow {
   width: 11px;

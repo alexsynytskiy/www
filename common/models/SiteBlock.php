@@ -202,4 +202,28 @@ class SiteBlock
         return $block;
     }
 
+    /**
+     * Get block with last 50 news
+     * @return array Data
+     */
+    public static function getTournamentTable()
+    {
+        $lastSeason = Tournament::find()->max("season_id");
+
+        $teams = Tournament::find()
+            ->where(['season_id' => $lastSeason])
+            ->orderBy(['points' => SORT_DESC])
+            ->all();
+
+        // $season = Season::findOne($lastSeason);
+        // var_dump($season);
+        // die;
+
+        $block = [
+            'view' => '@frontend/views/blocks/tournament_block',
+            'data' => ['teams' => $teams],
+        ];
+        return $block;
+    }
+
 }

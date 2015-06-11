@@ -2256,20 +2256,27 @@ header {
 
 			.others {
 				width: 100px;
+				line-height: 16px;
 			}
 
 			.from,.where {
 				max-width: 90px;
 				line-height: 16px;
   				text-align: left;
+  				position: relative;
 
 				.club-logo {
 					img {
-						float: left;
-						margin-right: 5px;
 						height: 30px;
-						width: 30px;						
+						width: 30px;
+						position: absolute;
+						left: 0;	
+						top: 50%;
+						margin-top: -15px;					
 					}
+				}
+				.club-name {
+					margin-left: 35px;
 				}
 			}
 

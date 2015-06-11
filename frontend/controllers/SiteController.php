@@ -81,6 +81,7 @@ class SiteController extends Controller
             ],
             'columnThird' => [
                 'reviewNews' => SiteBlock::getPhotoVideoNews(),
+                'tournament' => SiteBlock::getTournamentTable(),
             ],
         ]);
     }
