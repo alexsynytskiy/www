@@ -33,8 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'country.name',
                 'label' => 'Страна',
-            ],
-
+            ],            
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

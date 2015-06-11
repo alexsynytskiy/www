@@ -52,6 +52,7 @@ class Asset extends \yii\db\ActiveRecord
     const ASSETABLE_PLAYER  = 'player';
     const ASSETABLE_POST    = 'post';
     const ASSETABLE_USER    = 'user';
+    const ASSETABLE_MATCH_EVENT_ICON    = 'match_events_icon';
 
     /**
      * @var string assets thumbnail types
@@ -350,6 +351,8 @@ class Asset extends \yii\db\ActiveRecord
         {
             case self::ASSETABLE_USER:
                 return new Box(80,80);
+            case self::ASSETABLE_MATCH_EVENT_ICON:
+                return new Box(25,25);
             case self::ASSETABLE_POST:
                 switch (strtolower($this->thumbnail))
                 {

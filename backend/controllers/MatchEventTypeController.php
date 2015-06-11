@@ -3,8 +3,8 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\Country;
-use common\models\CountrySearch;
+use common\models\MatchEventType;
+use common\models\MatchEventTypeSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -14,9 +14,9 @@ use yii\web\UploadedFile;
 use common\models\Asset;
 
 /**
- * CountryController implements the CRUD actions for Country model.
+ * MatchEventTypeController implements the CRUD actions for MatchEventType model.
  */
-class CountryController extends Controller
+class MatchEventTypeController extends Controller
 {
     public function behaviors()
     {
@@ -31,12 +31,12 @@ class CountryController extends Controller
     }
 
     /**
-     * Lists all Country models.
+     * Lists all MatchEventType models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new CountrySearch();
+        $searchModel = new MatchEventTypeSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -46,7 +46,7 @@ class CountryController extends Controller
     }
 
     /**
-     * Displays a single Country model.
+     * Displays a single MatchEventType model.
      * @param integer $id
      * @return mixed
      */
@@ -58,28 +58,28 @@ class CountryController extends Controller
     }
 
     /**
-     * Creates a new Country model.
+     * Creates a new MatchEventType model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Country();
+        $model = new MatchEventType();
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
-            $uploadedFile = UploadedFile::getInstance($model,'flag');
+            $uploadedFile = UploadedFile::getInstance($model,'icon');
             $model->save(false);
 
             if(!empty($uploadedFile))
             {
-                $asset = new Asset;
-                $asset->assetable_type = Asset::ASSETABLE_COUNTRY;
-                $asset->assetable_id = $model->id;
-                $asset->uploadedFile = $uploadedFile;
-                $asset->saveAsset();
+                $icon = new Asset;
+                $icon->assetable_type = Asset::ASSETABLE_MATCH_EVENT_ICON;
+                $icon->assetable_id = $model->id;
+                $icon->uploadedFile = $uploadedFile;
+                $icon->saveAsset();
             }
-                        
+
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -89,7 +89,7 @@ class CountryController extends Controller
     }
 
     /**
-     * Updates an existing Country model.
+     * Updates an existing MatchEventType model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -97,25 +97,25 @@ class CountryController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $flag = $model->getAsset();
+        $icon = $model->getAsset();
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-
-            $model->flag = UploadedFile::getInstance($model,'flag');
+            
+            $model->icon = UploadedFile::getInstance($model,'icon');
 
             // If image was uploaded
-            if(!empty($model->flag))
+            if(!empty($model->icon))
             {
                 // If asset model did't exist for current model
-                if(!isset($flag->assetable_id))
+                if(!isset($icon->assetable_id))
                 {
-                    $flag = new Asset;
-                    $flag->assetable_type = Asset::ASSETABLE_COUNTRY;
-                    $flag->assetable_id = $model->id;
+                    $icon = new Asset;
+                    $icon->assetable_type = Asset::ASSETABLE_MATCH_EVENT_ICON;
+                    $icon->assetable_id = $model->id;
                 }
 
-                $flag->uploadedFile = $model->flag;
-                $flag->saveAsset();
+                $icon->uploadedFile = $model->icon;
+                $icon->saveAsset();
             }
 
             $model->save(false);
@@ -124,12 +124,12 @@ class CountryController extends Controller
 
         return $this->render('update', [
             'model' => $model,
-            'flag' => $flag,
+            'icon' => $icon,
         ]);
     }
 
     /**
-     * Deletes an existing Country model.
+     * Deletes an existing MatchEventType model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -142,42 +142,18 @@ class CountryController extends Controller
     }
 
     /**
-     * Finds the Country model based on its primary key value.
+     * Finds the MatchEventType model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Country the loaded model
+     * @return MatchEventType the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Country::findOne($id)) !== null) {
+        if (($model = MatchEventType::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
-    }
-    
-    /**
-     * Display list of countries in json format
-     *
-     * @param string $q Query for search
-     * @return mixed Json data
-     */
-    public function actionCountryPartList($query = null) {
-        if($query == null) {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-        $search = urldecode($query);
-        $query = new Query;
-        $query->select('id as value, name as text')
-            ->from(Country::tableName())
-            ->where(['like', 'name', $search])
-            ->orderBy('name')
-            ->limit(10);
-        $command = $query->createCommand();
-        $data = $command->queryAll();
-        $out = array_values($data);
-        header("Content-type: text/html; charset=utf-8");
-        echo Json::encode($out);
     }
 }
