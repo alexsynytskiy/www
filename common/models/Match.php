@@ -211,6 +211,14 @@ class Match extends ActiveRecord
     }
 
     /**
+     * @return string Match name
+     */
+    public function getName()
+    {
+        return $this->teamHome->name.' - '.$this->teamGuest->name;
+    }
+
+    /**
      * @inheritdoc
      */
     public function behaviors()

@@ -44,12 +44,15 @@ AppAsset::register($this);
                     ]],
                     ['label' => 'Команда', 'items' => [
                         ['label' => 'Турнирная таблица', 'url' => '/admin/tournament'],
+                        ['label' => 'Состав клубов', 'url' => '/admin/membership'],                       
+                        ['label' => 'Контракты игроков', 'url' => '/admin/contract'],                       
                         ['label' => 'Игроки', 'url' => '/admin/player'],                        
                         ['label' => 'Амплуа', 'url' => '/admin/amplua'],
                     ]],
                     ['label' => 'Матчи', 'items' => [
                         ['label' => 'Матчи', 'url' => '/admin/match'],                        
                         ['label' => 'Команды', 'url' => '/admin/team'],
+                        ['label' => 'Составы команд', 'url' => '/admin/composition'],                       
                         ['label' => 'Арбитры', 'url' => '/admin/arbiter'],
                         ['label' => 'Турниры', 'url' => '/admin/championship'],
                         ['label' => 'Типы лиг', 'url' => '/admin/league'],

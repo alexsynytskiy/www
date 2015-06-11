@@ -28,7 +28,7 @@ use yii\helpers\Url;
         if(!$model->isNewRecord) {
             if(isset($model->player->id)) {
                 $availablePlayers = [
-                    $model->player->id => $model->player->firstname.' '.$model->player->lastname,
+                    $model->player->id => $model->player->name,
                 ];
             }
         }
