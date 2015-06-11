@@ -203,7 +203,12 @@ class SiteBlock
 
         $sliderFutureMatches = Match::find()
             ->where(['>', 'date', date('Y-m.d H:i:s')])
-            ->andWhere(['or', ["command_home_id" => $activeTeam], ["command_guest_id" => $activeTeam]])
+            ->andWhere(['or', 
+                ["command_home_id" => $selectTeamsOI[0]],
+                ["command_guest_id" => $selectTeamsOI[0]],
+                ["command_home_id" => $selectTeamsOI[1]], 
+                ["command_guest_id" => $selectTeamsOI[1]],
+            ])
             ->orderBy(['date' => SORT_ASC])
             ->limit(5)
             ->all();        
