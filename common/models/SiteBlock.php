@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use amnah\yii2\user\models\User;
+use common\models\Team;
 
 /**
  *
@@ -180,15 +181,29 @@ class SiteBlock
      */
     public static function getMatchesSlider()
     {
+        $selectTeamsOI = [
+            Team::TEAM_DK_FIRST_FULL_NAME,
+            Team::TEAM_UKRAINE,
+        ];
+
         $sliderPreviousMatches = Match::find()
             ->where(['is_visible' => 1])
             ->andWhere(['<', 'date', date('Y-m.d H:i:s')])
+            ->andWhere(['or', 
+                ["command_home_id" => $selectTeamsOI[0]],
+                ["command_guest_id" => $selectTeamsOI[0]],
+                ["command_home_id" => $selectTeamsOI[1]], 
+                ["command_guest_id" => $selectTeamsOI[1]],
+            ])
             ->orderBy(['date' => SORT_DESC])
             ->limit(5)
             ->all();
 
+        $sliderPreviousMatches = array_reverse($sliderPreviousMatches);
+
         $sliderFutureMatches = Match::find()
             ->where(['>', 'date', date('Y-m.d H:i:s')])
+            ->andWhere(['or', ["command_home_id" => $activeTeam], ["command_guest_id" => $activeTeam]])
             ->orderBy(['date' => SORT_ASC])
             ->limit(5)
             ->all();        
