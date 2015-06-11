@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             [
                 'attribute' => 'player_id',
-                'value' => $model->player->firstname.' '.$model->player->lastname,
+                'value' => $model->player->name,
             ],
             [
                 'label' => 'Тип трансфера',

@@ -47,7 +47,7 @@ $seasonFilter = ArrayHelper::map($seasons, 'id', 'name');
                 'label' => 'Игрок',
                 'attribute' => 'player.lastname',
                 'value' => function($model) {
-                    return $model->player->firstname.' '.$model->player->lastname;
+                    return $model->player->name;
                 },
             ],
             [

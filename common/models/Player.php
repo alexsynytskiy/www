@@ -106,6 +106,14 @@ class Player extends ActiveRecord
     }
 
     /**
+     * @return string Player name
+     */
+    public function getName()
+    {
+        return $this->firstname . ' ' . $this->lastname;
+    }
+
+    /**
      * @return Asset
      */
     public function getAsset()
