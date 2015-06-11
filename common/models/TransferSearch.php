@@ -56,7 +56,7 @@ class TransferSearch extends Transfer
     {
         $query = Transfer::find();
 
-        $postTable = Post::tableName();
+        $transferTable = Transfer::tableName();
         // set up query with relation to `player.lastname`
         $playerTable = Player::tableName();
         // set up query with relation to `teamFrom.name` and `teamTo.name`
@@ -99,7 +99,7 @@ class TransferSearch extends Transfer
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
+            "{$transferTable}.id" => $this->id,
             'season_id' => $this->season_id,
             'transfer_type_id' => $this->transfer_type_id,
             'player_id' => $this->player_id,

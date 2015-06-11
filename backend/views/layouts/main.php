@@ -40,6 +40,7 @@ AppAsset::register($this);
                     ['label' => 'Альбомы', 'url' => '/admin/album'],
                     ['label' => 'Пользователи', 'url' => '/admin/user/admin'],
                     ['label' => 'Данные по матчам', 'items' => [
+                        ['label' => 'Турнирная таблица', 'url' => '/admin/tournament'],
                         ['label' => 'Матчи', 'url' => '/admin/match'],
                         ['label' => 'Игроки', 'url' => '/admin/player'],
                         ['label' => 'Трансферы', 'url' => '/admin/transfer'],

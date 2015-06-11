@@ -366,12 +366,10 @@ body {
         }
 
         .highlighted {
-            padding: 15px 0;
-            height: 55px;
 
             td {
                 color: @main-blue;
-                padding: 0;
+                // padding: 0;
             }
 
             .frame {
@@ -382,6 +380,24 @@ body {
             .team .frame, .score .frame {
                 padding: 0 5px;
             }
+        }
+        .top-skip {
+            td {
+                height: 15px;
+                border-bottom: 1px dashed @main-body-background;
+            }
+            & + tr td {
+                border-top: none;
+            }            
+        }
+        .bottom-skip {
+            td {
+                height: 15px;
+                border-top: 1px dashed @main-body-background;
+            }
+            & + tr td {
+                border-bottom: none;
+            } 
         }
     }
 }

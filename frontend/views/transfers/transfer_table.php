@@ -99,7 +99,7 @@ use yii\helpers\Url;
                         <div class="club-logo">
                             <img src="<?= $teamFromIconUrl ?>">
                         </div>
-                        <?= $teamFromName ?>
+                        <div class="club-name"><?= $teamFromName ?></div>
                     </td>
                     <?php if($className == 'rent') { ?>
                         <td class="arrow">
@@ -109,7 +109,7 @@ use yii\helpers\Url;
                             <div class="club-logo">
                                 <img src="<?= $teamToIconUrl ?>">
                             </div>
-                            <?= $teamToName ?>
+                            <div class="club-name"><?= $teamToName ?></div>
                         </td> 
                     <?php } ?>
                     <?php if($className != 'rent') { ?>

@@ -86,7 +86,7 @@ class TeamSearch extends Team
             'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
+        $query->andFilterWhere(['like', "{$teamTable}.name", $this->name])
             ->andFilterWhere(['like', 'country.name', $this->getAttribute('country.name')])
             ->andFilterWhere(['like', 'info', $this->info]);
 
