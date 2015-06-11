@@ -22,7 +22,7 @@
             minSlides: 1,
             slideMargin: 0,
             infiniteLoop: false,
-            startSlide:5,
+            startSlide:4,
         });
 
         $('.video-report .video-list, .photo-report .photo-list').bxSlider({
