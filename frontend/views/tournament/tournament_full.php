@@ -4,8 +4,38 @@ use yii\helpers\Url;
 /**
  * @var $this yii\web\View
  * @var $tournamentData array Array of common\models\Tournament 
+ * @var $championshipsData array Array of available championships
+ * @var $seasonsData array Array of available seasons
 **/
 ?>
+
+<div class="search-box default-box" style="min-height: 0;">
+    <div class="box-content">
+        <form class="search-tournament" action="<?= Url::to(['/site/tournament']) ?>">
+            <div class="select-championship selectize-box">
+                <label for="select-championship">Выбрать чемпионат</label>
+                <select name="championship" id="select-championship" placeholder="Выбрать тип трансферов">
+                    <?php foreach ($championshipsData as $championship) {
+                        $active = ($championship->active) ? 'selected class="data-default"' : '';
+                    ?>
+                        <option value="<?= $championship->value ?>" <?= $active ?>><?= $championship->text ?></option>
+                    <?php } ?>
+                </select>
+            </div>
+
+            <div class="select-season selectize-box">
+                <label for="select-season">Выбрать сезон</label>
+                <select name="season" id="select-season" placeholder="Выбрать сезон">
+                    <?php foreach ($seasonsData as $season) {
+                        $active = ($season->active) ? 'selected class="data-default"' : '';
+                    ?>
+                        <option value="<?= $season->value ?>" <?= $active ?>><?= $season->text ?></option>
+                    <?php } ?>
+                </select>
+            </div>
+        </form>
+    </div>
+</div>
 
 <div id="scoreboard-full" class="scoreboard-full default-box">
     <div class="box-header">

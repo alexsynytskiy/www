@@ -9,9 +9,6 @@ use yii\widgets\Pjax;
 **/
 ?>
 
-<?php Pjax::begin([
-    'id' => 'transfers',
-]); ?>
 <div class="search-box default-box" style="min-height: 0;">
     <div class="box-content">
         <form class="search-matches" action="<?= Url::to(['/site/transfers']) ?>">
@@ -61,5 +58,3 @@ use yii\widgets\Pjax;
         }
     }
 ?>
-
-<?php Pjax::end(); ?>

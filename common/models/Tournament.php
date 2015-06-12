@@ -67,6 +67,8 @@ class Tournament extends ActiveRecord
             'goals_for' => 'Забитых голов',
             'goals_against' => 'Пропущеных голов',
             'points' => 'Очков',
+            'penalty_points' => 'Штрафных очков',
+            'weight' => 'Вес',
             'created_at' => 'Создано',
             'updated_at' => 'Обновлено',
             'fair_play' => 'Честная игра',

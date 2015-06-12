@@ -323,7 +323,13 @@ class Asset extends \yii\db\ActiveRecord
         if(!$single) {
             return $models;
         }
-        return isset($models[0]) ? $models[0] : new Asset;
+        if(isset($models[0])) {
+            return $models[0];
+        } else {
+            $asset = new Asset;
+            $asset->assetable_type = $assetableType;
+            return $asset;
+        }
     }
 
     /**

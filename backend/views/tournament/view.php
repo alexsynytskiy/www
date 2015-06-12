@@ -40,6 +40,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'goals_for',
             'goals_against',
             'points',
+            'penalty_points',
+            'weight',
             'created_at',
             'updated_at',
             'fair_play',

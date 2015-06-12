@@ -287,15 +287,10 @@ class SiteController extends Controller
 
         //select seasons
         $seasons = Season::find()
-        ->where(['>', 'id', 42])
-        ->orderBy(['id' => SORT_DESC])
-        ->all();
-
-        foreach ($seasons as $key => $season) {
-           if (strpos($season->name, '/') === false) {
-               unset($seasons[$key]);
-           }
-        }
+            ->where(['window' => Season::WINDOW_WINTER])
+            ->andWhere(['>', 'id', 42])
+            ->orderBy(['id' => SORT_DESC])
+            ->all();
 
         if (isset($_GET['season'])) {
             $activeSeason = $_GET['season'];
@@ -403,11 +398,7 @@ class SiteController extends Controller
             ->where(['>', 'id', 42])
             ->orderBy(['id' => SORT_DESC])
             ->all();
-        foreach ($seasons as $key => $season) {
-           if (strpos($season->name, '/') === false) {
-               unset($seasons[$key]);
-           }
-        }
+        
         $firstSeasonObj = array_values($seasons)[0];
         $firstSeasonId = $firstSeasonObj->id;
         $activeSeason = $firstSeasonId;
@@ -420,9 +411,15 @@ class SiteController extends Controller
         }
         $seasonsData = [];
         foreach ($seasons as $season) {
+            $seasonName = $season->name;
+            if($season->window == $season::WINDOW_WINTER) {
+                $seasonName .= ' Зимнее окно';
+            } else {
+                $seasonName .= ' Летнее окно';
+            }
             $seasonsData[$season->id] = [
                 'value' => $season->id,
-                'text' => $season->name,
+                'text' => $seasonName,
                 'active' => false,
             ];
         }
@@ -552,15 +549,76 @@ class SiteController extends Controller
     public function actionTournament() 
     {
         $tournamentTable = Tournament::tableName();
+        $championshipTable = Championship::tableName();
         $seasonTable = Season::tableName();
-        $lastSeason = Season::find()
+
+        // championship type select
+        $championships = Championship::find()
+            ->innerJoin($tournamentTable, "{$tournamentTable}.championship_id = {$championshipTable}.id")
+            ->orderBy(['id' => SORT_DESC])
+            ->all();
+
+        $firstChampionshipObj = array_values($championships)[0];
+        $firstChampionshipId = $firstChampionshipObj->id;
+        $activeChampionship = $firstChampionshipId;
+        if(isset($_GET['championship'])) {
+            foreach ($championships as $championship) {
+                if($_GET['championship'] == $championship->id){
+                    $activeChampionship = $_GET['championship'];
+                } 
+            }
+        }
+        $championshipsData = [];
+        foreach ($championships as $championship) {
+            $championshipsData[$championship->id] = [
+                'value' => $championship->id,
+                'text' => $championship->name,
+                'active' => false,
+            ];
+        }
+        $championshipsData[$activeChampionship]['active'] = true;
+        foreach ($championshipsData as $key => $championship) {
+            $championshipsData[$key] = (object) $championship;
+        }
+
+        // season select
+        $seasons = Season::find()
             ->innerJoin($tournamentTable, "{$tournamentTable}.season_id = {$seasonTable}.id")
-            ->max("{$seasonTable}.id");
+            ->orderBy(['id' => SORT_DESC])
+            ->all();
+        
+        $firstSeasonObj = array_values($seasons)[0];
+        $firstSeasonId = $firstSeasonObj->id;
+        $activeSeason = $firstSeasonId;
+        if(isset($_GET['season'])) {
+            foreach ($seasons as $season) {
+                if($_GET['season'] == $season->id){
+                    $activeSeason = $_GET['season'];
+                } 
+            }
+        }
+        $seasonsData = [];
+        foreach ($seasons as $season) {
+            $seasonName = $season->name;
+            $seasonsData[$season->id] = [
+                'value' => $season->id,
+                'text' => $seasonName,
+                'active' => false,
+            ];
+        }
+        $seasonsData[$activeSeason]['active'] = true;
+        foreach ($seasonsData as $key => $season) {
+            $seasonsData[$key] = (object) $season;
+        }
 
         $tournamentData = Tournament::find()
-            ->where(['season_id' => $lastSeason])
-            ->orderBy(['points' => SORT_DESC])
+            ->where([
+                'season_id' => $activeSeason,
+                'championship_id' => $activeChampionship,
+            ])->orderBy(['points' => SORT_DESC])
             ->all();
+
+        usort($tournamentData,'self::tournamentCmp');
 
         $forwards = Forward::find()
             ->orderBy([
@@ -574,7 +632,7 @@ class SiteController extends Controller
             'columnFirst' => [
                 'tournament' => [
                     'view' => '@frontend/views/tournament/tournament_full',
-                    'data' => compact('tournamentData'),
+                    'data' => compact('tournamentData', 'championshipsData', 'seasonsData'),
                 ],
                 'forwards' => [
                     'view' => '@frontend/views/tournament/forwards',
@@ -615,6 +673,26 @@ class SiteController extends Controller
             return 0;
         }
         return ($a['weight'] < $b['weight']) ? -1 : 1;
+    }
+
+    /**
+     * Comparing teams in tournament
+     * @param array $teamA
+     * @param array $teamB
+     * @return int Result of comparing
+     */
+    private static function tournamentCmp($teamA, $teamB)
+    {
+        $teamAGoals = $teamA->goals_for - $teamA->goals_against;
+        $teamBGoals = $teamB->goals_for - $teamB->goals_against;
+        if ($teamA->points == $teamB->points && $teamAGoals == $teamBGoals) {
+            return 0;
+        }
+        if($teamA->points < $teamB->points) return 1;
+        elseif($teamA->points > $teamB->points) return -1;
+        else {
+            return ($teamAGoals < $teamBGoals) ? 1 : -1;
+        }
     }
 
 }

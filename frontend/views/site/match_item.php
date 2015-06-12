@@ -19,9 +19,6 @@ use yii\helpers\Url;
     <th class="logo">
         <?php if (!empty($image->getFileUrl())) { ?>
             <img src="<?= $image->getFileUrl() ?>" style="height: 30px; width: 30px;">
-        <?php } 
-        else { ?>
-            <img src="<?= $image->getDefaultFileUrl() ?>" style="height: 30px; width: 30px;">
         <?php } ?>
     </th>    
     <th class="score"><?= $model->home_goals.':'.$model->guest_goals ?></th>
@@ -31,9 +28,6 @@ use yii\helpers\Url;
     <th class="logo">
         <?php if (!empty($image->getFileUrl())) { ?>
             <img src="<?= $image->getFileUrl() ?>" style="height: 30px; width: 30px;">
-        <?php } 
-        else { ?>
-            <img src="<?= $image->getDefaultFileUrl() ?>" style="height: 30px; width: 30px;">
         <?php } ?>
     </th>    
     <th class="visitors"><?= $model->teamGuest->name ?></th>

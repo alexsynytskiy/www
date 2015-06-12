@@ -64,7 +64,13 @@ class SeasonController extends Controller
     {
         $model = new Season();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+
+            if(strpos($model->name, '/') !== false) {
+                $model->window = 1;
+            }
+
+            $model->save(false);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [

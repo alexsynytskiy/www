@@ -20,6 +20,15 @@ use yii\db\ActiveRecord;
 class Season extends ActiveRecord
 {
     /**
+     * @var int Summer window
+     */
+    const WINDOW_SUMMER = 0;
+    /**
+     * @var int Winter window
+     */
+    const WINDOW_WINTER = 1;
+
+    /**
      * @inheritdoc
      */
     public static function tableName()
