@@ -185,6 +185,7 @@ use common\models\Season;
         echo $form->field($model, 'date')->widget(DatePicker::classname(), [
             'options' => ['placeholder' => 'Выберите дату матча'],
             'removeButton' => false,
+            'language' => 'ru-RU',
             'pluginOptions' => [
                 'language' => 'ru',
                 'autoclose' => true,

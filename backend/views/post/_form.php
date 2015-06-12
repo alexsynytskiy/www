@@ -8,6 +8,8 @@ use yii\web\JsExpression;
 use kartik\file\FileInput;
 use kartik\widgets\Typeahead;
 use dosamigos\selectize\SelectizeDropDownList;
+use kartik\date\DatePicker;
+use kartik\datetime\DateTimePicker;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Post */
@@ -151,7 +153,19 @@ SCRIPT;
         ],
         'pluginOptions' => $pluginOptions,
     ]);
-    // echo $form->field($model, 'cropData')->hiddenInput(['id' => 'crop-data'])->label(false);
+    ?>
+
+    <?php
+        // $model->created_at = date('d.m.Y H:i',strtotime($model->created_at));
+        // echo $form->field($model, 'created_at')->widget(DateTimePicker::classname(), [
+        //     'options' => ['placeholder' => 'Выберите время для отложенного поста'],
+        //     'removeButton' => false,
+        //     'language' => 'ru-RU',
+        //     'pluginOptions' => [
+        //         'autoclose' => true,
+        //         'format' => 'dd.mm.yyyy hh:ii'
+        //     ]
+        // ]);
     ?>
 
     <?= $form->field($model, 'is_public')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState' => false]]) ?>

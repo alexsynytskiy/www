@@ -93,6 +93,7 @@ class SiteController extends Controller
     public function actionNews($date = null) 
     {
         $query = Post::find()->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_NEWS]);
+        $query->andWhere(['<', 'created_at', date("Y-m-d H:00:00")]);
         // check date
         if (strtotime($date) == null) {
             $date = false;
