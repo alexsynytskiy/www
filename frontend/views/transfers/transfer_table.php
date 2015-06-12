@@ -61,21 +61,29 @@ use yii\helpers\Url;
                     }
                     if(isset($transfer->teamFrom)){
                         $teamFromName = $transfer->teamFrom->name;
-                        $teamFromIconUrl = $transfer->teamFrom->getAsset()->getFileUrl();
+                        if($transfer->teamFrom->getAsset()) {
+                            $teamFromIconUrl = $transfer->teamFrom->getAsset()->getFileUrl();
+                        } else {
+                            $teamFromIconUrl = false;
+                        }
                     } else {
                         $teamFromName = '';
                         $teamFrom = new \common\models\Team;
-                        $teamFromIconUrl = $teamFrom->getAsset()->getFileUrl();
+                        $teamFromIconUrl = false;
                     }
                     // var_dump($transfer->teamFrom->getAsset());
                     // die;
                     if(isset($transfer->teamTo)){
                         $teamToName = $transfer->teamTo->name;
-                        $teamToIconUrl = $transfer->teamTo->getAsset()->getFileUrl();
+                        if($transfer->teamTo->getAsset()) {
+                            $teamToIconUrl = $transfer->teamTo->getAsset()->getFileUrl();
+                        } else {
+                            $teamToIconUrl = false;
+                        }
                     } else {
                         $teamToName = '';
                         $teamTo = new \common\models\Team;
-                        $teamToIconUrl = $teamTo->getAsset()->getFileUrl();
+                        $teamToIconUrl = false;
                     }
                     $others = ($transfer->clubs == '') ? '-' : $transfer->clubs;
                     $sum = ($transfer->sum == '') ? '-' : $transfer->sum;
@@ -97,7 +105,9 @@ use yii\helpers\Url;
                     <td class="position"><?= $amplua ?></td>
                     <td class="from">
                         <div class="club-logo">
+                            <?php if($teamFromIconUrl) { ?>
                             <img src="<?= $teamFromIconUrl ?>">
+                            <?php } ?>
                         </div>
                         <div class="club-name"><?= $teamFromName ?></div>
                     </td>
@@ -107,7 +117,9 @@ use yii\helpers\Url;
                         </td>
                         <td class="where">
                             <div class="club-logo">
+                                <?php if($teamFromIconUrl) { ?>
                                 <img src="<?= $teamToIconUrl ?>">
+                                <?php } ?>
                             </div>
                             <div class="club-name"><?= $teamToName ?></div>
                         </td> 

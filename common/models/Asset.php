@@ -237,7 +237,15 @@ class Asset extends \yii\db\ActiveRecord
      */
     public function getFileUrl()
     {
-        if(empty($this->filename) && $this->getAssetableType() == self::ASSETABLE_POST) {
+        $excludeAssetableTypes = [
+            self::ASSETABLE_POST,
+            self::ASSETABLE_TEAM,
+        ];
+        if(empty($this->filename) && in_array($this->getAssetableType(), $excludeAssetableTypes)) {
+            return false;
+        }
+        // only for teams
+        if(!file_exists($this->getFilePath()) && $this->getAssetableType() == self::ASSETABLE_TEAM) {
             return false;
         }
         if(!file_exists($this->getFilePath())) {

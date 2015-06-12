@@ -4,6 +4,7 @@ return [
         'db' => [
             'class' => 'yii\db\Connection',
             'dsn' => 'mysql:host=localhost;dbname=dynamo_sqlready',
+            'emulatePrepare' => true,
             'username' => 'root',
             'password' => '',
             'charset' => 'utf8',

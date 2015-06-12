@@ -83,6 +83,9 @@ class PostController extends Controller
             // Set slug
             $model->slug = $model->genSlug($model->title);
 
+            // Created time
+            // $model->created_at = date("Y-m-d H:i:s", strtotime($model->created_at));
+
             // Save source
             $source = new Source;
             $source->name = $model->source_title;
@@ -106,7 +109,6 @@ class PostController extends Controller
                     $model->addTag($id);
                 }
             }
-
 
             $cached_tag_list = [];
             $newTags = $model->getTags();
@@ -166,13 +168,13 @@ class PostController extends Controller
         $model->title = html_entity_decode($model->title);
         $model->content = html_entity_decode($model->content);
 
-        // var_dump($model);
-        // die;
-
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
             // Set slug
             $model->slug = $model->genSlug($model->title);
+
+            // Created time
+            // $model->created_at = date("Y-m-d H:i:s", strtotime($model->created_at));
 
             // Set image
             $model->image = UploadedFile::getInstance($model, 'image');
@@ -240,7 +242,6 @@ class PostController extends Controller
                     }
                 }
             }
-
 
             $cached_tag_list = [];
             $newTags = $model->getTags();
