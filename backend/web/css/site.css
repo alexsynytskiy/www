@@ -75,6 +75,9 @@ a.desc:after {
 .grid-view th {
     white-space: nowrap;
 }
+#w0.grid-view tr:hover {
+    background-color: #E7E8F3;
+}
 
 .hint-block {
     display: block;

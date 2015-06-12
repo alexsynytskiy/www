@@ -11,6 +11,8 @@ use common\models\Comment;
 use common\models\Season;
 use common\models\TransferType;
 use common\models\Transfer;
+use common\models\Tournament;
+use common\models\Forward;
 use common\models\Championship;
 use common\models\CommentForm;
 use common\models\SiteBlock;
@@ -534,6 +536,49 @@ class SiteController extends Controller
                         'commentForm' => $commentForm,
                         'pagination' => $commentsPagination,
                     ],
+                ],
+            ],
+            'columnSecond' => [ 
+                'short_news' => SiteBlock::getShortNews(),
+            ],
+        ]);
+    }
+
+    /**
+     * Tournament page
+     * 
+     * @return mixed
+     */
+    public function actionTournament() 
+    {
+        $tournamentTable = Tournament::tableName();
+        $seasonTable = Season::tableName();
+        $lastSeason = Season::find()
+            ->innerJoin($tournamentTable, "{$tournamentTable}.season_id = {$seasonTable}.id")
+            ->max("{$seasonTable}.id");
+
+        $tournamentData = Tournament::find()
+            ->where(['season_id' => $lastSeason])
+            ->orderBy(['points' => SORT_DESC])
+            ->all();
+
+        $forwards = Forward::find()
+            ->orderBy([
+                'goals' => SORT_DESC,
+                'penalty' => SORT_DESC,
+            ])->all();
+
+        return $this->render('@frontend/views/site/index', [
+            'templateType' => 'col2',
+            'title' => 'Турнирная таблица',
+            'columnFirst' => [
+                'tournament' => [
+                    'view' => '@frontend/views/tournament/tournament_full',
+                    'data' => compact('tournamentData'),
+                ],
+                'forwards' => [
+                    'view' => '@frontend/views/tournament/forwards',
+                    'data' => compact('forwards'),
                 ],
             ],
             'columnSecond' => [ 

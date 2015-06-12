@@ -1665,6 +1665,12 @@ body a:focus {
 .scoreboard-full .club-icon {
   width: 40px;
 }
+.scoreboard-full .club-icon img {
+  display: block;
+  height: 28px;
+  width: 28px;
+  margin: 0 auto;
+}
 .best-forwards .box-content {
   padding: 0;
 }
@@ -1681,6 +1687,11 @@ body a:focus {
 }
 .best-forwards .country-icon {
   width: 40px;
+}
+.best-forwards .country-icon img {
+  display: block;
+  width: 32px;
+  heigth: 22px;
 }
 .games-calendar .box-content {
   padding: 0;

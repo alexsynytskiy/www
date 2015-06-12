@@ -5,6 +5,7 @@ namespace common\models;
 use Yii;
 use yii\db\ActiveRecord;
 use dosamigos\transliterator\TransliteratorHelper;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "players".
@@ -111,6 +112,14 @@ class Player extends ActiveRecord
     public function getName()
     {
         return $this->firstname . ' ' . $this->lastname;
+    }
+
+    /**
+     * @return string Url to post
+     */
+    public function getUrl()
+    {
+        return Url::to('/player/'.$this->id.'-'.$this->slug);
     }
 
     /**
