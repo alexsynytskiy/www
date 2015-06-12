@@ -6,10 +6,14 @@ use yii\helpers\Url;
  * @var $photoReviewNews array Array of common\models\Post
  * @var $videoReviewNews array Array of common\models\Post
 **/
+
+$videoReviewCount = count($videoReviewNews);
+$photoReviewCount = count($photoReviewNews);
 ?>
 
+<?php if ($photoReviewCount && $videoReviewCount) { ?>
 <div class="video-photo-reports default-box">
-
+    <?php if($photoReviewCount) { ?>
     <div class="photo-report">
         <div class="box-header">
             <div class="box-title">Фоторепортаж</div>
@@ -34,7 +38,9 @@ use yii\helpers\Url;
             </ul>
         </div>
     </div>
+    <?php } ?>
 
+    <?php if($videoReviewCount) { ?>
     <div class="video-report">
         <div class="red-box-header">
             <div class="box-title">Видеорепортаж</div>
@@ -59,4 +65,7 @@ use yii\helpers\Url;
             </ul>
         </div>
     </div>
+    <?php } ?>
+
 </div>
+<?php } ?>
