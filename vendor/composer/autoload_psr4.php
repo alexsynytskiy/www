@@ -17,6 +17,7 @@ return array(
     'yii\\authclient\\' => array($vendorDir . '/yiisoft/yii2-authclient'),
     'yii\\' => array($vendorDir . '/yiisoft/yii2'),
     'vova07\\imperavi\\' => array($vendorDir . '/vova07/yii2-imperavi-widget/src'),
+    'maksyutin\\duallistbox\\' => array($vendorDir . '/maksyutin/yii2-dual-list-box'),
     'kop\\y2sp\\' => array($vendorDir . '/kop/yii2-scroll-pager'),
     'kartik\\widgets\\' => array($vendorDir . '/kartik-v/yii2-widgets'),
     'kartik\\typeahead\\' => array($vendorDir . '/kartik-v/yii2-widget-typeahead'),
@@ -47,6 +48,7 @@ return array(
     'kartik\\affix\\' => array($vendorDir . '/kartik-v/yii2-widget-affix'),
     'dosamigos\\transliterator\\' => array($vendorDir . '/2amigos/yii2-transliterator-helper'),
     'dosamigos\\selectize\\' => array($vendorDir . '/2amigos/yii2-selectize-widget/src'),
+    'demogorgorn\\ajax\\' => array($vendorDir . '/demogorgorn/yii2-ajax-submit-button'),
     'cebe\\markdown\\' => array($vendorDir . '/cebe/markdown'),
     'amnah\\yii2\\user\\' => array($vendorDir . '/amnah/yii2-user'),
 );

@@ -19,7 +19,7 @@ class CompositionSearch extends Composition
     {
         return [
             [['id', 'match_id', 'contract_id', 'is_substitution', 'is_basis', 'number', 'is_captain', 'command_id'], 'integer'],
-            [['contract_type'], 'safe'],
+            [['contract_type', 'team.name'], 'safe'],
         ];
     }
 
@@ -33,6 +33,18 @@ class CompositionSearch extends Composition
     }
 
     /**
+     * @inheritdoc
+     */
+    public function attributes()
+    {
+        // add related fields to searchable attributes
+        return array_merge(parent::attributes(), [
+            'player.lastname',
+            'team.name',
+        ]);
+    }
+
+    /**
      * Creates data provider instance with search query applied
      *
      * @param array $params
@@ -43,20 +55,37 @@ class CompositionSearch extends Composition
     {
         $query = Composition::find();
 
+        $compositionTable = Composition::tableName();
+        $teamTable = Team::tableName();
+
+        $query->joinWith(['team' => function($query) use ($teamTable) {
+            $query->from(['team' => $teamTable]);
+        }]);
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 30,
+            ],
         ]);
 
-        $this->load($params);
+        // enable sorting for the related columns
+        $addSortAttributes = [
+            "team.name",
+        ];
+        foreach ($addSortAttributes as $addSortAttribute) {
+            $dataProvider->sort->attributes[$addSortAttribute] = [
+                'asc'   => [$addSortAttribute => SORT_ASC],
+                'desc'  => [$addSortAttribute => SORT_DESC],
+            ];
+        }
 
-        if (!$this->validate()) {
-            // uncomment the following line if you do not want to any records when validation fails
-            // $query->where('0=1');
+        if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
+            "{$compositionTable}.id" => $this->id,
             'match_id' => $this->match_id,
             'contract_id' => $this->contract_id,
             'is_substitution' => $this->is_substitution,
@@ -66,7 +95,8 @@ class CompositionSearch extends Composition
             'command_id' => $this->command_id,
         ]);
 
-        $query->andFilterWhere(['like', 'contract_type', $this->contract_type]);
+        $query->andFilterWhere(['like', 'contract_type', $this->contract_type])
+            ->andFilterWhere(['like', 'team.name', $this->getAttribute('team.name')]);
 
         return $dataProvider;
     }

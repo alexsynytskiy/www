@@ -14,8 +14,13 @@ $this->params['breadcrumbs'][] = 'Изменить';
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
+    <?= $this->render('_form', compact(
+        'model', 
+        'compositionForm',
+        'homeComposition', 
+        'guestComposition',
+        'homeCompositionDataProvider',
+        'guestCompositionDataProvider'
+    )) ?>
 
 </div>

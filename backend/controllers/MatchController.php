@@ -9,6 +9,12 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+use common\models\CompositionForm;
+use common\models\CompositionSearch;
+use common\models\Membership;
+use common\models\Contract;
+use common\models\Team;
+
 /**
  * MatchController implements the CRUD actions for Match model.
  */
@@ -84,13 +90,83 @@ class MatchController extends Controller
 
         $model->date = date('d.m.Y',strtotime($model->date));
 
+        // compositionForm
+        $compositionForm = new CompositionForm();
+        $compositionForm->match_id = $model->id;
+        $compositionForm->initPlayers($model->command_home_id, $model->command_guest_id);
+
+        $searchModel = new CompositionSearch();
+
+        // homeCompositionDataProvider
+        $params = ['CompositionSearch' => [
+            'match_id' => $model->id,
+            'command_id' => $model->command_home_id,
+        ]];
+        $homeCompositionDataProvider = $searchModel->search($params);
+        $homeCompositionDataProvider->setSort(['defaultOrder' => ['is_basis' => SORT_DESC]]);
+
+        // guestCompositionDataProvider
+        $params = ['CompositionSearch' => [
+            'match_id' => $model->id,
+            'command_id' => $model->command_guest_id,
+        ]];
+        $guestCompositionDataProvider = $searchModel->search($params);
+        $guestCompositionDataProvider->setSort(['defaultOrder' => ['is_basis' => SORT_DESC]]);
+
+        $contractTeams = Team::getContractTeams();
+
+        // homeComposition
+        if(in_array($model->command_home_id, $contractTeams)){
+            $homeCompositionData = Contract::find()
+                ->where([
+                    'command_id' => $model->command_home_id,
+                    'season_id' => $model->season_id,
+                ])->all();
+        } else {
+            $homeCompositionData = Membership::find()
+                ->where([
+                    'command_id' => $model->command_home_id,
+                ])->all();
+        }
+        $homeComposition = [];
+        foreach ($homeCompositionData as $key => $data) {
+            $homeComposition[$key]['id'] = $data->id;
+            $homeComposition[$key]['name'] = $data->name;
+        }
+
+        // guestComposition
+        if(in_array($model->command_guest_id, $contractTeams)){
+            $guestCompositionData = Contract::find()
+                ->where([
+                    'command_id' => $model->command_guest_id,
+                    'season_id' => $model->season_id,
+                ])->all();
+        } else {
+            $guestCompositionData = Membership::find()
+                ->where([
+                    'command_id' => $model->command_guest_id,
+                ])->all();
+        }
+        $guestComposition = [];
+        foreach ($guestCompositionData as $key => $data) {
+            $guestComposition[$key]['id'] = $data->id;
+            $guestComposition[$key]['name'] = $data->name;
+        }
+
+
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            $model->save(FALSE);
+
+            $model->save(false);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+            return $this->render('update', compact(
+                'model', 
+                'compositionForm',
+                'homeComposition', 
+                'guestComposition',
+                'homeCompositionDataProvider',
+                'guestCompositionDataProvider'
+            ));
         }
     }
 

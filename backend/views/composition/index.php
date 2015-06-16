@@ -32,8 +32,9 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'id',
             [
                 'label' => 'Матч',
+                'attribute' => 'match_id',
                 'value' => function($model) {
-                    return $model->match->name;
+                    return $model->match->name.' ('.$model->match_id.')';
                 },
             ],
             [
@@ -43,7 +44,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->team->name;
                 },
             ],
-            'contract_id',
+            [
+                'label' => 'Игрок',
+                'attribute' => 'contract_id',
+                'value' => function($model) {
+                    return isset($model->contract) ? $model->contract->name.' ('.$model->contract_id.')' : null;
+                },
+            ],
             'number',
             [
                 'attribute' => 'is_substitution',

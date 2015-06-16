@@ -31,7 +31,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             [
                 'attribute' => 'player_id',
-                'value' => $model->player->name,
+                'value' => Html::a($model->player->name, ['/player/'.$model->player->id]),
+                'format' => 'html',
             ],
             [
                 'label' => 'Тип трансфера',
@@ -44,10 +45,14 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => 'С команды',
                 'attribute' => 'teamFrom.name',
+                'value' => Html::a($model->teamFrom->name, ['/team/'.$model->teamFrom->id]),
+                'format' => 'html',
             ],
             [
                 'label' => 'В команду',
                 'attribute' => 'teamTo.name',
+                'value' => Html::a($model->teamTo->name, ['/team/'.$model->teamTo->id]),
+                'format' => 'html',
             ],
             [
                 'label' => 'Сезон',

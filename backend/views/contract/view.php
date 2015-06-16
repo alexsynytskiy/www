@@ -6,8 +6,8 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\Contract */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Contracts', 'url' => ['index']];
+$this->title = $model->name;
+$this->params['breadcrumbs'][] = ['label' => 'Игроки команд', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="contract-view">
@@ -15,11 +15,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Вы уверены, что хотите удалить игрока с клуба?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -29,13 +29,33 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'command_id',
-            'season_id',
-            'amplua_id',
-            'contractable_type',
-            'contractable_id',
+            [
+                'label' => 'Игрок',
+                'attribute' => 'player.name',
+                'value' => Html::a($model->player->name, ['/player/'.$model->player->id]),
+                'format' => 'html',
+            ],
+            [
+                'label' => 'Команда',
+                'attribute' => 'team.name',
+                'value' => Html::a($model->team->name, ['/team/'.$model->team->id]),
+                'format' => 'html',
+            ],
+            [
+                'label' => 'Сезон',
+                'attribute' => 'season.name',
+            ],
+            [
+                'label' => 'Амплуа',
+                'attribute' => 'amplua.name',
+            ],
             'number',
-            'command_from_id',
+            [
+                'label' => 'Из команды',
+                'attribute' => 'teamFrom.name',
+                'value' => Html::a($model->teamFrom->name, ['/team/'.$model->teamFrom->id]),
+                'format' => 'html',
+            ],
             'year_from',
             'year_till',
             'matches',

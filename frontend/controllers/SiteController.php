@@ -305,11 +305,11 @@ class SiteController extends Controller
         $tableMatch = Match::tableName();
 
         $tournaments = Championship::find()
-        ->innerJoin($tableMatch, "{$tableMatch}.championship_id = {$tableTournament}.id")
-        ->where(['is_visible' => 1])
-        ->andWhere(['or', ["{$tableMatch}.command_home_id" => $activeTeam], ["{$tableMatch}.command_guest_id" => $activeTeam]])
-        ->orderBy(['id' => SORT_DESC])
-        ->all();
+            ->innerJoin($tableMatch, "{$tableMatch}.championship_id = {$tableTournament}.id")
+            ->where(['is_visible' => 1])
+            ->andWhere(['or', ["{$tableMatch}.command_home_id" => $activeTeam], ["{$tableMatch}.command_guest_id" => $activeTeam]])
+            ->orderBy(['id' => SORT_DESC])
+            ->all();
 
         $query = NULL;     
 

@@ -58,6 +58,23 @@ class Team extends ActiveRecord
         
         return $teamsConstants;
     }
+
+    /**
+     * Get teams ids with contract players
+     * @return array 
+     */
+    public static function getContractTeams()
+    {
+        return [
+            self::TEAM_DK_FIRST,
+            self::TEAM_DK_FIRST_FULL_NAME,
+            self::TEAM_DK_M,
+            self::TEAM_DK2,
+            self::TEAM_U19,
+            self::TEAM_DK_KIDS,
+            self::TEAM_DK3,
+        ];
+    }
     
     /**
      * @inheritdoc
