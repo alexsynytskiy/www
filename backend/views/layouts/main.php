@@ -47,6 +47,8 @@ AppAsset::register($this);
                         ['label' => 'Типы лиг', 'url' => '/admin/league'],
                         ['label' => 'Стадионы', 'url' => '/admin/stadium'],
                         ['label' => 'Страны', 'url' => '/admin/country'],
+                        ['label' => 'События матча', 'url' => '/admin/match-event-type'],
+                        ['label' => 'Сезоны', 'url' => '/admin/season'],
                     ]],
                     ['label' => 'Публикации', 'items' => [
                         ['label' => 'Записи', 'url' => '/admin/post'],

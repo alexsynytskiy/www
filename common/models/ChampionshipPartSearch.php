@@ -18,8 +18,8 @@ class ChampionshipPartSearch extends ChampionshipPart
     public function rules()
     {
         return [
-            [['id', 'championship_id'], 'integer'],
-            [['name'], 'safe'],
+            [['id'], 'integer'],
+            [['name', 'championship.name'], 'safe'],
         ];
     }
 
@@ -33,6 +33,17 @@ class ChampionshipPartSearch extends ChampionshipPart
     }
 
     /**
+     * @inheritdoc
+     */
+    public function attributes()
+    {
+        // add related fields to searchable attributes
+        return array_merge(parent::attributes(), [
+            'championship.name',
+        ]);
+    }
+
+    /**
      * Creates data provider instance with search query applied
      *
      * @param array $params
@@ -42,25 +53,40 @@ class ChampionshipPartSearch extends ChampionshipPart
     public function search($params)
     {
         $query = ChampionshipPart::find();
+        $championship = new Championship;
+        $championshipPartTable = ChampionshipPart::tableName();
+        $championshipTable = Championship::tableName();
 
-        $dataProvider = new ActiveDataProvider([
+        $query->joinWith(['championship' => function($query) use ($championshipTable) {
+            $query->from(['championship' => $championshipTable]);
+        }]);
+
+         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
         ]);
 
-        $this->load($params);
+        // enable sorting for the related columns
+        $addSortAttributes = ["championship.name"];
+        foreach ($addSortAttributes as $addSortAttribute) {
+            $dataProvider->sort->attributes[$addSortAttribute] = [
+                'asc'   => [$addSortAttribute => SORT_ASC],
+                'desc'  => [$addSortAttribute => SORT_DESC],
+            ];
+        }
 
-        if (!$this->validate()) {
-            // uncomment the following line if you do not want to any records when validation fails
-            // $query->where('0=1');
+        if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
-            'championship_id' => $this->championship_id,
+            "{$championshipPartTable}.id" => $this->id,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', "{$championshipPartTable}.name", $this->name])
+              ->andFilterWhere(['like', 'championship.name', $this->getAttribute('championship.name')]);
 
         return $dataProvider;
     }
