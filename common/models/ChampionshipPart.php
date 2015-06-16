@@ -43,8 +43,8 @@ class ChampionshipPart extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'championship_id' => 'Championship ID',
+            'name' => 'Название',
+            'championship_id' => 'Турнир',
         ];
     }
 

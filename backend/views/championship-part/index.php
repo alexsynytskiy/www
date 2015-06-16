@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel common\models\ChampionshipPartSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Championship Parts';
+$this->title = 'Этапы турнира';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="championship-part-index">
@@ -16,18 +16,34 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Championship Part', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Добавить этап турнира', ['create'], ['class' => 'btn btn-success']) ?>
+        <?php
+            if(count(Yii::$app->getRequest()->getQueryParams()) > 0) {
+                echo Html::a('Сброс', ['/'.Yii::$app->controller->id], ['class' => 'btn btn-primary']);
+            } 
+        ?>
     </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'name',
-            'championship_id',
+            [
+                'attribute' => 'id',
+                'options' => ['width' => '80'],
+            ],
+            [
+                'attribute' => 'name',
+                'label' => 'Название',
+                'options' => ['width' => '570'],
+                'format' => 'html',
+            ],
+            [
+                'attribute' => 'championship.name',
+                'label' => 'Турнир',
+                'options' => ['width' => '350'],
+                'format' => 'html',
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
