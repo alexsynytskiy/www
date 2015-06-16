@@ -47,8 +47,9 @@ $seasonFilter = ArrayHelper::map($seasons, 'id', 'name');
                 'label' => 'Игрок',
                 'attribute' => 'player.lastname',
                 'value' => function($model) {
-                    return $model->player->name;
+                    return Html::a($model->player->name, ['/player/'.$model->player->id]);
                 },
+                'format' => 'html',
             ],
             [
                 'attribute' => 'transfer_type_id',
@@ -60,10 +61,22 @@ $seasonFilter = ArrayHelper::map($seasons, 'id', 'name');
             [
                 'label' => 'С команды',
                 'attribute' => 'teamFrom.name',
+                'value' => function($model) {
+                    if(isset($model->teamFrom)) {
+                        return Html::a($model->teamFrom->name, ['/team/'.$model->teamFrom->id]);
+                    } else return null;
+                },
+                'format' => 'html',
             ],
             [
                 'label' => 'В команду',
                 'attribute' => 'teamTo.name',
+                'value' => function($model) {
+                    if(isset($model->teamTo)) {
+                        return Html::a($model->teamTo->name, ['/team/'.$model->teamTo->id]);
+                    } else return null;
+                },
+                'format' => 'html',
             ],
             [
                 'attribute' => 'season_id',

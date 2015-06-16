@@ -45,15 +45,15 @@ AppAsset::register($this);
                     ['label' => 'Команда', 'items' => [
                         ['label' => 'Команды', 'url' => '/admin/team'],
                         ['label' => 'Игроки', 'url' => '/admin/player'],
-                        ['label' => 'Состав клубов', 'url' => '/admin/membership'],
                         ['label' => 'Амплуа', 'url' => '/admin/amplua'],
-                        ['label' => 'Контракты игроков', 'url' => '/admin/contract'],
-                        ['label' => 'Турнирная таблица', 'url' => '/admin/tournament'],
+                        ['label' => 'Игроки команд Динамо', 'url' => '/admin/contract'],                       
+                        ['label' => 'Игроки других команд', 'url' => '/admin/membership'],
+                        ['label' => 'Бомбардиры', 'url' => '/admin/forward'],                       
                     ]],
                     ['label' => 'Матчи', 'items' => [
                         ['label' => 'Матчи', 'url' => '/admin/match'],
                         ['label' => 'События матча', 'url' => '/admin/match-event-type'],                   
-                        ['label' => 'Команды', 'url' => '/admin/team'],
+                        ['label' => 'Турнирная таблица', 'url' => '/admin/tournament'],
                         ['label' => 'Составы команд', 'url' => '/admin/composition'],  
                         ['label' => 'Арбитры', 'url' => '/admin/arbiter'],
                         ['label' => 'Турниры', 'url' => '/admin/championship'],
@@ -61,7 +61,7 @@ AppAsset::register($this);
                         ['label' => 'Этапы турнира', 'url' => '/admin/championship-part'],
                         ['label' => 'Сезоны', 'url' => '/admin/season'],
                         ['label' => 'Стадионы', 'url' => '/admin/stadium'],                        
-                        ['label' => 'Страны', 'url' => '/admin/country'],                        
+                        ['label' => 'Страны', 'url' => '/admin/country'],         
                     ]],
                     ['label' => 'Публикации', 'items' => [
                         ['label' => 'Записи', 'url' => '/admin/post'],

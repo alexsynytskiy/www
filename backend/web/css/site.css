@@ -170,3 +170,7 @@ html .navbar-inverse .navbar-nav > li > a {
 html .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
   background-color: rgba(0,0,0,0.2);
 }
+
+.panel table {
+    margin-bottom: 0;
+}

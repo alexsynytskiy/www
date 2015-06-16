@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "09b8f9e6c5635e5aa2b058ba1d84254f",
+    "hash": "944d6472b96d1c3bc79a98c171418997",
     "packages": [
         {
             "name": "2amigos/yii2-selectize-widget",
@@ -125,7 +125,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amnah/yii2-user/zipball/596937ec03d10a569aebc95ed189dd25aa027f78",
+                "url": "https://api.github.com/repos/amnah/yii2-user/zipball/623d60be69c9997329d98a3d8bee2b0e22ae4208",
                 "reference": "596937ec03d10a569aebc95ed189dd25aa027f78",
                 "shasum": ""
             },
@@ -570,6 +570,51 @@
             "time": "2015-03-06 05:21:16"
         },
         {
+            "name": "demogorgorn/yii2-ajax-submit-button",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/demogorgorn/yii2-ajax-submit-button.git",
+                "reference": "68cfa2d6adc3e63140b2a5171a2f45b3f1aba0f1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/demogorgorn/yii2-ajax-submit-button/zipball/68cfa2d6adc3e63140b2a5171a2f45b3f1aba0f1",
+                "reference": "68cfa2d6adc3e63140b2a5171a2f45b3f1aba0f1",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "demogorgorn\\ajax\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Oleg Martemjanov",
+                    "email": "demogorgorn@gmail.com",
+                    "homepage": "http://foreign.by"
+                }
+            ],
+            "description": "AjaxSubmitButton renders an ajax button which is very similar to ajaxSubmitButton from Yii1.",
+            "homepage": "https://github.com/demogorgorn/yii2-ajax-submit-button",
+            "keywords": [
+                "ajax",
+                "button",
+                "extension",
+                "submit",
+                "widget"
+            ],
+            "time": "2015-04-09 07:44:50"
+        },
+        {
             "name": "ezyang/htmlpurifier",
             "version": "v4.6.0",
             "source": {
@@ -944,7 +989,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-markdown/zipball/8e3d233af93d306a978c5a4f5a794025ccd2020f",
+                "url": "https://api.github.com/repos/kartik-v/yii2-markdown/zipball/29091f6934804fa88a6a392071432b9821bafc9b",
                 "reference": "8e3d233af93d306a978c5a4f5a794025ccd2020f",
                 "shasum": ""
             },
@@ -2030,6 +2075,55 @@
             "time": "2015-04-18 11:16:23"
         },
         {
+            "name": "maksyutin/yii2-dual-list-box",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/maksyutin/yii2-dual-list-box.git",
+                "reference": "d4f165d2a36024cb4e049d74b0730261cdb878dc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/maksyutin/yii2-dual-list-box/zipball/d4f165d2a36024cb4e049d74b0730261cdb878dc",
+                "reference": "d4f165d2a36024cb4e049d74b0730261cdb878dc",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "~2.0"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "maksyutin\\duallistbox\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "Maksyutin Dmitriy",
+                    "email": "maksyutin@yandex.ru",
+                    "homepage": "http://maksyutin.ru"
+                },
+                {
+                    "name": "Geodan B.V.",
+                    "homepage": "http://www.geodan.nl"
+                }
+            ],
+            "description": "Dual list box Widget for Yii 2",
+            "keywords": [
+                "dual listview",
+                "dual-list-box",
+                "duallistbox",
+                "widget",
+                "yii 2",
+                "yii2"
+            ],
+            "time": "2015-02-27 23:36:21"
+        },
+        {
             "name": "michelf/php-markdown",
             "version": "1.5.0",
             "source": {
@@ -2917,12 +3011,13 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": {
         "amnah/yii2-user": 20,
         "kartik-v/yii2-markdown": 20,
         "michelf/php-smartypants": 20,
-        "kop/yii2-scroll-pager": 20
+        "kop/yii2-scroll-pager": 20,
+        "maksyutin/yii2-dual-list-box": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

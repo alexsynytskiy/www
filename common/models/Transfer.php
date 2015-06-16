@@ -121,7 +121,7 @@ class Transfer extends ActiveRecord
      */
     public function getUrl()
     {
-        return \yii\helpers\Url::to(['/site/transfer/','id' => $this->id]);
+        return \yii\helpers\Url::to(['/site/transfer/', 'id' => $this->id]);
     }
 
     

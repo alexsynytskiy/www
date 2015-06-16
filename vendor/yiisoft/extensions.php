@@ -327,4 +327,22 @@ return array (
       '@vova07/imperavi' => $vendorDir . '/vova07/yii2-imperavi-widget/src',
     ),
   ),
+  'demogorgorn/yii2-ajax-submit-button' => 
+  array (
+    'name' => 'demogorgorn/yii2-ajax-submit-button',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@demogorgorn/ajax' => $vendorDir . '/demogorgorn/yii2-ajax-submit-button',
+    ),
+  ),
+  'maksyutin/yii2-dual-list-box' => 
+  array (
+    'name' => 'maksyutin/yii2-dual-list-box',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@maksyutin/duallistbox' => $vendorDir . '/maksyutin/yii2-dual-list-box',
+    ),
+  ),
 );

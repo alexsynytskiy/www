@@ -13,7 +13,7 @@ use yii\db\ActiveRecord;
  * @property integer $season_id
  * @property integer $amplua_id
  * @property string $contractable_type
- * @property integer $contractable_id
+ * @property integer $player_id
  * @property integer $number
  * @property integer $command_from_id
  * @property integer $year_from
@@ -28,12 +28,6 @@ use yii\db\ActiveRecord;
 class Contract extends ActiveRecord
 {
     /**
-     * @var string contract types
-     */
-    const PLAYER = 'player';
-    const COACH = 'coach';
-
-    /**
      * @inheritdoc
      */
     public static function tableName()
@@ -47,9 +41,8 @@ class Contract extends ActiveRecord
     public function rules()
     {
         return [
-            [['command_id', 'season_id', 'amplua_id', 'contractable_id', 'number', 'command_from_id', 'year_from', 'year_till', 'matches', 'goals', 'is_active'], 'integer'],
+            [['command_id', 'season_id', 'amplua_id', 'player_id', 'number', 'command_from_id', 'year_from', 'year_till', 'matches', 'goals', 'is_active'], 'integer'],
             [['debut', 'created_at', 'updated_at'], 'safe'],
-            [['contractable_type'], 'string', 'max' => 255],
 
             // required
             [['command_id', 'season_id', 'amplua_id', 'command_from_id'], 'required'],
@@ -66,8 +59,7 @@ class Contract extends ActiveRecord
             'command_id' => 'Команда',
             'season_id' => 'Сезон',
             'amplua_id' => 'Амплуа',
-            'contractable_type' => 'Тип контракта',
-            'contractable_id' => 'ID контракта',
+            'player_id' => 'Игрок',
             'number' => 'Номер',
             'command_from_id' => 'Из команды',
             'year_from' => 'Год начала',
@@ -96,13 +88,6 @@ class Contract extends ActiveRecord
                 ],
             ],
         ];
-    }
-
-    /**
-     * @return string normalize contactable type
-     */
-    public function getContractableType(){
-        return strtolower($this->contractable_type);
     }
 
     /**
@@ -142,12 +127,7 @@ class Contract extends ActiveRecord
      */
     public function getPlayer()
     {
-        if($this->getContractableType() == self::PLAYER){
-            return $this->hasOne(Player::className(), ['id' => 'contractable_id']);
-        } elseif($this->getContractableType() == self::COACH) {
-            return $this->hasOne(Coach::className(), ['id' => 'contractable_id']);
-        } 
-        return null;
+        return $this->hasOne(Player::className(), ['id' => 'player_id']);
     }
 
     /**
