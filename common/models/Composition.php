@@ -26,6 +26,8 @@ class Composition extends ActiveRecord
     const CONTRACT_TYPE = 'contract';
     const MEMBERSHIP_TYPE = 'membership';
 
+    public $amplua_id;
+
     /**
      * @inheritdoc
      */
@@ -40,7 +42,7 @@ class Composition extends ActiveRecord
     public function rules()
     {
         return [
-            [['match_id', 'contract_id', 'is_substitution', 'is_basis', 'number', 'is_captain', 'command_id'], 'integer'],
+            [['match_id', 'contract_id', 'is_substitution', 'is_basis', 'number', 'is_captain', 'command_id', 'amplua_id'], 'integer'],
             [['contract_type'], 'string', 'max' => 255],
 
             // required
@@ -63,6 +65,7 @@ class Composition extends ActiveRecord
             'is_captain' => 'Капитан',
             'command_id' => 'Команда',
             'contract_type' => 'Тип контракта',
+            'amplua_id' => 'Амплуа',
         ];
     }
 
@@ -82,6 +85,16 @@ class Composition extends ActiveRecord
      */
     public function getContractType(){
         return strtolower($this->contract_type);
+    }
+
+    /**
+     * Get amplua id from contract
+     * @return int 
+     */
+    public function getAmpluaId(){
+        if(isset($this->contract->amplua)) {
+            return $this->contract->amplua->id;
+        } else return null;
     }
 
     /**

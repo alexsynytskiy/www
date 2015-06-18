@@ -53,6 +53,12 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'number',
             [
+                    'label' => 'Амплуа',
+                    'value' => function($model) {
+                        return isset($model->contract->amplua) ? $model->contract->amplua->name : null;
+                    },
+                ],
+            [
                 'attribute' => 'is_substitution',
                 'value' => function($model) {
                     if($model->is_substitution) return 'Да';
@@ -87,7 +93,10 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             // 'contract_type',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'options' => ['width' => '70'],
+            ],
         ],
     ]); ?>
 

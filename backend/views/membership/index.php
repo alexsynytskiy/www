@@ -28,8 +28,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
+            [
+                'attribute' => 'id',
+                'options' => ['width' => '70'],
+            ],
             [
                 'label' => 'Команда',
                 'attribute' => 'team.name',
