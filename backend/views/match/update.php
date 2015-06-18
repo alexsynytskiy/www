@@ -19,8 +19,6 @@ $this->params['breadcrumbs'][] = 'Изменить';
         'compositionForm',
         'homeComposition', 
         'guestComposition',
-        'homeContractType',
-        'guestContractType',
         'homeCompositionDataProvider',
         'guestCompositionDataProvider'
     )) ?>

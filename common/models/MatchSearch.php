@@ -139,7 +139,6 @@ class MatchSearch extends Match
             'pagination' => [
                 'pageSize' => 10,
             ],
-            'sort' => ['defaultOrder' => ['date' => SORT_DESC]]
         ]);
 
         // enable sorting for the related columns

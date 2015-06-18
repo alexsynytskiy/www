@@ -45,7 +45,7 @@ class Contract extends ActiveRecord
             [['debut', 'created_at', 'updated_at'], 'safe'],
 
             // required
-            [['command_id', 'season_id', 'amplua_id'], 'required'],
+            [['command_id', 'season_id', 'amplua_id', 'command_from_id'], 'required'],
         ];
     }
 

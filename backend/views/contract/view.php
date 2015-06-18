@@ -53,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => 'Из команды',
                 'attribute' => 'teamFrom.name',
-                'value' => isset($model->teamFrom) ? Html::a($model->teamFrom->name, ['/team/'.$model->teamFrom->id]) : null,
+                'value' => Html::a($model->teamFrom->name, ['/team/'.$model->teamFrom->id]),
                 'format' => 'html',
             ],
             'year_from',

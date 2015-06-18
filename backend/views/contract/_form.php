@@ -49,9 +49,12 @@ use yii\helpers\Url;
 
     <?php
         $availableTeams = [];
-        $team = $model->team;
-        if(isset($team->id)) {
-            $availableTeams = [$team->id => $team->name];
+        
+        if(!$model->isNewRecord) {
+            $team = $model->team;
+            if(isset($team->id)) {
+                $availableTeams = [$team->id => $team->name];
+            }
         }
 
         echo $form->field($model, 'command_id')->widget(SelectizeDropDownList::classname(), [
