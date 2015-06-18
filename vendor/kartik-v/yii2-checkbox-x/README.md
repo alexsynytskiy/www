@@ -1,6 +1,12 @@
 yii2-checkbox-x
 =================
 
+[![Latest Stable Version](https://poser.pugx.org/kartik-v/yii2-checkbox-x/v/stable)](https://packagist.org/packages/kartik-v/yii2-checkbox-x)
+[![License](https://poser.pugx.org/kartik-v/yii2-checkbox-x/license)](https://packagist.org/packages/kartik-v/yii2-checkbox-x)
+[![Total Downloads](https://poser.pugx.org/kartik-v/yii2-checkbox-x/downloads)](https://packagist.org/packages/kartik-v/yii2-checkbox-x)
+[![Monthly Downloads](https://poser.pugx.org/kartik-v/yii2-checkbox-x/d/monthly)](https://packagist.org/packages/kartik-v/yii2-checkbox-x)
+[![Daily Downloads](https://poser.pugx.org/kartik-v/yii2-checkbox-x/d/daily)](https://packagist.org/packages/kartik-v/yii2-checkbox-x)
+
 An extended checkbox widget for Yii Framework 2 based on the [bootstrap-checkbox-x jQuery plugin](http://plugins.krajee.com/checkbox-x) by Krajee. This widget 
 allows three checkbox states and includes additional styles. The plugin uses Bootstrap markup, glyphs, and CSS 3 styling by default, but it can be overridden 
 with any other markup.
@@ -30,22 +36,25 @@ with any other markup.
 ### Demo
 You can see detailed [documentation and examples](http://demos.krajee.com/checkbox-x) on usage of the extension.
 
+### Latest Release
+The latest version of the extension is release v1.0.1. Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-checkbox-x/blob/master/CHANGE.md) for details of various releases.
+
 ## Installation
 
 The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
 
-> NOTE: Check the [composer.json](https://github.com/kartik-v/yii2-nav-x/blob/master/composer.json) for this extension's requirements and dependencies. Read this [web tip /wiki](http://webtips.krajee.com/setting-composer-minimum-stability-application/) on setting the `minimum-stability` settings for your application's composer.json.
+> NOTE: Check the [composer.json](https://github.com/kartik-v/yii2-checkbox-x/blob/master/composer.json) for this extension's requirements and dependencies. Read this [web tip /wiki](http://webtips.krajee.com/setting-composer-minimum-stability-application/) on setting the `minimum-stability` settings for your application's composer.json.
 
 Either run
 
 ```
-$ php composer.phar require kartik-v/yii2-checkbox-x "dev-master"
+$ php composer.phar require kartik-v/yii2-checkbox-x "@dev"
 ```
 
 or add
 
 ```
-"kartik-v/yii2-checkbox-x": "dev-master"
+"kartik-v/yii2-checkbox-x": "@dev"
 ```
 
 to the ```require``` section of your `composer.json` file.

@@ -85,7 +85,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'guest_goals',
                 'options' => ['width' => '50'],
             ],
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'options' => ['width' => '70'],
+            ],
         ],
     ]); ?>
 

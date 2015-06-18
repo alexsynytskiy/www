@@ -2,11 +2,14 @@
 
 namespace vova07\imperavi;
 
+use Yii;
 use yii\base\InvalidConfigException;
+use yii\base\Model;
+use yii\base\Widget as BaseWidget;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Json;
-use yii\widgets\InputWidget;
-use Yii;
+use yii\web\JsExpression;
 
 /**
  * Imperavi Redactor widget.
@@ -21,15 +24,30 @@ use Yii;
  * @link http://imperavi.com/redactor
  * @license https://github.com/vova07/yii2-imperavi-widget/blob/master/LICENSE.md
  */
-class Widget extends InputWidget
+class Widget extends BaseWidget
 {
     /** Name of inline JavaScript package that is registered by the widget */
     const INLINE_JS_KEY = 'vova07/imperavi/';
 
     /**
-     * @var array {@link http://imperavi.com/redactor/docs/ redactor options}.
+     * @var Model the data model that this widget is associated with.
      */
-    public $settings = [];
+    public $model;
+
+    /**
+     * @var string the model attribute that this widget is associated with.
+     */
+    public $attribute;
+
+    /**
+     * @var string the input name. This must be set if [[model]] and [[attribute]] are not set.
+     */
+    public $name;
+
+    /**
+     * @var string the input value.
+     */
+    public $value;
 
     /**
      * @var string|null Selector pointing to textarea to initialize redactor for.
@@ -37,6 +55,22 @@ class Widget extends InputWidget
      * rendered by this widget.
      */
     public $selector;
+
+    /**
+     * @var array the HTML attributes for the input tag.
+     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
+     */
+    public $options = [];
+
+    /**
+     * @var array {@link http://imperavi.com/redactor/docs/ redactor options}.
+     */
+    public $settings = [];
+
+    /**
+     * @var array Default settings that will be merged with {@link $settings}. Useful with DI container.
+     */
+    public $defaultSettings = [];
 
     /**
      * This property must be used only for registering widget custom plugins.
@@ -55,8 +89,15 @@ class Widget extends InputWidget
      */
     public function init()
     {
-        parent::init();
-
+        if ($this->name === null && !$this->hasModel() && $this->selector === null) {
+            throw new InvalidConfigException("Either 'name', or 'model' and 'attribute' properties must be specified.");
+        }
+        if (!isset($this->options['id'])) {
+            $this->options['id'] = $this->hasModel() ? Html::getInputId($this->model, $this->attribute) : $this->getId();
+        }
+        if (!empty($this->defaultSettings)) {
+            $this->settings = ArrayHelper::merge($this->defaultSettings, $this->settings);
+        }
         if (isset($this->settings['plugins']) && !is_array($this->settings['plugins']) || !is_array($this->plugins)) {
             throw new InvalidConfigException('The "plugins" property must be an array.');
         }
@@ -78,7 +119,7 @@ class Widget extends InputWidget
         }
         // @codeCoverageIgnoreEnd
 
-        self::registerTranslations();
+        parent::init();
     }
 
     /**
@@ -86,7 +127,7 @@ class Widget extends InputWidget
      */
     public function run()
     {
-        $this->registerClientScript();
+        $this->register();
 
         if ($this->_renderTextarea === true) {
             if ($this->hasModel()) {
@@ -115,9 +156,19 @@ class Widget extends InputWidget
     }
 
     /**
+     * Register all widget logic.
+     */
+    protected function register()
+    {
+        self::registerTranslations();
+        $this->registerDefaultCallbacks();
+        $this->registerClientScripts();
+    }
+
+    /**
      * Register widget asset.
      */
-    public function registerClientScript()
+    protected function registerClientScripts()
     {
         $view = $this->getView();
         $selector = Json::encode($this->selector);
@@ -141,5 +192,26 @@ class Widget extends InputWidget
         $settings = !empty($this->settings) ? Json::encode($this->settings) : '';
 
         $view->registerJs("jQuery($selector).redactor($settings);", $view::POS_READY, self::INLINE_JS_KEY . $this->options['id']);
+    }
+
+    /**
+     * Register default callbacks.
+     */
+    protected function registerDefaultCallbacks()
+    {
+        if (isset($this->settings['imageUpload']) && !isset($this->settings['imageUploadErrorCallback'])) {
+            $this->settings['imageUploadErrorCallback'] = new JsExpression('function (response) { alert(response.error); }');
+        }
+        if (isset($this->settings['fileUpload']) && !isset($this->settings['fileUploadErrorCallback'])) {
+            $this->settings['fileUploadErrorCallback'] = new JsExpression('function (response) { alert(response.error); }');
+        }
+    }
+
+    /**
+     * @return boolean whether this widget is associated with a data model.
+     */
+    protected function hasModel()
+    {
+        return $this->model instanceof Model && $this->attribute !== null;
     }
 }

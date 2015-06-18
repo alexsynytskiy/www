@@ -274,7 +274,7 @@ class Comment extends ActiveRecord
                         </div>
                         <div class="user-info">
                             <div class="user-name">
-                                <a href="<?= Url::to('/user/profile/'.$comment->user->id) ?> data-pjax="0"">
+                                <a href="<?= Url::to('/user/profile/'.$comment->user->id) ?>" data-pjax="0">
                                     <?= $username ?>
                                 </a>
                             </div>

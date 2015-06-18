@@ -34,7 +34,6 @@ return array(
     'kartik\\plugins\\fileinput\\' => array($vendorDir . '/kartik-v/bootstrap-fileinput'),
     'kartik\\plugins\\depdrop\\' => array($vendorDir . '/kartik-v/dependent-dropdown'),
     'kartik\\plugins\\checkbox\\' => array($vendorDir . '/kartik-v/bootstrap-checkbox-x'),
-    'kartik\\markdown\\' => array($vendorDir . '/kartik-v/yii2-markdown'),
     'kartik\\growl\\' => array($vendorDir . '/kartik-v/yii2-widget-growl'),
     'kartik\\form\\' => array($vendorDir . '/kartik-v/yii2-widget-activeform'),
     'kartik\\file\\' => array($vendorDir . '/kartik-v/yii2-widget-fileinput'),
@@ -48,7 +47,7 @@ return array(
     'kartik\\affix\\' => array($vendorDir . '/kartik-v/yii2-widget-affix'),
     'dosamigos\\transliterator\\' => array($vendorDir . '/2amigos/yii2-transliterator-helper'),
     'dosamigos\\selectize\\' => array($vendorDir . '/2amigos/yii2-selectize-widget/src'),
-    'demogorgorn\\ajax\\' => array($vendorDir . '/demogorgorn/yii2-ajax-submit-button'),
     'cebe\\markdown\\' => array($vendorDir . '/cebe/markdown'),
     'amnah\\yii2\\user\\' => array($vendorDir . '/amnah/yii2-user'),
+    'Faker\\' => array($vendorDir . '/fzaninotto/faker/src/Faker'),
 );

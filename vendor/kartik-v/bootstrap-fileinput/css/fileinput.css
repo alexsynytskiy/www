@@ -1,7 +1,7 @@
 /*!
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
  * @package bootstrap-fileinput
- * @version 4.1.8
+ * @version 4.2.1
  *
  * File input styling for Bootstrap 3.0
  * Built for Yii Framework 2.0
@@ -48,7 +48,6 @@
 .file-caption .glyphicon {
     display: inline-block;
     min-width: 18px;
-    float: left;
     margin-top: 2px;
 }
 
@@ -118,7 +117,7 @@
 .file-preview-frame {
     display: table;
     margin: 8px;
-    /*height: 200px;*/
+    height: 160px;
     border: 1px solid #ddd;
     box-shadow: 1px 1px 5px 0px #a2958a;
     padding: 6px;
@@ -132,7 +131,7 @@
 }
 
 .file-preview-image {
-    height: 200px;
+    height: 160px;
     vertical-align: text-center;
 }
 

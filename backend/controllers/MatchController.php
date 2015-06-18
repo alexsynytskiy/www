@@ -69,7 +69,9 @@ class MatchController extends Controller
         $model = new Match();
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            $model->save(FALSE);
+
+            $model->date = date('Y-m-d H:i', strtotime($model->date));
+            $model->save(false);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -88,7 +90,7 @@ class MatchController extends Controller
     {
         $model = $this->findModel($id);
 
-        $model->date = date('d.m.Y',strtotime($model->date));
+        $model->date = date('d.m.Y H:i',strtotime($model->date));
 
         // compositionForm
         $compositionForm = new CompositionForm();
@@ -117,12 +119,14 @@ class MatchController extends Controller
 
         // homeComposition
         if(in_array($model->command_home_id, $contractTeams)){
+            $homeContractType = CompositionForm::CONTRACT_TYPE;
             $homeCompositionData = Contract::find()
                 ->where([
                     'command_id' => $model->command_home_id,
                     'season_id' => $model->season_id,
                 ])->all();
         } else {
+            $homeContractType = CompositionForm::MEMBERSHIP_TYPE;
             $homeCompositionData = Membership::find()
                 ->where([
                     'command_id' => $model->command_home_id,
@@ -136,12 +140,14 @@ class MatchController extends Controller
 
         // guestComposition
         if(in_array($model->command_guest_id, $contractTeams)){
+            $guestContractType = CompositionForm::CONTRACT_TYPE;
             $guestCompositionData = Contract::find()
                 ->where([
                     'command_id' => $model->command_guest_id,
                     'season_id' => $model->season_id,
                 ])->all();
         } else {
+            $guestContractType = CompositionForm::MEMBERSHIP_TYPE;
             $guestCompositionData = Membership::find()
                 ->where([
                     'command_id' => $model->command_guest_id,
@@ -156,6 +162,7 @@ class MatchController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
+            $model->date = date('Y-m-d H:i', strtotime($model->date));
             $model->save(false);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
@@ -164,6 +171,8 @@ class MatchController extends Controller
                 'compositionForm',
                 'homeComposition', 
                 'guestComposition',
+                'homeContractType',
+                'guestContractType',
                 'homeCompositionDataProvider',
                 'guestCompositionDataProvider'
             ));

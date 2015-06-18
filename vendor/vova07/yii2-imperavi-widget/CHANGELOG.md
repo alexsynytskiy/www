@@ -2,6 +2,23 @@
 
 All Notable changes to `yii2-imperavi-widget` will be documented in this file.
 
+## 1.2.6
+
+### Changed
+- Imperavi redactor updated to 10.1.3. (vova07)
+
+## 1.2.5
+
+### Fixed
+- FileHelper::findFiles() issue on `OS Windows`. (vova07)
+
+## 1.2.4
+
+### Fixed
+- Issue #39. (vova07)
+- Issue #35. (vova07)
+- Issue #19. (vova07)
+
 ## 1.2.3
 
 ### Changed

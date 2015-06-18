@@ -9,33 +9,35 @@
 (function ($) {
     "use strict";
 
-    $.fn.fileinput.locales.de = {
+    $.fn.fileinputLocales['de'] = {
         fileSingle: 'Datei',
         filePlural: 'Dateien',
-        browseLabel: 'Blättern &hellip;',
-        removeLabel: 'Entfernen',
-        removeTitle: 'Klar ausgewählten Dateien',
+        browseLabel: 'Auswählen &hellip;',
+        removeLabel: 'Löschen',
+        removeTitle: 'Ausgewählte löschen',
         cancelLabel: 'Laden',
-        cancelTitle: 'Abbruch laufenden Hochladen',
+        cancelTitle: 'Hochladen abbrechen',
         uploadLabel: 'Hochladen',
-        uploadTitle: 'Hochladen ausgewählten Dateien',
-        msgSizeTooLarge: 'Datei "{name}" (<b>{size} KB</b>) überschreitet maximal zulässige Upload-Größe von <b>{maxSize} KB</b>. Bitte versuchen Sie Ihr Hochladen!',
-        msgFilesTooLess: 'Sie müssen mindestens <b>{n}</b> {files} zum Hochladen auswählen. Bitte versuchen Sie Ihr Hochladen!',
-        msgFilesTooMany: 'Anzahl der Dateien für den Upload ausgewählt <b>({n})</b> überschreitet maximal zulässige Grenze von <b>{m}</b>. Bitte versuchen Sie Ihr Hochladen!',
+        uploadTitle: 'Hochladen der ausgewählten Dateien',
+        msgSizeTooLarge: 'Datei "{name}" (<b>{size} KB</b>) überschreitet maximal zulässige Upload-Größe von <b>{maxSize} KB</b>.',
+        msgFilesTooLess: 'Sie müssen mindestens <b>{n}</b> {files} zum Hochladen auswählen. Bitte versuchen es erneut!',
+        msgFilesTooMany: 'Anzahl der Dateien für den Upload ausgewählt <b>({n})</b> überschreitet maximal zulässige Grenze von <b>{m}</b> Stück.',
         msgFileNotFound: 'Datei "{name}" wurde nicht gefunden!',
-        msgFileSecured: 'Sicherheitseinschränkungen verhindern Lesen der Datei "{name}".',
-        msgFileNotReadable: 'Datei "{name}" ist nicht lesbar.',
+        msgFileSecured: 'Sicherheitseinstellungen verhindern das Lesen der Datei "{name}".',
+        msgFileNotReadable: 'Die Datei "{name}" ist nicht lesbar.',
         msgFilePreviewAborted: 'Dateivorschau abgebrochen für "{name}".',
         msgFilePreviewError: 'Beim Lesen der Datei "{name}" ein Fehler aufgetreten.',
-        msgInvalidFileType: 'Ungültiger Typ für Datei "{name}". Nur "{types}" Dateien werden unterstützt.',
-        msgInvalidFileExtension: 'Ungültige Erweiterung für Datei "{name}". Nur "{extensions}" Dateien werden unterstützt.',
-        msgValidationError: 'Dateifehler hochladen',
-        msgLoading: 'Wird Geladen Datei {index} von {files} &hellip;',
-        msgProgress: 'Wird Geladen Datei {index} von {files} - {name} - {percent}% fertiggestellt.',
-        msgSelected: '{n} Dateien ausgewählt',
-        msgFoldersNotAllowed: 'Drag & Drop Dateien nur! Sprungen {n} gesunken Ordner.',
-        dropZoneTitle: 'Drag & Drop Dateien hier &hellip;'
+        msgInvalidFileType: 'Ungültiger Typ für Datei "{name}". Nur Dateien der Typen "{types}" werden unterstützt.',
+        msgInvalidFileExtension: 'Ungültige Erweiterung für Datei "{name}". Nur Dateien mit der Endung "{extensions}" werden unterstützt.',
+        msgValidationError: 'Fehler beim Hochladen',
+        msgLoading: 'Lade Datei {index} von {files} hoch&hellip;',
+        msgProgress: 'Datei {index} von {files} - {name} - zu {percent}% fertiggestellt.',
+        msgSelected: '{n} {files} ausgewählt',
+        msgFoldersNotAllowed: 'Drag & Drop funktioniert nur bei Dateien! {n} Ordner übersprungen.',
+        msgImageWidthSmall: 'Breite der Bilddatei "{name}" muss mindestens {size} px betragen.',
+        msgImageHeightSmall: 'Höhe der Bilddatei "{name}" muss mindestens {size} px betragen.',
+        msgImageWidthLarge: 'Breite der Bilddatei "{name}" nicht überschreiten {size} px.',
+        msgImageHeightLarge: 'Höhe der Bilddatei "{name}" nicht überschreiten {size} px.',
+        dropZoneTitle: 'Dateien hierher ziehen &hellip;'
     };
-
-    $.extend($.fn.fileinput.defaults, $.fn.fileinput.locales.de);
 })(window.jQuery);

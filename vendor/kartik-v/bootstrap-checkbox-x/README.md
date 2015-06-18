@@ -1,6 +1,12 @@
 bootstrap-checkbox-x
 =====================
 
+[![Bower version](https://badge.fury.io/bo/bootstrap-checkbox-x.svg)](http://badge.fury.io/bo/bootstrap-checkbox-x)
+[![Latest Stable Version](https://poser.pugx.org/kartik-v/bootstrap-checkbox-x/v/stable)](https://packagist.org/packages/kartik-v/bootstrap-checkbox-x)
+[![License](https://poser.pugx.org/kartik-v/bootstrap-checkbox-x/license)](https://packagist.org/packages/kartik-v/bootstrap-checkbox-x)
+[![Packagist Downloads](https://poser.pugx.org/kartik-v/bootstrap-checkbox-x/downloads)](https://packagist.org/packages/kartik-v/bootstrap-checkbox-x)
+[![Monthly Downloads](https://poser.pugx.org/kartik-v/bootstrap-checkbox-x/d/monthly)](https://packagist.org/packages/kartik-v/bootstrap-checkbox-x)
+
 An extended checkbox plugin for Bootstrap built using JQuery, which allows three checkbox states and includes additional styles. The plugin uses Bootstrap markup and CSS 3 styling by default, but it can be overridden with any other CSS markup. It also helps you to fallback to a native checkbox OR display native checkboxes with tristate capability.
 
 > NOTE: The checkbox plugin stores the values as integer format (and not boolean format) for checked and unchecked states.
@@ -26,7 +32,7 @@ An extended checkbox plugin for Bootstrap built using JQuery, which allows three
 12. Disabled and readonly checkbox input support.
 13. Added support for displaying native checkboxes with tristate capability. When displaying native checkboxes, the advanced styling offerred by the plugin will not be available.
 
-> NOTE: The latest version of the plugin v1.5.1 has been released. Refer the [CHANGE LOG](https://github.com/kartik-v/bootstrap-checkbox-x/blob/master/CHANGE.md) for details.
+> NOTE: The latest version of the plugin v1.5.2 has been released. Refer the [CHANGE LOG](https://github.com/kartik-v/bootstrap-checkbox-x/blob/master/CHANGE.md) for details.
 
 ## Demo
 
@@ -65,7 +71,7 @@ You can also manually install the plugin easily to your project. Just download t
 Step 1: Load the following assets in your header. 
 
 ```html
-<link href="http://netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
 <link href="path/to/css/checkbox-x.min.css" media="all" rel="stylesheet" type="text/css" />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="path/to/js/checkbox-x.min.js" type="text/javascript"></script>
@@ -120,7 +126,7 @@ _string_, the html markup for the glyph / icon to be displayed when the checkbox
 _string_, the html markup for the glyph / icon to be displayed when the checkbox is unchecked. Defaults to a blank character ` `.
 
 ##### iconNull
-_string_, the html markup for the glyph / icon to be displayed when the checkbox is null. Defaults to `<i class="glyphicon glyphicon-stop"></i>`.
+_string_, the html markup for the glyph / icon to be displayed when the checkbox is null. Defaults to `<div class="cbx-icon-null"></div>`.
 
 #### size
 _string_, size of the checkbox control. Should be one of `xl`, `lg`, `md`, `sm`, or `xs`. Defaults to `md`.
