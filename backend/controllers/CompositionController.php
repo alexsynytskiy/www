@@ -109,9 +109,6 @@ class CompositionController extends Controller
                     'contractModel' => $contractModel,
                 ]);
             }
-            header("Content-type: text/html; charset=utf-8");
-            var_dump($contractModel->getErrors());
-            die;
             return $this->render('create', [
                 'model' => $model,
                 'contractModel' => $contractModel,

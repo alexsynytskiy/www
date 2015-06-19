@@ -50,13 +50,6 @@ use common\models\Amplua;
     
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Добавить' : 'Изменить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-        <?= Html::a('Удалить', ['/composition/delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Вы уверены, что хотите удалить игрока из состава?',
-                'method' => 'post',
-            ],
-        ]) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

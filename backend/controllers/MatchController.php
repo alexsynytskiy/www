@@ -11,6 +11,8 @@ use yii\filters\VerbFilter;
 
 use common\models\CompositionForm;
 use common\models\CompositionSearch;
+use common\models\MatchEventSearch;
+use common\models\MatchEvent;
 use common\models\Membership;
 use common\models\Contract;
 use common\models\Team;
@@ -177,6 +179,58 @@ class MatchController extends Controller
                 'guestCompositionDataProvider'
             ));
         }
+    }
+
+    /**
+     * Updates statistics of an existing Match model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionStatUpdate($id)
+    {
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $model->save(false);
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('stat_update', compact('model'));
+        }
+    }
+
+    /**
+     * Updates statistics of an existing Match model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionEvents($id)
+    {
+        $model = $this->findModel($id);
+
+        $matchEventModel = new MatchEvent();
+        $matchEventModel->match_id = $model->id;
+
+        $matchEventModelSearch = new MatchEventSearch();
+
+        $params = ['MatchEventSearch' => [
+            'match_id' => $model->id,
+        ]];
+        $matchEventDataProvider = $matchEventModelSearch->search($params);
+        $totalCount = $matchEventDataProvider->getTotalCount();
+        $matchEventDataProvider->pagination = ['defaultPageSize' => $totalCount];
+        $matchEventDataProvider->setSort(['defaultOrder' => ['minute' => SORT_DESC]]);
+
+        if ($matchEventModel->load(Yii::$app->request->post()) && $matchEventModel->validate()) {
+            $matchEventModel->save(false);
+        }
+        return $this->render('match_events', compact(
+            'model',
+            'matchEventModel',
+            'matchEventModelSearch',
+            'matchEventDataProvider'
+        ));
+
     }
 
     /**

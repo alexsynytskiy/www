@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\grid\GridView;
 use kartik\date\DatePicker;
 
@@ -52,12 +53,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'options' => ['width' => '150'],
                 'format' => 'html',
             ],
-            [
-                'attribute' => 'stadium.name',
-                'label' => 'Стадион',
-                'options' => ['width' => '180'],
-                'format' => 'html',
-            ],
+            // [
+            //     'attribute' => 'stadium.name',
+            //     'label' => 'Стадион',
+            //     'options' => ['width' => '180'],
+            //     'format' => 'html',
+            // ],
             [
                 'attribute' => 'date',
                 'value' => function($model){
@@ -84,6 +85,35 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'guest_goals',
                 'options' => ['width' => '50'],
+            ],
+            [
+                'label' => 'Счет',
+                'value' => function($model) {
+                    return $model->home_goals.' : '.$model->guest_goals;
+                },
+                'options' => ['width' => '30'],
+            ],
+            [
+                'label' => '',
+                'value' => function ($model) {
+                    $url = Url::to(['events', 'id' => $model->id]);
+                    return Html::a('<span class="glyphicon glyphicon-flash"></span>', $url, [
+                        'title' => 'События матча', 
+                    ]);
+                },
+                'format' => 'html',
+                'options' => ['width' => '25'],
+            ],
+            [
+                'label' => '',
+                'value' => function ($model) {
+                    $url = Url::to(['stat-update', 'id' => $model->id]);
+                    return Html::a('<span class="glyphicon glyphicon-stats"></span>', $url, [
+                        'title' => 'Статистика', 
+                    ]);
+                },
+                'format' => 'html',
+                'options' => ['width' => '25'],
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
