@@ -221,10 +221,11 @@ class MatchController extends Controller
         $matchEventDataProvider = $matchEventModelSearch->search($params);
         $totalCount = $matchEventDataProvider->getTotalCount();
         $matchEventDataProvider->pagination = ['defaultPageSize' => $totalCount];
-        $matchEventDataProvider->setSort(['defaultOrder' => ['minute' => SORT_DESC]]);
+        $matchEventDataProvider->setSort(['defaultOrder' => ['minute' => SORT_DESC, 'additional_minute' => SORT_DESC]]);
 
         if ($matchEventModel->load(Yii::$app->request->post()) && $matchEventModel->validate()) {
             $matchEventModel->save(false);
+            $this->redirect(['match/events', 'id' => $model->id]);
         }
         return $this->render('match_events', compact(
             'model',

@@ -108,9 +108,11 @@ class MatchEventController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $matchEventsID = $model->match_id;
+        $model->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['match/events/'.$matchEventsID]);
     }
 
     /**
