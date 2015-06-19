@@ -1819,20 +1819,15 @@ header {
 		.translation {
 			.icon {
 				.icon(22px, 18px);
-	  		}
-
-	  		.icon-unactive {
-	  			background: url('/images/tv_sprite.png') no-repeat;
+				background: url('/images/tv_sprite.png') no-repeat;
   				background-size: 22px;
 	  		}
-
-	  		.icon-active {
-	  			background: url('/images/tv_active.png') no-repeat;
+	  		&.active .icon{
+				background: url('/images/tv_active.png') no-repeat;
   				background-size: 22px;
 	  		}
-
-	  		&:hover {
-	  			.icon-unactive {
+	  		&:hover:not(.active) {
+	  			.icon {
 		  			background: url('/images/tv_sprite.png') no-repeat;
 		  			background-size: 22px;
 		  			background-position: 0 -38px;
@@ -1842,98 +1837,59 @@ header {
 
 		.protocol {
 			.icon {
-				.icon;
+				.icon(16px, 18px);
+				background: url('/images/protocol_sprite.png') no-repeat;
+  				background-size: 16px;
 	  		}
-
-	  		.icon-active {
-	  			background: url('/images/protocol_active.png') no-repeat;
-	  			background-size: 16px;
+	  		&.active .icon{
+				background: url('/images/protocol_active.png') no-repeat;
+  				background-size: 16px;
 	  		}
-
-	  		.icon-unactive {
-	  			background: url('/images/protocol_sprite.png') no-repeat;
-	  			background-size: 16px;
-	  		}
-
-	  		&:hover {
-		  		.icon-unactive {
+	  		&:hover:not(.active) {
+	  			.icon {
 		  			background: url('/images/protocol_sprite.png') no-repeat;
 		  			background-size: 16px;
 		  			background-position: 0 -38px;
 		  		}
-		  	}
+	  		}
 		}
 
 		.report {
 	  		.icon {
-				.icon;
+				.icon(16px, 18px);
+				background: url('/images/report_sprite.png') no-repeat;
+  				background-size: 16px;
 	  		}
-
-	  		.icon-active {
-	  			background: url('/images/report_active.png') no-repeat;
-	  			background-size: 16px;
+	  		&.active .icon{
+				background: url('/images/report_active.png') no-repeat;
+  				background-size: 16px;
 	  		}
-
-	  		.icon-unactive {
-	  			background: url('/images/report_sprite.png') no-repeat;
-	  			background-size: 16px;
-	  		}
-
-	  		&:hover {
-		  		.icon-unactive {
+	  		&:hover:not(.active) {
+	  			.icon {
 		  			background: url('/images/report_sprite.png') no-repeat;
 		  			background-size: 16px;
 		  			background-position: 0 -38px;
 		  		}
-		  	}
+	  		}
 		}
 
 		.other {
 			.icon {
-				.icon;
+				.icon(16px, 18px);
+				background: url('/images/materials_sprite.png') no-repeat;
+  				background-size: 16px;
 	  		}
-
-	  		.icon-active {
-	  			background: url('/images/materials_active.png') no-repeat;
-	  			background-size: 16px;
+	  		&.active .icon{
+				background: url('/images/materials_active.png') no-repeat;
+  				background-size: 16px;
 	  		}
-
-	  		.icon-unactive {
-	  			background: url('/images/materials_sprite.png') no-repeat;
-	  			background-size: 16px;
-	  		}
-
-	  		&:hover {
-		  		.icon-unactive {
+	  		&:hover:not(.active) {
+	  			.icon {
 		  			background: url('/images/materials_sprite.png') no-repeat;
 		  			background-size: 16px;
 		  			background-position: 0 -38px;
 		  		}
-		  	}
-		}
-
-		.scoreboard {
-	  		.icon {
-				.icon;
 	  		}
-
-	  		.icon-active {
-	  			background: url('/images/table_active.png') no-repeat;
-	  			background-size: 16px;
-	  		}
-
-	  		.icon-unactive {
-	  			background: url('/images/table_sprite.png') no-repeat;
-	  			background-size: 16px;
-	  		}
-
-	  		&:hover {
-		  		.icon-unactive {
-		  			background: url('/images/table_sprite.png') no-repeat;
-		  			background-size: 16px;
-		  			background-position: 0 -38px;
-		  		}
-		  	}
 		}
 	}
 

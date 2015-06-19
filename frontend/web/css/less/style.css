@@ -1684,16 +1684,14 @@ header .header-wrapper .breadcrumbs .tag:hover {
   float: right;
   margin-top: 3px;
   margin-left: 7px;
-}
-.grid-column .match-navigation .translation .icon-unactive {
   background: url('/images/tv_sprite.png') no-repeat;
   background-size: 22px;
 }
-.grid-column .match-navigation .translation .icon-active {
+.grid-column .match-navigation .translation.active .icon {
   background: url('/images/tv_active.png') no-repeat;
   background-size: 22px;
 }
-.grid-column .match-navigation .translation:hover .icon-unactive {
+.grid-column .match-navigation .translation:hover:not(.active) .icon {
   background: url('/images/tv_sprite.png') no-repeat;
   background-size: 22px;
   background-position: 0 -38px;
@@ -1704,16 +1702,14 @@ header .header-wrapper .breadcrumbs .tag:hover {
   float: right;
   margin-top: 3px;
   margin-left: 7px;
-}
-.grid-column .match-navigation .protocol .icon-active {
-  background: url('/images/protocol_active.png') no-repeat;
-  background-size: 16px;
-}
-.grid-column .match-navigation .protocol .icon-unactive {
   background: url('/images/protocol_sprite.png') no-repeat;
   background-size: 16px;
 }
-.grid-column .match-navigation .protocol:hover .icon-unactive {
+.grid-column .match-navigation .protocol.active .icon {
+  background: url('/images/protocol_active.png') no-repeat;
+  background-size: 16px;
+}
+.grid-column .match-navigation .protocol:hover:not(.active) .icon {
   background: url('/images/protocol_sprite.png') no-repeat;
   background-size: 16px;
   background-position: 0 -38px;
@@ -1724,16 +1720,14 @@ header .header-wrapper .breadcrumbs .tag:hover {
   float: right;
   margin-top: 3px;
   margin-left: 7px;
-}
-.grid-column .match-navigation .report .icon-active {
-  background: url('/images/report_active.png') no-repeat;
-  background-size: 16px;
-}
-.grid-column .match-navigation .report .icon-unactive {
   background: url('/images/report_sprite.png') no-repeat;
   background-size: 16px;
 }
-.grid-column .match-navigation .report:hover .icon-unactive {
+.grid-column .match-navigation .report.active .icon {
+  background: url('/images/report_active.png') no-repeat;
+  background-size: 16px;
+}
+.grid-column .match-navigation .report:hover:not(.active) .icon {
   background: url('/images/report_sprite.png') no-repeat;
   background-size: 16px;
   background-position: 0 -38px;
@@ -1744,37 +1738,15 @@ header .header-wrapper .breadcrumbs .tag:hover {
   float: right;
   margin-top: 3px;
   margin-left: 7px;
+  background: url('/images/materials_sprite.png') no-repeat;
+  background-size: 16px;
 }
-.grid-column .match-navigation .other .icon-active {
+.grid-column .match-navigation .other.active .icon {
   background: url('/images/materials_active.png') no-repeat;
   background-size: 16px;
 }
-.grid-column .match-navigation .other .icon-unactive {
+.grid-column .match-navigation .other:hover:not(.active) .icon {
   background: url('/images/materials_sprite.png') no-repeat;
-  background-size: 16px;
-}
-.grid-column .match-navigation .other:hover .icon-unactive {
-  background: url('/images/materials_sprite.png') no-repeat;
-  background-size: 16px;
-  background-position: 0 -38px;
-}
-.grid-column .match-navigation .scoreboard .icon {
-  height: 18px;
-  width: 16px;
-  float: right;
-  margin-top: 3px;
-  margin-left: 7px;
-}
-.grid-column .match-navigation .scoreboard .icon-active {
-  background: url('/images/table_active.png') no-repeat;
-  background-size: 16px;
-}
-.grid-column .match-navigation .scoreboard .icon-unactive {
-  background: url('/images/table_sprite.png') no-repeat;
-  background-size: 16px;
-}
-.grid-column .match-navigation .scoreboard:hover .icon-unactive {
-  background: url('/images/table_sprite.png') no-repeat;
   background-size: 16px;
   background-position: 0 -38px;
 }
