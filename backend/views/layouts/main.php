@@ -52,7 +52,8 @@ AppAsset::register($this);
                     ]],
                     ['label' => 'Матчи', 'items' => [
                         ['label' => 'Матчи', 'url' => '/admin/match'],
-                        ['label' => 'События матча', 'url' => '/admin/match-event-type'],                   
+                        ['label' => 'События матчей', 'url' => '/admin/match-event'],
+                        ['label' => 'Справочник событий матча', 'url' => '/admin/match-event-type'],                   
                         ['label' => 'Турнирная таблица', 'url' => '/admin/tournament'],
                         ['label' => 'Составы команд', 'url' => '/admin/composition'],  
                         ['label' => 'Арбитры', 'url' => '/admin/arbiter'],

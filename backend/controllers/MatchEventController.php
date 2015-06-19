@@ -8,6 +8,8 @@ use common\models\MatchEventSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
+use common\models\MatchEventType;
 
 /**
  * MatchEventController implements the CRUD actions for MatchEvent model.
@@ -35,9 +37,17 @@ class MatchEventController extends Controller
         $searchModel = new MatchEventSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        $matchEventTable = $searchModel::tableName();
+        $matchEventTypeTable = MatchEventType::tableName();
+        $matchEvents = MatchEventType::find()
+            ->innerJoin($matchEventTable, "{$matchEventTable}.match_event_type_id = {$matchEventTypeTable}.id")
+            ->all();
+        $matchFilter = ArrayHelper::map($matchEvents, 'id', 'name');
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'matchFilter' => $matchFilter,
         ]);
     }
 
@@ -82,7 +92,7 @@ class MatchEventController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(Yii::$app->request->referrer);
         } else {
             return $this->render('update', [
                 'model' => $model,
