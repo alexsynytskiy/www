@@ -24,6 +24,11 @@ use yii\db\ActiveRecord;
 class MatchEvent extends ActiveRecord
 {
     /**
+     * @var string Goal type id
+     */
+    const GOAL = 1;
+
+    /**
      * @inheritdoc
      */
     public static function tableName()
@@ -79,6 +84,11 @@ class MatchEvent extends ActiveRecord
             'is_hidden' => 'Скрыт',
             'position' => 'Position',
         ];
+    }
+
+    public function getTime() {
+        $additionalMinutes = $this->additional_minute ? ' + '.$this->additional_minute.'"' : '';
+        return $this->minute.'" '.$additionalMinutes;
     }
 
     /**

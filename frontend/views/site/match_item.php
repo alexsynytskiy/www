@@ -32,7 +32,7 @@ use yii\helpers\Url;
     </th>    
     <th class="visitors"><?= $model->teamGuest->name ?></th>
     <th class="more">
-        <a href="/?q=translation">
+        <a href="<?= Url::to('/translation/'.$model->id) ?>">
             <div class="link">
                 <div class="arrow"></div>
             </div>

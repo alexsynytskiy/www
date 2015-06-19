@@ -16,6 +16,8 @@ use common\models\Forward;
 use common\models\Championship;
 use common\models\CommentForm;
 use common\models\SiteBlock;
+use common\models\MatchEvent;
+use common\models\Composition;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
@@ -637,6 +639,54 @@ class SiteController extends Controller
                 'forwards' => [
                     'view' => '@frontend/views/tournament/forwards',
                     'data' => compact('forwards'),
+                ],
+            ],
+            'columnSecond' => [ 
+                'short_news' => SiteBlock::getShortNews(),
+            ],
+        ]);
+    }
+
+    /**
+     * Transfers page
+     * 
+     * @return mixed
+     */
+    public function actionTranslation($id) 
+    {
+        $match = Match::findOne($id);
+        
+        if(!isset($match)) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+
+        $matchEvents = MatchEvent::find()
+            ->where(['match_id' => $match->id])
+            ->all();
+
+        $teamPlayers = Composition::find()
+            ->where([
+                'match_id' => $match->id, 
+            ])
+            ->all();
+
+        $teamHomePlayers = [];
+        $teamGuestPlayers = [];
+        foreach ($teamPlayers as $player) {
+            if($player->command_id == $match->command_home_id) {
+                $teamHomePlayers[] = $player;
+            } else {
+                $teamGuestPlayers[] = $player;
+            }
+        }
+
+        return $this->render('@frontend/views/site/index', [
+            'templateType' => 'col2',
+            'title' => 'Трансляция',
+            'columnFirst' => [
+                'translation' => [
+                    'view' => '@frontend/views/translation/index',
+                    'data' => compact('match', 'matchEvents', 'teamHomePlayers', 'teamGuestPlayers'),
                 ],
             ],
             'columnSecond' => [ 
