@@ -88,7 +88,8 @@ class MatchEvent extends ActiveRecord
 
     public function getTime() {
         $additionalMinutes = $this->additional_minute ? ' + '.$this->additional_minute.'"' : '';
-        return $this->minute.'" '.$additionalMinutes;
+        $minute = $this->minute ? $this->minute.'" ' : '';
+        return $minute.$additionalMinutes;
     }
 
     /**

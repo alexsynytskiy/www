@@ -10,10 +10,12 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
 use yii\db\Query;
+use yii\helpers\ArrayHelper;
 
 use common\models\CompositionForm;
 use common\models\CompositionSearch;
 use common\models\MatchEventSearch;
+use common\models\MatchEventType;
 use common\models\MatchEvent;
 use common\models\Membership;
 use common\models\Contract;
@@ -223,6 +225,9 @@ class MatchController extends Controller
         $matchEventDataProvider->pagination = ['defaultPageSize' => $totalCount];
         $matchEventDataProvider->setSort(['defaultOrder' => ['minute' => SORT_DESC, 'additional_minute' => SORT_DESC]]);
 
+        $matchEvents = MatchEventType::find()->all();
+        $eventFilter = ArrayHelper::map($matchEvents, 'id', 'name');
+
         if ($matchEventModel->load(Yii::$app->request->post()) && $matchEventModel->validate()) {
             $matchEventModel->save(false);
             $this->redirect(['match/events', 'id' => $model->id]);
@@ -231,7 +236,8 @@ class MatchController extends Controller
             'model',
             'matchEventModel',
             'matchEventModelSearch',
-            'matchEventDataProvider'
+            'matchEventDataProvider',
+            'eventFilter'
         ));
 
     }

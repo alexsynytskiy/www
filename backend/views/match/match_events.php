@@ -14,6 +14,7 @@ $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id
     <?= $this->render('@backend/views/match-event/index', [
         'dataProvider' => $matchEventDataProvider, 
         'searchModel' => $matchEventModelSearch, 
+        'eventFilter' => $eventFilter,
     ]) ?>
 
     <?= $this->render('@backend/views/match-event/create', [

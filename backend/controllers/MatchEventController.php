@@ -42,12 +42,12 @@ class MatchEventController extends Controller
         $matchEvents = MatchEventType::find()
             ->innerJoin($matchEventTable, "{$matchEventTable}.match_event_type_id = {$matchEventTypeTable}.id")
             ->all();
-        $matchFilter = ArrayHelper::map($matchEvents, 'id', 'name');
+        $eventFilter = ArrayHelper::map($matchEvents, 'id', 'name');
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'matchFilter' => $matchFilter,
+            'eventFilter' => $eventFilter,
         ]);
     }
 
