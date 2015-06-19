@@ -46,20 +46,37 @@ class MatchEvent extends ActiveRecord
     /**
      * @inheritdoc
      */
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class'      => 'yii\behaviors\TimestampBehavior',
+                'value'      => function () { return date("Y-m-d H:i:s"); },
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'created_at',
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_at',
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return [
             'id' => 'ID',
             'match_id' => 'Match ID',
-            'match_event_type_id' => 'Match Event Type ID',
-            'composition_id' => 'Composition ID',
-            'minute' => 'Minute',
-            'notes' => 'Notes',
+            'match_event_type_id' => 'Событие матча',
+            'composition_id' => 'Игрок',
+            'minute' => 'Минута',
+            'notes' => 'Комментарий',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'substitution_id' => 'Substitution ID',
-            'additional_minute' => 'Additional Minute',
-            'is_hidden' => 'Is Hidden',
+            'substitution_id' => 'Игрок на замену',
+            'additional_minute' => 'Дополнительное время',
+            'is_hidden' => 'Скрыт',
             'position' => 'Position',
         ];
     }

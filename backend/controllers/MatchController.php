@@ -8,6 +8,8 @@ use common\models\MatchSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Json;
+use yii\db\Query;
 
 use common\models\CompositionForm;
 use common\models\CompositionSearch;
@@ -260,5 +262,29 @@ class MatchController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    /**
+     * Display list of countries in json format
+     *
+     * @param string $q Query for search
+     * @return mixed Json data
+     */
+    public function actionMatchPartList($query = null) {
+        if($query == null) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+        $search = urldecode($query);
+        $query = new Query;
+        $query->select('id as value, name as text')
+            ->from(Match::tableName())
+            ->where(['like', 'name', $search])
+            ->orderBy('name')
+            ->limit(10);
+        $command = $query->createCommand();
+        $data = $command->queryAll();
+        $out = array_values($data);
+        header("Content-type: text/html; charset=utf-8");
+        echo Json::encode($out);
     }
 }

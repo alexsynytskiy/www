@@ -42,21 +42,27 @@ class MatchEventSearch extends MatchEvent
     public function search($params)
     {
         $query = MatchEvent::find();
+        $match = new Match;
+        $matchEventTable = MatchEvent::tableName();
+        $matchTable = Match::tableName();
+
+        $query->joinWith(['match' => function($query) use ($matchTable) {
+            $query->from(['match' => $matchTable]);
+        }]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
         ]);
 
-        $this->load($params);
-
-        if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
+        if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
+            "{$matchEventTable}.id" => $this->id,
             'match_id' => $this->match_id,
             'match_event_type_id' => $this->match_event_type_id,
             'composition_id' => $this->composition_id,
@@ -69,7 +75,7 @@ class MatchEventSearch extends MatchEvent
             'position' => $this->position,
         ]);
 
-        $query->andFilterWhere(['like', 'notes', $this->notes]);
+        $query->andFilterWhere(['like', "notes", $this->notes]);
 
         return $dataProvider;
     }
