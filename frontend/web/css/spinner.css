@@ -1,3 +1,13 @@
+.inquirers-container {
+  margin-bottom: 30px;
+}
+.inquirers-container .spinner {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  margin-left: -40px;
+}
+
 .spinner {
   margin: 10px auto 0;
   width: 80px;

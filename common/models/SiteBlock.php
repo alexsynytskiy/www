@@ -235,13 +235,45 @@ class SiteBlock
             ->orderBy(['points' => SORT_DESC])
             ->all();
 
-        // $season = Season::findOne($lastSeason);
-        // var_dump($season);
-        // die;
-
         $block = [
             'view' => '@frontend/views/blocks/tournament_block',
             'data' => ['teams' => $teams],
+        ];
+        return $block;
+    }
+
+    /**
+     * Get question block
+     * @param \common\models\Question $question 
+     * @return array Data
+     */
+    public static function getQuestionBlock($question = false)
+    {
+        if(!$question) {
+            $question = Question::find()
+                ->where(['is_active' => 1])
+                ->one();
+        }
+
+        $answers = Question::find()
+            ->where(['parent_id' => $question->id])
+            ->all();
+
+        $uid = isset(Yii::$app->user->id) ? Yii::$app->user->id : 0;
+        $userVote = QuestionVote::find()
+            ->where([
+                'question_id' => $question->id,
+                'user_id' => $uid,
+            ])->one();
+        if(isset($userVote->id) || !$question->is_active){
+            $view = '@frontend/views/blocks/question_block';
+        } else {
+            $view = '@frontend/views/forms/question_form';
+        }
+
+        $block = [
+            'view' => $view,
+            'data' => compact('question', 'answers'),
         ];
         return $block;
     }

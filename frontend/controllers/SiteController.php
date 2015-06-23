@@ -18,6 +18,7 @@ use common\models\CommentForm;
 use common\models\SiteBlock;
 use common\models\MatchEvent;
 use common\models\Composition;
+use common\models\Question;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
@@ -68,9 +69,12 @@ class SiteController extends Controller
         ];
     }
 
+    /**
+     * Main page
+     * @return mixed Content
+     */
     public function actionIndex()
     {
-        
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col3',
             'title' => 'Главная',
@@ -85,6 +89,7 @@ class SiteController extends Controller
             ],
             'columnThird' => [
                 'reviewNews' => SiteBlock::getPhotoVideoNews(),
+                'questionBlock' => SiteBlock::getQuestionBlock(),
                 'tournament' => SiteBlock::getTournamentTable(),
             ],
         ]);
@@ -458,6 +463,7 @@ class SiteController extends Controller
     /**
      * Transfers page
      * 
+     * @param int $id Transfer id
      * @return mixed
      */
     public function actionTransfer($id) 
@@ -620,7 +626,7 @@ class SiteController extends Controller
             ])->orderBy(['points' => SORT_DESC])
             ->all();
 
-        usort($tournamentData,'self::tournamentCmp');
+        $tournamentData = Tournament::sort($tournamentData);
 
         $forwards = Forward::find()
             ->orderBy([
@@ -650,6 +656,7 @@ class SiteController extends Controller
     /**
      * Transfers page
      * 
+     * @param int $id Match id
      * @return mixed
      */
     public function actionTranslation($id) 
@@ -696,6 +703,41 @@ class SiteController extends Controller
     }
 
     /**
+     * Inquirers page
+     * 
+     * @return mixed
+     */
+    public function actionInquirers() 
+    {
+        $query = Question::find()
+            ->where([
+                'parent_id' => null,
+                'is_float' => null,
+            ])->orderBy(['created_at' => SORT_DESC]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 12,
+            ],
+        ]);
+
+        return $this->render('@frontend/views/site/index', [
+            'templateType' => 'col2',
+            'title' => 'Все опросы',
+            'columnFirst' => [
+                'inquirers' => [
+                    'view' => '@frontend/views/site/inquirers',
+                    'data' => compact('dataProvider'),
+                ],
+            ],
+            'columnSecond' => [ 
+                'short_news' => SiteBlock::getShortNews(),
+            ],
+        ]);
+    }
+
+    /**
      * Finds the Post model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
@@ -724,25 +766,4 @@ class SiteController extends Controller
         }
         return ($a['weight'] < $b['weight']) ? -1 : 1;
     }
-
-    /**
-     * Comparing teams in tournament
-     * @param array $teamA
-     * @param array $teamB
-     * @return int Result of comparing
-     */
-    private static function tournamentCmp($teamA, $teamB)
-    {
-        $teamAGoals = $teamA->goals_for - $teamA->goals_against;
-        $teamBGoals = $teamB->goals_for - $teamB->goals_against;
-        if ($teamA->points == $teamB->points && $teamAGoals == $teamBGoals) {
-            return 0;
-        }
-        if($teamA->points < $teamB->points) return 1;
-        elseif($teamA->points > $teamB->points) return -1;
-        else {
-            return ($teamAGoals < $teamBGoals) ? 1 : -1;
-        }
-    }
-
 }

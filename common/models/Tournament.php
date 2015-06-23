@@ -97,6 +97,36 @@ class Tournament extends ActiveRecord
     }
 
     /**
+     * Sorting teams in tournament
+     * @param array $teams
+     * @return array Sorted array
+     */
+    public static function sort($teams) {
+        usort($teams,'self::tournamentCmp');
+        return $teams;
+    }
+
+    /**
+     * Comparing teams in tournament
+     * @param array $teamA
+     * @param array $teamB
+     * @return int Result of comparing
+     */
+    private static function tournamentCmp($teamA, $teamB)
+    {
+        $teamAGoals = $teamA->goals_for - $teamA->goals_against;
+        $teamBGoals = $teamB->goals_for - $teamB->goals_against;
+        if ($teamA->points == $teamB->points && $teamAGoals == $teamBGoals) {
+            return 0;
+        }
+        if($teamA->points < $teamB->points) return 1;
+        elseif($teamA->points > $teamB->points) return -1;
+        else {
+            return ($teamAGoals < $teamBGoals) ? 1 : -1;
+        }
+    }
+
+    /**
      * @return string
      */
     public function getName()

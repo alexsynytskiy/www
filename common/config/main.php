@@ -21,6 +21,7 @@ return [
                 'translation/<id:\d+>'                   => 'site/translation',
                 'news/<id:\d+>-<slug>'                   => 'site/post',
                 'blog/<id:\d+>-<slug>'                   => 'site/post',
+                'inquirers'                              => 'site/inquirers',
                 'user/profile'                           => 'user/default/profile',
                 'user/edit'                              => 'user/default/account',
                 '<controller:\w+>/<id:\d+>'              => '<controller>/view',

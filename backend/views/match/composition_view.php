@@ -2,16 +2,10 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\widgets\ActiveForm;
-use kartik\checkbox\CheckboxX;
-use kartik\select2\Select2;
-use yii\helpers\ArrayHelper;
-use dosamigos\selectize\SelectizeDropDownList;
 use yii\helpers\Url;
 use yii\widgets\Pjax;
 use yii\bootstrap\Modal;
 
-use common\models\Amplua;
 /**
  * @var $this yii\web\View
  * @var $teamId int

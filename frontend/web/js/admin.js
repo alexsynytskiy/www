@@ -95,6 +95,9 @@
                 url: $form.attr('action'),
                 dataType: "json",
                 data: $form.serialize(),
+                success: function(response){
+                    console.log(response);
+                },
             }).done(function(){
                 $modalWindow.modal('hide');
                 if($pjaxContainer) $.pjax.reload('#' + $pjaxContainer.attr('id'));

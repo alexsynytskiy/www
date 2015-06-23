@@ -47,7 +47,7 @@
 
         // Masonry tiles view START
         $('.inquirers-container').indyMasonry({
-              'clName'    : '.inquirer',
+              'clName'    : '.item',
               'gap'       : 15,
               'mTop'      : 0,
               'mBottom'   : 15,
@@ -390,6 +390,46 @@ $(document).ready(function() {
     });
     // => Vote buttons END 
 
+
+    // => Question voting START 
+    $(document).on('submit', '#inquirer-form', function(event) {
+        var $form = $(this);
+        var dataUrl = $form.attr('action');
+        var $box = $form.parents('.default-box').first();
+        var data = $form.serialize();
+        if(data) {
+            $.ajax({
+                type: "GET",
+                url: dataUrl,
+                dataType: "json",
+                data: data,
+                success: function(response){
+                    console.log(response);
+                },
+                error: function(e) {
+                    console.log(e);
+                },
+            }).done(function(){
+                $box.slideUp(500);
+                if($('.inquirers-container').length > 0) {
+                    console.log('asd')
+                    $('.inquirers-container').indyMasonry('_newElement');
+                }
+            });
+        }
+        return false;
+    });
+    $(document).on('click', '.item', function(event) {
+                    console.log('asd')
+       $('.inquirers-container').indyMasonry({
+              'clName'    : '.item',
+              'gap'       : 15,
+              'mTop'      : 0,
+              'mBottom'   : 15,
+              'column'    : 2,
+        });
+    });
+    // => Question voting END 
 
   });
 })(jQuery);
