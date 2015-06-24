@@ -19,6 +19,7 @@ return [
                 'transfers/<id:\d+>'                     => 'site/transfer',
                 'transfers'                              => 'site/transfers',
                 'translation/<id:\d+>'                   => 'site/translation',
+                'translation/<id:\d+>/protocol'          => 'site/protocol',
                 'news/<id:\d+>-<slug>'                   => 'site/post',
                 'blog/<id:\d+>-<slug>'                   => 'site/post',
                 'inquirers'                              => 'site/inquirers',

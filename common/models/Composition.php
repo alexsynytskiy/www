@@ -81,6 +81,43 @@ class Composition extends ActiveRecord
     }
 
     /**
+     * @return array players sorted from gk to fwd
+     */
+    public static function getSquadSort($matchID) {
+        $playersArray = self::find()
+            ->where([
+                'match_id' => $matchID,
+            ])
+            ->all();
+
+        $playersArray = array_values($playersArray);
+
+        $goalkeeperArray = array();
+        $defenderArray = array();
+        $midfielderArray = array();
+        $forwardArray = array();
+
+        foreach ($playersArray as $player) {
+            if($player->contract->amplua->id == Amplua::GOALKEEPER) {
+                array_push($goalkeeperArray, $player);
+            }
+            else if($player->contract->amplua->id == Amplua::DEFENDER) {
+                array_push($defenderArray, $player);
+            }
+            else if($player->contract->amplua->id == Amplua::MIDFIELDER) {
+                array_push($midfielderArray, $player);
+            }
+            else {
+                array_push($forwardArray, $player);
+            }
+        }
+
+        $sortedArray = array_merge($goalkeeperArray, $defenderArray, $midfielderArray, $forwardArray);
+
+        return $sortedArray;
+    }
+
+    /**
      * @return string normalize contact type
      */
     public function getContractType(){

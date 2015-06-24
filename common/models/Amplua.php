@@ -16,6 +16,22 @@ use yii\db\ActiveRecord;
 class Amplua extends ActiveRecord
 {
     /**
+     * @var string goalkeeper amplua id
+     */
+    const GOALKEEPER = 1;
+    /**
+     * @var string defender amplua id
+     */
+    const DEFENDER = 2;
+    /**
+     * @var string midfielder amplua id
+     */
+    const MIDFIELDER = 3;
+    /**
+     * @var string forward amplua id
+     */
+    const FORWARD = 4;
+    /**
      * @inheritdoc
      */
     public static function tableName()

@@ -27,6 +27,22 @@ class MatchEvent extends ActiveRecord
      * @var string Goal type id
      */
     const GOAL = 1;
+    /**
+     * @var string substitution type id
+     */
+    const SUBSTITUTION = 15;
+    /**
+     * @var string yellow card type id
+     */
+    const YELLOWCARD = 2;
+    /**
+     * @var string red card type id
+     */
+    const REDCARD = 3;
+    /**
+     * @var string red card type id
+     */
+    const SECONDYELLOW = 21;
 
     /**
      * @inheritdoc
