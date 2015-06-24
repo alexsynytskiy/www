@@ -712,7 +712,6 @@ class SiteController extends Controller
         $query = Question::find()
             ->where([
                 'parent_id' => null,
-                'is_float' => null,
             ])->orderBy(['created_at' => SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([

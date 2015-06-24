@@ -1,86 +1,101 @@
 (function($){
-    $(window).load(function() {
 
-        // PreLoading page animation turn off START
-        $("#loading").delay(1000).fadeOut(500);
-        // PreLoading page animation turn off END
+$(window).load(function() {
 
-
-        // BxSlider START
-        $('.top-news-slider .slider').bxSlider({
-            slideWidth: 300,
-            preloadImages: 'all',
-            maxSlides: 1,
-            minSlides: 1,
-            slideMargin: 0            
-        });
-
-        $('.top-matches-slider ul').bxSlider({
-            slideWidth: 300,
-            slideHeight: 80,
-            maxSlides: 1,
-            minSlides: 1,
-            slideMargin: 0,
-            infiniteLoop: false,
-            startSlide:4,
-        });
-
-        $('.video-report .video-list, .photo-report .photo-list').bxSlider({
-            slideWidth: 290,
-            preloadImages: 'all',
-            maxSlides: 1,
-            minSlides: 1,
-            slideMargin: 0
-        });
-        // BxSlider END
+    // PreLoading page animation turn off START
+    $("#loading").delay(1000).fadeOut(500);
+    // PreLoading page animation turn off END
 
 
-        // Hover functions for matches slider on top of 2nd column at main page START
-        $('.top-matches-slider .bx-prev, .top-matches-slider .bx-next').hover( function(){
-           $(this).addClass("bx-control-hover");
-        },
-        function(){
-           $(this).removeClass("bx-control-hover");
-        });
-        // Hover functions for matches slider on top of 2nd column at main page END
-
-
-        // Masonry tiles view START
-        $('.inquirers-container').indyMasonry({
-              'clName'    : '.item',
-              'gap'       : 15,
-              'mTop'      : 0,
-              'mBottom'   : 15,
-              'column'    : 2,
-        });
-        $('.additional-data').indyMasonry({
-              'clName'    : '.data-box',
-              'gap'       : 15,
-              'mTop'      : 0,
-              'mBottom'   : 15,
-              'column'    : 2,
-        });
-        // Masonry tiles view END
-
-
-        // Smooth scroll to some elements START
-        $('#table-translation-link').click(function(){
-            var target = $(this).attr('href');
-            $('html, body').animate({
-                scrollTop: $(target).offset().top
-            }, 800);
-            return false;
-        });
-
-         $('#text-translation-link').click(function(){
-            var target = $(this).attr('href');
-            $('html, body').animate({
-                scrollTop: $(target).offset().top
-            }, 800);
-            return false;
-        });
-        // Smooth scroll to some elements END
+    // BxSlider START
+    $('.top-news-slider .slider').bxSlider({
+        slideWidth: 300,
+        preloadImages: 'all',
+        maxSlides: 1,
+        minSlides: 1,
+        slideMargin: 0            
     });
+
+    $('.top-matches-slider ul').bxSlider({
+        slideWidth: 300,
+        slideHeight: 80,
+        maxSlides: 1,
+        minSlides: 1,
+        slideMargin: 0,
+        infiniteLoop: false,
+        startSlide:4,
+    });
+
+    $('.video-report .video-list, .photo-report .photo-list').bxSlider({
+        slideWidth: 290,
+        preloadImages: 'all',
+        maxSlides: 1,
+        minSlides: 1,
+        slideMargin: 0
+    });
+    // BxSlider END
+
+
+    // Hover functions for matches slider on top of 2nd column at main page START
+    $('.top-matches-slider .bx-prev, .top-matches-slider .bx-next').hover( function(){
+       $(this).addClass("bx-control-hover");
+    },
+    function(){
+       $(this).removeClass("bx-control-hover");
+    });
+    // Hover functions for matches slider on top of 2nd column at main page END
+
+
+    // Masonry tiles view START
+    $('.inquirers-container').indyMasonry({
+          'clName'    : '.item',
+          'gap'       : 15,
+          'mTop'      : 0,
+          'mBottom'   : 15,
+          'column'    : 2,
+    });
+    $('.additional-data').indyMasonry({
+          'clName'    : '.data-box',
+          'gap'       : 15,
+          'mTop'      : 0,
+          'mBottom'   : 15,
+          'column'    : 2,
+    });
+    // Masonry tiles view END
+
+
+    // => Selectize START
+    $('.selectize-box select').each(function(index, el) {
+        $(this).selectize({
+            readOnly: true, 
+            onDelete: function() { return false },
+            hideSelected: true,
+            item: function(data) {
+                return "<div data-value='"+data.value+"' data-default='"+data.type+"' class='item'>"+data.label+" </div>";
+            }
+        });
+    });
+    // => Selectize END
+     
+
+    // Smooth scroll to some elements START
+    $('#table-translation-link').click(function(){
+        var target = $(this).attr('href');
+        $('html, body').animate({
+            scrollTop: $(target).offset().top
+        }, 800);
+        return false;
+    });
+
+     $('#text-translation-link').click(function(){
+        var target = $(this).attr('href');
+        $('html, body').animate({
+            scrollTop: $(target).offset().top
+        }, 800);
+        return false;
+    });
+    // Smooth scroll to some elements END
+});
 
 $(document).ready(function() {
 
@@ -258,15 +273,7 @@ $(document).ready(function() {
     // => Calendar END
 
 
-    // => Selectize START
-    $('.selectize-box select').selectize({
-        hideSelected: true,
-        item: function(data) {
-            return "<div data-value='"+data.value+"' data-default='"+data.type+"' class='item'>"+data.label+" </div>";
-        }
-    });
-    // => Selectize END
-
+    // => Form immediatly submit START
     $(document).on("change", "#select-season", function(){
         $(this).parents("form").first().submit();
     });
@@ -278,6 +285,8 @@ $(document).ready(function() {
     $(document).on("change", "#select-transfer-type", function(){
         $(this).parents("form").first().submit();
     });
+    // => Form immediatly submit END
+
 
     // => Alert tick START
     function alertTick() {
@@ -403,6 +412,24 @@ $(document).ready(function() {
                 url: dataUrl,
                 dataType: "json",
                 data: data,
+            }).done(function(){
+                $box.slideUp(500);
+            });
+        }
+        return false;
+    });
+    $(document).on('submit', '#inquirer-float-form', function(event) {
+        var $form = $(this);
+        var dataUrl = $form.attr('action');
+        var $box = $form.parents('.default-box').first();
+        var data = $form.serialize();
+        console.log(data);
+        if(data) {
+            $.ajax({
+                type: "GET",
+                url: dataUrl,
+                dataType: "json",
+                data: data,
                 success: function(response){
                     console.log(response);
                 },
@@ -411,23 +438,9 @@ $(document).ready(function() {
                 },
             }).done(function(){
                 $box.slideUp(500);
-                if($('.inquirers-container').length > 0) {
-                    console.log('asd')
-                    $('.inquirers-container').indyMasonry('_newElement');
-                }
             });
         }
         return false;
-    });
-    $(document).on('click', '.item', function(event) {
-                    console.log('asd')
-       $('.inquirers-container').indyMasonry({
-              'clName'    : '.item',
-              'gap'       : 15,
-              'mTop'      : 0,
-              'mBottom'   : 15,
-              'column'    : 2,
-        });
     });
     // => Question voting END 
 

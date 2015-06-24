@@ -155,6 +155,9 @@ body a:focus {
   font-weight: normal;
   color: #727272;
 }
+.inquirer .inquirer-answer {
+  position: relative;
+}
 .inquirer .inquirer-answer .input-box {
   display: table-cell;
   width: 35px;
@@ -175,8 +178,29 @@ body a:focus {
   color: #494949;
   cursor: pointer;
 }
+.inquirer .inquirer-answer .selectize-box {
+  position: absolute;
+  right: 0;
+  top: 1px;
+  width: 40px;
+}
+.inquirer .inquirer-answer .selectize-box [data-selectable]:nth-child(2n+1) {
+  background: #CCC;
+}
+.inquirer .inquirer-answer .selectize-box [data-selectable].active {
+  background: #1972c4;
+}
+.inquirer .inquirer-answer .selectize-box .items,
+.inquirer .inquirer-answer .selectize-box .option {
+  font-weight: bold;
+  font-size: 16px;
+}
 .inquirer .inquirer-answer:first-child label {
   border-top: 1px solid #e9e9e9;
+}
+.inquirer .inquirer-answer.float label {
+  display: block;
+  width: 240px;
 }
 .inquirer .form-actions .field-submit input {
   width: 190px;

@@ -255,24 +255,31 @@ class SiteBlock
                 ->one();
         }
 
-        $answers = Question::find()
-            ->where(['parent_id' => $question->id])
-            ->all();
-
         $uid = isset(Yii::$app->user->id) ? Yii::$app->user->id : 0;
         $userVote = QuestionVote::find()
             ->where([
                 'question_id' => $question->id,
                 'user_id' => $uid,
             ])->one();
+
         if(isset($userVote->id) || !$question->is_active){
-            $view = '@frontend/views/blocks/question_block';
+            $block = true;
         } else {
-            $view = '@frontend/views/forms/question_form';
+            $block = false;
+        }
+
+        $query = Question::find()->where(['parent_id' => $question->id]);
+        if($block) $query->orderBy(['voutes' => SORT_DESC, 'mark' => SORT_DESC]);
+        $answers = $query->all();
+
+        if($block){
+            $view = $question->is_float ? 'blocks/question_float_block' : 'blocks/question_block';
+        } else {
+            $view = $question->is_float ? 'forms/question_float_form' : 'forms/question_form';
         }
 
         $block = [
-            'view' => $view,
+            'view' => '@frontend/views/'.$view,
             'data' => compact('question', 'answers'),
         ];
         return $block;

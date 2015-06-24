@@ -7,10 +7,12 @@ use yii\helpers\Url;
  * @var $answers array of common\models\Question
 **/
 
-$allVotes = 0;
-foreach ($answers as $answer) { 
-    $allVotes += $answer->voutes;
+$allVotes = $question->voutes;
+$maxMark = 0;
+foreach ($answers as $answer) {
+  if($answer->mark > $maxMark) $maxMark = $answer->mark;
 }
+$maxMark = $maxMark ? $maxMark : 10;
 $inquirerMoreLink = (Yii::$app->controller->action->id == 'inquirers') ? false : true;
 ?>
 <?php if($allVotes > 0) { ?>
@@ -23,14 +25,14 @@ $inquirerMoreLink = (Yii::$app->controller->action->id == 'inquirers') ? false :
     </div>
     <div class="box-content">
       <div class="inquirer-theme"><?= $question->title ?></div>
-      
+
       <?php foreach ($answers as $answer) { 
-          $percent = round($answer->voutes/$allVotes * 100, 1);
+          $percent = round($answer->mark/$maxMark * 100, 1);
           ?>
           <div class="answer-label"><?= $answer->title ?></div>
           <div class="answer-stat">
               <div class="stat-bar" style="width: <?= $percent ?>%">
-                  <div class="stat-value"><?= $answer->voutes ?>(<?= $percent ?>%)</div>
+                  <div class="stat-value"><?= round($answer->mark, 2) ?></div>
               </div>
           </div>
       <?php } ?>

@@ -249,6 +249,7 @@ body {
     }
 
     .inquirer-answer {
+        position: relative;
 
         .input-box {
             display: table-cell;
@@ -270,8 +271,34 @@ body {
             }
         }
 
+        .selectize-box {
+            position: absolute;
+            right: 0;
+            top: 1px;
+            width: 40px;
+
+            [data-selectable] {
+                &:nth-child(2n+1) {
+                    background: #CCC;
+                }
+                &.active {
+                    background: @main-blue;
+                }
+            }
+            .items, .option {
+                font-weight: bold;
+                font-size: 16px;
+            }
+        }
+
         &:first-child label{
             border-top: 1px solid @main-body-background;
+        }
+        &.float {
+            label {
+                display: block;
+                width: 240px;
+            }
         }
     }
 

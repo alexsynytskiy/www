@@ -173,14 +173,54 @@ class QuestionController extends Controller
                 $vote->question_id = $answer->parent_id;
                 $vote->user_id = $userID;
                 if($vote->save()) {
-                    $answer->voutes += 1;
+                    $answer->voutes++;
                     $answer->save(false);
                     return Json::encode(['success' => true]);
                 }
             }
         }
-        return Json::encode(['success' => false, 'aid' => $answer->parent_id, 'uid' => $userID]);
+        return Json::encode(['success' => false]);
+    }
 
+    /**
+     * Vote for selected float answer
+     * @return mixed Json
+     */
+    public function actionVoteFloat()
+    {
+        $answerValues = Yii::$app->request->get('answer');
+        $userID = isset(Yii::$app->user->id) ? Yii::$app->user->id : false;
+
+        // validation
+        $answers = [];
+        if(is_array($answerValues) && $userID) {
+            foreach ($answerValues as $aid => $value) {
+                $answer = $this->findModel($aid);
+                if(isset($answer)) $answers[] = $answer;
+            }
+        }
+        if(count($answers) == 0) return Json::encode(['success' => false, 'msg' => 'answers']);
+        $first = $answers[0];
+        $question = $this->findModel($first->parent_id);
+
+        if(isset($question)){
+            $question->voutes++;
+            $vote = new QuestionVote();
+            $vote->question_id = $answer->parent_id;
+            $vote->user_id = $userID;
+            if(!$vote->validate() || !$question->validate()) {
+                return Json::encode(['success' => false, 'msg' => 'vote']);
+            }
+            $vote->save();
+            $question->save();
+            foreach ($answers as $answer) {
+                $answer->mark = round(($value + $answer->mark * ($question->voutes - 1))/$question->voutes, 4);
+                $answer->save();
+            }
+            return Json::encode(['success' => true]);
+        }
+                
+        return Json::encode(['success' => false]);
     }
 
     /**

@@ -26,7 +26,11 @@ use yii\helpers\Url;
                     <th class="player">Игрок</th>
                     <th class="possibility">ВП</th>
                     <th class="position">Амплуа</th>
-                    <th class="from">Откуда</th>
+                    <?php if($className == 'sell') { ?>
+                        <th class="from">Куда</th>
+                    <?php } else { ?>
+                        <th class="where">Откуда</th>
+                    <?php } ?>
                     <?php if($className == 'rent') { ?>
                         <th class="arrow"></th>
                         <th class="where">Куда</th>
@@ -71,8 +75,6 @@ use yii\helpers\Url;
                         $teamFrom = new \common\models\Team;
                         $teamFromIconUrl = false;
                     }
-                    // var_dump($transfer->teamFrom->getAsset());
-                    // die;
                     if(isset($transfer->teamTo)){
                         $teamToName = $transfer->teamTo->name;
                         if($transfer->teamTo->getAsset()) {
@@ -103,22 +105,33 @@ use yii\helpers\Url;
                     </td>
                     <td class="possibility"><?= $probability ?></td>
                     <td class="position"><?= $amplua ?></td>
-                    <td class="from">
-                        <div class="club-logo">
-                            <?php if($teamFromIconUrl) { ?>
-                            <img src="<?= $teamFromIconUrl ?>">
-                            <?php } ?>
-                        </div>
-                        <div class="club-name"><?= $teamFromName ?></div>
-                    </td>
+                    <?php if($className == 'sell') { ?>
+                        <td class="where">
+                            <div class="club-logo">
+                                <?php if($teamToIconUrl) { ?>
+                                    <img src="<?= $teamToIconUrl ?>">
+                                <?php } ?>
+                            </div>
+                            <div class="club-name"><?= $teamToName ?></div>
+                        </td>
+                    <?php } else { ?>
+                        <td class="from">
+                            <div class="club-logo">
+                                <?php if($teamFromIconUrl) { ?>
+                                    <img src="<?= $teamFromIconUrl ?>">
+                                <?php } ?>
+                            </div>
+                            <div class="club-name"><?= $teamFromName ?></div>
+                        </td>
+                    <?php } ?>
                     <?php if($className == 'rent') { ?>
                         <td class="arrow">
                             <div class="right-arrow"></div>
                         </td>
                         <td class="where">
                             <div class="club-logo">
-                                <?php if($teamFromIconUrl) { ?>
-                                <img src="<?= $teamToIconUrl ?>">
+                                <?php if($teamToIconUrl) { ?>
+                                    <img src="<?= $teamToIconUrl ?>">
                                 <?php } ?>
                             </div>
                             <div class="club-name"><?= $teamToName ?></div>
