@@ -976,7 +976,7 @@ body {
                 display: none;
             }
         }
-        .button-reply, .button-edit, .button-remove {
+        .button-reply, .button-edit, .button-remove, .button-complain {
             display: block;
             float: right;
             margin: 14px 10px 0 0;
@@ -995,6 +995,9 @@ body {
             background-image: url(/images/write_sprite.png);
         }
         .button-remove {
+            background-image: url(/images/trash_icon.png);
+        }
+        .button-complain {
             background-image: url(/images/trash_icon.png);
         }
     }
@@ -1892,6 +1895,67 @@ body {
         &.active a{
             color: @main-red;
             font-weight: bold;
+        }
+    }
+}
+
+.claim-box {
+    .simple-rounded-box;
+    padding: 0 10px 10px;  
+
+    .header {
+        height: 29px;
+        line-height: 29px;
+        margin: 0 0 10px;
+        border-bottom: 2px solid @main-body-background;
+
+        .title {
+            float: left;
+            .text-font(14px, bold, @main-grey);
+        }
+        .help {
+            float: right;
+        }
+    }
+}
+
+.complain-form-box {
+    .simple-rounded-box;
+    padding: 10px;
+
+    .complain-form {
+        padding: 0 5px;
+        .clearfix;
+
+        .user-photo {
+            float: left;
+            margin-right: 10px;
+            width: 50px;
+            height: 50px;
+            .rounded(5px);
+            overflow: hidden;
+
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+        .textarea-field {
+            margin: 0;
+            float: left;
+            width: 525px;
+
+            textarea {
+                min-height: 50px;
+                padding: 3px 10px;
+                overflow: hidden;
+            }
+        }
+        .help-block {
+            display: none;
+        }
+        .field-submit input {
+            padding: 0 10px;
         }
     }
 }

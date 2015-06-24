@@ -81,7 +81,7 @@ class CommentSearch extends Comment
         $startDay = date("Y-m-d 00:00:00",$createdTime);
         $endDay = date("Y-m-d 00:00:00", $createdTime + 60*60*24);
         if($this->created_at) {
-            $query->where(['between', 'created_at', $startDay, $endDay]);
+            $query->andFilterWhere(['between', 'created_at', $startDay, $endDay]);
         }
 
         $query->andFilterWhere([

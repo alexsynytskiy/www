@@ -65,7 +65,7 @@ class Comment extends ActiveRecord
             'content' => 'Содержимое',
             'created_at' => 'Создано',
             'commentable_id' => 'ID сущности',
-            'commentable_type' => 'Тип сущности',
+            'commentable_type' => 'Тип материала',
             'user_id' => 'Пользователь',
             'parent_id' => 'Родительский ID',
         ];
@@ -118,6 +118,33 @@ class Comment extends ActiveRecord
     public function getContent()
     {
         return strip_tags($this->content);
+    }
+
+    /**
+     * Get short content
+     *
+     * @return string
+     */
+    public function getShortContent($min = 200, $max = 350)
+    {
+        $content = $this->content;
+        $content = strip_tags($content);
+        if(mb_strlen($content,'UTF-8') <= $min)
+        {
+            return $content;          
+        }
+        $cutLength = mb_strpos($content,'. ', $min, 'UTF-8');
+        if($cutLength && $cutLength < $max) 
+        {
+            $content = mb_substr($content, 0, $cutLength, 'UTF-8');
+        } 
+        else 
+        {
+            $content = mb_substr($content, 0, $min, 'UTF-8');
+            $content = trim($content);
+        }
+        $content .= '...';
+        return $content;
     }
 
     /**
@@ -242,7 +269,6 @@ class Comment extends ActiveRecord
                     $ratingDownClass = 'disable';
                 }
                 $commentLevelClass = $parent_id == 0 ? 'lvl-one' : '';
-                $page = 'post'; // test
 
                 if($parent_id == 0 && $options->postID && $comment->getCommentableType() == Comment::COMMENTABLE_POST) 
                 {
@@ -287,14 +313,12 @@ class Comment extends ActiveRecord
                             <div class="rating-count <?=($rating >= 0) ? 'blue' : 'red'?>"><?=$rating?></div>
                             <a href="javascript:void(0)" class="rating-down <?= $ratingDownClass ?>" data-id="<?= $comment->id ?>" data-type="comment"></a>
                         </div>
-                        <?php if(!Yii::$app->user->isGuest && $options->showReplyButton) { ?>
-                        <a href="javascript:void(0)" class="button-reply" title="Ответить"></a>
+                        <?php if(!Yii::$app->user->isGuest) { ?>
+                            <a href="<?= Url::to('/complain/'.$comment->id) ?>" class="button-complain" title="Пожаловаться"></a>
                         <?php } ?>
-                        <?php if($page == 'cabinet') { // test ?>
-                            <a href="javascript:void(0)" class="new-replies-count <?=$classRepliesCount?>" title="Новых ответов">
-                                <?=$textRepliesCount?>
-                            </a>
-                        <?php } // test?>
+                        <?php if(!Yii::$app->user->isGuest && $options->showReplyButton) { ?>
+                            <a href="javascript:void(0)" class="button-reply" title="Ответить"></a>
+                        <?php } ?>
                     </div>
                     <div class="comment-body">
                         <?= $comment->getContent() ?>

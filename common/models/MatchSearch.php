@@ -143,97 +143,19 @@ class MatchSearch extends Match
         ]);
 
         // enable sorting for the related columns
-        $addSortAttributes = ["championship.name"];
-        foreach ($addSortAttributes as $addSortAttribute) {
-            $dataProvider->sort->attributes[$addSortAttribute] = [
-                'asc'   => [$addSortAttribute => SORT_ASC],
-                'desc'  => [$addSortAttribute => SORT_DESC],
-            ];
-        }
-
-        // enable sorting for the related columns
-        $addSortAttributes = ["teamHome.name"];
-        foreach ($addSortAttributes as $addSortAttribute) {
-            $dataProvider->sort->attributes[$addSortAttribute] = [
-                'asc'   => [$addSortAttribute => SORT_ASC],
-                'desc'  => [$addSortAttribute => SORT_DESC],
-            ];
-        }
-
-        // enable sorting for the related columns
-        $addSortAttributes = ["teamGuest.name"];
-        foreach ($addSortAttributes as $addSortAttribute) {
-            $dataProvider->sort->attributes[$addSortAttribute] = [
-                'asc'   => [$addSortAttribute => SORT_ASC],
-                'desc'  => [$addSortAttribute => SORT_DESC],
-            ];
-        }
-
-        // enable sorting for the related columns
-        $addSortAttributes = ["arbiterMain.name"];
-        foreach ($addSortAttributes as $addSortAttribute) {
-            $dataProvider->sort->attributes[$addSortAttribute] = [
-                'asc'   => [$addSortAttribute => SORT_ASC],
-                'desc'  => [$addSortAttribute => SORT_DESC],
-            ];
-        }
-
-        // enable sorting for the related columns
-        $addSortAttributes = ["arbiterAssistant1.name"];
-        foreach ($addSortAttributes as $addSortAttribute) {
-            $dataProvider->sort->attributes[$addSortAttribute] = [
-                'asc'   => [$addSortAttribute => SORT_ASC],
-                'desc'  => [$addSortAttribute => SORT_DESC],
-            ];
-        }
-
-        // enable sorting for the related columns
-        $addSortAttributes = ["arbiterAssistant2.name"];
-        foreach ($addSortAttributes as $addSortAttribute) {
-            $dataProvider->sort->attributes[$addSortAttribute] = [
-                'asc'   => [$addSortAttribute => SORT_ASC],
-                'desc'  => [$addSortAttribute => SORT_DESC],
-            ];
-        }
-
-        // enable sorting for the related columns
-        $addSortAttributes = ["arbiterAssistant3.name"];
-        foreach ($addSortAttributes as $addSortAttribute) {
-            $dataProvider->sort->attributes[$addSortAttribute] = [
-                'asc'   => [$addSortAttribute => SORT_ASC],
-                'desc'  => [$addSortAttribute => SORT_DESC],
-            ];
-        }
-
-        // enable sorting for the related columns
-        $addSortAttributes = ["arbiterAssistant4.name"];
-        foreach ($addSortAttributes as $addSortAttribute) {
-            $dataProvider->sort->attributes[$addSortAttribute] = [
-                'asc'   => [$addSortAttribute => SORT_ASC],
-                'desc'  => [$addSortAttribute => SORT_DESC],
-            ];
-        }
-
-        // enable sorting for the related columns
-        $addSortAttributes = ["arbiterReserve.name"];
-        foreach ($addSortAttributes as $addSortAttribute) {
-            $dataProvider->sort->attributes[$addSortAttribute] = [
-                'asc'   => [$addSortAttribute => SORT_ASC],
-                'desc'  => [$addSortAttribute => SORT_DESC],
-            ];
-        }
-
-        // enable sorting for the related columns
-        $addSortAttributes = ["championshipPart.name"];
-        foreach ($addSortAttributes as $addSortAttribute) {
-            $dataProvider->sort->attributes[$addSortAttribute] = [
-                'asc'   => [$addSortAttribute => SORT_ASC],
-                'desc'  => [$addSortAttribute => SORT_DESC],
-            ];
-        }
-
-        // enable sorting for the related columns
-        $addSortAttributes = ["stadium.name"];
+        $addSortAttributes = [
+            "championship.name",
+            "teamHome.name",
+            "teamGuest.name",
+            "arbiterMain.name",
+            "arbiterAssistant1.name",
+            "arbiterAssistant2.name",
+            "arbiterAssistant3.name",
+            "arbiterAssistant4.name",
+            "arbiterReserve.name",
+            "championshipPart.name",
+            "stadium.name",
+        ];
         foreach ($addSortAttributes as $addSortAttribute) {
             $dataProvider->sort->attributes[$addSortAttribute] = [
                 'asc'   => [$addSortAttribute => SORT_ASC],
@@ -272,21 +194,21 @@ class MatchSearch extends Match
         $startDay = date("Y-m-d 00:00:00",$createdTime);
         $endDay = date("Y-m-d 00:00:00", $createdTime + 60*60*24);
         if($this->created_at) {
-            $query->where(['between', 'created_at', $startDay, $endDay]);
+            $query->andFilterWhere(['between', 'created_at', $startDay, $endDay]);
         }
         
         $updatedTime = strtotime($this->updated_at);
         $startDay = date("Y-m-d 00:00:00",$updatedTime);
         $endDay = date("Y-m-d 00:00:00", $updatedTime + 60*60*24);
         if($this->updated_at) {
-            $query->where(['between', 'updated_at', $startDay, $endDay]);
+            $query->andFilterWhere(['between', 'updated_at', $startDay, $endDay]);
         }
 
         $date = strtotime($this->date);
         $startDay = date("Y-m-d 00:00:00",$date);
         $endDay = date("Y-m-d 00:00:00", $date + 60*60*24);
         if($this->date) {
-            $query->where(['between', 'date', $startDay, $endDay]);
+            $query->andFilterWhere(['between', 'date', $startDay, $endDay]);
         }
 
         $query->andFilterWhere(['like', 'round', $this->round])

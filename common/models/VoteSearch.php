@@ -81,7 +81,6 @@ class VoteSearch extends Vote
         $query->andFilterWhere([
             "{$voteTable}.id" => $this->id,
             'vote' => $this->vote,
-            'created_at' => $this->created_at,
             'voteable_id' => $this->voteable_id,
             'user_id' => $this->user_id,
             'ip_address' => $this->ip_address,
@@ -91,7 +90,7 @@ class VoteSearch extends Vote
         $startDay = date("Y-m-d 00:00:00",$createdTime);
         $endDay = date("Y-m-d 00:00:00", $createdTime + 60*60*24);
         if($this->created_at) {
-            $query->where(['between', 'created_at', $startDay, $endDay]);
+            $query->andFilterWhere(['between', 'created_at', $startDay, $endDay]);
         }
 
         $query->andFilterWhere(['like', 'voteable_type', $this->voteable_type])

@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Автор',
                 'options' => ['width' => '120'],
                 'value' => function($model) {
-                    return Html::a($model->getUserName(), ['module/user/admin/view/'.$model->user_id]);
+                    return Html::a($model->getUserName(), ['/user/admin/view', 'id' => $model->user_id]);
                 },
                 'format' => 'html',
             ],

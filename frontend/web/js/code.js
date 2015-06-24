@@ -108,7 +108,9 @@ $(document).ready(function() {
 
 
     // Autoresize textarea START
-    autosize($('#comment-form textarea'));
+    $('textarea.autosize').each(function(index, el) {
+        autosize($(this));
+    });
     // Autoresize textarea START
 
 

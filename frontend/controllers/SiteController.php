@@ -19,6 +19,7 @@ use common\models\SiteBlock;
 use common\models\MatchEvent;
 use common\models\Composition;
 use common\models\Question;
+use common\models\Claim;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
@@ -116,7 +117,7 @@ class SiteController extends Controller
         {
             $startDay = date("Y-m-d 00:00:00", 0);
             $endDay = date("Y-m-d 00:00:00", strtotime($date) + 60*60*24);
-            $query->where(['between', 'created_at', $startDay, $endDay]);
+            $query->andFilterWhere(['between', 'created_at', $startDay, $endDay]);
             $query->orderBy(['created_at' => SORT_DESC]);
         } 
         else 
@@ -471,7 +472,7 @@ class SiteController extends Controller
         $transfer = Transfer::findOne($id);
         
         if(!isset($transfer)) {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException('Страница не найдена.');
         }
 
         $commentForm = new CommentForm();
@@ -664,7 +665,7 @@ class SiteController extends Controller
         $match = Match::findOne($id);
         
         if(!isset($match)) {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException('Страница не найдена.');
         }
 
         $matchEvents = MatchEvent::find()
@@ -737,6 +738,57 @@ class SiteController extends Controller
     }
 
     /**
+     * Claim page
+     * 
+     * @param int $id Comment id
+     * @return mixed
+     */
+    public function actionComplain($id) 
+    {
+        $comment = Comment::findOne($id);
+        
+        if(!isset($comment)) {
+            throw new NotFoundHttpException('Страница не найдена.');
+        }
+
+        if(Yii::$app->user->isGuest) {
+            throw new BadRequestHttpException('Для отправки жалобы авторизируйтесь.');
+        }
+
+        $claim = Claim::find()
+            ->where([
+                'comment_id' => $comment->id,
+                'user_id' => Yii::$app->user->id,
+            ])
+            ->one();
+
+        if(!isset($claim->id)) {
+            $claim = new Claim();
+            $claim->comment_id = $comment->id;
+            $claim->comment_author = $comment->user->id;
+            $claim->user_id = Yii::$app->user->id;
+        }
+
+        if($claim->load(Yii::$app->request->post())){
+            $claim->save();
+        }
+
+        return $this->render('@frontend/views/site/index', [
+            'templateType' => 'col2',
+            'title' => 'Жалоба',
+            'columnFirst' => [
+                'claim' => [
+                    'view' => '@frontend/views/forms/complain_form',
+                    'data' => compact('comment', 'claim'),
+                ],
+            ],
+            'columnSecond' => [ 
+                'short_news' => SiteBlock::getShortNews(),
+            ],
+        ]);
+    }
+
+    /**
      * Finds the Post model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
@@ -748,7 +800,7 @@ class SiteController extends Controller
         if (($model = Post::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException('Страница не найдена.');
         }
     }
 

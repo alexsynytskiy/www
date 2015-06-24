@@ -1,22 +1,22 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\grid\GridView;
 use kartik\date\DatePicker;
 
-
 /* @var $this yii\web\View */
-/* @var $searchModel common\models\CommentSearch */
+/* @var $searchModel common\models\ClaimSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Комментарии';
+$this->title = 'Жалобы';
 $this->params['breadcrumbs'][] = $this->title;
-
 ?>
-<div class="comment-index">
+<div class="claim-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+
     <p>
         <?php
             if(count(Yii::$app->getRequest()->getQueryParams()) > 0) {
@@ -29,20 +29,37 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
+            'id',
             [
-                'attribute' => 'id',
-                'options' => ['width' => '100'],
-            ],
-            [
-                'attribute' => 'user.username',
-                'label' => 'Автор',
-                'options' => ['width' => '120'],
+                'attribute' => 'comment_id',
                 'value' => function($model) {
-                    return Html::a($model->user->username, ['module/user/admin/view/'.$model->user_id]);
+                    if(!isset($model->comment)) return 'Удален';
+                    $link = Html::a('#'.$model->comment_id, ['/comment/view', 'id' => $model->comment_id]);
+                    return $link.' '.$model->comment->getShortContent(100, 200);
                 },
                 'format' => 'html',
             ],
-            'content:html',
+            [
+                'attribute' => 'user.username',
+                'label' => 'Пользователь',
+                'options' => ['width' => '120'],
+                'value' => function($model) {
+                    $username = isset($model->user) ? $model->user->username : '-';
+                    return Html::a($username, ['/user/admin/view', 'id' => $model->user_id]);
+                },
+                'format' => 'html',
+            ],
+            [
+                'attribute' => 'commentAuthor.username',
+                'label' => 'Автор',
+                'options' => ['width' => '120'],
+                'value' => function($model) {
+                    $username = isset($model->commentAuthor) ? $model->commentAuthor->username : '-';
+                    return Html::a($username, ['/user/admin/view', 'id' => $model->user_id]);
+                },
+                'format' => 'html',
+            ],
+            'message',
             [
                 'attribute' => 'created_at',
                 'value' => function($model){
@@ -62,17 +79,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]),
                 'options' => ['width' => '140'],
             ],
-            [
-                'label' => 'Материал',
-                'value' => function($model) {
-                    return $model->getCommentableLink();
-                },
-                'format' => 'html',
-            ],
-            // 'parent_id',
+
             [
                 'class' => 'yii\grid\ActionColumn',
-                'options' => ['width' => '70'],
+                'options' => ['width' => '50'],
+                'template' => '{view} {delete}',
             ],
         ],
     ]); ?>

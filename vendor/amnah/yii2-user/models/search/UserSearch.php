@@ -97,14 +97,12 @@ class UserSearch extends User
         if($this->create_time) {
             $query->andFilterWhere(['between', "{$userTable}.create_time", $startDay, $endDay]);
         }
-//        var_dump($createdTime);
-//        die;
         
         $updatedTime = strtotime($this->create_time);
         $startDay = date("Y-m-d 00:00:00",$updatedTime);
         $endDay = date("Y-m-d 00:00:00", $updatedTime + 60*60*24);
         if($this->update_time) {
-            $query->where(['between', "{$userTable}.update_time", $startDay, $endDay]);
+            $query->andFilterWhere(['between', "{$userTable}.update_time", $startDay, $endDay]);
         }
 
         $query->andFilterWhere(['like', 'email', $this->email])
