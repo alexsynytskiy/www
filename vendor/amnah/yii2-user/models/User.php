@@ -637,4 +637,31 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->hasMany(Vote::className(), ['user_id' => 'id']);
     }
+
+    /**
+     * Return true if current user has banned ip
+     * @return boolean 
+     */
+    public static function hasBannedIP()
+    {
+        $userIP = Yii::$app->getRequest()->getUserIP();
+        $userIPlong = ip2long($userIP);
+        if($userIPlong == -1 || $userIPlong === false) {
+            return false;
+        }
+        $bannedIPs = \common\models\BannedIP::find()
+            ->where([
+                'is_active' => 1,
+            ])->all();
+        foreach ($bannedIPs as $bannedIP) {
+            if(!isset($bannedIP->end_ip_num) || empty($bannedIP->end_ip_num)) {
+                if($userIPlong == $bannedIP->start_ip_num) return true;
+            } else {
+                if($userIPlong >= $bannedIP->start_ip_num && $userIPlong <= $bannedIP->end_ip_num) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

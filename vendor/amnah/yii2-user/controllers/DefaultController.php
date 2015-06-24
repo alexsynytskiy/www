@@ -12,12 +12,15 @@ use yii\widgets\ActiveForm;
 use yii\data\ActiveDataProvider;
 use yii\web\UploadedFile;
 use yii\data\Pagination;
+use yii\web\BadRequestHttpException;
+use yii\web\ForbiddenHttpException;
 
 use common\models\Post;
 use common\models\Asset;
 use common\models\Comment;
 use common\models\CommentForm;
 use common\models\SiteBlock;
+use amnah\yii2\user\models\User;
 
 /**
  * Default controller for User module
@@ -47,6 +50,12 @@ class DefaultController extends Controller
                         'actions' => ['login', 'register', 'forgot', 'reset'],
                         'allow'   => true,
                         'roles'   => ['?'],
+                        'matchCallback' => function ($rule, $action) {
+                            if(User::hasBannedIP()) {
+                                throw new ForbiddenHttpException('Ваш IP адрес забанен.');
+                            }
+                            return true;
+                        }
                     ],
                 ],
             ],
@@ -84,7 +93,7 @@ class DefaultController extends Controller
         // load post data and login
         $user = Yii::$app->getModule("user")->model("LoginForm");
         if ($user->load(Yii::$app->request->post()) && $user->login(Yii::$app->getModule("user")->loginDuration)) {
-            return $this->goBack(Yii::$app->getModule("user")->loginRedirect);
+            return $this->redirect('/');
         }
 
         // backend render

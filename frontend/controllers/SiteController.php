@@ -2,7 +2,6 @@
 namespace frontend\controllers;
 
 use Yii;
-use common\models\LoginForm;
 use common\models\Post;
 use common\models\Asset;
 use common\models\Match;
@@ -20,9 +19,6 @@ use common\models\MatchEvent;
 use common\models\Composition;
 use common\models\Question;
 use common\models\Claim;
-use frontend\models\PasswordResetRequestForm;
-use frontend\models\ResetPasswordForm;
-use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 
 use yii\base\InvalidParamException;
