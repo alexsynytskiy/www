@@ -1,6 +1,6 @@
 <?php
 use yii\helpers\Url;
-
+use common\models\MatchEventType;
 /**
  * @var $this yii\web\View
  * @var $match common\models\Match 
@@ -24,52 +24,51 @@ use yii\helpers\Url;
         <div class="box-title">Текстовая трансляция</div>
     </div>
     <div class="box-content">
-        <div class="message message-with-icon">
-            <div class="info">
-                <div class="icon"></div>
-                <div class="minute">5"</div>
-            </div>
-            <div class="text goal">
-                ГОООООООООЛЛЛЛ! Ярмоленко забиваеееет!
-            </div>
-            <div class="clearfix"></div>
-        </div>
-        <div class="message message-with-icon">
-            <div class="info">
-                <div class="icon"></div>
-                <div class="minute">3"</div>
-            </div>
-            <div class="text">
-                Азеведо опасно простреливал с левого фланга, но Гоменюк на нее не откликнулся. Азеведо снова прорывается по флангу, но Вида в подкате выбивает мяч.
-            </div>
-            <div class="clearfix"></div>
-        </div>
-        <div class="message">
-            <div class="info">
-                <div class="minute">2"</div>
-            </div>
-            <div class="text">
-                Безус навешивает с левого фланга, но Азеведо опережает Виду в борьбе за мяч
-            </div>
-            <div class="clearfix"></div>
-        </div>
-        <div class="message message-with-icon">
-            <div class="info">
-                <div class="icon"></div>
-                <div class="minute">0"</div>
-            </div>
-            <div class="text">
-                Игра началась!
-            </div>
-            <div class="clearfix"></div>
-        </div>
-        <div class="message" style="border:none;">
-            <div class="info">
-            </div>
-            <div class="text">
-                Стали известны составы команд
-            </div>
-            <div class="clearfix"></div>
-        </div>
+    <?php
+        foreach (array_reverse($matchEvents) as $event) {
+            if ($event->match_event_type_id == NULL) { ?>
+                <div class="message">
+                    <div class="info">
+                        <div class="minute"><?= $event->getTime() ?></div>
+                    </div>
+                    <div class="text">
+                        <?= $event->notes ?>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+      <?php }
+            else {
+
+                $eventValue = MatchEventType::find()
+                            ->where([
+                                'id' => $event->match_event_type_id,
+                            ])
+                            ->all();
+                $eventIcon = $eventValue[0]->getAsset();
+                $eventIconUrl = $eventIcon->getFileUrl();
+      ?>
+                <div class="message message-with-icon">
+                    <div class="info">
+                        <?php if($eventIconUrl) { ?>
+                            <img src="<?= $eventIconUrl ?>" class="icon">
+                        <?php } ?>
+                        <div class="minute"><?= $event->getTime() ?></div>
+                    </div>
+                    <?php
+                        if($event->match_event_type_id == $event::GOAL) {
+                            echo '<div class="text goal">';
+                        }
+                        else {
+                            echo '<div class="text">';
+                        }
+
+                        echo $event->notes ?>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+          <?php }
+        }
+    ?>
+
     </div>
 </div>

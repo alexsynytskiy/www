@@ -2015,14 +2015,13 @@ header .header-wrapper .breadcrumbs .tag:hover {
 .grid-column .text-translation .message .info {
   float: left;
   margin-left: 8px;
-  width: 40px;
+  width: 50px;
   min-height: 30px;
 }
 .grid-column .text-translation .message .info .icon {
-  margin: 10px auto 0;
+  margin: 10px auto;
   height: 25px;
   width: 25px;
-  background-color: #727272;
 }
 .grid-column .text-translation .message .info .minute {
   line-height: 30px;

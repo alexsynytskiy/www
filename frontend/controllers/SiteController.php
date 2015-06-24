@@ -648,7 +648,7 @@ class SiteController extends Controller
     }
 
     /**
-     * Transfers page
+     * Translation page
      * 
      * @return mixed
      */
@@ -659,6 +659,54 @@ class SiteController extends Controller
         if(!isset($match)) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+
+        $title = "Онлайн трансляция матча ".$match->teamHome->name." - ".$match->teamGuest->name;
+
+        $matchEvents = MatchEvent::find()
+            ->where(['match_id' => $match->id])
+            ->all();
+
+        $teamPlayers = Composition::getSquadSort($match->id);
+
+        $teamHomePlayers = array();
+        $teamGuestPlayers = array();
+        foreach ($teamPlayers as $player) {
+            if($player->command_id == $match->command_home_id) {
+                array_push($teamHomePlayers, $player);
+            } else {
+                array_push($teamGuestPlayers, $player);
+            }
+        }
+
+        return $this->render('@frontend/views/site/index', [
+            'templateType' => 'col2',
+            'title' => $title,
+            'columnFirst' => [
+                'translation' => [
+                    'view' => '@frontend/views/translation/index',
+                    'data' => compact('match', 'matchEvents', 'teamHomePlayers', 'teamGuestPlayers'),
+                ],
+            ],
+            'columnSecond' => [ 
+                'short_news' => SiteBlock::getShortNews(),
+            ],
+        ]);
+    }
+
+    /**
+     * Translation page
+     * 
+     * @return mixed
+     */
+    public function actionProtocol($id) 
+    {
+        $match = Match::findOne($id);
+        
+        if(!isset($match)) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+
+        $title = "Протокол матча ".$match->teamHome->name." - ".$match->teamGuest->name;
 
         $matchEvents = MatchEvent::find()
             ->where(['match_id' => $match->id])
@@ -682,10 +730,10 @@ class SiteController extends Controller
 
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
-            'title' => 'Трансляция',
+            'title' => $title,
             'columnFirst' => [
                 'translation' => [
-                    'view' => '@frontend/views/translation/index',
+                    'view' => '@frontend/views/translation/protocol',
                     'data' => compact('match', 'matchEvents', 'teamHomePlayers', 'teamGuestPlayers'),
                 ],
             ],

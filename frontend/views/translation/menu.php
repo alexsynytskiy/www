@@ -9,7 +9,7 @@ use yii\helpers\Url;
 
 <div class="match-navigation">
     <a id="text-translation-link" href="<?= Url::to('/translation/'.$match->id) ?>">
-        <div class="button translation active">
+        <div class="button translation">
             Трансляция
             <div class="icon"></div>
         </div>

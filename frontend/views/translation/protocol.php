@@ -1,6 +1,5 @@
 <?php
 use yii\helpers\Url;
-
 /**
  * @var $this yii\web\View
  * @var $match common\models\Match 
@@ -17,7 +16,111 @@ use yii\helpers\Url;
         'matchEvents',
         'teamHomePlayers',
         'teamGuestPlayers'
-    )); ?>
+    ));
+
+$substitutions = [];
+$yellowCards = [];
+$redCards = [];
+
+foreach ($matchEvents as $event) {
+    if($event->match_event_type_id == $event::SUBSTITUTION) {
+        $substitutions[] = $event;
+    }
+    else if($event->match_event_type_id == $event::YELLOWCARD) {
+        $yellowCards[] = $event;
+    }
+    else if($event->match_event_type_id == $event::REDCARD || $event->match_event_type_id == $event::SECONDYELLOW) {
+        $redCards[] = $event;
+    }
+}
+
+function findEventSquad($event, $player) {
+    if($event->composition_id == $player->id || $event->substitution_id == $player->id) {
+        return true;
+    }
+
+    return false;
+}
+
+function renderSquad($team, $isBasis, $substitutions, $yellowCards, $redCards) {
+    $finalBlockSquad = "";
+
+    if($team != NULL) {
+        $finalBlockSquad .= '<div class="team team-a">';
+            foreach ($team as $player) {
+                if($player->is_basis == $isBasis) {       
+                    $finalBlockSquad .= '<div class="player">
+                    <div class="dest">'.$player->contract->amplua->abr.'</div>
+                    <div class="number">'.$player->number.'</div>
+                    <div class="desc">
+                        <a href="#"><div class="name">'.$player->contract->player->name.'</div></a>';                        
+                        foreach ($substitutions as $substitution) {
+                            if( findEventSquad($substitution, $player) ) {
+                                $finalBlockSquad .= '<div class="replacement"></div>
+                                <div class="time">'.$substitution->getTime().'</div>';
+                            }
+                        }
+                        foreach ($yellowCards as $yellowCard) {
+                            if( findEventSquad($yellowCard, $player) ) {
+                                $finalBlockSquad .= '<div class="yellow-card"></div>
+                                <div class="time">'.$yellowCard->getTime().'</div>';
+                                break;
+                            }
+                        }
+                        foreach ($redCards as $redCard) {
+                            if( findEventSquad($redCard, $player) ) {
+                                $finalBlockSquad .= '<div class="red-card"></div>
+                                <div class="time">'.$redCard->getTime().'</div>';
+                                break;
+                            }
+                        }
+                    $finalBlockSquad .= '</div></div>';
+                }
+            }
+        $finalBlockSquad .= '</div>';
+    }
+    echo $finalBlockSquad;
+}
+
+function renderStatistics($homeValue, $visitorsValue, $t) {
+    $finalBlockStatistics = "";
+    $house_value = $homeValue;
+    $visitors_value = $visitorsValue;
+    $title = $t;
+    $width = 590;
+
+    $average = $house_value + $visitors_value;
+
+    if(($house_value == 0 && $visitors_value != 0) ||($house_value != 0 && $visitors_value == 0)) {
+        $width = 595;
+    }
+
+    if ($average == 0) {
+        $house_width = $visitors_width = $width/2;
+    }
+    else {
+        $house_width = ($width / $average) * $house_value;
+        $visitors_width = ($width / $average) * $visitors_value;
+    }
+
+    $finalBlockStatistics .= '<div class="parameter">
+        <div class="header">
+            <div class="house-value">'.$house_value.'</div>
+            <div class="parameter-name">'.$title.'</div>
+            <div class="visitors-value">'.$visitors_value.'</div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="stripes">
+            <div class="home" style="width:'.$house_width.'px;"></div>
+            <div class="visitors" style="width:'.$visitors_width.'px;"></div>
+            <div class="clearfix"></div>
+        </div>
+    </div>';
+
+    echo $finalBlockStatistics;
+}
+
+?>
 
 <div class="match-arbiters default-box">
     <div class="box-header">
@@ -25,17 +128,37 @@ use yii\helpers\Url;
     </div>
     <div class="box-content">
         <div class="main-arbiter">
-            <div class="column-title">Основной арбитр:</div>
-            <div class="name">А. Жабченко (Симферополь)</div>
+        <?php 
+            if($match->arbiterMain != NULL) { ?>
+                <div class="column-title">Основной арбитр:</div>
+                <div class="name"><?= $match->arbiterMain->name ?></div>
+        <?php 
+            } 
+        ?>
         </div>
         <div class="assist-arbiter">
-            <div class="column-title">Ассистенты:</div>
-            <div class="name">С. Шлончак (Черкассы)</div>
-            <div class="name">А. Корнийко (Миргород)</div>
+            <?php
+                if($match->arbiterAssistant1 != NULL && $match->arbiterAssistant2 != NULL) { ?>
+                    <div class="column-title">Лайнсмены:</div>
+                    <div class="name"><?= $match->arbiterAssistant1->name ?></div>
+                    <div class="name"><?= $match->arbiterAssistant2->name ?></div>
+            <?php }
+                if($match->arbiterAssistant3 != NULL && $match->arbiterAssistant4 != NULL) { ?>
+                    <div class="column-title">За воротами:</div>
+                    <div class="name"><?= $match->arbiterAssistant3->name ?></div>
+                    <div class="name"><?= $match->arbiterAssistant4->name ?></div>
+            <?php 
+                }
+            ?>
         </div>
         <div class="reserv-arbiter">
-            <div class="column-title">Резервный арбитр:</div>
-            <div class="name">Ю. Вакс (Симферополь)</div>
+        <?php 
+            if($match->arbiterMain != NULL) { ?>
+                <div class="column-title">Резервный арбитр:</div>
+                <div class="name"><?= $match->arbiterReserve->name ?></div>
+        <?php 
+            } 
+        ?>
         </div>
         <div class="clearfix"></div>
     </div>
@@ -47,185 +170,15 @@ use yii\helpers\Url;
     </div>
     <div class="box-content" style="padding: 0;">
         <!-- start team-a -->
-        <div class="team team-a">
-            <div class="player">
-                <div class="dest">вр</div>
-                <div class="number">81</div>
-                <div class="desc">
-                    <a href="#"><div class="name">Владимир Дишленкович</div></a>
-                </div>
-            </div>
-            <div class="player">
-                <div class="dest">зщ</div>
-                <div class="number">3</div>
-                <div class="desc">
-                    <a href="#"><div class="name">Кристиан Вильягра</div></a>
-                    <div class="yellow-card"></div><div class="time">85"</div>
-                </div>
-            </div>
-            <div class="player">
-                <div class="dest">зщ</div>
-                <div class="number">6</div>
-                <div class="desc">
-                    <a href="#"><div class="name">Марко Торсильери</div></a>
-                </div>
-            </div>
-            <div class="player">
-                <div class="dest">зщ</div>
-                <div class="number">17</div>
-                <div class="desc">
-                    <a href="#"><div class="name">Сергей Пшеничных</div></a>
-                </div>
-            </div>
-            <div class="player">
-                <div class="dest">зщ</div>
-                <div class="number">20</div>
-                <div class="desc">
-                    <a href="#"><div class="name">Марсиу Азеведо</div></a>
-                </div>
-            </div>
-            <div class="player">
-                <div class="dest">пз</div>
-                <div class="number">22</div>
-                <div class="desc">
-                    <a href="#"><div class="name">Денис Кулаков</div></a>
-                </div>
-            </div>
-            <div class="player">
-                <div class="dest">пз</div>
-                <div class="number">24</div>
-                <div class="desc">
-                    <a href="#"><div class="name">Айила Юссуф</div></a>
-                </div>
-            </div>
-            <div class="player">
-                <div class="dest">пз</div>
-                <div class="number">8</div>
-                <div class="desc">
-                    <a href="#"><div class="name">Эдмар</div></a>
-                </div>
-            </div>
-            <div class="player">
-                <div class="dest">пз</div>
-                <div class="number">85</div>
-                <div class="desc">
-                    <a href="#"><div class="name">Клейтон Шавьер</div></a>
-                </div>
-            </div>
-            <div class="player">
-                <div class="dest">пз</div>
-                <div class="number">32</div>
-                <div class="desc">
-                    <a href="#"><div class="name">Олег Красноперов</div></a>
-                    <div class="replacement"></div>
-                    <div class="time">76"</div>
-                </div>
-            </div>
-            <div class="player">
-                <div class="dest">нп</div>
-                <div class="number">14</div>
-                <div class="desc">
-                    <a href="#"><div class="name">Владимир Гоменюк</div></a>
-                    <div class="replacement"></div>
-                    <div class="time">53"</div>
-                </div>
-            </div>
-        </div><!-- end team-a -->
+        <?php
+            renderSquad($teamHomePlayers, 1, $substitutions, $yellowCards, $redCards);
+        ?>
+        
         <div class="delimiter"></div>
         <!-- start team-b -->
-        <div class="team team-b">
-            <div class="player">
-                <div class="dest">вр</div>
-                <div class="number">1</div>
-                <div class="desc">
-                    <a href="#"><div class="name">Александр Шовковский</div></a>
-                    <div class="yellow-card"></div>
-                    <div class="time">60"</div>
-                </div>
-            </div>
-            <div class="player">
-                <div class="dest">зщ</div>
-                <div class="number">2</div>
-                <div class="desc">
-                    <div class="name">Данило Силва</div>
-                </div>
-            </div>
-            <div class="player">
-                <div class="dest">зщ</div>
-                <div class="number">6</div>
-                <div class="desc">
-                    <div class="name">Александар Драгович</div>
-                    <div class="replacement"></div>
-                    <div class="time">46"</div>
-                </div>
-            </div>
-            <div class="player">
-                <div class="dest">зщ</div>
-                <div class="number">24</div>
-                <div class="desc">
-                    <div class="name">Домагой Вида</div>
-                </div>
-            </div>
-            <div class="player">
-                <div class="dest">зщ</div>
-                <div class="number">27</div>
-                <div class="desc">
-                    <div class="name">Евгений Макаренко</div>
-                </div>
-            </div>
-            <div class="player">
-                <div class="dest">пз</div>
-                <div class="number">9</div>
-                <div class="desc">
-                    <div class="name">Роман Безус</div>
-                    <div class="replacement"></div>
-                    <div class="time">63"</div>
-                </div>
-            </div>
-            <div class="player">
-                <div class="dest">пз</div>
-                <div class="number">17</div>
-                <div class="desc">
-                    <div class="name">Сергей Рыбалка</div>
-                    <div class="yellow-card"></div>
-                    <div class="time">27"</div>
-                    <div class="red-card"></div>
-                    <div class="time">86"</div>
-                </div>
-            </div>
-            <div class="player">
-                <div class="dest">пз</div>
-                <div class="number">45</div>
-                <div class="desc">
-                    <div class="name">Владислав Калитвинцев</div>
-                </div>
-            </div>
-            <div class="player">
-                <div class="dest">пз</div>
-                <div class="number">90</div>
-                <div class="desc">
-                    <div class="name">Юнес Бельанда</div>
-                    <div class="yellow-card"></div>
-                    <div class="time">68"</div>
-                    <div class="replacement"></div>
-                    <div class="time">82"</div>
-                </div>
-            </div>
-            <div class="player">
-                <div class="dest">пз</div>
-                <div class="number">10</div>
-                <div class="desc">
-                    <div class="name">Андрей Ярмоленко</div>
-                </div>
-            </div>
-            <div class="player">
-                <div class="dest">нп</div>
-                <div class="number">22</div>
-                <div class="desc">
-                    <div class="name">Артем Кравец</div>
-                </div>
-            </div>
-        </div><!-- end team-b -->
+        <?php
+            renderSquad($teamGuestPlayers, 1, $substitutions, $yellowCards, $redCards);
+        ?>
     </div>
 </div>
 
@@ -235,120 +188,15 @@ use yii\helpers\Url;
     </div>
     <div class="box-content" style="padding: 0;">
         <!-- start team-a -->
-        <div class="team team-a">
-            <div class="player">
-                <div class="dest">вр</div>
-                <div class="number">35</div>
-                <div class="desc">
-                    <div class="name">Богдан Шуст</div>
-                </div>
-            </div>
-            <div class="player">
-                <div class="dest">зщ</div>
-                <div class="number">4</div>
-                <div class="desc">
-                    <div class="name">Андрей Березовчук</div>
-                </div>
-            </div>
-            <div class="player">
-                <div class="dest">зщ</div>
-                <div class="number">30</div>
-                <div class="desc">
-                    <div class="name">Папа Гуйе</div>
-                </div>
-            </div>
-            <div class="player">
-                <div class="dest">зщ</div>
-                <div class="number">19</div>
-                <div class="desc">
-                    <div class="name">Хуан Мануэль Торрес</div>
-                </div>
-            </div>
-            <div class="player">
-                <div class="dest">зщ</div>
-                <div class="number">43</div>
-                <div class="desc">
-                    <div class="name">Юрий Ткачук</div>
-                </div>
-            </div>
-            <div class="player">
-                <div class="dest">пз</div>
-                <div class="number">82</div>
-                <div class="desc">
-                    <div class="name">Павел Ребенок</div>
-                    <div class="replacement"></div>
-                    <div class="time">76"</div>
-                </div>
-            </div>
-            <div class="player">
-                <div class="dest">пз</div>
-                <div class="number">50</div>
-                <div class="desc">
-                    <div class="name">Джексон Коэлью</div>
-                    <div class="replacement"></div>
-                    <div class="time">53"</div>
-                </div>
-            </div>
-        </div><!-- end team-a -->
+        <?php
+            renderSquad($teamHomePlayers, 0, $substitutions, $yellowCards, $redCards);
+        ?>
+
         <div class="delimiter"></div>
         <!-- start team-b -->
-        <div class="team team-b">
-            <div class="player">
-                <div class="dest">вр</div>
-                <div class="number">23</div>
-                <div class="desc">
-                    <div class="name">Александр Рыбка</div>
-                </div>
-            </div>
-            <div class="player">
-                <div class="dest">зщ</div>
-                <div class="number">3</div>
-                <div class="desc">
-                    <div class="name">Евгений Селин</div>
-                    <div class="replacement"></div>
-                    <div class="time">82"</div>
-                </div>
-            </div>
-            <div class="player">
-                <div class="dest">зщ</div>
-                <div class="number">28</div>
-                <div class="desc">
-                    <div class="name">Бенуа Тремулинас</div>
-                </div>
-            </div>
-            <div class="player">
-                <div class="dest">зщ</div>
-                <div class="number">16</div>
-                <div class="desc">
-                    <div class="name">Сергей Сидорчук</div>
-                    <div class="replacement"></div>
-                    <div class="time">46"</div>
-                </div>
-            </div>
-            <div class="player">
-                <div class="dest">зщ</div>
-                <div class="number">19</div>
-                <div class="desc">
-                    <div class="name">Денис Гармаш</div>
-                    <div class="replacement"></div>
-                    <div class="time">63"</div>
-                </div>
-            </div>
-            <div class="player">
-                <div class="dest">пз</div>
-                <div class="number">20</div>
-                <div class="desc">
-                    <div class="name">Олег Гусев</div>
-                </div>
-            </div>
-            <div class="player">
-                <div class="dest">пз</div>
-                <div class="number">29</div>
-                <div class="desc">
-                    <div class="name">Виталий Буяльский</div>
-                </div>
-            </div>
-        </div>
+        <?php
+            renderSquad($teamGuestPlayers, 0, $substitutions, $yellowCards, $redCards);
+        ?>
     </div>
 </div>
 
@@ -359,165 +207,43 @@ use yii\helpers\Url;
     <div class="box-content">
         <div class="statistics">
             <div class="teams">
-                <div class="home">"Металлист"</div>
-                <div class="visitors">"Динамо" Киев</div>
+                <div class="home"><?= $match->teamHome->name ?></div>
+                <div class="visitors"><?= $match->teamGuest->name ?></div>
                 <div class="clearfix"></div>
             </div>
-            <div class="parameter">
-                <div class="header">
-                    <?php
-                        $house_value = 7;
-                        $visitors_value = 7;
-                        $width = 590;
+            <?php
+                if(isset($match->home_goals) && isset($match->guest_goals)) {
+                    renderStatistics($match->home_goals, $match->guest_goals,"Голы");
+                }
 
-                        $average = $house_value + $visitors_value;
+                if(isset($match->home_shots) && isset($match->guest_shots)) {
+                    renderStatistics($match->home_shots, $match->guest_shots,"Удары в сторону ворот");
+                }
 
-                        $house_width = ($width / $average) * $house_value;
-                        $visitors_width = ($width / $average) * $visitors_value;
-                    ?>
-                    <div class="house-value"><?php echo $house_value; ?></div>
-                    <div class="parameter-name">Удары по воротам</div>
-                    <div class="visitors-value"><?php echo $visitors_value; ?></div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="stripes">
-                    <div class="home" style="width:<?php echo $house_width; ?>px;"></div>
-                    <div class="visitors" style="width:<?php echo $visitors_width; ?>px;"></div>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-            <div class="parameter">
-                <div class="header">
-                    <?php
-                        $house_value = 3;
-                        $visitors_value = 5;
+                if(isset($match->home_shots_in) && isset($match->guest_shots_in)) {
+                    renderStatistics($match->home_shots_in, $match->guest_shots_in,"Удары по воротам");
+                }
 
-                        $average = $house_value + $visitors_value;
+                if(isset($match->home_offsides) && isset($match->guest_offsides)) {
+                    renderStatistics($match->home_offsides, $match->guest_offsides,"Офсайды");
+                }
 
-                        $house_width = ($width / $average) * $house_value;
-                        $visitors_width = ($width / $average) * $visitors_value;
-                    ?>
-                    <div class="house-value"><?php echo $house_value; ?></div>
-                    <div class="parameter-name">Удары в сторону ворот</div>
-                    <div class="visitors-value"><?php echo $visitors_value; ?></div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="stripes">
-                    <div class="home" style="width:<?php echo $house_width; ?>px;"></div>
-                    <div class="visitors" style="width:<?php echo $visitors_width; ?>px;"></div>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-            <div class="parameter">
-                <div class="header">
-                    <?php
-                        $house_value = 1;
-                        $visitors_value = 4;
+                if(isset($match->home_corners) && isset($match->guest_corners)) {
+                    renderStatistics($match->home_corners, $match->guest_corners,"Угловые");
+                }
 
-                        $average = $house_value + $visitors_value;
+                if(isset($match->home_fouls) && isset($match->guest_fouls)) {
+                    renderStatistics($match->home_fouls, $match->guest_fouls,"Фолы");
+                }
 
-                        $house_width = ($width / $average) * $house_value;
-                        $visitors_width = ($width / $average) * $visitors_value;
-                    ?>
-                    <div class="house-value"><?php echo $house_value; ?></div>
-                    <div class="parameter-name">Офсайды</div>
-                    <div class="visitors-value"><?php echo $visitors_value; ?></div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="stripes">
-                    <div class="home" style="width:<?php echo $house_width; ?>px;"></div>
-                    <div class="visitors" style="width:<?php echo $visitors_width; ?>px;"></div>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-            <div class="parameter">
-                <div class="header">
-                    <?php
-                        $house_value = 5;
-                        $visitors_value = 1;
+                if(isset($match->home_yellow_cards) && isset($match->guest_yellow_cards)) {
+                    renderStatistics($match->home_yellow_cards, $match->guest_yellow_cards,"Жёлтые карточки");
+                }
 
-                        $average = $house_value + $visitors_value;
-
-                        $house_width = ($width / $average) * $house_value;
-                        $visitors_width = ($width / $average) * $visitors_value;
-                    ?>
-                    <div class="house-value"><?php echo $house_value; ?></div>
-                    <div class="parameter-name">Угловые</div>
-                    <div class="visitors-value"><?php echo $visitors_value; ?></div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="stripes">
-                    <div class="home" style="width:<?php echo $house_width; ?>px;"></div>
-                    <div class="visitors" style="width:<?php echo $visitors_width; ?>px;"></div>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-            <div class="parameter">
-                <div class="header">
-                    <?php
-                        $house_value = 16;
-                        $visitors_value = 13;
-
-                        $average = $house_value + $visitors_value;
-
-                        $house_width = ($width / $average) * $house_value;
-                        $visitors_width = ($width / $average) * $visitors_value;
-                    ?>
-                    <div class="house-value"><?php echo $house_value; ?></div>
-                    <div class="parameter-name">Фолы</div>
-                    <div class="visitors-value"><?php echo $visitors_value; ?></div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="stripes">
-                    <div class="home" style="width:<?php echo $house_width; ?>px;"></div>
-                    <div class="visitors" style="width:<?php echo $visitors_width; ?>px;"></div>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-            <div class="parameter">
-                <div class="header">
-                    <?php
-                        $house_value = 1;
-                        $visitors_value = 4;
-
-                        $average = $house_value + $visitors_value;
-
-                        $house_width = ($width / $average) * $house_value;
-                        $visitors_width = ($width / $average) * $visitors_value;
-                    ?>
-                    <div class="house-value"><?php echo $house_value; ?></div>
-                    <div class="parameter-name">Жёлтые карточки</div>
-                    <div class="visitors-value"><?php echo $visitors_value; ?></div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="stripes">
-                    <div class="home" style="width:<?php echo $house_width; ?>px;"></div>
-                    <div class="visitors" style="width:<?php echo $visitors_width; ?>px;"></div>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-            <div class="parameter">
-                <div class="header">
-                    <?php
-                        $house_value = 0;
-                        $visitors_value = 1;
-
-                        $average = $house_value + $visitors_value;
-
-                        $house_width = ($width / $average) * $house_value;
-                        $visitors_width = ($width / $average) * $visitors_value;
-                    ?>
-                    <div class="house-value"><?php echo $house_value; ?></div>
-                    <div class="parameter-name">Красные карточки</div>
-                    <div class="visitors-value"><?php echo $visitors_value; ?></div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="stripes">
-                    <div class="home" style="width:<?php echo $house_width; ?>px;"></div>
-                    <div class="visitors" style="width:<?php echo $visitors_width; ?>px;"></div>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
+                if(isset($match->home_red_cards) && isset($match->guest_red_cards)) {
+                    renderStatistics($match->home_red_cards, $match->guest_red_cards,"Красные карточки");
+                }
+            ?>
         </div>
     </div>
 </div>
