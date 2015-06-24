@@ -86,7 +86,6 @@ class PostSearch extends Post
             "{$postTable}.id" => $this->id,
             'user_id' => $this->user_id,
             'is_public' => $this->is_public,
-            'updated_at' => $this->updated_at,
             'is_index' => $this->is_index,
             'is_top' => $this->is_top,
             'is_pin' => $this->is_pin,
@@ -102,14 +101,14 @@ class PostSearch extends Post
         $startDay = date("Y-m-d 00:00:00",$createdTime);
         $endDay = date("Y-m-d 00:00:00", $createdTime + 60*60*24);
         if($this->created_at) {
-            $query->where(['between', 'created_at', $startDay, $endDay]);
+            $query->andFilterWhere(['between', 'created_at', $startDay, $endDay]);
         }
         
         $updatedTime = strtotime($this->updated_at);
         $startDay = date("Y-m-d 00:00:00",$updatedTime);
         $endDay = date("Y-m-d 00:00:00", $updatedTime + 60*60*24);
         if($this->updated_at) {
-            $query->where(['between', 'updated_at', $startDay, $endDay]);
+            $query->andFilterWhere(['between', 'updated_at', $startDay, $endDay]);
         }
 
         $query->andFilterWhere(['like', 'title', $this->title])

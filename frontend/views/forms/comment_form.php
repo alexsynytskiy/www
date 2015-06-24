@@ -28,7 +28,10 @@ $avatar = $user->getAsset();
     <a href="<?= Url::to(['user/profile']) ?>"><img src="<?= $avatar->getFileUrl() ?>"></a>
 </div>
 <div class="field textarea-field comment-field">
-    <?= $form->field($commentForm, 'content')->textArea(['placeholder'=>'Введите ваше сообщение'])->label(false) ?>
+    <?= $form->field($commentForm, 'content')->textArea([
+            'placeholder' => 'Введите ваше сообщение',
+            'class' => 'autosize',
+        ])->label(false) ?>
 </div>
 
 <?= $form->field($commentForm, 'commentable_id')->hiddenInput(['value' => $commentForm->commentable_id])->label(false) ?>

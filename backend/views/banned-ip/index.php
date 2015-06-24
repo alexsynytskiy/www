@@ -5,50 +5,40 @@ use yii\grid\GridView;
 use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
-/* @var $searchModel common\models\PostSearch */
+/* @var $searchModel common\models\BannedIPSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Записи';
+$this->title = 'Заблокированные IP адреса';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="post-index">
+<div class="banned-ip-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Добавить запись', ['create'], ['class' => 'btn btn-success']) ?>
-        <?php
-            if(count(Yii::$app->getRequest()->getQueryParams()) > 0) {
-                echo Html::a('Сброс', ['/'.Yii::$app->controller->id], ['class' => 'btn btn-primary']);
-            } 
-        ?>
+        <?= Html::a('Добавить IP адрес', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            // ['class' => 'yii\grid\SerialColumn'],
+            ['class' => 'yii\grid\SerialColumn'],
 
+            'title',
+            'start_ip_num_value',
+            'end_ip_num_value',
             [
-                'attribute' => 'id',
-                'options' => ['width' => '100'],
-            ],
-            [
-                'attribute' => 'user.username',
-                'label' => 'Автор',
-                'options' => ['width' => '120'],
+                'attribute' => 'is_active',
                 'value' => function($model) {
-                    return Html::a($model->getUserName(), ['/user/admin/view', 'id' => $model->user_id]);
+                    if($model->is_active) return 'Да';
+                    return 'Нет';
                 },
-                'format' => 'html',
-            ],
-            [
-                'attribute' => 'title',
-                'value' => function($model) {
-                    return Html::a($model->title, ['post/'.$model->id]);
-                },
-                'format' => 'html',
+                'filter' => [
+                    1 => 'Да',
+                    0 => 'Нет',
+                ],
             ],
             [
                 'attribute' => 'created_at',
@@ -88,26 +78,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]),
                 'options' => ['width' => '140'],
             ],
-            [
-                'attribute' => 'content_category_id',
-                'value' => function($model) {
-                    return $model->getCategory();
-                },
-                'filter' => $searchModel::categoryDropdown(),
-                'options' => ['width' => '110'],
-            ],
-            [
-                'attribute' => 'is_public',
-                'value' => function($model) {
-                    if($model->is_public) return 'Да';
-                    return 'Нет';
-                },
-                'filter' => [
-                    1 => 'Да',
-                    0 => 'Нет',
-                ],
-            ],
-            // 'comments_count',
 
             [
                 'class' => 'yii\grid\ActionColumn',

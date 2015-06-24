@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'created_at',
             [
-                'label' => 'Сущность',
+                'label' => 'Материал',
                 'value' => $model->getCommentableLink(),
                 'format' => 'html',
             ],

@@ -956,7 +956,8 @@ body a:focus {
 }
 .comment .comment-links .button-reply,
 .comment .comment-links .button-edit,
-.comment .comment-links .button-remove {
+.comment .comment-links .button-remove,
+.comment .comment-links .button-complain {
   display: block;
   float: right;
   margin: 14px 10px 0 0;
@@ -967,7 +968,8 @@ body a:focus {
 }
 .comment .comment-links .button-reply:hover,
 .comment .comment-links .button-edit:hover,
-.comment .comment-links .button-remove:hover {
+.comment .comment-links .button-remove:hover,
+.comment .comment-links .button-complain:hover {
   background-position: center -42px;
 }
 .comment .comment-links .button-reply {
@@ -977,6 +979,9 @@ body a:focus {
   background-image: url(/images/write_sprite.png);
 }
 .comment .comment-links .button-remove {
+  background-image: url(/images/trash_icon.png);
+}
+.comment .comment-links .button-complain {
   background-image: url(/images/trash_icon.png);
 }
 .comment .comment-body {
@@ -1813,4 +1818,76 @@ body a:focus {
 .pagination li.active a {
   color: #cb181e;
   font-weight: bold;
+}
+.claim-box {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  box-shadow: 0 2px 0 #d0d0d0;
+  background: #ffffff;
+  padding: 0 10px 10px;
+}
+.claim-box .header {
+  height: 29px;
+  line-height: 29px;
+  margin: 0 0 10px;
+  border-bottom: 2px solid #e9e9e9;
+}
+.claim-box .header .title {
+  float: left;
+  font-family: 'Fira Sans', sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  color: #727272;
+}
+.claim-box .header .help {
+  float: right;
+}
+.complain-form-box {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  box-shadow: 0 2px 0 #d0d0d0;
+  background: #ffffff;
+  padding: 10px;
+}
+.complain-form-box .complain-form {
+  padding: 0 5px;
+}
+.complain-form-box .complain-form:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+.complain-form-box .complain-form .user-photo {
+  float: left;
+  margin-right: 10px;
+  width: 50px;
+  height: 50px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.complain-form-box .complain-form .user-photo img {
+  width: 100%;
+  height: 100%;
+}
+.complain-form-box .complain-form .textarea-field {
+  margin: 0;
+  float: left;
+  width: 525px;
+}
+.complain-form-box .complain-form .textarea-field textarea {
+  min-height: 50px;
+  padding: 3px 10px;
+  overflow: hidden;
+}
+.complain-form-box .complain-form .help-block {
+  display: none;
+}
+.complain-form-box .complain-form .field-submit input {
+  padding: 0 10px;
 }
