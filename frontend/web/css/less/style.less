@@ -1,4 +1,4 @@
-info@import url(http://fonts.googleapis.com/css?family=Fira+Sans:300,400,500,700,300italic,400italic,500italic,700italic&subset=latin,cyrillic-ext,cyrillic,latin-ext);
+@import url(http://fonts.googleapis.com/css?family=Fira+Sans:300,400,500,700,300italic,400italic,500italic,700italic&subset=latin,cyrillic-ext,cyrillic,latin-ext);
 
 @site-font: 'Fira Sans', sans-serif;
 @banners-background: #BAD6FF;
@@ -2085,6 +2085,8 @@ header {
 	}
 
 	.text-translation {
+		overflow: hidden;
+
 		.message {
 			border-bottom: 1px solid @main-body-background;
 
@@ -2108,12 +2110,15 @@ header {
 				min-height: 30px;
 
 				.icon {
-					margin: 10px auto;
+					display: block;
+					margin: 10px auto 0;
 					height: 25px;
 					width: 25px;
 				}
 
 				.minute {
+					min-height: 10px;
+					width: 100%;
 					line-height: 30px;
 					.text-font(14px, normal, @main-grey);
 					text-align: center;

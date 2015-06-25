@@ -5,6 +5,8 @@ namespace backend\controllers;
 use Yii;
 use common\models\Player;
 use common\models\PlayerSearch;
+use common\models\Achievement;
+use common\models\AchievementSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -102,6 +104,13 @@ class PlayerController extends Controller
         $model = $this->findModel($id);
         $asset = $model->getAsset();
 
+        $achievementModel = new AchievementSearch();
+        $params = ['AchievementSearch' => [
+            'player_id' => $model->id,
+        ]];
+        $achievementDataProvider = $achievementModel->search($params);
+        // $achievementDataProvider = $achievementModel->search(Yii::$app->request->queryParams);
+
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $uploadedFile = UploadedFile::getInstance($model,'avatar');
 
@@ -128,6 +137,8 @@ class PlayerController extends Controller
         }
         return $this->render('update', [
             'model' => $model,
+            'achievementModel' => $achievementModel,
+            'achievementDataProvider' => $achievementDataProvider,
         ]);
         
     }

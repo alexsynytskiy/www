@@ -110,8 +110,18 @@ use kartik\file\FileInput;
     ]);
     ?>
 
+    <?php if(!$model->isNewRecord) { ?>
+        <?= $this->render('/achievement/index', [
+            'searchModel' => $achievementModel,
+            'dataProvider' => $achievementDataProvider,
+        ]) ?>
+    <?php } ?>
+
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Добавить' : 'Изменить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?php if(!$model->isNewRecord) { ?>
+            <?= Html::a('Добавить достижение', ['/achievement/create', 'playerId' => $model->id], ['class' => 'btn btn-success']) ?>
+        <?php } ?>
     </div>
 
     <?php ActiveForm::end(); ?>

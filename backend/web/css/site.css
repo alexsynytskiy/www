@@ -174,3 +174,6 @@ html .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .ope
 .panel table {
     margin-bottom: 0;
 }
+.achievement-index .filters {
+    display: none;
+}

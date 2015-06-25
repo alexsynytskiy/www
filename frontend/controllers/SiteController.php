@@ -175,66 +175,8 @@ class SiteController extends Controller
         if ($post->allow_comment) {
             // out all comments
             
-            $commentForm = new CommentForm();
-            $commentForm->commentable_id = $post->id;
-            $commentForm->commentable_type = Comment::COMMENTABLE_POST;
-
-            // out comments with pagination
-            $commentsCount = Comment::find()
-                ->where([
-                    'commentable_id' => $post->id,
-                    'commentable_type' => Comment::COMMENTABLE_POST,
-                    'parent_id' => null,
-                ])->count();
-            $commentsPagination = new Pagination([
-                'totalCount' => $commentsCount,
-                'pageSize' => 10,
-                'pageParam' => 'cpage',
-                'pageSizeParam' => 'cpsize',
-            ]);
-
-            $initialComments = Comment::find()
-                ->where([
-                    'commentable_id' => $post->id,
-                    'commentable_type' => Comment::COMMENTABLE_POST,
-                    'parent_id' => null,
-                ])->orderBy(['created_at' => SORT_DESC])
-                ->limit($commentsPagination->limit)
-                ->offset($commentsPagination->offset)
-                ->all();
-
-            $comments = $initialComments;
-            while (true) {
-                $ids = [];
-                foreach ($comments as $comment) {
-                    $ids[] = $comment->id;
-                }
-                $childComments = Comment::find()
-                    ->where(['parent_id' => $ids])->orderBy(['created_at' => SORT_ASC])->all();
-                if(count($childComments) > 0) {
-                    $initialComments = array_merge($initialComments, $childComments);
-                    $comments = $childComments;
-                } else {
-                    break;
-                }
-            }
-
-            $sortedComments = [];
-            foreach ($initialComments as $comment) 
-            {
-                $index = $comment->parent_id == null ? 0 : $comment->parent_id;
-                $sortedComments[$index][] = $comment;
-            }
-            
-            $options['columnFirst']['comments'] = [
-                'view' => '@frontend/views/blocks/comments_block',
-                'data' => [
-                    'comments' => $sortedComments,
-                    'commentForm' => $commentForm,
-                    'pagination' => $commentsPagination,
-                ],
-                'weight' => 5,
-            ];
+            $options['columnFirst']['comments'] = Comment::getCommentsBlock($post->id, Comment::COMMENTABLE_POST);
+            $options['columnFirst']['comments']['weight'] = 5;
         }
         usort($options['columnFirst'],'self::cmp');
 
@@ -471,58 +413,6 @@ class SiteController extends Controller
             throw new NotFoundHttpException('Страница не найдена.');
         }
 
-        $commentForm = new CommentForm();
-        $commentForm->commentable_id = $transfer->id;
-        $commentForm->commentable_type = Comment::COMMENTABLE_TRANSFER;
-
-        // out comments with pagination
-        $commentsCount = Comment::find()
-            ->where([
-                'commentable_id' => $transfer->id,
-                'commentable_type' => Comment::COMMENTABLE_TRANSFER,
-                'parent_id' => null,
-            ])->count();
-        $commentsPagination = new Pagination([
-            'totalCount' => $commentsCount,
-            'pageSize' => 10,
-            'pageParam' => 'cpage',
-            'pageSizeParam' => 'cpsize',
-        ]);
-
-        $initialComments = Comment::find()
-            ->where([
-                'commentable_id' => $transfer->id,
-                'commentable_type' => Comment::COMMENTABLE_TRANSFER,
-                'parent_id' => null,
-            ])->orderBy(['created_at' => SORT_DESC])
-            ->limit($commentsPagination->limit)
-            ->offset($commentsPagination->offset)
-            ->all();
-
-        $comments = $initialComments;
-        while (true) {
-            $ids = [];
-            foreach ($comments as $comment) {
-                $ids[] = $comment->id;
-            }
-            $childComments = Comment::find()
-                ->where(['parent_id' => $ids])->orderBy(['created_at' => SORT_ASC])->all();
-            if(count($childComments) > 0) {
-                $initialComments = array_merge($initialComments, $childComments);
-                $comments = $childComments;
-            } else {
-                break;
-            }
-        }
-
-        $sortedComments = [];
-        foreach ($initialComments as $comment) 
-        {
-            $index = $comment->parent_id == null ? 0 : $comment->parent_id;
-            $sortedComments[$index][] = $comment;
-        }
-        $comments = $sortedComments;
-
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
             'title' => 'Трансферы',
@@ -531,14 +421,7 @@ class SiteController extends Controller
                     'view' => '@frontend/views/transfers/transfer_single',
                     'data' => compact('transfer'),
                 ],
-                'comments' => [
-                    'view' => '@frontend/views/blocks/comments_block',
-                    'data' => [
-                        'comments' => $sortedComments,
-                        'commentForm' => $commentForm,
-                        'pagination' => $commentsPagination,
-                    ],
-                ],
+                'comments' => Comment::getCommentsBlock($transfer->id, Comment::COMMENTABLE_TRANSFER),
             ],
             'columnSecond' => [ 
                 'short_news' => SiteBlock::getShortNews(),
@@ -690,6 +573,7 @@ class SiteController extends Controller
                     'view' => '@frontend/views/translation/index',
                     'data' => compact('match', 'matchEvents', 'teamHomePlayers', 'teamGuestPlayers'),
                 ],
+                'comments' => Comment::getCommentsBlock($match->id, Comment::COMMENTABLE_MATCH),
             ],
             'columnSecond' => [ 
                 'short_news' => SiteBlock::getShortNews(),
@@ -740,6 +624,7 @@ class SiteController extends Controller
                     'view' => '@frontend/views/translation/protocol',
                     'data' => compact('match', 'matchEvents', 'teamHomePlayers', 'teamGuestPlayers'),
                 ],
+                'comments' => Comment::getCommentsBlock($match->id, Comment::COMMENTABLE_MATCH),
             ],
             'columnSecond' => [ 
                 'short_news' => SiteBlock::getShortNews(),

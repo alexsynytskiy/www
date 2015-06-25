@@ -6,6 +6,7 @@ use Yii;
 use yii\db\ActiveRecord;
 use amnah\yii2\user\models\User;
 use yii\helpers\Url;
+use yii\data\Pagination;
 
 /**
  * This is the model class for table "comments".
@@ -221,6 +222,77 @@ class Comment extends ActiveRecord
         return $this->hasMany(Comment::className(), ['parent_id' => 'id']);
     }
     
+    /**
+     * Get data for comments block
+     * @param int $entityId Commentable id
+     * @param int $entityType Commentable type
+     * @return array
+     */
+    public static function getCommentsBlock($entityId, $entityType)
+    {
+        $commentForm = new CommentForm();
+        $commentForm->commentable_id = $entityId;
+        $commentForm->commentable_type = $entityType;
+
+        // out comments with pagination
+        $commentsCount = Comment::find()
+            ->where([
+                'commentable_id' => $entityId,
+                'commentable_type' => $entityType,
+                'parent_id' => null,
+            ])->count();
+        $commentsPagination = new Pagination([
+            'totalCount' => $commentsCount,
+            'pageSize' => 10,
+            'pageParam' => 'cpage',
+            'pageSizeParam' => 'cpsize',
+        ]);
+
+        $initialComments = Comment::find()
+            ->where([
+                'commentable_id' => $entityId,
+                'commentable_type' => $entityType,
+                'parent_id' => null,
+            ])->orderBy(['created_at' => SORT_DESC])
+            ->limit($commentsPagination->limit)
+            ->offset($commentsPagination->offset)
+            ->all();
+
+        $comments = $initialComments;
+        while (true) {
+            $ids = [];
+            foreach ($comments as $comment) {
+                $ids[] = $comment->id;
+            }
+            $childComments = Comment::find()
+                ->where(['parent_id' => $ids])->orderBy(['created_at' => SORT_ASC])->all();
+            if(count($childComments) > 0) {
+                $initialComments = array_merge($initialComments, $childComments);
+                $comments = $childComments;
+            } else {
+                break;
+            }
+        }
+
+        $sortedComments = [];
+        foreach ($initialComments as $comment) 
+        {
+            $index = $comment->parent_id == null ? 0 : $comment->parent_id;
+            $sortedComments[$index][] = $comment;
+        }
+        $comments = $sortedComments;
+
+        $block = [
+            'view' => '@frontend/views/blocks/comments_block',
+            'data' => [
+                'comments' => $sortedComments,
+                'commentForm' => $commentForm,
+                'pagination' => $commentsPagination,
+            ],
+        ];
+        return $block;
+    }
+
     /**
      * Output tree of comments
      * @param array $comments Array of Comment
