@@ -82,6 +82,7 @@ class SiteController extends Controller
             ],
             'columnSecond' => [
                 'slider_matches' => SiteBlock::getMatchesSlider(),
+                'slider_matches' => SiteBlock::getMatchesSlider(),
                 'short_news' => SiteBlock::getShortNews(),
             ],
             'columnThird' => [
@@ -709,6 +710,35 @@ class SiteController extends Controller
                 'claim' => [
                     'view' => '@frontend/views/forms/complain_form',
                     'data' => compact('comment', 'claim'),
+                ],
+            ],
+            'columnSecond' => [ 
+                'short_news' => SiteBlock::getShortNews(),
+            ],
+        ]);
+    }
+
+    /**
+     * Team full info page
+     * 
+     * @return mixed
+     */
+    public function actionTeamInfo($id) 
+    {
+        $team = Team::findOne($id);
+        var_dump($team);
+        die;
+        if(!isset($team)) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+
+        return $this->render('@frontend/views/site/index', [
+            'templateType' => 'col2',
+            'title' => $team->name,
+            'columnFirst' => [
+                'translation' => [
+                    'view' => '@frontend/views/team/menu',
+                    'data' => compact('team'),
                 ],
             ],
             'columnSecond' => [ 
