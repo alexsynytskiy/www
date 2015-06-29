@@ -63,13 +63,13 @@ SCRIPT;
             'minHeight' => 200,
             'imageUpload' => \yii\helpers\Url::to(['/site/image-upload']),
             'plugins' => [
-                // 'clips',
+                'quote',
                 'fullscreen',
                 'table',
                 'video',
                 'fontcolor',
-            ]
-        ]
+            ],
+        ],
     ]); ?>
 
     <?php

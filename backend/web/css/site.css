@@ -177,3 +177,15 @@ html .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .ope
 .achievement-index .filters {
     display: none;
 }
+.quoation {
+    display: block;
+    padding-left: 43px;
+    background: url('/images/quote.png') no-repeat left top 5px;
+    background-size: 31px;
+    text-align: left;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 24px;
+    margin-bottom: 20px;
+    min-height: 30px;
+}

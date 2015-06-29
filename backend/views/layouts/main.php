@@ -51,7 +51,7 @@ AppAsset::register($this);
                         ['label' => 'Бомбардиры', 'url' => '/admin/forward'], 
                         ['label' => 'Трансферы', 'url' => '/admin/transfer'],
                         ['label' => 'Типы трансферов', 'url' => '/admin/transfer-type'],                      
-                        ['label' => 'Иформация о команде', 'url' => '/admin/main-info'],
+                        ['label' => 'Информация о команде', 'url' => '/admin/main-info'],
                     ]],
                     ['label' => 'Матчи', 'items' => [
                         ['label' => 'Матчи', 'url' => '/admin/match'],
