@@ -16,7 +16,7 @@ use common\models\Asset;
 /**
  * TeamController implements the CRUD actions for Team model.
  */
-class TeamController extends Controller
+class TeamsController extends Controller
 {
     public function behaviors()
     {

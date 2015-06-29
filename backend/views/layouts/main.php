@@ -43,7 +43,7 @@ AppAsset::register($this);
                         ['label' => 'Жалобы', 'url' => '/admin/claim'],
                     ]],
                     ['label' => 'Команда', 'items' => [
-                        ['label' => 'Команды', 'url' => '/admin/team'],
+                        ['label' => 'Команды', 'url' => '/admin/teams'],
                         ['label' => 'Игроки', 'url' => '/admin/player'],
                         ['label' => 'Амплуа', 'url' => '/admin/amplua'],
                         ['label' => 'Игроки команд Динамо', 'url' => '/admin/contract'],                       

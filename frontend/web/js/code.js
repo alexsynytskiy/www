@@ -61,6 +61,13 @@ $(window).load(function() {
           'mBottom'   : 15,
           'column'    : 2,
     });
+    $('.achievements-container').indyMasonry({
+          'clName'    : '.default-box',
+          'gap'       : 15,
+          'mTop'      : 0,
+          'mBottom'   : 15,
+          'column'    : 2,
+    });
     // Masonry tiles view END
 
 

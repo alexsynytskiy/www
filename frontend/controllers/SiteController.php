@@ -19,6 +19,7 @@ use common\models\MatchEvent;
 use common\models\Composition;
 use common\models\Question;
 use common\models\Claim;
+use common\models\Contract;
 use frontend\models\ContactForm;
 
 use yii\base\InvalidParamException;
@@ -81,7 +82,6 @@ class SiteController extends Controller
                 'blog_column' => SiteBlock::getBlogPosts(),
             ],
             'columnSecond' => [
-                'slider_matches' => SiteBlock::getMatchesSlider(),
                 'slider_matches' => SiteBlock::getMatchesSlider(),
                 'short_news' => SiteBlock::getShortNews(),
             ],
@@ -720,25 +720,74 @@ class SiteController extends Controller
 
     /**
      * Team full info page
-     * 
+     * @param $id int Team id
+     * @param $tab string Team id
      * @return mixed
      */
-    public function actionTeamInfo($id) 
+    public function actionTeam($tab, $id = false) 
     {
+        if($id === false) $id = Team::TEAM_DK_FIRST_FULL_NAME;
         $team = Team::findOne($id);
-        var_dump($team);
-        die;
-        if(!isset($team)) {
+        $tabs = ['info', 'composition', 'achievements', 'record-holders'];
+        if(!isset($team) || !in_array($tab, $tabs)) {
             throw new NotFoundHttpException('The requested page does not exist.');
+        }
+        if($tab == 'composition') {
+            $availableTeams = [
+                Team::TEAM_DK_FIRST_FULL_NAME => Team::findOne(Team::TEAM_DK_FIRST_FULL_NAME),
+                Team::TEAM_DK_M => Team::findOne(Team::TEAM_DK_M),
+                Team::TEAM_DK2 => Team::findOne(Team::TEAM_DK2),
+                Team::TEAM_U19 => Team::findOne(Team::TEAM_U19),
+            ];   
+
+            $seasonTable = Season::tableName();
+            $contractTable = Contract::tableName();
+            $availableSeasons = Season::find()
+                ->innerJoin('contracts', "$seasonTable.id = $contractTable.season_id")
+                ->orderBy(['id' => SORT_DESC])
+                ->all();
+            $availableSeasonsIds = [];
+            foreach ($availableSeasons as $season) {
+                $availableSeasonsIds[] = $season->id;
+            }
+            if (isset($_GET['season']) && in_array($_GET['season'], $availableSeasonsIds)) {
+                $activeSeason = $_GET['season'];
+            }
+            else {
+                $activeSeason = $availableSeasonsIds[0];
+            }
+
+            $composition = Contract::find()
+                ->where([
+                    'season_id' => $activeSeason,   
+                    'command_id' => $team->id,   
+                ])
+                ->orderBy(['amplua_id' => SORT_ASC])
+                ->all();
+
+            $data = [
+                'teamModel' => $team,
+                'availableSeasons' => $availableSeasons,
+                'activeSeason' => $activeSeason,
+                'availableTeams' => $availableTeams,
+                'activeTeam' => $team->id,
+                'composition' => $composition,
+            ];
+        } else {
+            $data = compact('team');
         }
 
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
             'title' => $team->name,
             'columnFirst' => [
-                'translation' => [
+                'navbar' => [
                     'view' => '@frontend/views/team/menu',
-                    'data' => compact('team'),
+                    'data' => compact('team', 'tab'),
+                ],
+                'content' => [
+                    'view' => '@frontend/views/team/tab-'.$tab,
+                    'data' => $data,
                 ],
             ],
             'columnSecond' => [ 

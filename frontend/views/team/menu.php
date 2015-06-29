@@ -4,30 +4,31 @@ use yii\helpers\Url;
 /**
  * @var $this yii\web\View
  * @var $team common\models\Team 
+ * @var $tab string Active tab
 **/
 ?>
 
-<div class="team-navigation">
-    <a href="<?= Url::to('/team/'.$team->id.'/info') ?>">
-        <div class="button info">
+<div class="team-navigation navbar">
+    <a href="<?= Url::to('/team/info') ?>">
+        <div class="button info <?= $tab == 'info' ? 'active' : '' ?>">
             Официальная информация
             <div class="icon"></div>
         </div>
     </a>
-     <a href="<?= Url::to('/team/'.$team->id.'/composition') ?>">
-         <div class="button composition">
+     <a href="<?= Url::to('/team/composition/'.$team->id) ?>">
+         <div class="button composition <?= $tab == 'composition' ? 'active' : '' ?>">
             Составы команд
             <div class="icon"></div>
         </div>
     </a>
-    <a href="<?= Url::to('/team/'.$team->id.'/achievements') ?>">
-        <div class="button achievements">
+    <a href="<?= Url::to('/team/achievements') ?>">
+        <div class="button achievements <?= $tab == 'achievements' ? 'active' : '' ?>">
             Достижения
             <div class="icon"></div>
         </div>
     </a>
-    <a href="<?= Url::to('/team/'.$team->id.'/record-holders') ?>">
-        <div class="button record-holders">
+    <a href="<?= Url::to('/team/record-holders') ?>">
+        <div class="button record-holders <?= $tab == 'record-holders' ? 'active' : '' ?>">
             Рекордсмены
             <div class="icon"></div>
         </div>

@@ -115,7 +115,9 @@ AppAsset::register($this);
                         <a href="<?= Url::to(['/site/news']) ?>">
                             <li class="<?= Yii::$app->controller->action->id == 'news' ? 'current-page' : '' ?>">Новости</li>
                         </a>
-                        <a href="#"><li>Команда</li></a>
+                        <a href="<?= Url::to(['/site/team', 'tab' => 'info']) ?>">
+                            <li class="<?= Yii::$app->controller->action->id == 'team' ? 'current-page' : '' ?>">Команда</li>
+                        </a>
                         <a href="<?= Url::to(['/site/matches']) ?>">
                             <li class="<?= Yii::$app->controller->action->id == 'matches' ? 'current-page' : '' ?>">Матчи</li>
                         </a>
