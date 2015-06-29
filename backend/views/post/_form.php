@@ -57,8 +57,7 @@ SCRIPT;
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => 255]) ?>
 
-    <?php 
-    echo $form->field($model, 'content')->widget(\vova07\imperavi\Widget::className(), [
+    <?= $form->field($model, 'content')->widget(\vova07\imperavi\Widget::className(), [
         'settings' => [
             'lang' => 'ru',
             'minHeight' => 200,
@@ -71,8 +70,7 @@ SCRIPT;
                 'fontcolor',
             ]
         ]
-    ]);
-    ?>
+    ]); ?>
 
     <?php
     echo $form->field($model, 'source_title')->widget(Typeahead::classname(), [

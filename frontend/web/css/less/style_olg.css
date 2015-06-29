@@ -1987,7 +1987,7 @@ body a:focus {
 .team-image-box {
   padding: 0;
 }
-.team-image-box .team-image {
+.team-image-box .team-image img {
   width: 100%;
 }
 .team-image-box .caption {
@@ -2006,10 +2006,10 @@ body a:focus {
 .team-image-box .caption .right {
   float: right;
 }
-.team-image-box .title,
-.team-image-box .season {
+.team-image-box .title {
   font-weight: bold;
   color: #1972c4;
+  width: 220px;
 }
 .info-box {
   padding: 10px;
@@ -2026,15 +2026,26 @@ body a:focus {
   background: url(/images/default_image.png) center no-repeat;
   background-size: 50px 50px;
 }
-.info-box .column {
-  float: left;
-  width: 267px;
+.info-box .content {
+  -webkit-column-count: 2;
+  /* Chrome, Safari, Opera */
+
+  -moz-column-count: 2;
+  /* Firefox */
+
+  column-count: 2;
 }
-.info-box .label {
-  font-weight: bold;
-}
-.info-box .value {
+.info-box .content p {
   margin-bottom: 15px;
+}
+.achievements-container .box-header {
+  height: auto;
+}
+.achievements-container .box-header .box-title {
+  float: none;
+}
+.achievements-container .content td {
+  padding: 5px;
 }
 .composition-search {
   min-height: 0;
@@ -2108,4 +2119,29 @@ body a:focus {
   font-weight: bold;
   text-align: left;
   color: #1972c4;
+}
+.record-holder-box .content {
+  padding: 10px 0;
+}
+.record-holder-box table {
+  width: 100%;
+}
+.record-holder-box td:first-child {
+  padding: 10px;
+  border-right: 1px solid #000;
+  width: 190px;
+  text-align: right;
+}
+.record-holder-box td:last-child {
+  padding-right: 5px;
+}
+.record-holder-box .bar {
+  height: 22px;
+  line-height: 22px;
+  background: #1972c4;
+  color: #fff;
+  font-weight: bold;
+  padding-right: 10px;
+  text-align: right;
+  min-width: 30px;
 }

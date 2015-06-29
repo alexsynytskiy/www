@@ -2054,7 +2054,7 @@ body {
 
 .team-image-box {
     padding: 0;
-    .team-image {
+    .team-image img {
         width: 100%;
     }
     .caption {
@@ -2068,9 +2068,10 @@ body {
             float: right;
         }
     }
-    .title, .season {
+    .title {
         font-weight: bold;
         color: @main-blue;
+        width: 220px;
     }
 }
 
@@ -2092,16 +2093,31 @@ body {
         }
     }
 
-    .column {
-        float: left;
-        width: 267px;
+    .content {
+        -webkit-column-count: 2; /* Chrome, Safari, Opera */
+        -moz-column-count: 2; /* Firefox */
+        column-count: 2;
+
+        p {
+            margin-bottom: 15px;
+        }
     }
-    .label {
-        font-weight: bold;
+}
+
+.achievements-container {
+    .box-header {
+        height: auto;
+
+        .box-title {
+            float: none;
+        }   
     }
-    .value {
-        margin-bottom: 15px;
+    .content {
+        td {
+            padding: 5px;
+        }
     }
+    
 }
 
 .composition-search {
@@ -2170,5 +2186,33 @@ body {
         font-weight: bold;
         text-align: left;
         color: @main-blue;
+    }
+}
+
+.record-holder-box {
+    .content {
+        padding: 10px 0;
+    }
+    table {
+        width: 100%;
+    }
+    td:first-child {
+        padding: 10px;
+        border-right: 1px solid #000;
+        width: 190px;
+        text-align: right;
+    }
+    td:last-child {
+        padding-right: 5px;
+    }
+    .bar {
+        height: 22px;
+        line-height: 22px;
+        background: @main-blue;
+        color: #fff;
+        font-weight: bold;
+        padding-right: 10px;
+        text-align: right;
+        min-width: 30px;
     }
 }

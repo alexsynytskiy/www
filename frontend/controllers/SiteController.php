@@ -20,7 +20,9 @@ use common\models\Composition;
 use common\models\Question;
 use common\models\Claim;
 use common\models\Contract;
+use common\models\MainInfo;
 use frontend\models\ContactForm;
+
 
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -774,7 +776,12 @@ class SiteController extends Controller
                 'composition' => $composition,
             ];
         } else {
-            $data = compact('team');
+            $information = MainInfo::find()->all();
+            $info = [];
+            foreach ($information as $data) {
+                $info[$data->name] = $data;
+            }
+            $data = compact('team', 'info');
         }
 
         return $this->render('@frontend/views/site/index', [

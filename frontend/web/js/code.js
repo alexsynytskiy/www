@@ -453,5 +453,28 @@ $(document).ready(function() {
     });
     // => Question voting END 
 
+
+    // => Record holder bars START 
+    function isNumeric( obj ) {
+        return !jQuery.isArray( obj ) && (obj - parseFloat( obj ) + 1) >= 0;
+    }
+    $('.record-holder-box').each(function(index, el) {
+        var max = 0, temp;
+        $(this).find('td:last-child').each(function(index, el) {
+            temp = parseInt($(this).text());
+            if(isNumeric(temp) && temp > max) {
+                max = temp;
+            }
+        });
+        $(this).find('td:last-child').each(function(index, el) {
+            temp = parseInt($(this).text());
+            percent = temp / max * 100;
+            $(this).html('<div class="bar" style="width: ' + percent + '%">' + temp + '</div>');
+        });
+        console.log(max);
+    });
+    // => Record holder bars END 
+
+
   });
 })(jQuery);

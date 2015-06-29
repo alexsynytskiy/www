@@ -55,9 +55,6 @@ use yii\helpers\Url;
 </div>
 
 <div class="default-box composition-box">
-    <!-- <div class="box-header">
-        <div class="main-title">Вратари</div>
-    </div> -->
     <div class="box-content" style="padding: 0;">
         <table class="default-table composition-table">
             <thead>
