@@ -275,7 +275,7 @@ body {
             position: absolute;
             right: 0;
             top: 1px;
-            width: 40px;
+            width: 45px;
 
             [data-selectable] {
                 &:nth-child(2n+1) {
@@ -297,7 +297,8 @@ body {
         &.float {
             label {
                 display: block;
-                width: 240px;
+                width: 230px;
+                min-height: 30px;
             }
         }
     }
@@ -2237,8 +2238,9 @@ body {
 
 .auto-refresh {
     .clearfix;
-    padding: 10px 0;
+    padding: 15px 0 10px;
     font-size: 12px;
+    border-bottom: 1px solid @main-body-background;
 
     .settings {
         float: left;

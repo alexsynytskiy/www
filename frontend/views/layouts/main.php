@@ -111,7 +111,7 @@ AppAsset::register($this);
 
                 <div class="menu">
                     <ul>
-                        <a href="#"><li class="special-project">Спецпроект</li></a>
+                        <!-- <a href="#"><li class="special-project">Спецпроект</li></a> -->
                         <a href="<?= Url::to(['/site/news']) ?>">
                             <li class="<?= Yii::$app->controller->action->id == 'news' ? 'current-page' : '' ?>">Новости</li>
                         </a>

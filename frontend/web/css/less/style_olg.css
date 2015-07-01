@@ -182,7 +182,7 @@ body a:focus {
   position: absolute;
   right: 0;
   top: 1px;
-  width: 40px;
+  width: 45px;
 }
 .inquirer .inquirer-answer .selectize-box [data-selectable]:nth-child(2n+1) {
   background: #CCC;
@@ -200,7 +200,8 @@ body a:focus {
 }
 .inquirer .inquirer-answer.float label {
   display: block;
-  width: 240px;
+  width: 230px;
+  min-height: 30px;
 }
 .inquirer .form-actions .field-submit input {
   width: 190px;
@@ -2160,8 +2161,9 @@ body a:focus {
   min-width: 30px;
 }
 .auto-refresh {
-  padding: 10px 0;
+  padding: 15px 0 10px;
   font-size: 12px;
+  border-bottom: 1px solid #e9e9e9;
 }
 .auto-refresh:after {
   content: ".";

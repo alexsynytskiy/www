@@ -19,10 +19,7 @@ use common\models\MatchEventType;
         'teamGuestPlayers'
     )); ?>
 
-<div id="text-translation" class="text-translation default-box">
-    <div class="box-header">
-        <div class="box-title">Текстовая трансляция</div>
-    </div>
+<div id="text-translation" class="text-translation default-box">    
     <div class="box-content">
     <?php 
         $matchStartTime = strtotime($match->date);
