@@ -3,6 +3,8 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\Post;
+use common\models\Tag;
+use common\models\Tagging;
 use common\models\Asset;
 use common\models\Match;
 use common\models\Team;
@@ -97,12 +99,90 @@ class SiteController extends Controller
 
     /**
      * @param string $date Searching by date
+     * @param string $t Tag name slug
+     * @param string $q Search words
+     * @return mixed Content
+     */
+    public function actionSearch($t = false, $q = false) 
+    {
+        $t = str_replace('-+-', '-#%#-', $t);
+        $t = str_replace('+', ' ', $t);
+        $t = str_replace('-#%#-', '+', $t);
+        $postTable = Post::tableName();
+        $query = Post::find()->where([
+            'is_public' => 1, 
+            'content_category_id' => Post::CATEGORY_BLOG,
+        ]);
+        $view = '@frontend/views/site/news';
+
+        if(isset($t) && trim($t) != '') {
+            $taggingTable = Tagging::tableName();
+            $tagTable = Tag::tableName();
+            $query->innerJoin($taggingTable, "{$postTable}.id = {$taggingTable}.taggable_id");
+            $query->innerJoin($tagTable, "{$taggingTable}.tag_id = {$tagTable}.id");
+            $query->andWhere([
+                "{$taggingTable}.taggable_type" => Tagging::TAGGABLE_POST,
+                "{$tagTable}.name" => $t,
+            ]);
+            $view = '@frontend/views/search/search_posts';
+        } elseif(isset($q) && trim($q) != '') {
+            // $query->andWhere(['like', 'content', $q]);
+            $query->andWhere("MATCH (content) AGAINST ('$q')");
+
+            // $defaultCommand = $query->createCommand();
+            // $sql = $defaultCommand->sql;
+            // $params = $defaultCommand->params;
+            // $defaultIds = $defaultCommand->queryAll();
+
+            // Sphinx
+            // $query = new \yii\sphinx\Query;
+            // $query->from('post_index')
+            //     ->match($q)
+            //     ->limit(1000);
+
+            // $sphinxIds = $query->all();
+            // $ids = [];
+            // foreach ($sphinxIds as $data) {
+            //     $ids[] = $data['id'];
+            // }
+            // $query = Post::find()
+            //     ->where(['id' => $ids]);
+        }
+        $query->orderBy(["$postTable.created_at" => SORT_DESC]);
+
+        if(!isset($_GET['page']) || $_GET['page'] == 1) {
+            Yii::$app->session['news_post_time_last'] = 1;
+        }
+
+        $newsDataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 15,
+            ],
+        ]);
+
+        return $this->render('@frontend/views/site/index', [
+            'templateType' => 'col2',
+            'title' => 'Поиск',
+            'columnFirst' => [
+                'news' => [
+                    'view' => '@frontend/views/search/search_posts',
+                    'data' => compact('newsDataProvider'),
+                ],
+            ],
+            'columnSecond' => [
+                'blog_column' => SiteBlock::getBlogPosts(),
+            ],
+        ]);
+    }
+
+    /**
+     * @param string $date Searching by date
      * @return mixed Content
      */
     public function actionNews($date = null) 
     {
         $query = Post::find()->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_NEWS]);
-        // $query->andWhere(['<', 'created_at', date("Y-m-d H:00:00")]);
         // check date
         if (strtotime($date) == null) {
             $date = false;
@@ -138,9 +218,13 @@ class SiteController extends Controller
             'templateType' => 'col2',
             'title' => 'Новости',
             'columnFirst' => [
+                'calendar' => [
+                    'view' => '@frontend/views/site/news_calendar',
+                    'data' => compact('date'),
+                ],
                 'news' => [
                     'view' => '@frontend/views/site/news',
-                    'data' => compact('date','newsDataProvider'),
+                    'data' => compact('newsDataProvider'),
                 ],
             ],
             'columnSecond' => [
@@ -746,7 +830,9 @@ class SiteController extends Controller
             $contractTable = Contract::tableName();
             $availableSeasons = Season::find()
                 ->innerJoin('contracts', "$seasonTable.id = $contractTable.season_id")
-                ->orderBy(['id' => SORT_DESC])
+                ->where(['window' => Season::WINDOW_WINTER])
+                ->andWhere(["$contractTable.command_id" => $id])
+                ->orderBy(["$seasonTable.id" => SORT_DESC])
                 ->all();
             $availableSeasonsIds = [];
             foreach ($availableSeasons as $season) {

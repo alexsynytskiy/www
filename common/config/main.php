@@ -15,6 +15,7 @@ return [
             'rules' => [
                 '/'                                      => 'site/index',
                 'news'                                   => 'site/news',
+                'search'                                 => 'site/search',
                 'matches'                                => 'site/matches',
                 'transfers/<id:\d+>'                     => 'site/transfer',
                 'transfers'                              => 'site/transfers',

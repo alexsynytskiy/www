@@ -356,6 +356,7 @@ header .header-wrapper .breadcrumbs .arrow {
   background-size: 16px;
 }
 header .header-wrapper .breadcrumbs .tag {
+  display: block;
   float: left;
   line-height: 30px;
   margin-left: 20px;
@@ -1229,8 +1230,10 @@ header .header-wrapper .breadcrumbs .tag:hover {
   color: #727272;
   line-height: 24px;
   margin-bottom: 20px;
+  min-height: 30px;
 }
-.grid-column .post-page .content .blue-stars {
+.grid-column .post-page .content .skip {
+  display: block;
   text-align: center;
   font-size: 25px;
   font-weight: bold;
@@ -1270,6 +1273,7 @@ header .header-wrapper .breadcrumbs .tag:hover {
   padding: 0 8px;
   float: left;
   margin-right: 5px;
+  margin-bottom: 5px;
 }
 .grid-column .post-page .footer-part-bottom .vk-likes {
   float: left;
@@ -1749,6 +1753,42 @@ header .header-wrapper .breadcrumbs .tag:hover {
 .grid-column .match-navigation .other:hover:not(.active) .icon {
   background: url('/images/materials_sprite.png') no-repeat;
   background-size: 16px;
+  background-position: 0 -38px;
+}
+.grid-column .match-navigation .photo .icon {
+  height: 18px;
+  width: 22px;
+  float: right;
+  margin-top: 3px;
+  margin-left: 7px;
+  background: url('/images/photo_sprite.png') no-repeat;
+  background-size: 22px;
+}
+.grid-column .match-navigation .photo.active .icon {
+  background: url('/images/photo_active.png') no-repeat;
+  background-size: 22px;
+}
+.grid-column .match-navigation .photo:hover:not(.active) .icon {
+  background: url('/images/photo_sprite.png') no-repeat;
+  background-size: 22px;
+  background-position: 0 -38px;
+}
+.grid-column .match-navigation .video .icon {
+  height: 18px;
+  width: 18px;
+  float: right;
+  margin-top: 3px;
+  margin-left: 7px;
+  background: url('/images/video_sprite.png') no-repeat;
+  background-size: 18px;
+}
+.grid-column .match-navigation .video.active .icon {
+  background: url('/images/video_active.png') no-repeat;
+  background-size: 18px;
+}
+.grid-column .match-navigation .video:hover:not(.active) .icon {
+  background: url('/images/video_sprite.png') no-repeat;
+  background-size: 18px;
   background-position: 0 -38px;
 }
 .grid-column .match-protocol {

@@ -10,6 +10,7 @@ use yii\db\ActiveRecord;
  *
  * @property integer $id
  * @property string $name
+ * @property int $window
  *
  * @property Carreers[] $carreers
  * @property Contracts[] $contracts

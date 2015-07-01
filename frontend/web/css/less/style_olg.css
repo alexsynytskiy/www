@@ -1947,41 +1947,47 @@ body a:focus {
   background-size: 16px;
 }
 .navbar .info .icon {
-  background-image: url('/images/tv_sprite.png');
-  background-size: 22px;
-  width: 22px;
+  background-image: url('/images/info_sprite.png');
+  background-size: 13px;
+  width: 13px;
 }
 .navbar .info.active .icon {
-  background-image: url('/images/tv_active.png');
+  background-image: url('/images/info_active.png');
 }
-.navbar .info:hover:not(.active) {
+.navbar .info:hover:not(.active) .icon {
   background-position: 0 -38px;
 }
 .navbar .composition .icon {
-  background-image: url('/images/protocol_sprite.png');
+  background-image: url('/images/team_sprite.png');
+  background-size: 22px;
+  width: 22px;
 }
 .navbar .composition.active .icon {
-  background-image: url('/images/protocol_active.png');
+  background-image: url('/images/team_active.png');
 }
 .navbar .composition:hover:not(.active) .icon {
-  background-position: 0 -38px;
+  background-position: 0 -37px;
 }
 .navbar .achievements .icon {
-  background-image: url('/images/report_sprite.png');
+  background-image: url('/images/acivements_sprite.png');
+  background-size: 24px;
+  width: 24px;
 }
 .navbar .achievements.active .icon {
-  background-image: url('/images/report_active.png');
+  background-image: url('/images/acivements_active.png');
 }
-.navbar .achievements:hover:not(.active) {
+.navbar .achievements:hover:not(.active) .icon {
   background-position: 0 -38px;
 }
 .navbar .record-holders .icon {
-  background-image: url('/images/materials_sprite.png');
+  background-image: url('/images/medal_sprite.png');
+  background-size: 14px;
+  width: 14px;
 }
 .navbar .record-holders.active .icon {
-  background-image: url('/images/materials_active.png');
+  background-image: url('/images/medal_active.png');
 }
-.navbar .record-holders:hover:not(.active) {
+.navbar .record-holders:hover:not(.active) .icon {
   background-position: 0 -38px;
 }
 .team-image-box {
@@ -2023,8 +2029,16 @@ body a:focus {
   height: 50px;
 }
 .info-box.leadership-box .icon-bar .icon {
-  background: url(/images/default_image.png) center no-repeat;
-  background-size: 50px 50px;
+  background: url(/images/managment.png) center top no-repeat;
+  background-size: 35px;
+}
+.info-box.main-info-box .icon-bar .icon {
+  background: url(/images/adress.png) center top no-repeat;
+  background-size: 35px;
+}
+.info-box.other-info-box .icon-bar .icon {
+  background: url(/images/club.png) center top no-repeat;
+  background-size: 35px;
 }
 .info-box .content {
   -webkit-column-count: 2;
@@ -2144,4 +2158,57 @@ body a:focus {
   padding-right: 10px;
   text-align: right;
   min-width: 30px;
+}
+.auto-refresh {
+  padding: 10px 0;
+  font-size: 12px;
+}
+.auto-refresh:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+.auto-refresh .settings {
+  float: left;
+  width: 50%;
+}
+.auto-refresh .settings .text {
+  height: 25px;
+  line-height: 25px;
+  float: left;
+}
+.auto-refresh .settings .select-refresh {
+  float: left;
+  width: 135px;
+  margin-left: 5px;
+}
+.auto-refresh .actions {
+  float: left;
+  width: 50%;
+}
+.auto-refresh .actions .text {
+  height: 25px;
+  line-height: 25px;
+  float: right;
+}
+.auto-refresh .actions .button-refresh {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  float: right;
+  margin-left: 5px;
+  display: block;
+  height: 25px;
+  line-height: 25px;
+  padding: 0 7px;
+  color: #1972c4;
+  background: #e9e9e9;
+}
+.auto-refresh .actions .button-refresh:hover {
+  color: #0090e8;
+}
+.auto-refresh .actions .timer {
+  display: none;
 }

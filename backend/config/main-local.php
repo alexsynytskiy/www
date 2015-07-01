@@ -15,7 +15,15 @@ if (!YII_ENV_TEST) {
     $config['modules']['debug'] = 'yii\debug\Module';
 
     $config['bootstrap'][] = 'gii';
-    $config['modules']['gii'] = 'yii\gii\Module';
+    // $config['modules']['gii'] = 'yii\gii\Module';
+    $config['modules']['gii'] = [
+        'class' => 'yii\gii\Module',
+        'generators' => [
+            'sphinxModel' => [
+                'class' => 'yii\sphinx\gii\model\Generator'
+            ]
+        ],
+    ];
 }
 
 return $config;

@@ -39,8 +39,10 @@ if(!Yii::$app->user->isGuest && Yii::$app->user->can("admin")){
 				foreach($tags as $tag) {
                     $tag = trim($tag);
                     if($tag != '') {
+                        $tagSearch = str_replace('+', '-+-', $tag);
+                        $tagSearch = str_replace(' ', '+', $tagSearch);
 			    ?>
-                    <a class="tag" href="/search?t=<?= $tag ?>">#<?= $tag ?></a>
+                    <a class="tag" href="/search?t=<?= $tagSearch ?>">#<?= $tag ?></a>
 			<?php } }?>
             <div class="clearfix"></div>
         </div>

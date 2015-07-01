@@ -327,4 +327,13 @@ return array (
       '@amnah/yii2/user' => $vendorDir . '/amnah/yii2-user',
     ),
   ),
+  'yiisoft/yii2-sphinx' => 
+  array (
+    'name' => 'yiisoft/yii2-sphinx',
+    'version' => '2.0.4.0',
+    'alias' => 
+    array (
+      '@yii/sphinx' => $vendorDir . '/yiisoft/yii2-sphinx',
+    ),
+  ),
 );
