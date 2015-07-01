@@ -115,7 +115,7 @@ AppAsset::register($this);
                         <a href="<?= Url::to(['/site/news']) ?>">
                             <li class="<?= Yii::$app->controller->action->id == 'news' ? 'current-page' : '' ?>">Новости</li>
                         </a>
-                        <a href="<?= Url::to(['/site/team', 'tab' => 'info']) ?>">
+                        <a href="<?= Url::to(['/site/team', 'tab' => 'composition']) ?>">
                             <li class="<?= Yii::$app->controller->action->id == 'team' ? 'current-page' : '' ?>">Команда</li>
                         </a>
                         <a href="<?= Url::to(['/site/matches']) ?>">
@@ -130,8 +130,8 @@ AppAsset::register($this);
                     </ul>
 
                     <div class="search">
-                        <form action="" method="post">
-                            <textarea rows="1" cols="45" name="text" class="search-textarea" style="overflow:hidden" placeholder="Поиск"></textarea>
+                        <form action="/search" method="get">
+                            <input type="text" name="q" class="search-textarea" placeholder="Поиск">
                         </form>
                         <div class="search-icon"></div>
                     </div>
@@ -144,13 +144,13 @@ AppAsset::register($this);
                 <div class="breadcrumbs">
                     <div class="header">Главное</div>
                     <div class="arrow"></div>
-                    <a href="#"><div class="tag">Ярмоленко</div></a>
-                    <a href="#"><div class="tag">Антунеш</div></a>
-                    <a href="#"><div class="tag">Выборы президента ФФУ</div></a>
-                    <a href="#"><div class="tag">Генгам</div></a>
-                    <a href="#"><div class="tag">Эвертон</div></a>
-                    <a href="#"><div class="tag">Скрипник</div></a>
-                    <a href="#"><div class="tag">Все теги</div></a>
+                    <a href="<?= Url::to(['site/search', 'q' => 'Ярмоленко']) ?>" class="tag">Ярмоленко</a>
+                    <a href="<?= Url::to(['site/search', 'q' => 'Антунеш']) ?>" class="tag">Антунеш</a>
+                    <a href="<?= Url::to(['site/search', 'q' => "Выборы+президента+ФФУ"]) ?>" class="tag">Выборы президента ФФУ</a>
+                    <a href="<?= Url::to(['site/search', 'q' => 'Генгам']) ?>" class="tag">Генгам</a>
+                    <a href="<?= Url::to(['site/search', 'q' => 'Эвертон']) ?>" class="tag">Эвертон</a>
+                    <a href="<?= Url::to(['site/search', 'q' => 'Скрипник']) ?>" class="tag">Скрипник</a>
+                    <a href="#" class="tag">Все теги</a>
                 </div>
 
             </div>

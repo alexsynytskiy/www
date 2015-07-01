@@ -3,11 +3,18 @@ return [
     'components' => [
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=localhost;dbname=dynamo_sqlready',
+            // 'dsn' => 'mysql:host=localhost;dbname=dynamo_sqlready',
+            'dsn' => 'mysql:host=localhost;dbname=myisam_dynamo',
             'emulatePrepare' => true,
             'username' => 'root',
             'password' => '',
             'charset' => 'utf8',
+        ],
+        'sphinx' => [
+            'class' => 'yii\sphinx\Connection',
+            'dsn' => 'mysql:host=127.0.0.1;dbname=dynamo_sqlready;port=9306;',
+            'username' => 'root',
+            'password' => '',
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',

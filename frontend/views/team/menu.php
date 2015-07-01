@@ -9,15 +9,15 @@ use yii\helpers\Url;
 ?>
 
 <div class="team-navigation navbar">
-    <a href="<?= Url::to('/team/info') ?>">
-        <div class="button info <?= $tab == 'info' ? 'active' : '' ?>">
-            Официальная информация
+    <a href="<?= Url::to('/team/composition/'.$team->id) ?>">
+         <div class="button composition <?= $tab == 'composition' ? 'active' : '' ?>">
+            Составы команд
             <div class="icon"></div>
         </div>
     </a>
-     <a href="<?= Url::to('/team/composition/'.$team->id) ?>">
-         <div class="button composition <?= $tab == 'composition' ? 'active' : '' ?>">
-            Составы команд
+    <a href="<?= Url::to('/team/info') ?>">
+        <div class="button info <?= $tab == 'info' ? 'active' : '' ?>">
+            Официальная информация
             <div class="icon"></div>
         </div>
     </a>

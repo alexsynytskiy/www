@@ -438,6 +438,7 @@ header {
 			}
 
 			.tag {
+				display: block;
 				float: left;
 				line-height: 30px;
 				margin-left: 20px;
@@ -1369,9 +1370,11 @@ header {
 				.text-font(18px, bold, @main-grey);
 				line-height: 24px;
 				margin-bottom: 20px;
+			  	min-height: 30px;
 			}
 
-			.blue-stars {
+			.skip {
+				display: block;
 				text-align: center;
 				.text-font(25px, bold, @main-blue);
 				line-height: 10px;
@@ -1409,6 +1412,7 @@ header {
 				padding: 0 8px;
 				float: left;
 				margin-right: @main-margin / 3;
+				margin-bottom: 5px;
 			}
 		}
 
@@ -1888,6 +1892,44 @@ header {
 	  			.icon {
 		  			background: url('/images/materials_sprite.png') no-repeat;
 		  			background-size: 16px;
+		  			background-position: 0 -38px;
+		  		}
+	  		}
+		}
+
+		.photo {
+			.icon {
+				.icon(22px, 18px);
+				background: url('/images/photo_sprite.png') no-repeat;
+  				background-size: 22px;
+	  		}
+	  		&.active .icon{
+				background: url('/images/photo_active.png') no-repeat;
+  				background-size: 22px;
+	  		}
+	  		&:hover:not(.active) {
+	  			.icon {
+		  			background: url('/images/photo_sprite.png') no-repeat;
+		  			background-size: 22px;
+		  			background-position: 0 -38px;
+		  		}
+	  		}
+		}
+
+		.video {
+			.icon {
+				.icon(18px, 18px);
+				background: url('/images/video_sprite.png') no-repeat;
+  				background-size: 18px;
+	  		}
+	  		&.active .icon{
+				background: url('/images/video_active.png') no-repeat;
+  				background-size: 18px;
+	  		}
+	  		&:hover:not(.active) {
+	  			.icon {
+		  			background: url('/images/video_sprite.png') no-repeat;
+		  			background-size: 18px;
 		  			background-position: 0 -38px;
 		  		}
 	  		}

@@ -189,3 +189,13 @@ html .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .ope
     margin-bottom: 20px;
     min-height: 30px;
 }
+.skip {
+    display: block;
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+    color: #1972c4;
+    line-height: 10px;
+    margin-bottom: 20px;
+    margin-top: 25px;
+}

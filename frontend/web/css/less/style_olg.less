@@ -622,7 +622,7 @@ body {
             line-height: 24px;
             border-radius: 5px 0 0 5px;
             .box-shadow(inset 0 2px 0 #A2A2A2);
-            background: #e9e9e9;
+            background: @main-body-background;
             &:focus {
                 .controls-no-focus;
             }
@@ -1480,7 +1480,7 @@ body {
 
     .club-select {
     	height: 40px;
-  		border-bottom: 1px solid #e9e9e9;
+  		border-bottom: 1px solid @main-body-background;
   		padding: 7px 5px;
 
   		.button {
@@ -2003,50 +2003,56 @@ body {
 
     .info {
         .icon {
-            background-image: url('/images/tv_sprite.png');
-            background-size: 22px;
-            width: 22px;
+            background-image: url('/images/info_sprite.png');
+            background-size: 13px;
+            width: 13px;
         }
         &.active .icon{
-            background-image: url('/images/tv_active.png');
-        }
-        &:hover:not(.active) {
-            background-position: 0 -38px;
-        }
-    }
-
-    .composition {
-        .icon {
-            background-image: url('/images/protocol_sprite.png');
-        }
-        &.active .icon{
-            background-image: url('/images/protocol_active.png');
+            background-image: url('/images/info_active.png');
         }
         &:hover:not(.active) .icon {
             background-position: 0 -38px;
         }
     }
 
-    .achievements {
+    .composition {
         .icon {
-            background-image: url('/images/report_sprite.png');
+            background-image: url('/images/team_sprite.png');
+            background-size: 22px;
+            width: 22px;
         }
         &.active .icon{
-            background-image: url('/images/report_active.png');
+            background-image: url('/images/team_active.png');
         }
-        &:hover:not(.active) {
+        &:hover:not(.active) .icon {
+            background-position: 0 -37px;
+        }
+    }
+
+    .achievements {
+        .icon {
+            background-image: url('/images/acivements_sprite.png');
+            background-size: 24px;
+            width: 24px;
+        }
+        &.active .icon{
+            background-image: url('/images/acivements_active.png');
+        }
+        &:hover:not(.active) .icon {
             background-position: 0 -38px;
         }
     }
 
     .record-holders {
         .icon {
-            background-image: url('/images/materials_sprite.png');
+            background-image: url('/images/medal_sprite.png');
+            background-size: 14px;
+            width: 14px;
         }
         &.active .icon{
-            background-image: url('/images/materials_active.png');
+            background-image: url('/images/medal_active.png');
         }
-        &:hover:not(.active) {
+        &:hover:not(.active) .icon {
             background-position: 0 -38px;
         }
     }
@@ -2088,8 +2094,20 @@ body {
     }
     &.leadership-box {
         .icon-bar .icon {
-            background: url(/images/default_image.png) center no-repeat;
-            background-size: 50px 50px;
+            background: url(/images/managment.png) center top no-repeat;
+            background-size: 35px;
+        }
+    }
+    &.main-info-box {
+        .icon-bar .icon {
+            background: url(/images/adress.png) center top no-repeat;
+            background-size: 35px;
+        }
+    }
+    &.other-info-box {
+        .icon-bar .icon {
+            background: url(/images/club.png) center top no-repeat;
+            background-size: 35px;
         }
     }
 
@@ -2214,5 +2232,58 @@ body {
         padding-right: 10px;
         text-align: right;
         min-width: 30px;
+    }
+}
+
+.auto-refresh {
+    .clearfix;
+    padding: 10px 0;
+    font-size: 12px;
+
+    .settings {
+        float: left;
+        width: 50%;
+
+        .text {
+            height: 25px;
+            line-height: 25px;
+            float: left;
+        }
+        .select-refresh {
+            float: left;
+            width: 135px;
+            margin-left: 5px;
+            // .selectize-dropdown, .selectize-input, .selectize-input input {
+            //     font-size: 14px;
+            // }
+        }
+    }
+    .actions {
+        float: left;
+        width: 50%;
+
+        .text {
+            height: 25px;
+            line-height: 25px;
+            float: right;
+        }
+        .button-refresh {
+            .rounded(@box-border-radius);
+            float: right;
+            margin-left: 5px;
+            display: block;
+            height: 25px;
+            line-height: 25px;
+            padding: 0 7px;
+            color: @main-blue;
+            background: @main-body-background;
+            
+            &:hover {
+                color: @main-blue-hover;
+            }
+        }
+        .timer {
+            display: none;
+        }
     }
 }

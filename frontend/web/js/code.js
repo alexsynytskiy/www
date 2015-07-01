@@ -102,6 +102,46 @@ $(window).load(function() {
         return false;
     });
     // Smooth scroll to some elements END
+    
+
+    // => Autorefresh START 
+    var refreshSec = localStorage.getItem("refreshSec");
+    var refreshTimer;
+    if(refreshSec && refreshSec != 0) {
+        var $selectRefresh = $("#select-refresh").first().selectize();
+        $selectRefresh[0].selectize.setValue(refreshSec);
+        $('.auto-refresh .timer .time').text(refreshSec);
+        $('.auto-refresh .timer').show();
+        refreshTick();
+    }
+    $(document).on("change", "#select-refresh", function(){
+        clearTimeout(refreshTimer);
+        if($(this).val() == 0) {
+            $('.auto-refresh .timer').hide();
+            localStorage.setItem("refreshSec", 0);
+        } else {
+            refreshSec = $(this).val();
+            localStorage.setItem("refreshSec", refreshSec);
+            $('.auto-refresh .timer .time').text(refreshSec);
+            $('.auto-refresh .timer').show();
+            refreshTick();
+        }
+    });
+    function refreshTick() {
+        refreshSec--;
+        if(refreshSec > 0) {
+            $('.auto-refresh .timer .time').text(refreshSec);
+            refreshTimer = setTimeout(refreshTick, 1000);
+        } else {
+            location.reload();
+        }
+    }
+    $(document).on('click', '.auto-refresh .button-refresh', function(event) {
+        location.reload();
+        return false;
+    });
+    // => Autorefresh END 
+    
 });
 
 $(document).ready(function() {
@@ -474,7 +514,6 @@ $(document).ready(function() {
         console.log(max);
     });
     // => Record holder bars END 
-
 
   });
 })(jQuery);

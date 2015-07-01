@@ -2740,7 +2740,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/kartik-v/yii2-checkbox-x/zipball/510dde6fa7414d1c41cd21996cb75127582b6d4a",
+            "url": "https://api.github.com/repos/kartik-v/yii2-checkbox-x/zipball/c7c6e64ad4dcdd73840e124efa85eddbc983f991",
             "reference": "510dde6fa7414d1c41cd21996cb75127582b6d4a",
             "shasum": ""
         },
@@ -2921,6 +2921,58 @@
             "auth",
             "user",
             "yii",
+            "yii2"
+        ]
+    },
+    {
+        "name": "yiisoft/yii2-sphinx",
+        "version": "2.0.4",
+        "version_normalized": "2.0.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/yiisoft/yii2-sphinx.git",
+            "reference": "a0725fa0b893d1d5e9a7a7ee1241b941c787fa68"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/yiisoft/yii2-sphinx/zipball/a0725fa0b893d1d5e9a7a7ee1241b941c787fa68",
+            "reference": "a0725fa0b893d1d5e9a7a7ee1241b941c787fa68",
+            "shasum": ""
+        },
+        "require": {
+            "ext-pdo": "*",
+            "ext-pdo_mysql": "*",
+            "yiisoft/yii2": ">=2.0.4"
+        },
+        "time": "2015-05-10 22:10:34",
+        "type": "yii2-extension",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "yii\\sphinx\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Paul Klimov",
+                "email": "klimov.paul@gmail.com"
+            }
+        ],
+        "description": "Sphinx full text search engine extension for the Yii framework",
+        "keywords": [
+            "active-record",
+            "fulltext",
+            "search",
+            "sphinx",
             "yii2"
         ]
     }

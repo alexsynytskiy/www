@@ -307,24 +307,19 @@ class Asset extends \yii\db\ActiveRecord
      */
     public static function getAssets($assetableId, $assetableType, $thumbnail, $single = false)
     {
-        $query = Asset::find();
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
-
-        $query->andFilterWhere([
-            'assetable_id' => $assetableId,
-            'assetable_type' => $assetableType,
-            'thumbnail' => $thumbnail,
-        ]);
-
-        $models = $dataProvider->getModels();
+        $query = Asset::find()
+            ->where([
+                'assetable_id' => $assetableId,
+                'assetable_type' => $assetableType,
+                'thumbnail' => $thumbnail,
+            ]);
 
         if(!$single) {
-            return $models;
+            return $query->all();
         }
-        if(isset($models[0])) {
-            return $models[0];
+        $asset = $query->one();
+        if(isset($asset)) {
+            return $asset;
         } else {
             $asset = new Asset;
             $asset->assetable_type = $assetableType;
