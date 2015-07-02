@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Url;
+use common\models\Amplua;
 
 /**
  * @var $this yii\web\View
@@ -58,7 +59,8 @@ use yii\helpers\Url;
     <div class="box-content" style="padding: 0;">
         <table class="default-table composition-table">
             <thead>
-                <tr>
+                <tr><td colspan="11" class="caption">Вратари</td></tr>
+                <tr style="border-top: 1px solid #e9e9e9;">
                     <th class="number">№</th>
                     <th class="photo">Фото</th>
                     <th class="player">Игрок</th>
@@ -88,9 +90,22 @@ use yii\helpers\Url;
                         $teamFromName = isset($contract->teamFrom) ? $contract->teamFrom->name : '-';
                         if($amplua != $contract->amplua->id) {
                             $amplua = $contract->amplua->id;
-                            ?>
-                            <tr><td colspan="11" class="caption"><?= $contract->amplua->name ?></td></tr>
-                            <?php
+
+                            if($amplua == Amplua::DEFENDER) {
+                                ?>
+                                <tr><td colspan="11" class="caption">Защитники</td></tr>
+                                <?php
+                            }
+                            else if($amplua == Amplua::MIDFIELDER) {
+                                ?>
+                                <tr><td colspan="11" class="caption">Полузащитники</td></tr>
+                                <?php
+                            }
+                            else if($amplua == Amplua::FORWARD) {
+                                ?>
+                                <tr><td colspan="11" class="caption">Нападающие</td></tr>
+                                <?php
+                            }
                         }
                 ?>
                 <tr>
