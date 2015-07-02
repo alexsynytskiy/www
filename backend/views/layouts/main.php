@@ -71,6 +71,7 @@ AppAsset::register($this);
                         ['label' => 'Комментарии', 'url' => '/admin/comment'],
                         ['label' => 'Источники', 'url' => '/admin/source'],
                         ['label' => 'Теги', 'url' => '/admin/tag'],
+                        ['label' => 'Подписка', 'url' => '/admin/subscribing'],
                     ]],
                     ['label' => 'Сайт', 'url' => ('http://'.$_SERVER['HTTP_HOST']) ],
                 ];

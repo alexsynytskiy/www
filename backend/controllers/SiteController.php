@@ -7,6 +7,8 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\web\HttpException;
 
+use common\models\Post;
+
 /**
  * Site controller
  */
@@ -26,7 +28,7 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index'],
+                        'actions' => ['logout', 'index', 'subscribe-send'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -89,4 +91,45 @@ class SiteController extends Controller
 
         return $this->goHome();
     }
+
+    /**
+     * Sending emails to subscribers
+     * @return mixed Content
+     */
+    // public function actionSubscribeSend()
+    // {
+    //     $username = 'olgert';
+    //     $currentDayTime = strtotime(date('d.m.Y', time()));
+    //     $currentDay = date("Y-m-d H:i:s", $currentDayTime);
+    //     $importantPosts = Post::find()
+    //         ->where([
+    //             'is_public' => 1, 
+    //             'is_index' => 1,
+    //         ])
+    //         ->andWhere(['>', 'created_at', $currentDay])
+    //         ->orderBy(['created_at' => SORT_DESC])
+    //         ->limit(3)->all();
+    //     $ids = [];
+    //     foreach ($importantPosts as $post) {
+    //         $ids[] = $post->id;
+    //     }
+
+    //     $maxCommentsPosts = Post::find()
+    //         ->where([
+    //             'is_public' => 1, 
+    //         ])
+    //         ->andWhere(['>', 'created_at', $currentDay])
+    //         ->andWhere(['not in', "id", $ids])
+    //         ->orderBy([
+    //             'comments_count' => SORT_DESC,
+    //         ])
+    //         ->limit(3)->all();
+    //     $posts = array_merge($importantPosts ,$maxCommentsPosts);
+    //     Yii::$app->mailer->compose('subscribe-view-html', compact('username', 'posts'))
+    //         ->setFrom(['no-reply@dynamomania.com' => 'Dynamomania.com'])
+    //         ->setTo('olgert.vaskevich@gmail.com')
+    //         ->setSubject('Новости Динамо')
+    //         ->send();
+    //     return '';
+    // }
 }

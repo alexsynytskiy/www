@@ -580,11 +580,14 @@ header .header-wrapper .breadcrumbs .tag:hover {
   background-image: url(/images/video.png);
 }
 .grid-column .subscribe {
-  height: 115px;
   border-radius: 5px;
   box-shadow: 0 2px 0 #d0d0d0;
   background-color: #ffffff;
   margin-bottom: 15px;
+  padding-bottom: 10px;
+}
+.grid-column .subscribe .help-block {
+  padding: 5px 0;
 }
 .grid-column .subscribe .title {
   height: 30px;
@@ -610,7 +613,6 @@ header .header-wrapper .breadcrumbs .tag:hover {
 .grid-column .subscribe .subscribe-form {
   float: left;
   width: 227px;
-  height: 61px;
   margin-top: 10px;
 }
 .grid-column .subscribe .subscribe-form .subscribe-textarea {
@@ -631,6 +633,7 @@ header .header-wrapper .breadcrumbs .tag:hover {
   resize: none;
 }
 .grid-column .subscribe .subscribe-form .subscribe-button {
+  cursor: pointer;
   width: 100%;
   height: 25px;
   text-align: center;

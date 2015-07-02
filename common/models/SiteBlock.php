@@ -3,12 +3,9 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\Url;
 use amnah\yii2\user\models\User;
-use common\models\Team;
 
-/**
- *
- */
 class SiteBlock
 {
     static $postExcludeIds = [];
@@ -281,6 +278,24 @@ class SiteBlock
         $block = [
             'view' => '@frontend/views/'.$view,
             'data' => compact('question', 'answers'),
+        ];
+        return $block;
+    }
+
+    /**
+     * Get a subscribing form
+     * @return array Data
+     */
+    public static function getSubscribingForm()
+    {
+        $model = new Subscribing();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return Yii::$app->getResponse()->redirect(Url::to('/'));
+        } 
+        $block = [
+            'view' => '@frontend/views/forms/subscribing_form',
+            'data' => compact('model'),
         ];
         return $block;
     }

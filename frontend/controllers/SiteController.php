@@ -85,6 +85,7 @@ class SiteController extends Controller
             'columnFirst' => [
                 'top3News' => SiteBlock::getTop3News(),
                 'top6News' => SiteBlock::getTop6News(),
+                'subscribing' => SiteBlock::getSubscribingForm(),
                 'blog_column' => SiteBlock::getBlogPosts(),
             ],
             'columnSecond' => [

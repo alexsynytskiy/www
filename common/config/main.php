@@ -34,6 +34,7 @@ return [
                 'user/profile'                           => 'user/default/profile',
                 'user/profile/<id:\d+>'                  => 'user/default/profile',
                 'user/edit'                              => 'user/default/account',
+                'unsubscribe/<key>'                      => 'subscribing/unsubscribe',
                 '<controller:\w+>/<id:\d+>'              => '<controller>/view',
                 '<controller:\w+>'                       => '<controller>/index',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
