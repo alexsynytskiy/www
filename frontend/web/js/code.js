@@ -48,7 +48,7 @@ $(window).load(function() {
 
     // Masonry tiles view START
     $('.inquirers-container').indyMasonry({
-          'clName'    : '.item',
+          'clName'    : '.inquirer-item',
           'gap'       : 15,
           'mTop'      : 0,
           'mBottom'   : 15,

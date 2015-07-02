@@ -5,6 +5,7 @@ use yii\helpers\Url;
 /**
  * @var yii\web\View $this
  * @var amnah\yii2\user\models\Profile $profile
+ * @var boolean $isOwn The profile owner state
  */
 
 $this->title = 'Личный кабинет';
@@ -24,6 +25,7 @@ $loginTime = date('d.m.Y', strtotime($profile->user->login_time));
             <div class="user-date">Последний визит: <span><?= $loginTime ?></span></div>
         </div>
 
+        <?php if($isOwn) { ?>
         <a id="edit-profile" class="edit-button edit-profile" href="<?= Url::to(['/user/edit']) ?>">
             <div class="icon"></div>
         </a>
@@ -31,9 +33,10 @@ $loginTime = date('d.m.Y', strtotime($profile->user->login_time));
         <a id="new-post" class="edit-button new-post" href="<?= Url::to(['/blog/add-post']) ?>">
             <div class="icon"></div>
         </a>
+        <?php } ?>
     </div>
    
-    <?php if(empty($profile->description)) { ?>
+    <?php if(empty($profile->description) && $isOwn) { ?>
     <div class="empty-history">
         Добавьте дополнительную информацию о Вас в настройках профиля
     </div>

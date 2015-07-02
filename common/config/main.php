@@ -32,6 +32,7 @@ return [
                 'inquirers'                              => 'site/inquirers',
                 'complain/<id:\d+>'                      => 'site/complain',
                 'user/profile'                           => 'user/default/profile',
+                'user/profile/<id:\d+>'                  => 'user/default/profile',
                 'user/edit'                              => 'user/default/account',
                 '<controller:\w+>/<id:\d+>'              => '<controller>/view',
                 '<controller:\w+>'                       => '<controller>/index',
