@@ -311,8 +311,10 @@ class Asset extends \yii\db\ActiveRecord
             ->where([
                 'assetable_id' => $assetableId,
                 'assetable_type' => $assetableType,
-                'thumbnail' => $thumbnail,
             ]);
+        if(isset($thumbnail)) {
+            $query->andWhere(['thumbnail' => $thumbnail]);
+        }
 
         if(!$single) {
             return $query->all();

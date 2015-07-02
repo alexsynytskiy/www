@@ -1303,9 +1303,13 @@ header {
 				line-height: 20px;
 				.text-font(12px, normal, @main-grey);
 			}
-
-			.comments-icon {
+			
+			.right {
 				float: right;
+			}
+	
+			.comments-icon {
+				float: left;
 				height: 20px;
 				width: 22px;
 				background: url('/images/comments_icon.png') no-repeat;
@@ -1313,10 +1317,23 @@ header {
 			}
 
 			.comments-count {
-				float: right;
+				float: left;
 				line-height: 20px;
 				.text-font(12px, normal, @main-grey);
 				margin-left: 7px;
+			}
+
+			.button-edit {
+				display: block;
+				float: left;
+				margin-right: 10px;
+			  	background: url(/images/write_sprite.png) center 0 no-repeat;
+				background-size: 22px;
+				width: 22px;
+				height: 22px;
+				&:hover {
+					background-position: center -42px;
+				}
 			}
 		}
 
@@ -2407,5 +2424,28 @@ header {
 		a:hover .link-to-main {
 			.text-font(14px, normal, @main-blue-hover);
 		}
+	}
+}
+
+.redactor-editor {
+	.quoation {
+		display: block;
+		padding-left: 43px;
+		background: url('/images/quote.png') no-repeat left top 5px;
+		background-size: 31px;
+		text-align: left;
+		.text-font(18px, bold, @main-grey);
+		line-height: 24px;
+		margin-bottom: 20px;
+	  	min-height: 30px;
+	}
+
+	.skip {
+		display: block;
+		text-align: center;
+		.text-font(25px, bold, @main-blue);
+		line-height: 10px;
+		margin-bottom: 20px;
+		margin-top: 25px;
 	}
 }

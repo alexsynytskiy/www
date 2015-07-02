@@ -109,10 +109,12 @@ $(window).load(function() {
     var refreshTimer;
     if(refreshSec && refreshSec != 0) {
         var $selectRefresh = $("#select-refresh").first().selectize();
-        $selectRefresh[0].selectize.setValue(refreshSec);
-        $('.auto-refresh .timer .time').text(refreshSec);
-        $('.auto-refresh .timer').show();
-        refreshTick();
+        if($selectRefresh[0]) {
+            $selectRefresh[0].selectize.setValue(refreshSec);
+            $('.auto-refresh .timer .time').text(refreshSec);
+            $('.auto-refresh .timer').show();
+            refreshTick();
+        }
     }
     $(document).on("change", "#select-refresh", function(){
         clearTimeout(refreshTimer);

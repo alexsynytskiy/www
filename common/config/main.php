@@ -27,6 +27,8 @@ return [
                 'team/<tab:[\w-]+>'                      => 'site/team',
                 'news/<id:\d+>-<slug>'                   => 'site/post',
                 'blog/<id:\d+>-<slug>'                   => 'site/post',
+                'post/add'                               => 'site/post-add',
+                'post/edit/<id:\d+>'                     => 'site/post-edit',
                 'inquirers'                              => 'site/inquirers',
                 'complain/<id:\d+>'                      => 'site/complain',
                 'user/profile'                           => 'user/default/profile',

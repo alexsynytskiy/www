@@ -2214,3 +2214,90 @@ body a:focus {
 .auto-refresh .actions .timer {
   display: none;
 }
+.redactor-editor {
+  border: 1px solid #727272;
+}
+.redactor-toolbar {
+  z-index: 10;
+  background: #1972c4;
+}
+.redactor-toolbar li a {
+  color: #fff;
+}
+.redactor-toolbar li a:hover {
+  background: #000;
+  color: #fff;
+}
+.redactor-toolbar li a:active,
+.redactor-toolbar li a.redactor-act {
+  background: #00d18b;
+  color: #fff;
+}
+.post-form-box .box-content {
+  padding: 10px 5px 5px;
+}
+.post-form-box .box-content .selectize-input {
+  background: #fff;
+}
+.post-form-box .box-content .selectize-input input {
+  font-size: 14px;
+  line-height: 26px;
+}
+.post-form-box .box-content .selectize-control.multi .selectize-input > div {
+  font-size: 14px;
+  padding: 1px 5px;
+}
+.post-form-box .box-content .field-button {
+  float: left;
+  height: 25px;
+  line-height: 25px;
+  margin-top: 10px;
+  overflow: hidden;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 2px 0 #d0d0d0;
+  -moz-box-shadow: 0 2px 0 #d0d0d0;
+  box-shadow: 0 2px 0 #d0d0d0;
+  display: block;
+  margin-top: 0;
+  height: 32px;
+  line-height: 32px;
+  width: 85px;
+  background: #1972c4;
+  color: #fff;
+  text-align: center;
+}
+.post-form-box .box-content .field-button input {
+  color: #fff;
+  width: 100%;
+  height: 100%;
+  padding: 2px 5px 0;
+  background-color: #1972c4;
+}
+.post-form-box .box-content .field-button input:hover {
+  cursor: pointer;
+  background-color: #0090e8;
+}
+.post-form-box .box-content .field-button:hover {
+  background: #0090e8;
+  color: #fff;
+}
+.post-form-box .box-content .field-submit {
+  margin: 0;
+  width: 85px;
+  height: 32px;
+  line-height: 32px;
+  margin-right: 15px;
+}
+.post-form-box .box-content .field-submit input {
+  padding-top: 1px;
+}
+.post-form-box .box-content .btn-file {
+  border: 1px solid #1972c4;
+  background: #1972c4;
+}
+.post-form-box .box-content .btn-file:hover {
+  background: #0090e8;
+  border: 1px solid #1972c4;
+}

@@ -47,7 +47,7 @@ if(!Yii::$app->user->isGuest && Yii::$app->user->id != $model->user->id)
             <div class="rating-count <?=($rating >= 0) ? 'blue' : 'red'?>"><?=$rating?></div>
             <a href="javascript:void(0)" class="rating-down <?= $ratingDownClass ?>" data-id="<?= $model->id ?>" data-type="post"></a>
         </div>
-        <a href="<?= Url::to(['/blog/edit/'.$model->id]) ?>" class="button-edit"></a>
+        <a href="<?= Url::to(['/post/edit/', 'id' => $model->id]) ?>" class="button-edit"></a>
     </div>
     <a href="<?= $model->getUrl() ?>" class="post-title">
         <?= $model->title ?>

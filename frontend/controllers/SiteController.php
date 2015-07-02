@@ -24,6 +24,7 @@ use common\models\Claim;
 use common\models\Contract;
 use common\models\MainInfo;
 use frontend\models\ContactForm;
+use common\models\Source;
 
 
 use yii\base\InvalidParamException;
@@ -36,6 +37,7 @@ use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\data\Pagination;
 use yii\helpers\Json;
+use yii\web\UploadedFile;
 
 /**
  * Site controller
@@ -126,13 +128,8 @@ class SiteController extends Controller
             ]);
             $view = '@frontend/views/search/search_posts';
         } elseif(isset($q) && trim($q) != '') {
-            // $query->andWhere(['like', 'content', $q]);
-            $query->andWhere("MATCH (content) AGAINST ('$q')");
-
-            // $defaultCommand = $query->createCommand();
-            // $sql = $defaultCommand->sql;
-            // $params = $defaultCommand->params;
-            // $defaultIds = $defaultCommand->queryAll();
+            $search = addslashes($q);
+            $query->andWhere("MATCH (content) AGAINST ('$search')");
 
             // Sphinx
             // $query = new \yii\sphinx\Query;
@@ -881,6 +878,217 @@ class SiteController extends Controller
                 'content' => [
                     'view' => '@frontend/views/team/tab-'.$tab,
                     'data' => $data,
+                ],
+            ],
+            'columnSecond' => [ 
+                'short_news' => SiteBlock::getShortNews(),
+            ],
+        ]);
+    }
+
+    /**
+     * Add post page
+     * 
+     * @return mixed
+     */
+    public function actionPostAdd() 
+    {
+        $model = new Post();
+        $model->tags = [];
+        
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+
+            $model->allow_comment = 1;
+            $model->is_public = 1;
+            $model->comments_count = 0;
+            $model->content_category_id = Post::CATEGORY_BLOG;
+            $model->user_id = Yii::$app->user->id;
+
+            // Set slug
+            $model->slug = $model->genSlug($model->title);
+
+            // Save source
+            // $source = new Source;
+            // $source->name = $model->source_title;
+            // $source->url = $model->source_url;
+            // if(!$source->modelExist()) {
+            //     $source->save();
+            // }
+
+            // Save the model to have a record number
+            if($model->save())
+            {
+                // Adding new tags
+                if(is_array($model->tags))
+                {
+                    foreach ($model->tags as $id) {
+                        $model->addTag($id);
+                    }
+                }
+
+                $cached_tag_list = [];
+                $newTags = $model->getTags();
+                foreach ($newTags as $newTag) {
+                    $cached_tag_list[] = $newTag->name;
+                }
+                $model->cached_tag_list = implode(', ', $cached_tag_list);
+
+                // Set image
+                $model->image = UploadedFile::getInstance($model, 'image');
+                if($model->image)
+                {
+                    $thumbnails = Asset::getThumbnails(Asset::ASSETABLE_POST);
+
+                    foreach ($thumbnails as $thumbnail) {
+                        $asset = new Asset();
+                        $asset->thumbnail = $thumbnail;
+                        $asset->assetable_type = Asset::ASSETABLE_POST;
+                        $asset->assetable_id = $model->id;
+                        $asset->uploadedFile = $model->image;
+                        $asset->saveAsset();
+                    }
+
+                    $asset = new Asset();
+                    $asset->assetable_type = Asset::ASSETABLE_POST;
+                    $asset->assetable_id = $model->id;
+                    $asset->uploadedFile = $model->image;
+                    $asset->saveAsset();
+                }
+                $model->save(false);
+                return $this->redirect($model->getUrl());
+            }
+        } 
+        $title = 'Добавить запись в блог';
+        return $this->render('@frontend/views/site/index', [
+            'templateType' => 'col2',
+            'title' => $title,
+            'columnFirst' => [
+                'blog_form' => [
+                    'view' => '@frontend/views/forms/blog_form',
+                    'data' => compact('model', 'tags', 'title'),
+                ],
+            ],
+            'columnSecond' => [ 
+                'short_news' => SiteBlock::getShortNews(),
+            ],
+        ]);
+    }
+
+    /**
+     * Edit post page
+     * 
+     * @param $id int Post id
+     * @return mixed
+     */
+    public function actionPostEdit($id) 
+    {
+        $model = $this->findModel($id);
+        if($model->content_category_id != Post::CATEGORY_BLOG || 
+            $model->user_id != Yii::$app->user->id) {
+            throw new BadRequestHttpException("Ошибка доступа");
+        }
+
+        $image = $model->getAsset();
+        $tags = $model->getTags();
+        $assets = $model->getAssets();
+        $model->tags = [];
+        foreach ($tags as $tag) {
+            $model->tags[] = $tag->id;
+        }
+
+        $model->title = html_entity_decode($model->title);
+        $model->content = html_entity_decode($model->content);
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+
+            // Set slug
+            $model->slug = $model->genSlug($model->title);
+
+            // Set image
+            $model->image = UploadedFile::getInstance($model, 'image');
+            if($model->image)
+            {
+                $thumbnails = Asset::getThumbnails(Asset::ASSETABLE_POST);
+                $saveOrigin = false;
+                foreach ($assets as $asset)
+                {
+                    if($asset->thumbnail && in_array($asset->thumbnail, $thumbnails))
+                    {
+                        $asset->uploadedFile = $model->image;
+                        $asset->saveAsset();
+                        $thumbnails = array_diff($thumbnails, [$asset->thumbnail]);
+                    }
+                    // Save original image
+                    elseif (empty($asset->thumbnail))
+                    {
+                        $saveOrigin = true;
+                        $asset->uploadedFile = $model->image;
+                        $asset->saveAsset();
+                    }
+                }
+
+                foreach ($thumbnails as $thumbnail) {
+                    $asset = new Asset();
+                    $asset->thumbnail = $thumbnail;
+                    $asset->assetable_type = Asset::ASSETABLE_POST;
+                    $asset->assetable_id = $model->id;
+                    $asset->uploadedFile = $model->image;
+                    $asset->saveAsset();
+                }
+
+                if(!$saveOrigin)
+                {
+                    $asset = new Asset();
+                    $asset->assetable_type = Asset::ASSETABLE_POST;
+                    $asset->assetable_id = $model->id;
+                    $asset->uploadedFile = $model->image;
+                    $asset->saveAsset();
+                }
+            }
+
+            // Save source
+            // $source = new Source;
+            // $source->name = strip_tags($model->source_title);
+            // $source->url = strip_tags($model->source_url);
+            // if(!$source->modelExist()) {
+            //     $source->save();
+            // }
+
+            $existingTags = [];
+            // Remove tags
+            foreach ($tags as $tag) {
+                if(!is_array($model->tags) || !in_array($tag->id, $model->tags)) {
+                    $model->removeTag($tag->id);
+                } else $existingTags[] = $tag->id;
+            }
+            // Adding new tags
+            if(is_array($model->tags))
+            {
+                foreach ($model->tags as $id) {
+                    if(!in_array($id, $existingTags)) {
+                        $model->addTag($id);
+                    }
+                }
+            }
+
+            $cached_tag_list = [];
+            $newTags = $model->getTags();
+            foreach ($newTags as $newTag) {
+                $cached_tag_list[] = $newTag->name;
+            }
+            $model->cached_tag_list = implode(', ', $cached_tag_list);
+
+            $model->save();
+            return $this->redirect($model->getUrl());
+        } 
+        $title = 'Изменить запись в блоге';
+        return $this->render('@frontend/views/site/index', [
+            'templateType' => 'col2',
+            'title' => $title,
+            'columnFirst' => [
+                'blog_form' => [
+                    'view' => '@frontend/views/forms/blog_form',
+                    'data' => compact('model', 'tags', 'image', 'title'),
                 ],
             ],
             'columnSecond' => [ 

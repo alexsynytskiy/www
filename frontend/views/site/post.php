@@ -1,4 +1,6 @@
 <?php
+use yii\helpers\Url;
+
 /**
  * @var $this yii\web\View
  * @var $post common\models\Post
@@ -8,7 +10,7 @@ Yii::$app->formatter->locale = 'ru-RU';
 
 $editLink = '';
 if(!Yii::$app->user->isGuest && Yii::$app->user->can("admin")){
-    $editUrl = \yii\helpers\Url::to('/admin/post/update/'.$post->id);
+    $editUrl = Url::to('/admin/post/update/'.$post->id);
     $editLink = '<a class="edit-link" href="'.$editUrl.'">Редактировать</a>';
 }
 
@@ -18,8 +20,11 @@ if(!Yii::$app->user->isGuest && Yii::$app->user->can("admin")){
  	<div class="top-block">
  		<div class="date-icon"></div>
  		<div class="date-text"><?= Yii::$app->formatter->asDate(strtotime($post->created_at),'full') ?></div>
- 		<div class="comments-count"><?= $post->comments_count ?></div>
- 		<div class="comments-icon"></div>
+        <div class="right">
+            <a class="button-edit" href="<?= Url::to(['/post/edit', 'id' => $post->id]) ?>"></a>
+            <div class="comments-icon"></div>
+            <div class="comments-count"><?= $post->comments_count ?></div>
+        </div>
  	</div>
  	<div class="post-container">
 		<div class="title"><?= $post->title.$editLink ?></div>

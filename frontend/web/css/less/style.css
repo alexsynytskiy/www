@@ -1161,20 +1161,35 @@ header .header-wrapper .breadcrumbs .tag:hover {
   font-weight: normal;
   color: #727272;
 }
-.grid-column .post-page .top-block .comments-icon {
+.grid-column .post-page .top-block .right {
   float: right;
+}
+.grid-column .post-page .top-block .comments-icon {
+  float: left;
   height: 20px;
   width: 22px;
   background: url('/images/comments_icon.png') no-repeat;
   background-size: 22px;
 }
 .grid-column .post-page .top-block .comments-count {
-  float: right;
+  float: left;
   line-height: 20px;
   font-size: 12px;
   font-weight: normal;
   color: #727272;
   margin-left: 7px;
+}
+.grid-column .post-page .top-block .button-edit {
+  display: block;
+  float: left;
+  margin-right: 10px;
+  background: url(/images/write_sprite.png) center 0 no-repeat;
+  background-size: 22px;
+  width: 22px;
+  height: 22px;
+}
+.grid-column .post-page .top-block .button-edit:hover {
+  background-position: center -42px;
 }
 .grid-column .post-page .title {
   text-align: left;
@@ -2269,4 +2284,27 @@ header .header-wrapper .breadcrumbs .tag:hover {
   font-size: 14px;
   font-weight: normal;
   color: #0090e8;
+}
+.redactor-editor .quoation {
+  display: block;
+  padding-left: 43px;
+  background: url('/images/quote.png') no-repeat left top 5px;
+  background-size: 31px;
+  text-align: left;
+  font-size: 18px;
+  font-weight: bold;
+  color: #727272;
+  line-height: 24px;
+  margin-bottom: 20px;
+  min-height: 30px;
+}
+.redactor-editor .skip {
+  display: block;
+  text-align: center;
+  font-size: 25px;
+  font-weight: bold;
+  color: #1972c4;
+  line-height: 10px;
+  margin-bottom: 20px;
+  margin-top: 25px;
 }

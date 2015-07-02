@@ -75,16 +75,13 @@ class PostController extends Controller
         $model->allow_comment = 1;
         $model->is_public = 1;
         $model->comments_count = 0;
-        $model->content_category_id = 1;
+        $model->content_category_id = Post::CATEGORY_NEWS;
         $model->user_id = Yii::$app->user->id;
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
             // Set slug
             $model->slug = $model->genSlug($model->title);
-
-            // Created time
-            // $model->created_at = date("Y-m-d H:i:s", strtotime($model->created_at));
 
             // Save source
             $source = new Source;
@@ -172,9 +169,6 @@ class PostController extends Controller
 
             // Set slug
             $model->slug = $model->genSlug($model->title);
-
-            // Created time
-            // $model->created_at = date("Y-m-d H:i:s", strtotime($model->created_at));
 
             // Set image
             $model->image = UploadedFile::getInstance($model, 'image');

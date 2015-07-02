@@ -100,7 +100,7 @@ class Post extends ActiveRecord
             'user_id'             => 'Автор',
             'title'               => 'Заголовок',
             'slug'                => 'URL псевдоним',
-            'content'             => 'Контент',
+            'content'             => 'Содержимое',
             'is_public'           => 'Опубликовано',
             'created_at'          => 'Создано',
             'updated_at'          => 'Обновлено',
