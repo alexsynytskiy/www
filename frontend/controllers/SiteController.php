@@ -151,7 +151,6 @@ class SiteController extends Controller
         if(!isset($_GET['page']) || $_GET['page'] == 1) {
             Yii::$app->session['news_post_time_last'] = 1;
         }
-
         $newsDataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
@@ -624,7 +623,7 @@ class SiteController extends Controller
      * @param int $id Match id
      * @return mixed
      */
-    public function actionTranslation($id) 
+    public function actionMatchTranslation($id) 
     {
         $match = Match::findOne($id);
         
@@ -654,6 +653,10 @@ class SiteController extends Controller
             'templateType' => 'col2',
             'title' => $title,
             'columnFirst' => [
+                'menu' => [
+                    'view' => '@frontend/views/translation/menu',
+                    'data' => compact('match'),
+                ],
                 'translation' => [
                     'view' => '@frontend/views/translation/index',
                     'data' => compact('match', 'matchEvents', 'teamHomePlayers', 'teamGuestPlayers'),
@@ -671,7 +674,7 @@ class SiteController extends Controller
      * 
      * @return mixed
      */
-    public function actionProtocol($id) 
+    public function actionMatchProtocol($id) 
     {
         $match = Match::findOne($id);
         
@@ -705,9 +708,90 @@ class SiteController extends Controller
             'templateType' => 'col2',
             'title' => $title,
             'columnFirst' => [
-                'translation' => [
+                'menu' => [
+                    'view' => '@frontend/views/translation/menu',
+                    'data' => compact('match'),
+                ],
+                'protocol' => [
                     'view' => '@frontend/views/translation/protocol',
                     'data' => compact('match', 'matchEvents', 'teamHomePlayers', 'teamGuestPlayers'),
+                ],
+                'comments' => Comment::getCommentsBlock($match->id, Comment::COMMENTABLE_MATCH),
+            ],
+            'columnSecond' => [ 
+                'short_news' => SiteBlock::getShortNews(),
+            ],
+        ]);
+    }
+
+    /**
+     * Match news page
+     * 
+     * @return mixed
+     */
+    public function actionMatchNews($id) 
+    {
+        $match = Match::findOne($id);
+        
+        if(!isset($match)) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+
+        $title = "Материалы по матчу ".$match->teamHome->name." - ".$match->teamGuest->name;
+        
+        $postTable = Post::tableName();
+        $taggingTable = Tagging::tableName();
+        $tagTable = Tag::tableName();
+
+        $startDate = $match->date;
+        $endDate = date('Y-m-d H:i:s', strtotime($match->date) + 60*60*24*7);
+        $teamHomeName = $match->teamHome->name;
+        $teamHomeName = str_replace('"', '', $teamHomeName);
+        $teamHomeName = array_shift(explode(' ', $teamHomeName));
+        $teamGuestName = $match->teamGuest->name;
+        $teamGuestName = str_replace('"', '', $teamGuestName);
+        $teamGuestName = array_shift(explode(' ', $teamGuestName));
+
+        $query = Post::find();
+        $query->select(["{$postTable}.*", 'co' => 'COUNT(*)']);
+        $query->innerJoin($taggingTable, "{$postTable}.id = {$taggingTable}.taggable_id");
+        $query->innerJoin(['tags' => $tagTable], "{$taggingTable}.tag_id = tags.id");
+        $query->where([
+                'is_public' => 1,
+                "{$taggingTable}.taggable_type" => Tagging::TAGGABLE_POST,
+            ]);
+        $query->andWhere(['between', 'created_at', $startDate, $endDate]);
+        $query->andWhere([
+            'or', 
+            ['like', "tags.name", $teamHomeName],
+            ['like', "tags.name", $teamGuestName],
+        ]);
+        $query->groupBy("{$postTable}.id");
+        $query->having(['>', 'co', 1]);
+
+        if(!isset($_GET['page']) || $_GET['page'] == 1) {
+            Yii::$app->session['news_post_time_last'] = 1;
+        }
+        $postsDataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+
+        return $this->render('@frontend/views/site/index', [
+            'templateType' => 'col2',
+            'title' => $title,
+            'columnFirst' => [
+                'menu' => [
+                    'view' => '@frontend/views/translation/menu',
+                    'data' => compact('match'),
+                ],
+                'translation' => [
+                    'view' => '@frontend/views/site/news',
+                    'data' => [
+                        'newsDataProvider' => $postsDataProvider,
+                    ],
                 ],
                 'comments' => Comment::getCommentsBlock($match->id, Comment::COMMENTABLE_MATCH),
             ],

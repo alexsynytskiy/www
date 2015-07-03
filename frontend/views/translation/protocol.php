@@ -9,8 +9,6 @@ use yii\helpers\Url;
 **/
 ?>
 
-<?php echo $this->render('@frontend/views/translation/menu', compact('match')) ?>
-
 <?php echo $this->render('@frontend/views/translation/match_preview', compact(
         'match', 
         'matchEvents',

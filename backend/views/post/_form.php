@@ -26,34 +26,35 @@ use kartik\datetime\DateTimePicker;
     ]]); ?>
 
     <?php
-        $url = \yii\helpers\Url::to(['user/admin/user-list']);
+//         $url = \yii\helpers\Url::to(['user/admin/user-list']);
 
-        $initScript = <<< SCRIPT
-            function (element, callback) {
-                var id=\$(element).val();
-                if (id !== "") {
-                    \$.ajax("{$url}?id=" + id, {
-                        dataType: "json"
-                    }).done(function(data) { callback(data.results);});
-                }
-            }
-SCRIPT;
+//         $initScript = <<< SCRIPT
+//             function (element, callback) {
+//                 var id=\$(element).val();
+//                 if (id !== "") {
+//                     \$.ajax("{$url}?id=" + id, {
+//                         dataType: "json"
+//                     }).done(function(data) { callback(data.results);});
+//                 }
+//             }
+// SCRIPT;
 
-        echo $form->field($model, 'user_id')->widget(Select2::classname(), [
-        'language' => 'ru',
-        'options' => ['placeholder' => 'Выберите пользователя'],
-        'pluginOptions' => [
-            'allowClear' => true,
-            'minimumInputLength' => 3,
-            'ajax' => [
-                'url' => $url,
-                'dataType' => 'json',
-                'data' => new JsExpression('function(term,page) { return {search:term}; }'),
-                'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),
-            ],
-            'initSelection' => new JsExpression($initScript),
-        ],
-    ]); ?>
+//         echo $form->field($model, 'user_id')->widget(Select2::classname(), [
+//         'language' => 'ru',
+//         'options' => ['placeholder' => 'Выберите пользователя'],
+//         'pluginOptions' => [
+//             'allowClear' => true,
+//             'minimumInputLength' => 3,
+//             'ajax' => [
+//                 'url' => $url,
+//                 'dataType' => 'json',
+//                 'data' => new JsExpression('function(term,page) { return {search:term}; }'),
+//                 'results' => new JsExpression('function(data,page) { return {results:data.results}; }'),
+//             ],
+//             'initSelection' => new JsExpression($initScript),
+//         ],
+//     ]); 
+    ?>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => 255]) ?>
 

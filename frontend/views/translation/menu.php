@@ -10,38 +10,38 @@ $tab = Yii::$app->controller->action->id;
 ?>
 
 <div class="match-navigation">
-    <a id="text-translation-link" href="<?= Url::to('/translation/'.$match->id) ?>">
-        <div class="button translation <?= $tab == 'translation' ? 'active' : '' ?>">
+    <a id="text-translation-link" href="<?= Url::to('/match/'.$match->id) ?>">
+        <div class="button translation <?= $tab == 'match-translation' ? 'active' : '' ?>">
             Трансляция
             <div class="icon"></div>
         </div>
     </a>
-     <a href="<?= Url::to('/translation/'.$match->id.'/protocol') ?>">
-         <div class="button protocol <?= $tab == 'protocol' ? 'active' : '' ?>">
+     <a href="<?= Url::to('/match/'.$match->id.'/protocol') ?>">
+         <div class="button protocol <?= $tab == 'match-protocol' ? 'active' : '' ?>">
             Протокол
             <div class="icon"></div>
         </div>
     </a>
-    <a href="<?= Url::to('/translation/'.$match->id.'/report') ?>">
-        <div class="button report <?= $tab == 'report' ? 'active' : '' ?>">
+    <a href="<?= Url::to('/match/'.$match->id.'/report') ?>">
+        <div class="button report <?= $tab == 'match-report' ? 'active' : '' ?>">
             Отчёт
             <div class="icon"></div>
         </div>
     </a>
-    <a href="<?= Url::to('/translation/'.$match->id.'/news') ?>">
-        <div class="button other <?= $tab == 'translation-news' ? 'active' : '' ?>">
+    <a href="<?= Url::to('/match/'.$match->id.'/news') ?>">
+        <div class="button other <?= $tab == 'match-news' ? 'active' : '' ?>">
             Новости и Статьи
             <div class="icon"></div>
         </div>
     </a>
-    <a href="<?= Url::to('/translation/'.$match->id.'/photo') ?>">
-        <div class="button photo <?= $tab == 'translation-photo' ? 'active' : '' ?>">
+    <a href="<?= Url::to('/match/'.$match->id.'/photo') ?>">
+        <div class="button photo <?= $tab == 'match-photo' ? 'active' : '' ?>">
             Фото
             <div class="icon"></div>
         </div>
     </a>
-    <a href="<?= Url::to('/translation/'.$match->id.'/video') ?>">
-        <div class="button video <?= $tab == 'translation-video' ? 'active' : '' ?>">
+    <a href="<?= Url::to('/match/'.$match->id.'/video') ?>">
+        <div class="button video <?= $tab == 'match-video' ? 'active' : '' ?>">
             Видео
             <div class="icon"></div>
         </div>
