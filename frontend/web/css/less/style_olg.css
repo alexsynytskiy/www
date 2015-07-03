@@ -2301,3 +2301,6 @@ body a:focus {
   background: #0090e8;
   border: 1px solid #1972c4;
 }
+.empty-box {
+  padding: 15px 10px;
+}

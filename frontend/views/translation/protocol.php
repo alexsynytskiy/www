@@ -151,7 +151,7 @@ function renderStatistics($homeValue, $visitorsValue, $t) {
         </div>
         <div class="reserv-arbiter">
         <?php 
-            if($match->arbiterMain != NULL) { ?>
+            if($match->arbiterReserve != NULL) { ?>
                 <div class="column-title">Резервный арбитр:</div>
                 <div class="name"><?= $match->arbiterReserve->name ?></div>
         <?php 

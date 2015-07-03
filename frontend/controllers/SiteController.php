@@ -876,8 +876,14 @@ class SiteController extends Controller
                 $options['columnFirst']['comments'] = Comment::getCommentsBlock($post->id, Comment::COMMENTABLE_POST);
                 $options['columnFirst']['comments']['weight'] = 5;
             }
-            usort($options['columnFirst'],'self::cmp');
+        } else {
+            $options['columnFirst']['post'] = [
+                'view' => '@frontend/views/site/empty',
+                'data' => [],
+                'weight' => 3,
+            ];
         }
+        usort($options['columnFirst'],'self::cmp');
 
         return $this->render('@frontend/views/site/index', $options);
     }

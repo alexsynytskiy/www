@@ -25,7 +25,7 @@ use yii\helpers\Url;
 					<div class="match-info"><?= $match->getTournamentName() ?>
 						<div><?= date("d.m.Y H:i", strtotime($match->date)) ?></div>
 					</div>
-					<a href="#">
+					<a href="<?= Url::to('/match/'.$match->id) ?>">
 						<div class="translation-link">
 							<div class="translation-icon"></div>
 							<div class="translation-title">Все о Матче:</div>
