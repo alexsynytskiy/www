@@ -19,6 +19,7 @@ echo "<?php\n";
 namespace <?= $generator->ns ?>;
 
 use Yii;
+use <?= ltrim($generator->baseClass, '\\') ?>;
 
 /**
  * This is the model class for table "<?= $generator->generateTableName($tableName) ?>".

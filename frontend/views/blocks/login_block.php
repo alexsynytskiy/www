@@ -23,11 +23,11 @@ $this->title = Yii::t('user', 'Вход');
         ]); ?>
 
             <?= $form->field($user, 'username', [
-                'template' => "<div class=\"field field-email text-field\">{input}<div class=\"status-box\"></div></div>",
+                'template' => "<div class=\"field field-email text-field\">{input}<div class=\"status-box\"></div></div><div class=\"error-msg\">{error}</div>",
             ])->textInput(['placeholder' => 'Email*']) ?>
 
             <?= $form->field($user, 'password', [
-                'template' => "<div class=\"field field-pass text-field\">{input}<div class=\"status-box\"></div></div>",
+                'template' => "<div class=\"field field-pass text-field\">{input}<div class=\"status-box\"></div></div><div class=\"error-msg\">{error}</div>",
             ])->passwordInput(['placeholder' => 'Пароль*']) ?>
 
             <?= $form->field($user, 'rememberMe', [

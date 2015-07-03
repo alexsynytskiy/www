@@ -36,6 +36,7 @@ return [
                 'post/edit/<id:\d+>'                     => 'site/post-edit',
                 'inquirers'                              => 'site/inquirers',
                 'complain/<id:\d+>'                      => 'site/complain',
+                // 'question/<action:\w+>'                  => 'site/question/<action>',
                 'user/profile'                           => 'user/default/profile',
                 'user/profile/<id:\d+>'                  => 'user/default/profile',
                 'user/edit'                              => 'user/default/account',

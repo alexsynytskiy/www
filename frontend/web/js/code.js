@@ -343,14 +343,19 @@ $(document).ready(function() {
     function alertTick() {
         second--;
         if(second > 0) {
-            $('.alert .sec').text(second);
-            setTimeout(alertTick, 1000);
+            $('.alert-box .sec').text(second);
+            alertTimer = setTimeout(alertTick, 1000);
         } else {
-            $('.alert').parents('.default-box').slideToggle(300);
+            $('.alert-box').slideToggle(300);
         }
     }
-    if($('.default-box .alert').length > 0) {
-        var second = 11;
+    $(document).on('click', '.alert-box', function() {
+        clearTimeout(alertTimer);
+        $('.alert-box').slideToggle(300);
+    });
+    if($('.alert-box').length > 0) {
+        var second = 16;
+        var alertTimer;
         alertTick();
     }
     // => Alert tick END
@@ -452,47 +457,46 @@ $(document).ready(function() {
 
 
     // => Question voting START 
-    $(document).on('submit', '#inquirer-form', function(event) {
-        var $form = $(this);
-        var dataUrl = $form.attr('action');
-        var $box = $form.parents('.default-box').first();
-        var data = $form.serialize();
-        if(data) {
-            $.ajax({
-                type: "GET",
-                url: dataUrl,
-                dataType: "json",
-                data: data,
-            }).done(function(){
-                $box.slideUp(500);
-            });
-        }
-        return false;
-    });
-    $(document).on('submit', '#inquirer-float-form', function(event) {
-        var $form = $(this);
-        var dataUrl = $form.attr('action');
-        var $box = $form.parents('.default-box').first();
-        var data = $form.serialize();
-        console.log(data);
-        if(data) {
-            $.ajax({
-                type: "GET",
-                url: dataUrl,
-                dataType: "json",
-                data: data,
-                success: function(response){
-                    console.log(response);
-                },
-                error: function(e) {
-                    console.log(e);
-                },
-            }).done(function(){
-                $box.slideUp(500);
-            });
-        }
-        return false;
-    });
+    // $(document).on('submit', '#inquirer-form', function(event) {
+    //     var $form = $(this);
+    //     var dataUrl = $form.attr('action');
+    //     var $box = $form.parents('.default-box').first();
+    //     var data = $form.serialize();
+    //     if(data) {
+    //         $.ajax({
+    //             type: "GET",
+    //             url: dataUrl,
+    //             dataType: "json",
+    //             data: data,
+    //         }).done(function(){
+    //             $box.slideUp(500);
+    //         });
+    //     }
+    //     return false;
+    // });
+    // $(document).on('submit', '#inquirer-float-form', function(event) {
+    //     var $form = $(this);
+    //     var dataUrl = $form.attr('action');
+    //     var $box = $form.parents('.default-box').first();
+    //     var data = $form.serialize();
+    //     if(data) {
+    //         $.ajax({
+    //             type: "GET",
+    //             url: dataUrl,
+    //             dataType: "json",
+    //             data: data,
+    //             success: function(response){
+    //                 console.log(response);
+    //             },
+    //             error: function(e) {
+    //                 console.log(e);
+    //             },
+    //         }).done(function(){
+    //             $box.slideUp(500);
+    //         });
+    //     }
+    //     return false;
+    // });
     // => Question voting END 
 
 

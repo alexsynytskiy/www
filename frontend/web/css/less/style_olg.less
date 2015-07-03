@@ -226,17 +226,46 @@ body {
                 background-position: right -35px;
             }
         }
+    }    
+}
+
+.alert-box {
+    padding: 5px;
+    color: #fff;
+
+    &.alert-success {
+        background-color: #60C75D;
     }
-
-    .alert {
+    &.alert-error {
+        background-color: #DE5656;
+    }
+    .message {
         padding: 5px 0;
-
-        .blue {
-            color: @main-blue;
-        }
-        .sec {
-            color: @main-blue;
-            font-weight: bold;
+    }
+    .blue {
+        color: @main-blue;
+    }
+    .sec {
+        color: @main-blue;
+        font-weight: bold;
+    }
+    .close {
+        position: absolute;
+        top: 0;
+        right: 0;
+        font-size: 21px;
+        font-weight: bold;
+        line-height: 1;
+        color: #000;
+        text-shadow: 0 1px 0 #fff;
+        filter: alpha(opacity=20);
+        opacity: .2;
+        &:hover {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+            filter: alpha(opacity=50);
+            opacity: .5;
         }
     }
 }
@@ -2368,4 +2397,14 @@ body {
 
 .empty-box {
     padding: 15px 10px;
+}
+
+.banner-box {
+    overflow: hidden;
+    width: 300px;
+    margin-bottom: 15px;
+
+    &.big {
+        width: 615px;
+    }
 }

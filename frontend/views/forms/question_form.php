@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Url;
+use yii\widgets\ActiveForm;
 
 /**
  * @var $this yii\web\View
@@ -19,7 +20,13 @@ $inquirerMoreLink = (Yii::$app->controller->action->id == 'inquirers') ? false :
     </div>
     <div class="box-content">
         <div class="inquirer-theme"><?= $question->title ?></div>
-        <form id="inquirer-form" action="<?= Url::to('/admin/question/vote') ?>" class="inquirer-form default-form">
+        <?php $form = ActiveForm::begin([
+            'id' => 'inquirer-form',
+            'action' => Url::to('/question/vote'),
+            'options' => [
+                'class' => 'inquirer-form default-form',
+            ],
+        ]); ?>
             <?php foreach ($answers as $answer) { ?>
             <div class="inquirer-answer">
                 <div class="input-box">
@@ -37,9 +44,9 @@ $inquirerMoreLink = (Yii::$app->controller->action->id == 'inquirers') ? false :
             </div>
             <?php } else { ?>
             <div class="form-description">
-                Для того чтобы проголосовать вы должны <a href="/?q=login">авторизоваться</a>
+                Для того чтобы проголосовать вы должны <a href="<?= Url::to('/user/login') ?>">авторизоваться</a>
             </div>
             <?php } ?>
-        </form>
+        <?php ActiveForm::end(); ?>
     </div>
 </div>
