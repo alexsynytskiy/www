@@ -290,7 +290,13 @@ class SiteBlock
     {
         $model = new Subscribing();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            if(!$model->save()) {
+                $errors = $model->getErrors();
+                $errorMessage = array_shift($errors);
+                Yii::$app->getSession()->setFlash('error-subscribe', 'Произошла ошибка: '.$errorMessage);
+            }
+            Yii::$app->getSession()->setFlash('success-subscribe', 'Вы успешно подписались на новостную рассылку от dynamomania.com');
             return Yii::$app->getResponse()->redirect(Url::to('/'));
         } 
         $block = [

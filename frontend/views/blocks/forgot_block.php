@@ -12,29 +12,24 @@ use yii\widgets\ActiveForm;
 $this->title = Yii::t('user', 'Forgot password');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="user-default-forgot">
+<div class="register-box default-box">
+    <div class="box-header">
+        <div class="box-title">Напомнить пароль</div>
+    </div>
+    <div class="box-content">
+        <?php $form = ActiveForm::begin([
+            'id' => 'forgot-form',
+            'options' => ['class' => 'default-form'],
+        ]); ?>
 
-	<h1><?= Html::encode($this->title) ?></h1>
+        <?= $form->field($model, 'email', [
+            'template' => "<div class=\"field field-email text-field\">{input}<div class=\"status-box\"></div></div><div class=\"error-msg\">{error}</div>",
+        ])->textInput(['placeholder' => 'Email*']) ?>
 
-	<?php if ($flash = Yii::$app->session->getFlash('Forgot-success')): ?>
-
-        <div class="alert alert-success">
-            <p><?= $flash ?></p>
+        <div class="field field-submit field-submit-send">
+            <?= Html::submitInput('Отправить', ['class' => '']) ?>
         </div>
-
-    <?php else: ?>
-
-        <div class="row">
-            <div class="col-lg-5">
-                <?php $form = ActiveForm::begin(['id' => 'forgot-form']); ?>
-                    <?= $form->field($model, 'email') ?>
-                    <div class="form-group">
-                        <?= Html::submitButton(Yii::t('user', 'Submit'), ['class' => 'btn btn-primary']) ?>
-                    </div>
-                <?php ActiveForm::end(); ?>
-            </div>
-        </div>
-
-	<?php endif; ?>
+        <?php ActiveForm::end(); ?>
+    </div>
 
 </div>

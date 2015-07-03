@@ -109,6 +109,7 @@ class DefaultController extends Controller
             'columnFirst' => [
                 'top3News' => SiteBlock::getTop3News(),
                 'top6News' => SiteBlock::getTop6News(),
+                'subscribing' => SiteBlock::getSubscribingForm(),
                 'blog_column' => SiteBlock::getBlogPosts(),
             ],
             'columnSecond' => [
@@ -120,6 +121,8 @@ class DefaultController extends Controller
             ],
             'columnThird' => [
                 'reviewNews' => SiteBlock::getPhotoVideoNews(),
+                'questionBlock' => SiteBlock::getQuestionBlock(),
+                'tournament' => SiteBlock::getTournamentTable(),
             ],
         ]);
     }
@@ -202,7 +205,10 @@ class DefaultController extends Controller
                     '<div class="blue">Спасибо за выбор портала </div>'.
                     '<div class="blue">Dynamomania.com</div>';
 
-                Yii::$app->session->setFlash("Register-success", $successText);
+                Yii::$app->session->setFlash("success-register", $successText);
+                if( Yii::getAlias('@app') == Yii::getAlias('@frontend')) {
+                    return Yii::$app->getResponse()->redirect(\yii\helpers\Url::to('/'));
+                }
             }
 
         }
@@ -218,6 +224,7 @@ class DefaultController extends Controller
             'columnFirst' => [
                 'top3News' => SiteBlock::getTop3News(),
                 'top6News' => SiteBlock::getTop6News(),
+                'subscribing' => SiteBlock::getSubscribingForm(),
                 'blog_column' => SiteBlock::getBlogPosts(),
             ],
             'columnSecond' => [
@@ -229,6 +236,8 @@ class DefaultController extends Controller
             ],
             'columnThird' => [
                 'reviewNews' => SiteBlock::getPhotoVideoNews(),
+                'questionBlock' => SiteBlock::getQuestionBlock(),
+                'tournament' => SiteBlock::getTournamentTable(),
             ],
         ]);
     }
@@ -358,8 +367,10 @@ class DefaultController extends Controller
             // save, set flash, and refresh page
             $user->save(false);
             $profile->save(false);
-            Yii::$app->session->setFlash("Account-success", Yii::t("user", "Account updated"));
-            return $this->redirect('/user/profile');
+            Yii::$app->session->setFlash("success-account", Yii::t("user", "Account updated"));
+            if( Yii::getAlias('@app') == Yii::getAlias('@frontend')) {
+                return Yii::$app->getResponse()->redirect(\yii\helpers\Url::to('/user/profile'));
+            }
         }
 
         // render
@@ -553,7 +564,10 @@ class DefaultController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->sendEmail()) {
 
             // set flash (which will show on the current page)
-            Yii::$app->session->setFlash("Resend-success", Yii::t("user", "Confirmation email resent"));
+            Yii::$app->session->setFlash("success-resend", Yii::t("user", "Confirmation email resent"));
+            if( Yii::getAlias('@app') == Yii::getAlias('@frontend')) {
+                return Yii::$app->getResponse()->redirect(\yii\helpers\Url::to('/'));
+            }
         }
 
         // render
@@ -578,7 +592,10 @@ class DefaultController extends Controller
 
             // send email and set flash message
             $user->sendEmailConfirmation($userKey);
-            Yii::$app->session->setFlash("Resend-success", Yii::t("user", "Confirmation email resent"));
+            Yii::$app->session->setFlash("success-resend", Yii::t("user", "Confirmation email resent"));
+            if( Yii::getAlias('@app') == Yii::getAlias('@frontend')) {
+                return Yii::$app->getResponse()->redirect(\yii\helpers\Url::to('/'));
+            }
         }
 
         // redirect to account page
@@ -605,7 +622,10 @@ class DefaultController extends Controller
 
             // expire userKey and set flash message
             $userKey->expire();
-            Yii::$app->session->setFlash("Cancel-success", Yii::t("user", "Email change cancelled"));
+            Yii::$app->session->setFlash("success-cancel", Yii::t("user", "Email change cancelled"));
+            if( Yii::getAlias('@app') == Yii::getAlias('@frontend')) {
+                return Yii::$app->getResponse()->redirect(\yii\helpers\Url::to('/'));
+            }
         }
 
         // go to account page
@@ -624,7 +644,10 @@ class DefaultController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->sendForgotEmail()) {
 
             // set flash (which will show on the current page)
-            Yii::$app->session->setFlash("Forgot-success", Yii::t("user", "Instructions to reset your password have been sent"));
+            Yii::$app->session->setFlash("success-forgot", Yii::t("user", "Instructions to reset your password have been sent"));
+            if( Yii::getAlias('@app') == Yii::getAlias('@frontend')) {
+                return Yii::$app->getResponse()->redirect(\yii\helpers\Url::to('/'));
+            }
         }
 
         // render
@@ -638,6 +661,7 @@ class DefaultController extends Controller
             'columnFirst' => [
                 'top3News' => SiteBlock::getTop3News(),
                 'top6News' => SiteBlock::getTop6News(),
+                'subscribing' => SiteBlock::getSubscribingForm(),
                 'blog_column' => SiteBlock::getBlogPosts(),
             ],
             'columnSecond' => [
@@ -649,6 +673,8 @@ class DefaultController extends Controller
             ],
             'columnThird' => [
                 'reviewNews' => SiteBlock::getPhotoVideoNews(),
+                'questionBlock' => SiteBlock::getQuestionBlock(),
+                'tournament' => SiteBlock::getTournamentTable(),
             ],
         ]);
     }
@@ -690,6 +716,7 @@ class DefaultController extends Controller
             'columnFirst' => [
                 'top3News' => SiteBlock::getTop3News(),
                 'top6News' => SiteBlock::getTop6News(),
+                'subscribing' => SiteBlock::getSubscribingForm(),
                 'blog_column' => SiteBlock::getBlogPosts(),
             ],
             'columnSecond' => [
@@ -701,6 +728,8 @@ class DefaultController extends Controller
             ],
             'columnThird' => [
                 'reviewNews' => SiteBlock::getPhotoVideoNews(),
+                'questionBlock' => SiteBlock::getQuestionBlock(),
+                'tournament' => SiteBlock::getTournamentTable(),
             ],
         ]);
     }

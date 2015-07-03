@@ -10,6 +10,10 @@
 ?>
 <div class="grid-column <?=$classes?>">
 <?php
+    if($classes == 'grid-column-2') {
+        echo $this->render('@frontend/views/site/alert');
+    }
+
     foreach ($blocks as $block) {
         echo $this->render($block['view'], isset($block['data']) ? $block['data'] : []);
     }

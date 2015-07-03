@@ -9,10 +9,11 @@
 	<?php
 	echo \yii\widgets\ListView::widget([
 		'dataProvider' => $newsDataProvider,
-		'itemOptions' => ['class' => 'item'],
+		'itemOptions' => ['class' => 'post-item'],
 		'itemView' => '@frontend/views/site/news_item',
 		'pager' => [
 	     	'class' => \kop\y2sp\ScrollPager::className(),
+            'item' => '.post-item',
 	     	'delay' => 0,
 	     	// 'noneLeftText' => 'Больше нет новостей',
 	     	'noneLeftText' => '',

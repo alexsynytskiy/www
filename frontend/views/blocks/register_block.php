@@ -21,16 +21,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="box-title">Регистрация нового пользователя</div>
     </div>
     <div class="box-content">
-
-    <?php if ($flash = Yii::$app->session->getFlash("Register-success")): ?>
-
-        <div class="alert alert-success">
-            <?= $flash ?>
-            <div class="alert-desc">Этот блок закроется через <span class="sec">5</span> секунд</div>
-        </div>
-
-    <?php else: ?>
-
         <?php $form = ActiveForm::begin([
             'id' => 'register-form',
             'options' => [
@@ -72,8 +62,5 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
 
         <?php ActiveForm::end(); ?>
-
-    <?php endif; ?>
-
     </div>
 </div>
