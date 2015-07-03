@@ -747,10 +747,12 @@ class SiteController extends Controller
         $endDate = date('Y-m-d H:i:s', strtotime($match->date) + 60*60*24*7);
         $teamHomeName = $match->teamHome->name;
         $teamHomeName = str_replace('"', '', $teamHomeName);
-        $teamHomeName = array_shift(explode(' ', $teamHomeName));
+        $teamHomeTemp = explode(' ', $teamHomeName);
+        $teamHomeName = array_shift($teamHomeTemp);
         $teamGuestName = $match->teamGuest->name;
         $teamGuestName = str_replace('"', '', $teamGuestName);
-        $teamGuestName = array_shift(explode(' ', $teamGuestName));
+        $teamGuestTemp = explode(' ', $teamGuestName);
+        $teamGuestName = array_shift($teamGuestTemp);
 
         $query = Post::find();
         $query->select(["{$postTable}.*", 'co' => 'COUNT(*)']);
@@ -766,6 +768,7 @@ class SiteController extends Controller
             ['like', "tags.name", $teamHomeName],
             ['like', "tags.name", $teamGuestName],
         ]);
+        $query->orderBy(['created_at' => SORT_ASC]);
         $query->groupBy("{$postTable}.id");
         $query->having(['>', 'co', 1]);
 
@@ -793,12 +796,90 @@ class SiteController extends Controller
                         'newsDataProvider' => $postsDataProvider,
                     ],
                 ],
-                'comments' => Comment::getCommentsBlock($match->id, Comment::COMMENTABLE_MATCH),
             ],
             'columnSecond' => [ 
                 'short_news' => SiteBlock::getShortNews(),
             ],
         ]);
+    }
+
+    /**
+     * Match report page
+     * 
+     * @return mixed
+     */
+    public function actionMatchReport($id) 
+    {
+        $match = Match::findOne($id);
+        
+        if(!isset($match)) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+
+        $postTable = Post::tableName();
+        $taggingTable = Tagging::tableName();
+        $tagTable = Tag::tableName();
+
+        $startDate = $match->date;
+        $teamHomeName = $match->teamHome->name;
+        $teamHomeName = str_replace('"', '', $teamHomeName);
+        $teamHomeTemp = explode(' ', $teamHomeName);
+        $teamHomeName = array_shift($teamHomeTemp);
+        $teamGuestName = $match->teamGuest->name;
+        $teamGuestName = str_replace('"', '', $teamGuestName);
+        $teamGuestTemp = explode(' ', $teamGuestName);
+        $teamGuestName = array_shift($teamGuestTemp);
+
+        $query = Post::find();
+        $query->select(["{$postTable}.*", 'co' => 'COUNT(*)']);
+        $query->innerJoin($taggingTable, "{$postTable}.id = {$taggingTable}.taggable_id");
+        $query->innerJoin(['tags' => $tagTable], "{$taggingTable}.tag_id = tags.id");
+        $query->where([
+                'is_public' => 1,
+                "{$taggingTable}.taggable_type" => Tagging::TAGGABLE_POST,
+            ]);
+        $query->andWhere(['>', 'created_at', $startDate]);
+        $query->andWhere([
+            'or', 
+            ['like', "tags.name", $teamHomeName],
+            ['like', "tags.name", $teamGuestName],
+        ]);
+        $query->orderBy(['created_at' => SORT_ASC]);
+        $query->groupBy("{$postTable}.id");
+        $query->having(['>', 'co', 1]);
+
+        $post = $query->one();
+        
+        $options = [
+            'templateType' => 'col2',
+            'title' => 'Отчет по матчу: '.$match->teamHome->name." - ".$match->teamGuest->name,
+            'columnFirst' => [
+                'menu' => [
+                    'view' => '@frontend/views/translation/menu',
+                    'data' => compact('match'),
+                ],
+            ],
+            'columnSecond' => [ 
+                'short_news' => SiteBlock::getShortNews(),
+            ],
+        ];
+
+        if(isset($post)) {
+            $image = $post->getAsset(Asset::THUMBNAIL_CONTENT);
+            
+            $options['columnFirst']['post'] = [
+                'view' => '@frontend/views/site/post',
+                'data' => compact('post','image'),
+                'weight' => 3,
+            ];
+            if ($post->allow_comment) {
+                $options['columnFirst']['comments'] = Comment::getCommentsBlock($post->id, Comment::COMMENTABLE_POST);
+                $options['columnFirst']['comments']['weight'] = 5;
+            }
+            usort($options['columnFirst'],'self::cmp');
+        }
+
+        return $this->render('@frontend/views/site/index', $options);
     }
 
     /**
@@ -1206,6 +1287,8 @@ class SiteController extends Controller
      */
     private static function cmp($a, $b)
     {
+        if(!isset($a['weight'])) $a['weight'] = 0;
+        if(!isset($b['weight'])) $b['weight'] = 0;
         if ($a['weight'] == $b['weight']) {
             return 0;
         }
