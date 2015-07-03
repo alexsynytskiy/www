@@ -9,6 +9,49 @@ use amnah\yii2\user\models\User;
 class SiteBlock
 {
     static $postExcludeIds = [];
+    static $banners = [];
+    static $postedBannerIds = [];
+
+    /**
+     * Get all bannerModels
+     * @return array of \common\models\Banner
+     */
+    public static function getBannerModels()
+    {
+        if(count(self::$banners) > 0) return self::$banners;
+
+        $banners = Banner::find()
+            ->orderBy(['weight' => SORT_DESC])
+            ->all();
+        self::$banners = $banners;
+
+        return self::$banners;
+    }
+
+    /**
+     * Get banner
+     * @return array Data
+     */
+    public static function getBanner($region, $big = false)
+    {
+        $regions = Banner::dropdownRegions();
+        $regions = array_keys($regions);
+        if(!in_array($region, $regions)) return false;
+
+        $allBanners = self::getBannerModels();
+        foreach ($allBanners as $banner) {
+            if(in_array($banner->id, self::$postedBannerIds)) continue;
+            if($big && !$banner->size) continue;
+            if($banner->region != $region) continue;
+            self::$postedBannerIds[] = $banner->id;
+            $block = [
+                'view' => '@frontend/views/blocks/banner_block',
+                'data' => compact('banner'),
+            ];
+            return $block;
+        }
+        return false;
+    }
 
     /**
      * Get block with last 6 blog posts
@@ -163,6 +206,10 @@ class SiteBlock
 
         foreach ($videoReviewNews as $post) {
             self::$postExcludeIds[] = $post->id;
+        }
+
+        if(count($photoReviewNews) == 0 && count($videoReviewNews) == 0) {
+            return false;
         }
 
         $block = [

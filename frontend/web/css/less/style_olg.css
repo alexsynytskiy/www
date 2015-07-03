@@ -2330,3 +2330,11 @@ body a:focus {
   background: #0090e8;
   border: 1px solid #1972c4;
 }
+.banner-box {
+  overflow: hidden;
+  width: 300px;
+  margin-bottom: 15px;
+}
+.banner-box.big {
+  width: 615px;
+}
