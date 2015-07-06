@@ -22,8 +22,8 @@ use yii\helpers\Url;
 					<div class="goals"><?= $match->guest_goals ?></div>
 				</div>
 				<div class="intro">
-					<div class="match-info"><?= $match->getTournamentName() ?>
-						<div><?= date("d.m.Y H:i", strtotime($match->date)) ?></div>
+					<div class="match-info">
+						<?= date("d.m.Y H:i", strtotime($match->date)) ?>
 					</div>
 					<a href="<?= Url::to('/match/'.$match->id) ?>">
 						<div class="translation-link">

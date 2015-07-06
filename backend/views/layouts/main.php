@@ -45,6 +45,7 @@ AppAsset::register($this);
                     ['label' => 'Команда', 'items' => [
                         ['label' => 'Команды', 'url' => '/admin/teams'],
                         ['label' => 'Игроки', 'url' => '/admin/player'],
+                        ['label' => 'Тренеры', 'url' => '/admin/coach'],
                         ['label' => 'Амплуа', 'url' => '/admin/amplua'],
                         ['label' => 'Игроки команд Динамо', 'url' => '/admin/contract'],                       
                         ['label' => 'Игроки других команд', 'url' => '/admin/membership'],
