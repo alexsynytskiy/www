@@ -391,22 +391,12 @@ class DefaultController extends Controller
 
     /**
      * Profile
-     * @param $id int UserId
      */
-    public function actionProfile($id = null)
+    public function actionProfile()
     {
         /** @var \amnah\yii2\user\models\Profile $profile */
 
-        // set up profile and load post data
-        if(isset($id)) {
-            $user = User::findOne($id);
-            if(!isset($user)) throw new NotFoundHttpException('Страница не найдена.');
-            $profile = $user->profile;
-        } else {
-            $profile = Yii::$app->user->identity->profile;
-        }
-        // Checking the own profile
-        $isOwn = $profile->user->id != Yii::$app->user->id ? false : true; 
+        $profile = Yii::$app->user->identity->profile;
 
         // blogPostsDataProvider
         $query = Post::find()->where([
@@ -424,128 +414,120 @@ class DefaultController extends Controller
             ],
         ]);
 
-        $columnFirst = [];
-        if($isOwn) {
-            $connection = Yii::$app->db;
-            $countSql = 'SELECT COUNT(*) as count  
-                FROM comments c1 
-                LEFT JOIN posts p ON p.id = c1.commentable_id 
-                WHERE c1.user_id = :user_id AND c1.id IN (
-                    SELECT c2.parent_id 
-                    FROM comments c2 
-                    WHERE c2.parent_id = c1.id
-                )';
-            $cmd = $connection->createCommand($countSql);
-            $cmd->bindValue(':user_id', $profile->user->id);
-            $commentsCountData = $cmd->queryAll();
-            $commentsCount = $commentsCountData[0]['count'];
+        $connection = Yii::$app->db;
+        $countSql = 'SELECT COUNT(*) as count  
+            FROM comments c1 
+            LEFT JOIN posts p ON p.id = c1.commentable_id 
+            WHERE c1.user_id = :user_id AND c1.id IN (
+                SELECT c2.parent_id 
+                FROM comments c2 
+                WHERE c2.parent_id = c1.id
+            )';
+        $cmd = $connection->createCommand($countSql);
+        $cmd->bindValue(':user_id', $profile->user->id);
+        $commentsCountData = $cmd->queryAll();
+        $commentsCount = $commentsCountData[0]['count'];
 
-            $commentsPagination = new Pagination([
-                'totalCount' => $commentsCount,
-                'pageSize' => 10,
-                'pageParam' => 'cpage',
-                'pageSizeParam' => 'cpsize',
-            ]);
+        $commentsPagination = new Pagination([
+            'totalCount' => $commentsCount,
+            'pageSize' => 10,
+            'pageParam' => 'cpage',
+            'pageSizeParam' => 'cpsize',
+        ]);
 
-            // AND c1.parent_id IS NULL
-            $sql = 'SELECT c1.id 
-                FROM comments c1 
-                LEFT JOIN posts p ON p.id = c1.commentable_id 
-                WHERE c1.user_id = :user_id AND c1.id IN (
-                    SELECT c2.parent_id 
-                    FROM comments c2 
-                    WHERE c2.parent_id = c1.id
-                ) 
-                ORDER BY c1.created_at DESC 
-                LIMIT :offset, :rows';
-            $cmd = $connection->createCommand($sql);
-            $cmd->bindValue(':user_id', $profile->user->id);
-            $cmd->bindValue(':offset', $commentsPagination->offset);
-            $cmd->bindValue(':rows', $commentsPagination->limit);
-            $commentsData = $cmd->queryAll();
+        // AND c1.parent_id IS NULL
+        $sql = 'SELECT c1.id 
+            FROM comments c1 
+            LEFT JOIN posts p ON p.id = c1.commentable_id 
+            WHERE c1.user_id = :user_id AND c1.id IN (
+                SELECT c2.parent_id 
+                FROM comments c2 
+                WHERE c2.parent_id = c1.id
+            ) 
+            ORDER BY c1.created_at DESC 
+            LIMIT :offset, :rows';
+        $cmd = $connection->createCommand($sql);
+        $cmd->bindValue(':user_id', $profile->user->id);
+        $cmd->bindValue(':offset', $commentsPagination->offset);
+        $cmd->bindValue(':rows', $commentsPagination->limit);
+        $commentsData = $cmd->queryAll();
 
-            $ids = [];
-            foreach ($commentsData as $data) {
-                $ids[] = $data['id'];
-            }
-
-            $initialComments = Comment::find()
-                ->where([
-                    'id' => $ids,
-                ])->orderBy(['created_at' => SORT_DESC])
-                ->all();
-
-            $comments = $initialComments;
-            $ids = [];
-            foreach ($comments as $comment) {
-                $ids[] = $comment->id;
-            }
-            $childComments = Comment::find()
-                ->where(['parent_id' => $ids])->orderBy(['created_at' => SORT_ASC])->all();
-            if(count($childComments) > 0) {
-                $initialComments = array_merge($initialComments, $childComments);
-            }
-
-            $parentIDs = [];
-            foreach ($initialComments as $comment) {
-                if($comment->parent_id != null) $parentIDs[] = $comment->parent_id;
-            }
-
-            $sortedComments = [];
-            foreach ($initialComments as $comment) 
-            {
-                if($comment->parent_id == null
-                    || $comment->user_id == $profile->user->id 
-                    && in_array($comment->id, $parentIDs)){
-                    $index = 0;
-                } else {
-                    $index = $comment->parent_id;
-                }
-                $sortedComments[$index][] = $comment;
-            }
-
-            $commentForm = new CommentForm();
-            $columnFirst['user_comments'] = [
-                'view' => '@frontend/views/profile/user_comments',
-                'data' => [
-                    'comments' => $sortedComments, 
-                    'pagination' => $commentsPagination,
-                    'commentForm' => $commentForm,
-                ],
-                'weight' => 0,
-            ];
-            $columnFirst['blog_column'] = [
-                'view' => '@frontend/views/profile/blog_posts',
-                'data' => [
-                    'blogPostsDataProvider' => $blogPostsDataProvider, 
-                    'isOwn' => $isOwn,
-                ],
-                'weight' => 10,
-            ];
-        }/* is own profile */
-        else {
-            $columnFirst['blog_column'] = [
-                'view' => '@frontend/views/site/news',
-                'data' => [
-                    'newsDataProvider' => $blogPostsDataProvider, 
-                ],
-                'weight' => 10,
-            ];
+        $ids = [];
+        foreach ($commentsData as $data) {
+            $ids[] = $data['id'];
         }
 
-        $columnFirst['profile'] = [
-            'view' => '@frontend/views/profile/profile_view',
-            'data' => compact('profile', 'isOwn'),
-            'weight' => 5,
-        ];
+        $initialComments = Comment::find()
+            ->where([
+                'id' => $ids,
+            ])->orderBy(['created_at' => SORT_DESC])
+            ->all();
+
+        $comments = $initialComments;
+        $ids = [];
+        foreach ($comments as $comment) {
+            $ids[] = $comment->id;
+        }
+        $childComments = Comment::find()
+            ->where(['parent_id' => $ids])->orderBy(['created_at' => SORT_ASC])->all();
+        if(count($childComments) > 0) {
+            $initialComments = array_merge($initialComments, $childComments);
+        }
+
+        $parentIDs = [];
+        foreach ($initialComments as $comment) {
+            if($comment->parent_id != null) $parentIDs[] = $comment->parent_id;
+        }
+
+        $sortedComments = [];
+        foreach ($initialComments as $comment) 
+        {
+            if($comment->parent_id == null
+                || $comment->user_id == $profile->user->id 
+                && in_array($comment->id, $parentIDs)){
+                $index = 0;
+            } else {
+                $index = $comment->parent_id;
+            }
+            $sortedComments[$index][] = $comment;
+        }
+
+        $commentForm = new CommentForm();
         
-        usort($columnFirst,'self::cmp');
+        $additionalBlocks = [
+            'fisrtBanner' => SiteBlock::getBanner(\common\models\Banner::REGION_FIRST_COLUMN),
+        ];
 
         // render
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
             'title' => 'Профиль',
-            'columnFirst' => $columnFirst,
+            'columnFirst' => [
+                'user_comments' => [
+                    'view' => '@frontend/views/profile/user_comments',
+                    'data' => [
+                        'comments' => $sortedComments, 
+                        'pagination' => $commentsPagination,
+                        'commentForm' => $commentForm,
+                    ],
+                ],
+                'profile' => [
+                    'view' => '@frontend/views/profile/profile_view',
+                    'data' => compact('profile'),
+                ],
+                'blog_column' => [
+                    'view' => '@frontend/views/profile/blog_posts',
+                    'data' => [
+                        'blogPostsDataProvider' => $blogPostsDataProvider, 
+                    ],
+                ],
+                // 'additional_data' => [
+                //     'view' => '@frontend/views/profile/blog_posts',
+                //     'data' => [
+                //         'blocks' => $additionalBlocks, 
+                //     ],
+                // ],
+            ],
             'columnSecond' => [
                 'short_news' => SiteBlock::getShortNews(),
             ],
