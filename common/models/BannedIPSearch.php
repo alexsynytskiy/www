@@ -20,6 +20,9 @@ class BannedIPSearch extends BannedIP
         return [
             [['id', 'is_active', 'start_ip_num', 'end_ip_num'], 'integer'],
             [['title', 'start_ip_num_value', 'end_ip_num_value', 'created_at', 'updated_at'], 'safe'],
+            [['ip_address'], 'string', 'max' => 50],
+            [['ip_address'], 'match', 'pattern' => '/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/i'],
+
         ];
     }
 
@@ -51,16 +54,28 @@ class BannedIPSearch extends BannedIP
         $this->load($params);
 
         if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
             return $dataProvider;
         }
+
+        if(isset($this->ip_address) && trim($this->ip_address) != '') {
+            $ipValue = ip2long($this->ip_address);
+            $query->andFilterWhere(['or',
+                ['start_ip_num' => $ipValue],
+                ['and', 
+                    ['<=', 'start_ip_num', $ipValue],
+                    ['>=', 'end_ip_num', $ipValue],
+                ],
+            ]);
+        }
+
+        $dataProvider->sort->attributes['ip_address'] = [
+                'asc'   => ['start_ip_num' => SORT_ASC],
+                'desc'  => ['start_ip_num' => SORT_DESC],
+            ];
 
         $query->andFilterWhere([
             'id' => $this->id,
             'is_active' => $this->is_active,
-            'start_ip_num' => $this->start_ip_num,
-            'end_ip_num' => $this->end_ip_num,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);

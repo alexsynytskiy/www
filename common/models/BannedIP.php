@@ -21,6 +21,8 @@ use yii\db\ActiveRecord;
  */
 class BannedIP extends ActiveRecord
 {
+    public $ip_address;
+
     /**
      * @inheritdoc
      */
@@ -38,8 +40,8 @@ class BannedIP extends ActiveRecord
             [['is_active', 'start_ip_num', 'end_ip_num'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['title'], 'string', 'max' => 255],
-            [['start_ip_num_value', 'end_ip_num_value'], 'match', 'pattern' => '/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/i'],
-            [['start_ip_num_value', 'end_ip_num_value'], 'string', 'max' => 50],
+            [['start_ip_num_value', 'end_ip_num_value', 'ip_address'], 'match', 'pattern' => '/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/i'],
+            [['start_ip_num_value', 'end_ip_num_value', 'ip_address'], 'string', 'max' => 50],
             [['title', 'start_ip_num_value'], 'required'],
         ];
     }
@@ -59,6 +61,7 @@ class BannedIP extends ActiveRecord
             'end_ip_num' => 'End IP',
             'created_at' => 'Создано',
             'updated_at' => 'Обновлено',
+            'ip_address' => 'IP адрес',
         ];
     }
 

@@ -27,8 +27,17 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'title',
-            'start_ip_num_value',
-            'end_ip_num_value',
+            [
+                'attribute' => 'ip_address',
+                'value' => function($model) {
+                    $ip = $model->start_ip_num_value;
+                    if(isset($model->end_ip_num_value) && trim($model->end_ip_num_value) != '') {
+                        $ip .= ' - '.$model->end_ip_num_value;
+                    }
+                    return $ip;
+                },
+                'options' => ['width' => '230'],
+            ],
             [
                 'attribute' => 'is_active',
                 'value' => function($model) {
