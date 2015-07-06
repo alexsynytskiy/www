@@ -384,7 +384,9 @@ class Asset extends \yii\db\ActiveRecord
                     default: break;
                 }
             case self::ASSETABLE_PLAYER:
-                return new Box(200,200);
+                return new Box(310,460);
+            case self::ASSETABLE_COACH:
+                return new Box(310,460);
             case self::ASSETABLE_TEAM:
                 return new Box($size->getWidth(),$size->getHeight());
             default: break;

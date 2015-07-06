@@ -102,11 +102,10 @@ class CoachController extends Controller
         $photo = $model->getAsset();
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-
-            $model->photo = UploadedFile::getInstance($model, 'photo');
+            $uploadedFile = UploadedFile::getInstance($model, 'photo');           
 
             // If image was uploaded
-            if(!empty($model->photo))
+            if(!empty($uploadedFile))
             {
                 // If asset model did't exist for current model
                 if(!isset($photo->assetable_id))
@@ -120,9 +119,6 @@ class CoachController extends Controller
                 $photo->cropData = $model->cropData;
 
                 $photo->saveCroppedAsset();
-
-                var_dump($photo->getErrors());
-                die;
             }
 
             $model->slug = $model->genSlug();
