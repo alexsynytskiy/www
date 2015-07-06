@@ -15,7 +15,7 @@ class SubscribingController extends Controller {
     public function actionIndex() {
         echo "Sending letters to subscribers begin...\n";
 
-        $currentDayTime = strtotime(date('d.m.Y', time()));
+        $currentDayTime = time() - 60*60*24;
         $currentDay = date("Y-m-d H:i:s", $currentDayTime);
         $importantPosts = Post::find()
             ->where([

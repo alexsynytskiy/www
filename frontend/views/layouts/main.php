@@ -144,13 +144,7 @@ AppAsset::register($this);
                 <div class="breadcrumbs">
                     <div class="header">Главное</div>
                     <div class="arrow"></div>
-                    <a href="<?= Url::to(['site/search', 'q' => 'Ярмоленко']) ?>" class="tag">Ярмоленко</a>
-                    <a href="<?= Url::to(['site/search', 'q' => 'Антунеш']) ?>" class="tag">Антунеш</a>
-                    <a href="<?= Url::to(['site/search', 'q' => "Выборы+президента+ФФУ"]) ?>" class="tag">Выборы президента ФФУ</a>
-                    <a href="<?= Url::to(['site/search', 'q' => 'Генгам']) ?>" class="tag">Генгам</a>
-                    <a href="<?= Url::to(['site/search', 'q' => 'Эвертон']) ?>" class="tag">Эвертон</a>
-                    <a href="<?= Url::to(['site/search', 'q' => 'Скрипник']) ?>" class="tag">Скрипник</a>
-                    <a href="#" class="tag">Все теги</a>
+                    <?= \common\models\TopTag::outTop6Links() ?>
                 </div>
 
             </div>
