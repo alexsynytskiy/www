@@ -211,7 +211,7 @@ body a:focus {
   position: absolute;
   right: 0;
   top: 1px;
-  width: 45px;
+  width: 55px;
 }
 .inquirer .inquirer-answer .selectize-box [data-selectable]:nth-child(2n+1) {
   background: #CCC;
@@ -229,7 +229,7 @@ body a:focus {
 }
 .inquirer .inquirer-answer.float label {
   display: block;
-  width: 230px;
+  width: 220px;
   min-height: 30px;
 }
 .inquirer .form-actions .field-submit input {
@@ -2330,10 +2330,9 @@ body a:focus {
   background: #0090e8;
   border: 1px solid #1972c4;
 }
-<<<<<<< HEAD
 .empty-box {
   padding: 15px 10px;
-=======
+}
 .banner-box {
   overflow: hidden;
   width: 300px;
@@ -2341,5 +2340,4 @@ body a:focus {
 }
 .banner-box.big {
   width: 615px;
->>>>>>> match_news
 }

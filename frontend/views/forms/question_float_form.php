@@ -32,16 +32,15 @@ $inquirerMoreLink = (Yii::$app->controller->action->id == 'inquirers') ? false :
                 <label for="answer-<?= $answer->id ?>"><?= $answer->title ?></label>
                 <div class="selectize-box">
                     <select id="answer-<?= $answer->id ?>" name="answer[<?= $answer->id ?>]">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5" selected="selected">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
+                        <option value="4">  4.0</option>
+                        <option value="4.5">4.5</option>
+                        <option value="5">  5.0</option>
+                        <option value="5.5">5.5</option>
+                        <option value="6" selected="selected">6.0</option>
+                        <option value="6.5">6.5</option>
+                        <option value="7">  7.0</option>
+                        <option value="7.5">7.5</option>
+                        <option value="8">  8.0</option>
                     </select>
                 </div>
             </div>

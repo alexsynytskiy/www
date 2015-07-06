@@ -72,6 +72,7 @@ AppAsset::register($this);
                         ['label' => 'Источники', 'url' => '/admin/source'],
                         ['label' => 'Теги', 'url' => '/admin/tag'],
                         ['label' => 'Подписка', 'url' => '/admin/subscribing'],
+                        ['label' => 'Опросы', 'url' => '/admin/question'],
                     ]],
                     ['label' => 'Сайт', 'url' => ('http://'.$_SERVER['HTTP_HOST']) ],
                 ];
