@@ -228,6 +228,24 @@ class MatchController extends Controller
         $matchEvents = MatchEventType::find()->all();
         $eventFilter = ArrayHelper::map($matchEvents, 'id', 'name');
 
+        $searchModel = new CompositionSearch();
+
+        // homeCompositionDataProvider
+        $params = ['CompositionSearch' => [
+            'match_id' => $model->id,
+            'command_id' => $model->command_home_id,
+        ]];
+        $homeCompositionDataProvider = $searchModel->search($params);
+        $homeCompositionDataProvider->setSort(['defaultOrder' => ['is_basis' => SORT_DESC]]);
+
+        // guestCompositionDataProvider
+        $params = ['CompositionSearch' => [
+            'match_id' => $model->id,
+            'command_id' => $model->command_guest_id,
+        ]];
+        $guestCompositionDataProvider = $searchModel->search($params);
+        $guestCompositionDataProvider->setSort(['defaultOrder' => ['is_basis' => SORT_DESC]]);
+
         if ($matchEventModel->load(Yii::$app->request->post()) && $matchEventModel->validate()) {
             $matchEventModel->save(false);
             $this->redirect(['match/events', 'id' => $model->id]);
@@ -237,7 +255,9 @@ class MatchController extends Controller
             'matchEventModel',
             'matchEventModelSearch',
             'matchEventDataProvider',
-            'eventFilter'
+            'eventFilter',
+            'homeCompositionDataProvider',
+            'guestCompositionDataProvider'
         ));
 
     }

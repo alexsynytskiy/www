@@ -73,7 +73,9 @@ use common\models\Composition;
 
     <?= $form->field($model, 'notes')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'is_hidden')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState' => false]]) ?>
+    <?php if(!$model->isNewRecord) { ?>
+        <?= $form->field($model, 'is_hidden')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState' => false]]) ?>
+    <?php } ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Добавить' : 'Изменить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
