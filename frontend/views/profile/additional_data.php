@@ -10,7 +10,9 @@ use yii\helpers\Url;
 <?php
     foreach ($blocks as $block) {
         if($block) {
+            echo '<div class="data-box">';
             echo $this->render($block['view'], isset($block['data']) ? $block['data'] : []);
+            echo '</div>';
         }
     }
 ?>

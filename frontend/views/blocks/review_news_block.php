@@ -7,11 +7,14 @@ use yii\helpers\Url;
  * @var $videoReviewNews array Array of common\models\Post
 **/
 
+if(!isset($photoReviewNews)) $photoReviewNews = [];
+if(!isset($videoReviewNews)) $videoReviewNews = [];
+
 $videoReviewCount = count($videoReviewNews);
 $photoReviewCount = count($photoReviewNews);
 ?>
 
-<?php if ($photoReviewCount && $videoReviewCount) { ?>
+<?php if ($photoReviewCount || $videoReviewCount) { ?>
 <div class="video-photo-reports default-box">
     <?php if($photoReviewCount) { ?>
     <div class="photo-report">

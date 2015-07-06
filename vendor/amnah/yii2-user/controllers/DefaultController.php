@@ -496,6 +496,11 @@ class DefaultController extends Controller
         
         $additionalBlocks = [
             'fisrtBanner' => SiteBlock::getBanner(\common\models\Banner::REGION_FIRST_COLUMN),
+            'secondBanner' => SiteBlock::getBanner(\common\models\Banner::REGION_FIRST_COLUMN),
+            'photo_news' => SiteBlock::getPhotoNews(),
+            'video_news' => SiteBlock::getVideoNews(),
+            'subscribing' => SiteBlock::getSubscribingForm(),
+            'questionBlock' => SiteBlock::getQuestionBlock(),
         ];
 
         // render
@@ -521,12 +526,12 @@ class DefaultController extends Controller
                         'blogPostsDataProvider' => $blogPostsDataProvider, 
                     ],
                 ],
-                // 'additional_data' => [
-                //     'view' => '@frontend/views/profile/blog_posts',
-                //     'data' => [
-                //         'blocks' => $additionalBlocks, 
-                //     ],
-                // ],
+                'additional_data' => [
+                    'view' => '@frontend/views/profile/additional_data',
+                    'data' => [
+                        'blocks' => $additionalBlocks, 
+                    ],
+                ],
             ],
             'columnSecond' => [
                 'short_news' => SiteBlock::getShortNews(),

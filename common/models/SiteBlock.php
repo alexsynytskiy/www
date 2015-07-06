@@ -220,6 +220,84 @@ class SiteBlock
     }
 
     /**
+     * Get block with photo reviews
+     * @return array Data
+     */
+    public static function getPhotoNews()
+    {
+        $postTable = Post::tableName();
+        $assetTable = Asset::tableName();
+        
+        // Photo review
+        $query = Post::find()
+            ->innerJoin($assetTable, "{$assetTable}.assetable_id = {$postTable}.id")
+            ->where([
+                'is_public' => 1, 
+                'with_photo' => 1,
+                'content_category_id' => Post::CATEGORY_NEWS,
+                "{$assetTable}.assetable_type" => Asset::ASSETABLE_POST,
+                "{$assetTable}.thumbnail" => Asset::THUMBNAIL_BIG,
+            ]);
+        $photoReviewNews = $query->andWhere(['not in', "{$postTable}.id", self::$postExcludeIds])
+            ->orderBy(['created_at' => SORT_DESC])
+            ->limit(3)
+            ->all();
+
+        foreach ($photoReviewNews as $post) {
+            self::$postExcludeIds[] = $post->id;
+        }
+
+        if(count($photoReviewNews) == 0) {
+            return false;
+        }
+
+        $block = [
+            'view' => '@frontend/views/blocks/review_news_block',
+            'data' => compact('photoReviewNews'),
+        ];
+        return $block;
+    }
+
+    /**
+     * Get block with video reviews
+     * @return array Data
+     */
+    public static function getVideoNews()
+    {
+        $postTable = Post::tableName();
+        $assetTable = Asset::tableName();
+
+        // Video review
+        $query = Post::find()
+            ->innerJoin($assetTable, "{$assetTable}.assetable_id = {$postTable}.id")
+            ->where([
+                'is_public' => 1, 
+                'with_video' => 1,
+                'content_category_id' => Post::CATEGORY_NEWS,
+                "{$assetTable}.assetable_type" => Asset::ASSETABLE_POST,
+                "{$assetTable}.thumbnail" => Asset::THUMBNAIL_BIG,
+            ]);
+        $videoReviewNews = $query->andWhere(['not in', "{$postTable}.id", self::$postExcludeIds])
+            ->orderBy(['created_at' => SORT_DESC])
+            ->limit(3)
+            ->all();
+
+        foreach ($videoReviewNews as $post) {
+            self::$postExcludeIds[] = $post->id;
+        }
+
+        if(count($videoReviewNews) == 0) {
+            return false;
+        }
+
+        $block = [
+            'view' => '@frontend/views/blocks/review_news_block',
+            'data' => compact('videoReviewNews'),
+        ];
+        return $block;
+    }
+
+    /**
      * Get block with slider about previous and future matches
      * @return array Data
      */
