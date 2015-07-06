@@ -9,6 +9,9 @@ use yii\widgets\DetailView;
 $this->title = $model->teamHome->name . ' - ' . $model->teamGuest->name;
 $this->params['breadcrumbs'][] = ['label' => 'Матчи', 'url' => ['index']];
 $this->params['breadcrumbs'][] =  $model->teamHome->name . ' - ' . $model->teamGuest->name;
+
+$homePossession = isset($model->home_ball_possession) ? $model->home_ball_possession.'%' : null;
+$guestPossession = isset($model->guest_ball_possession) ? $model->guest_ball_possession.'%' : null;
 ?>
 <div class="match-view">
 
@@ -108,6 +111,14 @@ $this->params['breadcrumbs'][] =  $model->teamHome->name . ' - ' . $model->teamG
             'guest_yellow_cards',
             'home_red_cards',
             'guest_red_cards',            
+            [
+                'attribute' => 'home_ball_possession',  
+                'value' => $homePossession,
+            ],     
+            [
+                'attribute' => 'guest_ball_possession',  
+                'value' => $guestPossession,
+            ],   
             'comments_count',
             'created_at',
             'updated_at',

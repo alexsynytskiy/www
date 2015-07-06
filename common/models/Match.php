@@ -41,6 +41,8 @@ use yii\db\ActiveRecord;
  * @property integer $guest_red_cards
  * @property integer $home_goals
  * @property integer $guest_goals
+ * @property integer $home_ball_possession
+ * @property integer $guest_ball_possession
  * @property integer $comments_count
  * @property string $created_at
  * @property string $updated_at
@@ -79,7 +81,21 @@ class Match extends ActiveRecord
     public function rules()
     {
         return [
-            [['is_visible', 'championship_id', 'command_home_id', 'command_guest_id', 'stadium_id', 'season_id', 'home_shots', 'guest_shots', 'home_shots_in', 'guest_shots_in', 'home_offsides', 'guest_offsides', 'home_corners', 'guest_corners', 'home_fouls', 'guest_fouls', 'home_yellow_cards', 'guest_yellow_cards', 'home_red_cards', 'guest_red_cards', 'home_goals', 'guest_goals', 'comments_count', 'championship_part_id', 'league_id', 'is_finished'], 'integer'],
+            [['is_visible', 'championship_id', 
+                'command_home_id', 'command_guest_id', 
+                'stadium_id', 'season_id', 'home_shots', 
+                'guest_shots', 'home_shots_in', 
+                'guest_shots_in', 'home_offsides', 
+                'guest_offsides', 'home_corners', 
+                'guest_corners', 'home_fouls', 
+                'guest_fouls', 'home_yellow_cards', 
+                'guest_yellow_cards', 'home_red_cards', 
+                'guest_red_cards', 'home_goals', 
+                'guest_goals', 'comments_count', 
+                'championship_part_id', 'league_id', 
+                'is_finished', 'home_ball_possession',
+                'guest_ball_possession'], 'integer'],
+
             [['date', 'created_at', 'updated_at', 'arbiter_assistant_3_id', 'arbiter_assistant_4_id', 'arbiter_main_id', 'arbiter_assistant_1_id', 'arbiter_assistant_2_id', 'arbiter_reserve_id'], 'safe'],
             [['announcement'], 'string'],
             [['round'], 'string', 'max' => 50],
@@ -133,6 +149,8 @@ class Match extends ActiveRecord
             'league_id'              => 'Лига',
             'is_finished'            => 'Завершён',
             'announcement'           => 'Где смотреть',
+            'home_ball_possession'   => 'Вдадение мячом (хозяева)',
+            'guest_ball_possession'  => 'Вдадение мячом (Гости)',
         ];
     }    
     

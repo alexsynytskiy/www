@@ -141,5 +141,21 @@
             }
         }); 
 
+        // Match ball possesion changing 
+        $(document).on('change', '#match-home_ball_possession', function(event) {
+            var value = 100 - $(this).val();
+            if (value < 0) value = 0;
+            if (value > 100) value = 100;
+            var sliderInput = $("#match-guest_ball_possession").slider();
+            sliderInput.slider('setValue', value);
+        }); 
+        $(document).on('change', '#match-guest_ball_possession', function(event) {
+            var value = 100 - $(this).val();
+            if (value < 0) value = 0;
+            if (value > 100) value = 100;
+            var sliderInput = $("#match-home_ball_possession").slider();
+            sliderInput.slider('setValue', value);
+        }); 
+
     });
 })(jQuery);
