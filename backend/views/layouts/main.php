@@ -72,6 +72,7 @@ AppAsset::register($this);
                         ['label' => 'Комментарии', 'url' => '/admin/comment'],
                         ['label' => 'Источники', 'url' => '/admin/source'],
                         ['label' => 'Теги', 'url' => '/admin/tag'],
+                        ['label' => 'Топовые теги', 'url' => '/admin/top-tag'],
                         ['label' => 'Подписка', 'url' => '/admin/subscribing'],
                         ['label' => 'Опросы', 'url' => '/admin/question'],
                     ]],

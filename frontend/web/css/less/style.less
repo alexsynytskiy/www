@@ -913,7 +913,7 @@ header {
 							max-width: 147px;
 							float: left;
 							text-align: left;
-							line-height: 14px;
+							line-height: 25px;
 							.text-font(12px, normal, @main-grey);
 						}
 
@@ -922,7 +922,7 @@ header {
 
 							.translation-title {
 								float: right;
-								line-height: 28px;
+								line-height: 25px;
 								.text-font(12px, normal, @main-blue);
 								margin-right: 4px;
 							}
@@ -2451,5 +2451,82 @@ header {
 		line-height: 10px;
 		margin-bottom: 20px;
 		margin-top: 25px;
+	}
+}
+
+.profile {
+	padding: 10px;
+
+	.photo-block {
+		float: left;
+		margin-right: 16px;
+
+		.photo {
+			height: 230px;
+			width: 155px;
+			background-color: #000;
+			margin-bottom: 5px;
+		}
+		.photo-text {
+			line-height: 18px;
+			.text-font(14px, bold, @main-grey);
+		}
+	}
+	.about {
+		width: 414px;
+		float: right;
+		text-align: left;
+
+		.name {
+			.text-font(21px, bold, @main-blue);
+			margin-bottom: 10px;
+			line-height: 21px;
+		}
+		.feature {
+			line-height: 16px;
+			display: block;
+
+			.title {
+				float: left;
+				.text-font(14px, bold, @main-grey);
+			}
+			.text {
+				float: left;
+				.text-font(14px, normal, @main-grey);
+			}
+		}
+		.text-about-person {
+			.text-font(14px, normal, @main-grey);
+			line-height: 16px;
+
+			p {
+				margin-top: 15px;
+			}
+		}
+	}
+}
+.profile-achievments {
+	.main-title {
+		margin-left: 10px;
+		.text-font(16px, bold, @main-grey);
+	}
+	.box-content {
+		padding: 10px;
+		line-height: 18px;
+	}
+}
+.profile-statistics {
+	.main-title {
+		margin-left: 10px;
+		.text-font(16px, bold, @main-grey);
+	}
+	th, td {
+		font-size: 14px;
+	}
+	.team {
+		font-weight: bold;
+	}
+	.total {
+		font-weight: bold;
 	}
 }

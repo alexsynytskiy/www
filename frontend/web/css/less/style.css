@@ -794,7 +794,7 @@ header .header-wrapper .breadcrumbs .tag:hover {
   max-width: 147px;
   float: left;
   text-align: left;
-  line-height: 14px;
+  line-height: 25px;
   font-size: 12px;
   font-weight: normal;
   color: #727272;
@@ -804,7 +804,7 @@ header .header-wrapper .breadcrumbs .tag:hover {
 }
 .grid-column .top-matches-slider ul li .main-part .intro .translation-link .translation-title {
   float: right;
-  line-height: 28px;
+  line-height: 25px;
   font-size: 12px;
   font-weight: normal;
   color: #1972c4;
