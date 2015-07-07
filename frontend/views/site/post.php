@@ -19,9 +19,12 @@ if(!Yii::$app->user->isGuest && Yii::$app->user->can("admin")){
 <div class="post-page">
  	<div class="top-block">
  		<div class="date-icon"></div>
- 		<div class="date-text"><?= Yii::$app->formatter->asDate(strtotime($post->created_at),'full') ?></div>
+ 		<div class="date-text"><?= Yii::$app->formatter->asDate(strtotime($post->created_at),'d MMMM Y HH:mm') ?></div>
         <div class="right">
+            <?php if($post->content_category_id == \common\models\Post::CATEGORY_BLOG && 
+                    $post->user_id != Yii::$app->user->id) { ?>
             <a class="button-edit" href="<?= Url::to(['/post/edit', 'id' => $post->id]) ?>"></a>
+            <?php } ?>
             <div class="comments-icon"></div>
             <div class="comments-count"><?= $post->comments_count ?></div>
         </div>

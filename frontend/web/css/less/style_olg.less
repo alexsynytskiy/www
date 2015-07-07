@@ -2408,3 +2408,93 @@ body {
         width: 615px;
     }
 }
+
+.blog-preview {
+    padding: 10px;
+
+    .user-column {
+        float: left;
+        width: 50px;
+        margin-right: 10px;
+
+        img {
+            display: block;
+            width: 100%;
+            border-radius: 5px;
+        }
+    }
+    .data-column {
+        float: left;
+        width: 535px;
+
+        .row {
+            .clearfix;
+        }
+        .author {
+            float: left;
+            height: 26px;
+            line-height: 26px;
+        }
+        .time {
+            height: 26px;
+            float: right;
+            line-height: 26px;
+        }
+        .title {
+            display: block;
+            font-size: 18px;
+            font-weight: bold;
+            line-height: 1.5;
+            margin-bottom: 5px;
+        }
+        .row-tags {
+            padding-top: 5px;
+            line-height: 1.5;
+            .label {
+                float: left;
+                margin-right: 5px;
+            }
+        }
+        .tag {
+            float: left;
+            border-radius: 5px;
+            background-color: @main-body-background;
+            padding: 0 8px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        .rating {
+            float: left;
+            .blue {
+                font-weight: bold;
+                color: @main-blue;
+            }
+        }
+        .comments-count {
+            float: right;
+            .clearfix;
+            .icon {
+                float: left;
+                height: 15px;
+                width: 15px;
+                background: url('/images/comments.png') no-repeat center;
+                background-size: 15px;
+                margin-right: 5px;
+            }
+            .count {
+                float: left;
+                font-size: 14px;
+                font-weight: bold;
+                color: #1972c4;
+                line-height: 15px;
+            }
+        }
+        .row-image img {
+            margin-top: 5px;
+            width: 100%;
+        }
+        .row-footer {
+            padding-top: 5px;
+        }
+    }
+}

@@ -366,13 +366,13 @@ class Comment extends ActiveRecord
                     data-commentable-id="<?= $comment->commentable_id ?>" >
                     <div class="comment-user">
                         <div class="user-photo">
-                            <a href="<?= Url::to('/user/profile/'.$comment->user->id) ?>" data-pjax="0">
+                            <a href="<?= $comment->user->getUrl() ?>" data-pjax="0">
                                 <img src="<?= $imageUrl ?>">
                             </a>
                         </div>
                         <div class="user-info">
                             <div class="user-name">
-                                <a href="<?= Url::to('/user/profile/'.$comment->user->id) ?>" data-pjax="0">
+                                <a href="<?= $comment->user->getUrl() ?>" data-pjax="0">
                                     <?= $username ?>
                                 </a>
                             </div>

@@ -4,6 +4,7 @@ namespace amnah\yii2\user\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use yii\helpers\Url;
 use yii\web\IdentityInterface;
 use yii\swiftmailer\Mailer;
 use yii\swiftmailer\Message;
@@ -570,6 +571,14 @@ class User extends ActiveRecord implements IdentityInterface
             $asset->assetable_type = Asset::ASSETABLE_USER;
         }
         return $asset;
+    }
+
+    /**
+     * @return string Url to profile
+     */
+    public function getUrl()
+    {
+        return Url::to('/blogs/'.$this->id);
     }
 
     /**

@@ -124,7 +124,9 @@ AppAsset::register($this);
                         <a href="<?= Url::to(['/site/transfers']) ?>">
                             <li class="<?= Yii::$app->controller->action->id == 'transfers' ? 'current-page' : '' ?>">Трансферы</li>
                         </a>
-                        <a href="#"><li>Блоги</li></a>
+                        <a href="<?= Url::to(['/site/blogs']) ?>">
+                            <li class="<?= Yii::$app->controller->action->id == 'blogs' ? 'current-page' : '' ?>">Блоги</li>
+                        </a>
                         <a href="#"><li>Фото</li></a>
                         <a href="#"><li>Видео</li></a>
                     </ul>

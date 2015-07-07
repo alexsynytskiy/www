@@ -237,7 +237,10 @@ class SiteController extends Controller
      */
     public function actionPost($id, $slug) 
     {
-        $post = $this->findModel($id);
+        $post = Post::findOne($id);
+        if (!isset($post)){
+            throw new NotFoundHttpException('Страница не найдена.');
+        }
         $image = $post->getAsset(Asset::THUMBNAIL_CONTENT);
 
         $options = [
@@ -1154,7 +1157,10 @@ class SiteController extends Controller
      */
     public function actionPostEdit($id) 
     {
-        $model = $this->findModel($id);
+        $model = Post::findOne($id);
+        if (!isset($model)){
+            throw new NotFoundHttpException('Страница не найдена.');
+        }
         if($model->content_category_id != Post::CATEGORY_BLOG || 
             $model->user_id != Yii::$app->user->id) {
             throw new BadRequestHttpException("Ошибка доступа");
@@ -1270,19 +1276,42 @@ class SiteController extends Controller
     }
 
     /**
-     * Finds the Post model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Post the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
+     * Blogs page
+     * @param $id int User id
+     * @return mixed
      */
-    protected function findModel($id)
+    public function actionBlogs($id = false) 
     {
-        if (($model = Post::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('Страница не найдена.');
+        $query = Post::find()
+            ->where([
+                'is_public' => 1,
+                'content_category_id' => Post::CATEGORY_BLOG,
+            ]);
+        if($id) {
+            $query->andWhere(['user_id' => $id]);
         }
+        $query->orderBy(['created_at' => SORT_DESC]);
+
+        $postsDataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+
+        return $this->render('@frontend/views/site/index', [
+            'templateType' => 'col2',
+            'title' => 'Блоги',
+            'columnFirst' => [
+                'content' => [
+                    'view' => '@frontend/views/site/blogs',
+                    'data' => compact('postsDataProvider'),
+                ],
+            ],
+            'columnSecond' => [ 
+                'short_news' => SiteBlock::getShortNews(),
+            ],
+        ]);
     }
 
     /**
