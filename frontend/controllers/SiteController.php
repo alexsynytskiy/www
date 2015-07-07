@@ -23,6 +23,7 @@ use common\models\Question;
 use common\models\Claim;
 use common\models\Contract;
 use common\models\MainInfo;
+use common\models\Player;
 use frontend\models\ContactForm;
 use common\models\Source;
 
@@ -923,6 +924,41 @@ class SiteController extends Controller
                 'short_news' => SiteBlock::getShortNews(),
             ],
         ]);
+    }
+
+    /**
+     * Player page
+     * 
+     * @param int $id Player id
+     * @return mixed
+     */
+    public function actionPlayer($id, $slug) 
+    {
+        $player = Player::findOne($id);
+
+        if(!isset($player)) {
+            throw new NotFoundHttpException('Страница не найдена.');
+        }
+
+        $image = $player->getAsset(Asset::ASSETABLE_PLAYER);
+
+        $options = [
+            'templateType' => 'col2',
+            'title' => $player->name,
+            'columnFirst' => [
+                'post' => [
+                    'view' => '@frontend/views/site/team_member',
+                    'data' => compact('player','image'),
+                    'weight' => 0,
+                ],
+            ],
+            'columnSecond' => [
+                'blog_column' => SiteBlock::getBlogPosts(),
+            ],
+
+        ];
+
+        return $this->render('@frontend/views/site/index', $options);
     }
 
     /**

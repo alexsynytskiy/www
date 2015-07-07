@@ -28,6 +28,7 @@ return [
                 'match/<id:\d+>/protocol'                => 'site/match-protocol',
                 'match/<id:\d+>/report'                  => 'site/match-report',
                 'match/<id:\d+>/news'                    => 'site/match-news',
+                'player/<id:\d+>-<slug>'                 => 'site/player',
                 'match/<id:\d+>/photo'                   => 'site/match-photo',
                 'match/<id:\d+>/video'                   => 'site/match-video',
                 'team/<tab:[\w-]+>/<id:\d+>'             => 'site/team',

@@ -197,4 +197,24 @@ class Player extends ActiveRecord
     {
         return $this->hasMany(Membership::className(), ['player_id' => 'id']);
     }
+
+     /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getNumber($seasonID = false)
+    {
+        if(!$seasonID) {
+            $seasonID = Season::find()
+                ->where(['window' => Season::WINDOW_WINTER])
+                ->orderBy(['id' => SORT_DESC])
+                ->one();
+        }
+
+        $number = Contract::find()
+            ->where(['player_id' => $this->id])
+            ->andWhere(['season_id' => $seasonID->id])
+            ->one();
+
+        return $number->number;
+    }
 }
