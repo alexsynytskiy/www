@@ -145,6 +145,38 @@ class CoachController extends Controller
         return $this->redirect(['index']);
     }
 
+     /**
+     * Display list of coaches in json format
+     *
+     * @param string $query Query for search
+     * @return mixed Json data
+     */
+    public function actionCoachList($query = null) {
+        if($query == null) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+        $search = urldecode($query);
+        $query = new Query;
+        $query->select("id, name")
+            ->from(Coach::tableName())
+            ->where(['like', 'name', $search])
+            ->orderBy('name')
+            ->limit(10);
+        $command = $query->createCommand();
+        $data = $command->queryAll();
+        $data = array_values($data);
+        $out = [];
+        foreach ($data as $coach) {
+            $out[] = [
+                'value' => $coach['id'],
+                'text' => $coach['name'],
+            ];
+        }
+        header("Content-type: text/html; charset=utf-8");
+        echo Json::encode($out);
+    }
+
+
     /**
      * Finds the Coach model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

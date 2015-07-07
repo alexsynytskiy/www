@@ -18,7 +18,7 @@ class CoachSearch extends Coach
     public function rules()
     {
         return [
-            [['id', 'city_id'], 'integer'],
+            [['id'], 'integer'],
             [['name', 'country.name', 'birthday', 'slug', 'position', 'notes', 'player_carrer', 'coach_carrer', 'created_at', 'updated_at', 'image'], 'safe'],
         ];
     }
@@ -87,7 +87,6 @@ class CoachSearch extends Coach
             'country_id' => $this->country_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'city_id' => $this->city_id,
         ]);
 
         $query->andFilterWhere(['like', "{$coachTable}.name", $this->name])

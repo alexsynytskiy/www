@@ -52,7 +52,7 @@ class Coach extends ActiveRecord
         return [
             [['birthday', 'created_at', 'updated_at'], 'safe'],
             [['notes', 'player_carrer', 'coach_carrer'], 'string'],
-            [['country_id', 'city_id'], 'integer'],
+            [['country_id'], 'integer'],
             [['name', 'slug', 'position', 'image'], 'string', 'max' => 255],
 
             // image
@@ -80,7 +80,6 @@ class Coach extends ActiveRecord
             'updated_at' => 'Изменён',
             'image' => 'Фото',
             'photo' => 'Фото',
-            'city_id' => 'Город',
         ];
     }
 

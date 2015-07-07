@@ -24,6 +24,8 @@ use common\models\Claim;
 use common\models\Contract;
 use common\models\MainInfo;
 use common\models\Player;
+use common\models\TeamCoach;
+
 use frontend\models\ContactForm;
 use common\models\Source;
 
@@ -1061,6 +1063,20 @@ class SiteController extends Controller
                 ->orderBy(['amplua_id' => SORT_ASC])
                 ->all();
 
+            $mainCoach = TeamCoach::find()
+                ->where([
+                    'is_main' => 1,
+                    'season_id' => $activeSeason,
+                    'team_id' => $id,
+                ])->one();
+
+            $teamCoaches = TeamCoach::find()
+                ->where([
+                    'season_id' => $activeSeason,
+                    'team_id' => $id,
+                    'is_main' => 0,
+                ])->all();
+            
             $data = [
                 'teamModel' => $team,
                 'availableSeasons' => $availableSeasons,
@@ -1068,6 +1084,8 @@ class SiteController extends Controller
                 'availableTeams' => $availableTeams,
                 'activeTeam' => $team->id,
                 'composition' => $composition,
+                'mainCoach' => $mainCoach,
+                'teamCoaches' => $teamCoaches,
             ];
         } else {
             $information = MainInfo::find()->all();
