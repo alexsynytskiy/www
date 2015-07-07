@@ -2455,16 +2455,18 @@ header {
 }
 
 .profile {
-	padding: 10px;
+	
+	div.box-content {
+		padding: 10px 5px;
+	}
 
 	.photo-block {
 		float: left;
 		margin-right: 16px;
 
-		.photo {
+		.photo img {
 			height: 230px;
 			width: 155px;
-			background-color: #000;
 			margin-bottom: 5px;
 		}
 		.photo-text {
@@ -2488,6 +2490,7 @@ header {
 
 			.title {
 				float: left;
+				margin-right: 5px;
 				.text-font(14px, bold, @main-grey);
 			}
 			.text {

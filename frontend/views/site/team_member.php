@@ -65,7 +65,7 @@ if($player->amplua->id == Amplua::GOALKEEPER) {
     </div>
 </div>
 
-<?php if($player->achievements->name != "") { ?>
+<?php if(isset($player->achievements->name)) { ?>
     <div class="default-box profile-achievments">
         <div class="box-header">
             <div class="main-title">Достижения</div>

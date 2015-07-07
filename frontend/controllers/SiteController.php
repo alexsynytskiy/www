@@ -933,7 +933,7 @@ class SiteController extends Controller
      * @return mixed
      */
     public function actionPlayer($id, $slug) 
-    {
+    {  
         $player = Player::findOne($id);
 
         if(!isset($player)) {

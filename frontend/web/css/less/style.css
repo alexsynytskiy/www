@@ -2311,3 +2311,85 @@ header .header-wrapper .breadcrumbs .tag:hover {
   margin-bottom: 20px;
   margin-top: 25px;
 }
+.profile div.box-content {
+  padding: 10px 5px;
+}
+.profile .photo-block {
+  float: left;
+  margin-right: 16px;
+}
+.profile .photo-block .photo img {
+  height: 230px;
+  width: 155px;
+  margin-bottom: 5px;
+}
+.profile .photo-block .photo-text {
+  line-height: 18px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #727272;
+}
+.profile .about {
+  width: 414px;
+  float: right;
+  text-align: left;
+}
+.profile .about .name {
+  font-size: 21px;
+  font-weight: bold;
+  color: #1972c4;
+  margin-bottom: 10px;
+  line-height: 21px;
+}
+.profile .about .feature {
+  line-height: 16px;
+  display: block;
+}
+.profile .about .feature .title {
+  float: left;
+  margin-right: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #727272;
+}
+.profile .about .feature .text {
+  float: left;
+  font-size: 14px;
+  font-weight: normal;
+  color: #727272;
+}
+.profile .about .text-about-person {
+  font-size: 14px;
+  font-weight: normal;
+  color: #727272;
+  line-height: 16px;
+}
+.profile .about .text-about-person p {
+  margin-top: 15px;
+}
+.profile-achievments .main-title {
+  margin-left: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #727272;
+}
+.profile-achievments .box-content {
+  padding: 10px;
+  line-height: 18px;
+}
+.profile-statistics .main-title {
+  margin-left: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #727272;
+}
+.profile-statistics th,
+.profile-statistics td {
+  font-size: 14px;
+}
+.profile-statistics .team {
+  font-weight: bold;
+}
+.profile-statistics .total {
+  font-weight: bold;
+}
