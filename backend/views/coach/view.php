@@ -48,7 +48,6 @@ $photoIMG = '<img src="'.$photo->getFileUrl().'" style="height:300px; width: 200
                 'attribute' => 'country.name',
                 'label' => 'Страна',
             ],
-            'city_id',
             'created_at',
             'updated_at',
         ],

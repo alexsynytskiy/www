@@ -10,6 +10,8 @@ use common\models\Amplua;
  * @var $availableSeasons array of common\models\Season 
  * @var $activeSeason int
  * @var $composition array of common\models\Contract 
+ * @var $teamCoaches array of common\models\TeamCoach
+ * @var $mainCoach common\models\TeamCoach 
 **/
 ?>
 
@@ -138,4 +140,41 @@ use common\models\Amplua;
         </table>
     </div>
 </div>
-                
+
+<div class="default-box coach-composition-box">
+    <div class="box-header">
+        <div class="box-title">Тренерский состав</div>
+    </div>
+    <div class="box-content">
+        <div class="left-side">
+            <?php if(isset($mainCoach->coach)) { ?>
+            <div class="coach-image">
+                <img src="http://dynamomania.dev/images/default_image.png">
+            </div>
+            <div class="coach-name">
+                <div class="label">Главный тренер</div>
+                <a href="#" class="name"><?= $mainCoach->coach->name ?></a>
+            </div>
+            <?php } ?>
+        </div>
+        <div class="right-side">
+            <?php 
+                $count = 0;
+                foreach ($teamCoaches as $teamCoach) {
+                    $count ++;
+            ?>
+            <div class="coach-box">
+                <div class="coach-image">
+                    <img src="http://dynamomania.dev/images/default_image.png">
+                </div>
+                <div class="coach-name">
+                    <?php if($count == 1) { ?>
+                        <div class="label">Тренеры</div>
+                    <?php } ?>
+                    <a href="#" class="name"><?= $teamCoach->coach->name ?></a>
+                </div>
+            </div>
+            <?php } ?>
+        </div>
+    </div>
+</div>

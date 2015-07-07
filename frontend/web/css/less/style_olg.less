@@ -2523,3 +2523,78 @@ body {
         }
     }
 }
+
+.coach-composition-box {
+    .box-header .box-title {
+        color: @main-blue;
+    }
+
+    .left-side {
+        float: left;
+        width: 300px;
+        .coach-image {
+            float: left;
+            width: 110px;
+            height: 110px;
+            margin-right: 10px;
+
+            img {
+                display: block;
+                width: 100%;
+                height: 100%;
+            }
+        }
+        .coach-name {
+            float: left;
+            width: 180px;
+            padding-right: 10px;
+
+            .label {
+                height: 60px;
+                line-height: 60px;
+                font-weight: bold;
+            }
+        }
+    }
+    .right-side {
+        float: right;
+        width: 295px;
+
+        .coach-box {
+            .clearfix;
+            margin-bottom: 10px;
+            &:last-child {
+                margin: 0;
+            }
+            &:first-child {
+                .coach-name {
+                    padding: 0;
+                }
+            }
+
+            .label {
+                font-weight: bold;
+            }
+            .coach-name {
+                line-height: 1.5;
+                padding-top: 15px;
+            }
+        }
+
+        .coach-image {
+            float: left;
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+
+            img {
+                display: block;
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+    .box-content {
+        padding: 10px 5px;
+    }
+}

@@ -125,8 +125,6 @@ use common\models\Country;
         ]);
     ?>
 
-    <?= $form->field($model, 'city_id')->textInput() ?>   
-
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Добавить' : 'Изменить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
