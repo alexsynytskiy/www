@@ -379,4 +379,13 @@ class Post extends ActiveRecord
         return Vote::getUserVote($this->id, Vote::VOTEABLE_POST);
     }
 
+    /**
+     * Check type model of post if it blog
+     * 
+     * @return boolean 
+     */
+    public function isBlog() {
+        return $this->content_category_id == self::CATEGORY_BLOG;
+    }
+
 }

@@ -1304,11 +1304,15 @@ header .header-wrapper .breadcrumbs .tag:hover {
 }
 .grid-column .post-page .footer-part-bottom .vk-likes .count {
   position: absolute;
-  right: 5px;
-  top: 7px;
+  right: 0;
+  top: 0;
   font-size: 14px;
   font-weight: normal;
   color: #ffffff;
+  width: 36px;
+  height: 36px;
+  line-height: 36px;
+  text-align: center;
 }
 .grid-column .post-page .footer-part-bottom .vk-likes:hover {
   background-position: 0 -58px;
@@ -1324,11 +1328,15 @@ header .header-wrapper .breadcrumbs .tag:hover {
 }
 .grid-column .post-page .footer-part-bottom .fb-likes .count {
   position: absolute;
-  right: 5px;
-  top: 7px;
+  right: 0;
+  top: 0;
   font-size: 14px;
   font-weight: normal;
   color: #ffffff;
+  width: 36px;
+  height: 36px;
+  line-height: 36px;
+  text-align: center;
 }
 .grid-column .post-page .footer-part-bottom .fb-likes:hover {
   background-position: 0 -58px;
