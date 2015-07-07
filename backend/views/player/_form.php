@@ -32,7 +32,7 @@ use kartik\file\FileInput;
         'showRemove' => false,
         'overwriteInitial' => true,
         'browseLabel' => "Обзор...",
-        'allowedFileExtensions' => ['jpg', 'gif', 'png'],
+        'allowedFileExtensions' => ['jpeg', 'jpg', 'gif', 'png'],
     ];
     $avatar = $model->getAsset();
     if (!$model->isNewRecord && $avatar->getFileUrl())
