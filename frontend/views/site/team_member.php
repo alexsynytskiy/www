@@ -8,6 +8,7 @@ use common\models\Amplua;
  * @var $player common\models\Player
  * @var $image common\models\Asset
 **/
+Yii::$app->formatter->locale = 'ru-RU';
 
 $isGoalkeeper = false;
 
@@ -31,7 +32,7 @@ if($player->amplua->id == Amplua::GOALKEEPER) {
                 <div class="text"><?= $player->amplua->name ?></div>                
             </div>
             <div class="clearfix"></div>
-            <?php if($player->more_ampluas != "") { ?>
+            <?php if(isset($player->more_ampluas)) { ?>
                 <div class="feature">
                     <div class="title">Дополнительные амплуа: </div>
                     <div class="text"><?= $player->more_ampluas ?></div>             
@@ -45,7 +46,7 @@ if($player->amplua->id == Amplua::GOALKEEPER) {
             <div class="clearfix"></div>
             <div class="feature">
                 <div class="title">Дата рождения: </div>
-                <div class="text"><?= $player->birthday ?></div>             
+                <div class="text"><?= Yii::$app->formatter->asDate(strtotime($player->birthday),'dd.MM.Y') ?></div>             
             </div>
             <div class="clearfix"></div>
             <div class="feature">
@@ -96,8 +97,24 @@ if($player->amplua->id == Amplua::GOALKEEPER) {
                 </tr>
             </tdead>
             <tbody>
-                <?php 
-                    foreach ($player->careers as $seasonStatistic) { ?>
+                <?php
+                    $careerTeamsStatistics = [];
+                    foreach ($player->careers as $seasonStatistic) {
+
+                        if(!in_array($seasonStatistic->team->id, array_keys($careerTeamsStatistics))) {
+                            $careerTeamsStatistics[$seasonStatistic->team->id] = $seasonStatistic;
+                        }
+                        else {
+                            $temp = $careerTeamsStatistics[$seasonStatistic->team->id];
+                            $temp->championship_matches += $seasonStatistic->championship_matches;
+                            $temp->championship_goals += $seasonStatistic->championship_goals;
+                            $temp->cup_matches += $seasonStatistic->cup_matches;
+                            $temp->cup_goals += $seasonStatistic->cup_goals;
+                            $temp->euro_matches += $seasonStatistic->euro_matches;
+                            $temp->euro_goals += $seasonStatistic->euro_goals;
+                            $careerTeamsStatistics[$seasonStatistic->team->id] = $temp;
+                        }
+                    ?>
                     <tr>
                         <td class="season"><?= $seasonStatistic->season->name ?></td>
                         <td class="league"><?= $seasonStatistic->league->abr ?></td>
@@ -136,17 +153,42 @@ if($player->amplua->id == Amplua::GOALKEEPER) {
                 <tr>
                     <td colspan="9" class="total">Всего</td>
                 </tr>
-                <tr>
-                    <td class="season"></td>
-                    <td class="league">м</td>
-                    <td class="team">"Динамо-м" К</td>
-                    <td class="champ-matches">8</td>
-                    <td class="champ-goals">0</td>
-                    <td class="cup-matches">0</td>
-                    <td class="cup-goals">0</td>
-                    <td class="euro-matches">0</td>
-                    <td class="euro-goals">0</td>
-                </tr>
+                <?php 
+                    foreach ($careerTeamsStatistics as $teamStatistics) {
+                ?>
+                    <tr>
+                        <td class="season"></td>
+                        <td class="league"><?= $teamStatistics->league->abr ?></td>
+                        <td class="team"><?= $teamStatistics->team->name ?></td>
+                        <td class="champ-matches"><?= $teamStatistics->championship_matches ?></td>
+                        <td class="champ-goals">
+                            <?php 
+                                if($isGoalkeeper && $teamStatistics->championship_goals != 0) {
+                                    echo '-'; 
+                                }
+                                echo $teamStatistics->championship_goals;
+                            ?>
+                        </td>
+                        <td class="cup-matches"><?= $teamStatistics->cup_matches ?></td>
+                        <td class="cup-goals">
+                            <?php 
+                                if($isGoalkeeper && $teamStatistics->cup_goals != 0) {
+                                    echo '-'; 
+                                }
+                                echo $teamStatistics->cup_goals;
+                            ?>
+                        </td>
+                        <td class="euro-matches"><?= $teamStatistics->euro_matches ?></td>
+                        <td class="euro-goals">
+                        <?php
+                            if($isGoalkeeper && $teamStatistics->euro_goals != 0) {
+                                echo '-'; 
+                            }
+                            echo $teamStatistics->euro_goals;
+                        ?>
+                        </td>
+                    </tr>
+                <?php } ?>
             </tbody>
         </table>
     </div>
