@@ -4,15 +4,15 @@
 $this->title = 'Динамомания';
 ?>
 <div class="site-index">
-    <div class="col-md-6">
+    <div class="col-md-12">
     	Суточное количество новостей за последние 30 дней	
 		<canvas id="news"></canvas>
 	</div>
-	<div class="col-md-6">
+	<div class="col-md-12">
     	Суточное количество комментариев за последние 30 дней	
 		<canvas id="comments"></canvas>
 	</div>
-	<div class="col-md-6">
+	<div class="col-md-12">
     	Суточное количество новых пользователей за последние 30 дней	
 		<canvas id="newUsers"></canvas>
 	</div>

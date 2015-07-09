@@ -71,17 +71,17 @@ class SiteController extends Controller
 
         $countSqlNews = 'SELECT DATE(created_at) AS d, count(id) AS c
                     FROM posts
-                    WHERE created_at > DATE_SUB(NOW(), INTERVAL 30 day) AND content_category_id = 1
+                    WHERE created_at > DATE_SUB(NOW(), INTERVAL 60 day) AND content_category_id = 1
                     GROUP BY DATE(created_at)';
 
         $countSqlComments = 'SELECT DATE(created_at) AS d, count(id) AS c
                     FROM comments
-                    WHERE created_at > DATE_SUB(NOW(), INTERVAL 30 day)
+                    WHERE created_at > DATE_SUB(NOW(), INTERVAL 60 day)
                     GROUP BY DATE(created_at)';
 
         $countSqlNewUsers = 'SELECT DATE(create_time) AS d, count(id) AS c
                     FROM users
-                    WHERE create_time > DATE_SUB(NOW(), INTERVAL 30 day)
+                    WHERE create_time > DATE_SUB(NOW(), INTERVAL 60 day)
                     GROUP BY DATE(create_time)';
 
         $cmd = $connection->createCommand($countSqlNews);
