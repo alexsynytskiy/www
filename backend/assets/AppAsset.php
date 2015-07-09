@@ -23,6 +23,7 @@ class AppAsset extends AssetBundle
     ];
     public $js = [
         'js/jquery.jcrop.js',
+        'js/Chart.js',
         'js/admin.js',
     ];
     public $depends = [

@@ -28,7 +28,7 @@ $loginTime = date('d.m.Y', strtotime($profile->user->login_time));
             <div class="icon"></div>
         </a>
 
-        <a id="new-post" class="edit-button new-post" href="<?= Url::to(['/blog/add-post']) ?>">
+        <a id="new-post" class="edit-button new-post" href="<?= Url::to(['/post/add']) ?>">
             <div class="icon"></div>
         </a>
     </div>

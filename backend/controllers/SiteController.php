@@ -66,7 +66,70 @@ class SiteController extends Controller
         if (!Yii::$app->user->can("admin")) {
             throw new HttpException(403, 'You are not allowed to perform this action.');
         }
-        return $this->render('index');
+        
+        $connection = Yii::$app->db;
+
+        $countSqlNews = 'SELECT DATE(created_at) AS d, count(id) AS c
+                    FROM posts
+                    WHERE created_at > DATE_SUB(NOW(), INTERVAL 30 day) AND content_category_id = 1
+                    GROUP BY DATE(created_at)';
+
+        $countSqlComments = 'SELECT DATE(created_at) AS d, count(id) AS c
+                    FROM comments
+                    WHERE created_at > DATE_SUB(NOW(), INTERVAL 30 day)
+                    GROUP BY DATE(created_at)';
+
+        $countSqlNewUsers = 'SELECT DATE(create_time) AS d, count(id) AS c
+                    FROM users
+                    WHERE create_time > DATE_SUB(NOW(), INTERVAL 30 day)
+                    GROUP BY DATE(create_time)';
+
+        $cmd = $connection->createCommand($countSqlNews);
+        $newsCount = $cmd->queryAll();
+        
+        $cmd = $connection->createCommand($countSqlComments);
+        $commentsCount = $cmd->queryAll();
+
+        $cmd = $connection->createCommand($countSqlNewUsers);
+        $newUsersCount = $cmd->queryAll();
+
+        $daysNewsCount = [];        
+        $daysNewsDates = [];
+        $daysCommentsCount = [];
+        $daysCommentsDates = [];
+        $daysNewUsersCount = [];
+        $daysNewUsersDates = []; 
+
+        foreach ($newsCount as $count) {
+            $daysNewsCount[] = $count['c'];
+            $daysNewsDates[] = '"'.$count['d'].'"';
+        }
+
+        foreach ($commentsCount as $count) {
+            $daysCommentsCount[] = $count['c'];
+            $daysCommentsDates[] = '"'.$count['d'].'"';
+        }
+
+        foreach ($newUsersCount as $count) {
+            $daysNewUsersCount[] = $count['c'];
+            $daysNewUsersDates[] = '"'.$count['d'].'"';
+        }        
+
+        $daysNewsDatesString = implode(",", $daysNewsDates);
+        $daysNewsCountString = implode(",", $daysNewsCount);
+
+        $daysCommentsDatesString = implode(",", $daysCommentsDates);
+        $daysCommentsCountString = implode(",", $daysCommentsCount);
+
+        $daysNewUsersDatesString = implode(",", $daysNewUsersDates);
+        $daysNewUsersCountString = implode(",", $daysNewUsersCount);
+
+        return $this->render('index',  compact('daysNewsCountString', 
+                                               'daysNewsDatesString',
+                                               'daysCommentsDatesString', 
+                                               'daysCommentsCountString',
+                                               'daysNewUsersDatesString', 
+                                               'daysNewUsersCountString'));
     }
 
     public function actionLogin()
