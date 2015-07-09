@@ -2164,7 +2164,6 @@ body a:focus {
 .composition-table .photo img {
   border-radius: 5px;
   margin-top: 11px;
-  height: 50px;
   width: 50px;
 }
 .composition-table .player {
@@ -2585,6 +2584,10 @@ body a:focus {
   clear: both;
   visibility: hidden;
 }
+.album-box .album-container {
+  width: 615px;
+  margin: 0 -10px;
+}
 .album-box .top-block {
   height: 21px;
   margin-bottom: 10px;
@@ -2643,12 +2646,47 @@ body a:focus {
   font-weight: bold;
   color: #1972c4;
   line-height: 1.5;
-  padding-bottom: 5px;
+  padding: 0 10px 5px;
 }
-#album-bx-pager {
+.album-box .bxslider-main img {
+  width: 100%;
+}
+.album-box .bxslider-main .bx-controls-direction a {
+  top: 50%;
+}
+.album-box .bxslider-main .bx-prev {
+  left: 15px;
+  background: url(/images/button_left.png) no-repeat center;
+  background-size: 15px;
+}
+.album-box .bxslider-main .bx-next {
+  right: 15px;
+  background: url(/images/button_right.png) no-repeat center;
+  background-size: 15px;
+}
+.album-box .bxslider-thumbnails img {
+  width: 100%;
+}
+.album-box .bxslider-thumbnails .bx-controls-direction a {
+  top: 50%;
+}
+.album-box .bxslider-thumbnails .bx-prev {
+  left: 15px;
+  background: url(/images/button_left.png) no-repeat center;
+  background-size: 10px;
+}
+.album-box .bxslider-thumbnails .bx-next {
+  right: 15px;
+  background: url(/images/button_right.png) no-repeat center;
+  background-size: 10px;
+}
+.album-box .album-image {
+  width: 100%;
+}
+.bxslider-thumbnails {
   padding-top: 10px;
 }
-#album-bx-pager a {
+.bxslider-thumbnails a {
   display: block;
   float: left;
 }

@@ -59,7 +59,7 @@ use kartik\file\FileInput;
             'language' => 'ru-RU',
             'pluginOptions' => [
                 'autoclose' => true,
-                'format' => 'yyyy-mm-dd',
+                'format' => 'dd.mm.yyyy',
             ]
         ]);
     ?>

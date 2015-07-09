@@ -16,6 +16,7 @@ use Imagine\Image\ManipulatorInterface;
  * This is the model class for table "assets".
  *
  * @property integer $id
+ * @property integer $parent_id
  * @property string $filename
  * @property string $thumbnail
  * @property integer $width
@@ -24,7 +25,6 @@ use Imagine\Image\ManipulatorInterface;
  * @property integer $assetable_id
  * @property string $assetable_type
  * @property integer $comments_count
- * @property integer $image_id
  *
  * @property Users $user
  * @property Asset $parent
@@ -41,6 +41,15 @@ class Asset extends \yii\db\ActiveRecord
      * @var string Coordinates data for crop image
      */
     public $cropData;
+
+    /**
+     * @var string Base path on server where images collected
+     */
+    public $basePath;
+    /**
+     * @var string Base url path to collected images
+     */
+    public $baseUrl;
 
     /**
      * @var string assetable types
@@ -81,6 +90,16 @@ class Asset extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    public function __construct( $config = [] ) {
+        // Init pathes
+        $this->basePath = Yii::getAlias('@frontend').'/web/images/store/';
+        $this->baseUrl = 'http://'.$_SERVER['HTTP_HOST'].'/images/store/';
+        parent::__construct($config);
+    }
+
+    /**
+     * @inheritdoc
+     */
     public static function tableName()
     {
         return 'assets';
@@ -92,13 +111,12 @@ class Asset extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['width', 'height', 'assetable_id', 'comments_count'], 'integer'],
+            [['width', 'height', 'assetable_id', 'comments_count', 'parent_id'], 'integer'],
             [['filename', 'thumbnail'], 'string', 'max' => 255],
             [['type', 'assetable_type'], 'string', 'max' => 20],
-            [['image_id'], 'string', 'max' => 50],
 
             //required
-            [['type', 'filename'], 'required'],
+            [['filename'], 'required'],
         ];
     }
 
@@ -109,6 +127,7 @@ class Asset extends \yii\db\ActiveRecord
     {
         return [
             'id'             => 'ID',
+            'parent_id'      => 'Parent ID',
             'filename'       => 'Filename',
             'thumbnail'      => 'Thumbnail',
             'width'          => 'Width',
@@ -117,7 +136,6 @@ class Asset extends \yii\db\ActiveRecord
             'assetable_id'   => 'Assetable ID',
             'assetable_type' => 'Assetable Type',
             'comments_count' => 'Comments Count',
-            'image_id'       => 'Image ID',
         ];
     }
 
@@ -137,6 +155,10 @@ class Asset extends \yii\db\ActiveRecord
             }
 
             $this->genFilename();
+            if(!$this->save()) {
+                return false;
+            }
+            $this->createFilePath();
             $imagine = Image::getImagine()->open($this->uploadedFile->tempName);
         }
         else
@@ -166,7 +188,7 @@ class Asset extends \yii\db\ActiveRecord
         
         $imagine->save($this->getFilePath());
 
-        return $this->save(false);
+        return true;
     }
 
      /**
@@ -184,6 +206,10 @@ class Asset extends \yii\db\ActiveRecord
                 unlink($this->getFilePath());
             }
             $this->genFilename();
+            if(!$this->save()) {
+                return false;
+            }
+            $this->createFilePath();
             $img = Image::getImagine()->open($this->uploadedFile->tempName);
         }
         else
@@ -198,7 +224,7 @@ class Asset extends \yii\db\ActiveRecord
 
         if (($img->getSize()->getWidth() <= $box->getWidth() && $img->getSize()->getHeight() <= $box->getHeight()) || (!$box->getWidth() && !$box->getHeight())) {
             $img->copy()->save($this->getFilePath());
-            return $this->save(false);
+            return true;
         }
 
         $img = $img->thumbnail($box, ManipulatorInterface::THUMBNAIL_OUTBOUND);
@@ -219,7 +245,68 @@ class Asset extends \yii\db\ActiveRecord
         $thumb->paste($img, new Point($startX, $startY));
         $thumb->save($this->getFilePath());
 
-        return $this->save(false);
+        return true;
+    }
+
+    /**
+     * Get folder name
+     * @return string
+     */
+    public function getFolderName()
+    {
+        switch ($this->getAssetableType()) {
+            case self::ASSETABLE_POST:
+            case self::ASSETABLE_ALBUM:
+                $path = 'galleries/';
+                break;
+            case self::ASSETABLE_PLAYER:
+            case self::ASSETABLE_COACH:
+                $path = 'faces/';
+                break;
+            case self::ASSETABLE_BANNER:
+                $path = 'banners/';
+                break;
+            case self::ASSETABLE_COUNTRY:
+                $path = 'flags/';
+                break;
+            case self::ASSETABLE_USER:
+                $path = 'avatars/';
+                break;
+            case self::ASSETABLE_TEAM:
+                $path = 'logos/';
+                break;
+            case self::ASSETABLE_MATCH_EVENT_ICON:
+                $path = 'icons/';
+                break;
+            default: 
+                $path = 'other/';
+                break;
+        }
+        $id = !isset($this->parent_id) ? $this->id : $this->parent_id; 
+        $folderFirst = sprintf('%04d', floor($id / 10000));
+        $folderLast = sprintf('%04d', $id % 10000);
+        $path .= $folderFirst.'/'.$folderLast.'/';
+        return $path;
+    }
+
+    /**
+     * Get folder path
+     * @return string
+     */
+    public function getFolderPath()
+    {
+        if(!isset($this->id)) return false;
+        return $this->basePath.$this->getFolderName();
+    }
+
+    /**
+     * Get folder url
+     * @return string
+     */
+    public function getFolderUrl()
+    {
+        if(!isset($this->id)) return false;
+        return $this->baseUrl.$this->getFolderName();
     }
 
     /**
@@ -229,8 +316,9 @@ class Asset extends \yii\db\ActiveRecord
      */
     public function getFilePath()
     {
-        if(empty($this->filename)) return false;
-        return Yii::getAlias('@frontend').'/web/images/store/'.$this->getAssetableType().'/'.$this->filename;
+        $folderPath = $this->getFolderPath();
+        if(!$folderPath || empty($this->filename)) return false;
+        return $folderPath.$this->filename;
     }
 
     /**
@@ -244,17 +332,20 @@ class Asset extends \yii\db\ActiveRecord
             self::ASSETABLE_POST,
             self::ASSETABLE_TEAM,
         ];
+        $filePath = $this->getFilePath();
+        // If image not found in DB
         if(empty($this->filename) && in_array($this->getAssetableType(), $excludeAssetableTypes)) {
             return false;
         }
-        // only for teams
-        if(!file_exists($this->getFilePath()) && $this->getAssetableType() == self::ASSETABLE_TEAM) {
+        // Only for teams. If image not found on server
+        if(!file_exists($filePath) && $this->getAssetableType() == self::ASSETABLE_TEAM) {
             return false;
         }
-        if(!file_exists($this->getFilePath())) {
+        // Default image
+        if(!file_exists($filePath)) {
             return $this->getDefaultFileUrl();
         }
-        return 'http://'.$_SERVER['HTTP_HOST'].'/images/store/'.$this->getAssetableType().'/'.$this->filename;
+        return $this->getFolderUrl().$this->filename;
     }
 
     /**
@@ -297,6 +388,20 @@ class Asset extends \yii\db\ActiveRecord
         $filename .= '.'.$this->uploadedFile->extension;
         $this->filename = $filename;
     }
+
+    /**
+     * Generate unique file name
+     *
+     * @return void
+     */
+    public function createFilePath()
+    {
+        $folderPath = $this->getFolderPath();
+        if($folderPath && !file_exists($folderPath)) {
+            mkdir($folderPath, 0777, true);
+        }
+    }
+    
 
     /**
      * Get all assets file for assetable entity
@@ -346,10 +451,6 @@ class Asset extends \yii\db\ActiveRecord
                     self::THUMBNAIL_BIG,
                     self::THUMBNAIL_NEWS,
                     self::THUMBNAIL_CONTENT,
-                    // self::THUMBNAIL_ALBUM,
-                    // self::THUMBNAIL_SMALL,
-                    // self::THUMBNAIL_POSTER,
-                    // self::THUMBNAIL_CONTENT,
                 ];
             case self::ASSETABLE_ALBUM:
                 return [
@@ -394,9 +495,9 @@ class Asset extends \yii\db\ActiveRecord
                     default: break;
                 }
             case self::ASSETABLE_PLAYER:
-                return new Box(310,460);
+                return new Box(460,460);
             case self::ASSETABLE_COACH:
-                return new Box(310,460);
+                return new Box(460,460);
             case self::ASSETABLE_TEAM:
                 return new Box($size->getWidth(),$size->getHeight());
             case self::ASSETABLE_ALBUM:
@@ -405,12 +506,9 @@ class Asset extends \yii\db\ActiveRecord
                     case self::THUMBNAIL_BIG:
                         return new Box(300,200);
                     case self::THUMBNAIL_SMALL:
-                        return new Box(100,60);
+                        return new Box(90,60);
                     case self::THUMBNAIL_CONTENT:
-                        // $width = 595;
-                        // $height = $size->getHeight()*$width/$size->getWidth();
-                        // $height = $height > 400 ? 400 : $height;
-                        return new Box(595, 400);
+                        return new Box(615, 410);
                     default: break;
                 }
             default: break;

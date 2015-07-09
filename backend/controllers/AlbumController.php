@@ -106,15 +106,22 @@ class AlbumController extends Controller
             $model->images = UploadedFile::getInstances($model, 'images');
             if($model->images)
             {
-                // IMPORTANT: Set image idetifier 
-                $imageID = uniqid();
                 foreach ($model->images as $image)
                 {
+                    // Save origionals 
+                    $asset = new Asset();
+                    $asset->assetable_type = Asset::ASSETABLE_ALBUM;
+                    $asset->assetable_id = $model->id;
+                    $asset->uploadedFile = $image;
+                    $asset->saveAsset();
+
+                    // Save thumbnails 
+                    $imageID = $asset->id;
                     $thumbnails = Asset::getThumbnails(Asset::ASSETABLE_ALBUM);
 
                     foreach ($thumbnails as $thumbnail) {
                         $asset = new Asset();
-                        $asset->image_id = $imageID;
+                        $asset->parent_id = $imageID;
                         $asset->thumbnail = $thumbnail;
                         $asset->assetable_type = Asset::ASSETABLE_ALBUM;
                         $asset->assetable_id = $model->id;
@@ -175,9 +182,9 @@ class AlbumController extends Controller
                 foreach ($assets as $asset) {
                     if(!in_array($asset->id, $currentAssetKeys))
                     {
-                        $imageID = $asset->image_id;
+                        $imageID = $asset->parent_id;
                         foreach ($allAssets as $allAssetModel) {
-                            if($allAssetModel->image_id  == $imageID) {
+                            if($allAssetModel->parent_id  == $imageID || $allAssetModel->id == $imageID) {
                                 $allAssetModel->delete();
                             }
                         }
@@ -189,14 +196,13 @@ class AlbumController extends Controller
             $imageIDs = [];
             foreach($allAssets as $asset)
             {
-                $imageID = $asset->image_id;
+                $imageID = $asset->parent_id;
                 if(!in_array($imageID, $imageIDs) && !file_exists($asset->getFilePath()))
                 {
                     $imageIDs[] = $imageID;
                     foreach ($allAssets as $allAssetModel) {
-                        if($allAssetModel->image_id  == $imageID) {
+                        if($allAssetModel->parent_id  == $imageID || $allAssetModel->id == $imageID) {
                             $allAssetModel->delete();
-                            // var_dump($allAssetModel->filename);
                         }
                     }
                 }   
@@ -206,15 +212,23 @@ class AlbumController extends Controller
             $model->images = UploadedFile::getInstances($model, 'images');
             if($model->images)
             {
-                // IMPORTANT: Set image idetifier 
-                $imageID = uniqid();
+                
                 foreach ($model->images as $image)
                 {
+                    // Save origionals 
+                    $asset = new Asset();
+                    $asset->assetable_type = Asset::ASSETABLE_ALBUM;
+                    $asset->assetable_id = $model->id;
+                    $asset->uploadedFile = $image;
+                    $asset->saveAsset();
+
+                    // Save thumbnails 
+                    $imageID = $asset->id;
                     $thumbnails = Asset::getThumbnails(Asset::ASSETABLE_ALBUM);
 
                     foreach ($thumbnails as $thumbnail) {
                         $asset = new Asset();
-                        $asset->image_id = $imageID;
+                        $asset->parent_id = $imageID;
                         $asset->thumbnail = $thumbnail;
                         $asset->assetable_type = Asset::ASSETABLE_ALBUM;
                         $asset->assetable_id = $model->id;

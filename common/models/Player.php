@@ -125,9 +125,9 @@ class Player extends ActiveRecord
     /**
      * @return Asset
      */
-    public function getAsset()
+    public function getAsset($thumbnail = null)
     {
-        $asset = Asset::getAssets($this->id, Asset::ASSETABLE_PLAYER, NULL, true);
+        $asset = Asset::getAssets($this->id, Asset::ASSETABLE_PLAYER, $thumbnail, true);
         if($asset->assetable_type == null) {
             $asset->assetable_type = Asset::ASSETABLE_PLAYER;
         }

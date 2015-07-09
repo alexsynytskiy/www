@@ -2327,9 +2327,11 @@ header .header-wrapper .breadcrumbs .tag:hover {
   margin-right: 16px;
 }
 .profile .photo-block .photo img {
-  height: 230px;
   width: 155px;
   margin-bottom: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
 }
 .profile .photo-block .photo-text {
   line-height: 18px;

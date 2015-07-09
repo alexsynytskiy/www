@@ -944,7 +944,7 @@ class SiteController extends Controller
             throw new NotFoundHttpException('Страница не найдена.');
         }
 
-        $image = $player->getAsset(Asset::ASSETABLE_PLAYER);
+        $image = $player->getAsset(Asset::THUMBNAIL_CONTENT);
 
         $options = [
             'templateType' => 'col2',
@@ -1463,6 +1463,12 @@ class SiteController extends Controller
                 'id' => $photo_id,
                 'thumbnail' => Asset::THUMBNAIL_CONTENT,
             ])->one();
+        if (!isset($photo)){
+            $photo = Asset::find()
+            ->where([
+                'id' => $photo_id,
+            ])->one();
+        }
 
         if (!isset($photo)){
             throw new NotFoundHttpException('Страница не найдена.');

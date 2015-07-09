@@ -199,3 +199,18 @@ html .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .ope
     margin-bottom: 20px;
     margin-top: 25px;
 }
+
+@media screen and (min-width: 768px) and (max-width: 992px) {
+    .navbar .navbar-header {
+        display: none;
+    }
+}
+@media screen and (max-width: 767px) {
+    .navbar.navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
+        color: #fff;
+    }
+    .navbar.navbar-inverse .navbar-nav .open .dropdown-menu > li > a:hover, 
+    .navbar.navbar-inverse .navbar-nav .open .dropdown-menu > li > a:focus {
+        background-color: rgba(0,0,0,0.2);
+    }
+}

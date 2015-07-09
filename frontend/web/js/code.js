@@ -38,17 +38,18 @@ $(window).load(function() {
         maxSlides: 1,
         minSlides: 1,
         slideMargin: 0,
-        pagerCustom: '#album-bx-pager'
+        pagerCustom: '#album-bx-pager',
+        adaptiveHeight: true,
     });
 
     $('#album-bx-pager').bxSlider({
-        slideWidth: '100px',
+        slideWidth: 90,
         maxSlides: 10,
-        // minSlides: 1,
         slideMargin: 10,
         pager: false,
         moveSlides: 3,
         infiniteLoop: false,
+        adaptiveHeight: true,
     });
 
     // BxSlider END

@@ -73,6 +73,7 @@ class PlayerController extends Controller
             $uploadedFile = UploadedFile::getInstance($model,'avatar');
 
             $model->slug = $model->genSlug();
+            $model->birthday = date('Y-m-d', strtotime($model->birthday));
             $model->save(false);
 
             if(!empty($uploadedFile))
@@ -109,7 +110,7 @@ class PlayerController extends Controller
             'player_id' => $model->id,
         ]];
         $achievementDataProvider = $achievementModel->search($params);
-        // $achievementDataProvider = $achievementModel->search(Yii::$app->request->queryParams);
+        $model->birthday = date('d.m.Y', strtotime($model->birthday));
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $uploadedFile = UploadedFile::getInstance($model,'avatar');
@@ -132,6 +133,7 @@ class PlayerController extends Controller
             }
 
             $model->slug = $model->genSlug();
+            $model->birthday = date('Y-m-d', strtotime($model->birthday));
             $model->save(false);
             return $this->redirect(['view', 'id' => $model->id]);
         }

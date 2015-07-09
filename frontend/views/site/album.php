@@ -8,6 +8,11 @@ use yii\helpers\Url;
 
 $bigImages = $album->getAssets(\common\models\Asset::THUMBNAIL_CONTENT);
 $smallImages = $album->getAssets(\common\models\Asset::THUMBNAIL_SMALL);
+if(!count($bigImages)) {
+    $bigImages = $album->getAssets();
+    $smallImages = $bigImages;
+}
+
 
 $editLink = '';
 if(!Yii::$app->user->isGuest && Yii::$app->user->can("admin")){
@@ -31,26 +36,34 @@ if(!Yii::$app->user->isGuest && Yii::$app->user->can("admin")){
     <div class="album-container">
         <div class="title"><?= $album->title.$editLink ?></div>
 
-        <div id="album-slider">
-            <?php foreach ($bigImages as $image) { ?>
-                <?php if($image->getFileUrl()) { ?>
-                    <div>
-                        <a href="<?= $album->getPhotoUrl($image->id) ?>">
-                            <img src="<?= $image->getFileUrl() ?>" />
-                        </a>
-                    </div>
+        <div class="bxslider-main">
+            <?php if(count($bigImages)) { ?>
+            <div id="album-slider">
+                <?php foreach ($bigImages as $image) { ?>
+                    <?php if($image->getFileUrl()) { ?>
+                        <div>
+                            <a href="<?= $album->getPhotoUrl($image->id) ?>">
+                                <img src="<?= $image->getFileUrl() ?>" />
+                            </a>
+                        </div>
+                    <?php } ?>        
                 <?php } ?>        
+            </div>
             <?php } ?>        
         </div>
 
-        <div id="album-bx-pager">
-            <?php $count = 0; ?>
-            <?php foreach ($smallImages as $image) { ?>
-                <?php if($image->getFileUrl()) { ?>
-                    <a data-slide-index="<?= $count++ ?>" href="javascript:void()" class="pager-item">
-                        <img src="<?= $image->getFileUrl() ?>" />
-                    </a>
-                <?php } ?>        
+        <div class="bxslider-thumbnails">
+            <?php if(count($smallImages)) { ?>
+            <div id="album-bx-pager">
+                <?php $count = 0; ?>
+                <?php foreach ($smallImages as $image) { ?>
+                    <?php if($image->getFileUrl()) { ?>
+                        <a data-slide-index="<?= $count++ ?>" href="javascript:void()" class="pager-item">
+                            <img src="<?= $image->getFileUrl() ?>" />
+                        </a>
+                    <?php } ?>        
+                <?php } ?>
+            </div>
             <?php } ?>
         </div>
 
