@@ -2533,3 +2533,122 @@ body a:focus {
 .coach-composition-box .box-content {
   padding: 10px 5px;
 }
+.album-preview-box {
+  padding: 0;
+  width: 300px;
+  position: relative;
+}
+.album-preview-box .image-box {
+  -webkit-border-radius: 5px 5px 0 0;
+  -moz-border-radius: 5px 5px 0 0;
+  border-radius: 5px 5px 0 0;
+  overflow: hidden;
+}
+.album-preview-box .image-box img {
+  display: block;
+  width: 100%;
+}
+.album-preview-box .box-content {
+  padding: 10px;
+}
+.album-preview-box .box-content .title {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.album-preview-box .photos-count {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #1972c4;
+  line-height: 25px;
+  height: 25px;
+  padding: 0 8px;
+  color: #fff;
+  -webkit-border-radius: 0 5px 0 5px;
+  -moz-border-radius: 0 5px 0 5px;
+  border-radius: 0 5px 0 5px;
+}
+.album-box {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  box-shadow: 0 2px 0 #d0d0d0;
+  background: #ffffff;
+  margin-bottom: 15px;
+  padding: 10px;
+}
+.album-box:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+.album-box .top-block {
+  height: 21px;
+  margin-bottom: 10px;
+}
+.album-box .top-block .date-icon {
+  float: left;
+  height: 20px;
+  width: 20px;
+  background: url('/images/date_icon.png') no-repeat;
+  background-size: 20px;
+  margin-right: 7px;
+}
+.album-box .top-block .date-text {
+  float: left;
+  line-height: 20px;
+  font-family: 'Fira Sans', sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  color: #727272;
+}
+.album-box .top-block .right {
+  float: right;
+}
+.album-box .top-block .image-icon {
+  float: left;
+  height: 20px;
+  width: 22px;
+  background: url('/images/comments_icon.png') no-repeat;
+  background-size: 22px;
+}
+.album-box .top-block .image-count {
+  float: left;
+  line-height: 20px;
+  font-family: 'Fira Sans', sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  color: #727272;
+  margin-left: 7px;
+}
+.album-box .top-block .button-edit {
+  display: block;
+  float: left;
+  margin-right: 10px;
+  background: url(/images/write_sprite.png) center 0 no-repeat;
+  background-size: 22px;
+  width: 22px;
+  height: 22px;
+}
+.album-box .top-block .button-edit:hover {
+  background-position: center -42px;
+}
+.album-box .title {
+  text-align: left;
+  font-family: 'Fira Sans', sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  color: #1972c4;
+  line-height: 1.5;
+  padding-bottom: 5px;
+}
+#album-bx-pager {
+  padding-top: 10px;
+}
+#album-bx-pager a {
+  display: block;
+  float: left;
+}

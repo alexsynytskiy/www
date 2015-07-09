@@ -65,6 +65,7 @@ class AlbumSearch extends Album
             'pagination' => [
                 'pageSize' => 10,
             ],
+            'sort' => ['defaultOrder' => ['created_at' => SORT_DESC]]
         ]);
 
         // enable sorting for the related columns

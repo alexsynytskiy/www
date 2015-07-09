@@ -24,6 +24,7 @@ use Imagine\Image\ManipulatorInterface;
  * @property integer $assetable_id
  * @property string $assetable_type
  * @property integer $comments_count
+ * @property integer $image_id
  *
  * @property Users $user
  * @property Asset $parent
@@ -94,6 +95,7 @@ class Asset extends \yii\db\ActiveRecord
             [['width', 'height', 'assetable_id', 'comments_count'], 'integer'],
             [['filename', 'thumbnail'], 'string', 'max' => 255],
             [['type', 'assetable_type'], 'string', 'max' => 20],
+            [['image_id'], 'string', 'max' => 50],
 
             //required
             [['type', 'filename'], 'required'],
@@ -106,15 +108,16 @@ class Asset extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'filename' => 'Filename',
-            'thumbnail' => 'Thumbnail',
-            'width' => 'Width',
-            'height' => 'Height',
-            'type' => 'Type',
-            'assetable_id' => 'Assetable ID',
+            'id'             => 'ID',
+            'filename'       => 'Filename',
+            'thumbnail'      => 'Thumbnail',
+            'width'          => 'Width',
+            'height'         => 'Height',
+            'type'           => 'Type',
+            'assetable_id'   => 'Assetable ID',
             'assetable_type' => 'Assetable Type',
             'comments_count' => 'Comments Count',
+            'image_id'       => 'Image ID',
         ];
     }
 
@@ -315,6 +318,7 @@ class Asset extends \yii\db\ActiveRecord
         if(isset($thumbnail)) {
             $query->andWhere(['thumbnail' => $thumbnail]);
         }
+        $query->orderBy(['id' => SORT_DESC]);
 
         if(!$single) {
             return $query->all();
@@ -346,6 +350,12 @@ class Asset extends \yii\db\ActiveRecord
                     // self::THUMBNAIL_SMALL,
                     // self::THUMBNAIL_POSTER,
                     // self::THUMBNAIL_CONTENT,
+                ];
+            case self::ASSETABLE_ALBUM:
+                return [
+                    self::THUMBNAIL_BIG,
+                    self::THUMBNAIL_SMALL,
+                    self::THUMBNAIL_CONTENT,
                 ];
             default: return [];
         }
@@ -389,6 +399,20 @@ class Asset extends \yii\db\ActiveRecord
                 return new Box(310,460);
             case self::ASSETABLE_TEAM:
                 return new Box($size->getWidth(),$size->getHeight());
+            case self::ASSETABLE_ALBUM:
+                switch (strtolower($this->thumbnail))
+                {
+                    case self::THUMBNAIL_BIG:
+                        return new Box(300,200);
+                    case self::THUMBNAIL_SMALL:
+                        return new Box(100,60);
+                    case self::THUMBNAIL_CONTENT:
+                        // $width = 595;
+                        // $height = $size->getHeight()*$width/$size->getWidth();
+                        // $height = $height > 400 ? 400 : $height;
+                        return new Box(595, 400);
+                    default: break;
+                }
             default: break;
         }
         return new Box($size->getWidth(),$size->getHeight());

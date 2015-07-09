@@ -18,6 +18,9 @@ return [
             'rules' => [
                 '/'                                      => 'site/index',
                 'news'                                   => 'site/news',
+                'photos'                                 => 'site/photos',
+                'album/<id:\d+>-<slug>'                  => 'site/album',
+                'album/<album_id:\d+>-<slug>/<photo_id:\d+>' => 'site/photo',
                 'blogs'                                  => 'site/blogs',
                 'blogs/<id:\d+>'                         => 'site/blogs',
                 'search'                                 => 'site/search',

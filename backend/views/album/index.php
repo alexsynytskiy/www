@@ -50,36 +50,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'format' => 'html',
             ],
-            // [
-            //     'attribute' => 'created_at',
-            //     'value' => function($model){
-            //         return date('d.m.Y h:i', strtotime($model->created_at));
-            //     },
-            //     'format' => 'text',
-            //     'filter' => DatePicker::widget([
-            //         'model' => $searchModel,
-            //         'attribute' => 'created_at',
-            //         'removeButton' => false,
-            //         'type' => DatePicker::TYPE_INPUT,
-            //         'pluginOptions' => [
-            //             'format' => 'dd.mm.yyyy',
-            //             'autoclose' => true,
-            //         ]
-            //     ]),
-            //     'options' => ['width' => '140'],
-            // ],
             [
-                'attribute' => 'updated_at',
+                'attribute' => 'created_at',
                 'value' => function($model){
-                    return date('d.m.Y h:i', strtotime($model->updated_at));
+                    return date('d.m.Y h:i', strtotime($model->created_at));
                 },
                 'format' => 'text',
                 'filter' => DatePicker::widget([
                     'model' => $searchModel,
-                    'attribute' => 'updated_at',
+                    'attribute' => 'created_at',
                     'removeButton' => false,
                     'type' => DatePicker::TYPE_INPUT,
-                    'language' => 'ru-RU',
                     'pluginOptions' => [
                         'format' => 'dd.mm.yyyy',
                         'autoclose' => true,
@@ -87,6 +68,25 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]),
                 'options' => ['width' => '140'],
             ],
+            // [
+            //     'attribute' => 'updated_at',
+            //     'value' => function($model){
+            //         return date('d.m.Y h:i', strtotime($model->updated_at));
+            //     },
+            //     'format' => 'text',
+            //     'filter' => DatePicker::widget([
+            //         'model' => $searchModel,
+            //         'attribute' => 'updated_at',
+            //         'removeButton' => false,
+            //         'type' => DatePicker::TYPE_INPUT,
+            //         'language' => 'ru-RU',
+            //         'pluginOptions' => [
+            //             'format' => 'dd.mm.yyyy',
+            //             'autoclose' => true,
+            //         ]
+            //     ]),
+            //     'options' => ['width' => '140'],
+            // ],
             [
                 'attribute' => 'is_public',
                 'value' => function($model) {
