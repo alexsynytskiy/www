@@ -74,7 +74,7 @@ use dosamigos\selectize\SelectizeDropDownList;
         'initialPreviewShowDelete' => true,
         'dropZoneEnabled' => false,
         'browseLabel' => "Обзор...",
-        'allowedFileExtensions' => ['jpg', 'gif', 'png'],
+        'allowedFileExtensions' => ['jpg', 'jpeg', 'gif', 'png'],
         'uploadUrl' => "/admin/album/image-delete",
         'layoutTemplates' => [
             'actions' => "<div class='file-actions'>\n" .

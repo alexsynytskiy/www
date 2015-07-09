@@ -25,6 +25,8 @@ use common\models\Contract;
 use common\models\MainInfo;
 use common\models\Player;
 use common\models\TeamCoach;
+use common\models\Album;
+use common\models\Banner;
 
 use frontend\models\ContactForm;
 use common\models\Source;
@@ -942,7 +944,7 @@ class SiteController extends Controller
             throw new NotFoundHttpException('Страница не найдена.');
         }
 
-        $image = $player->getAsset(Asset::ASSETABLE_PLAYER);
+        $image = $player->getAsset(Asset::THUMBNAIL_CONTENT);
 
         $options = [
             'templateType' => 'col2',
@@ -1364,6 +1366,127 @@ class SiteController extends Controller
             ],
             'columnSecond' => [ 
                 'short_news' => SiteBlock::getShortNews(),
+            ],
+        ]);
+    }
+
+    /**
+     * Photo page
+     * @return mixed
+     */
+    public function actionPhotos() 
+    {
+        $query = Album::find()
+            ->where([
+                'is_public' => 1,
+            ]);
+        $query->orderBy(['created_at' => SORT_DESC]);
+
+        $albumsDataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+
+        return $this->render('@frontend/views/site/index', [
+            'templateType' => 'col2',
+            'title' => 'Фото',
+            'columnFirst' => [
+                'content' => [
+                    'view' => '@frontend/views/site/photos',
+                    'data' => compact('albumsDataProvider'),
+                ],
+            ],
+            'columnSecond' => [ 
+                'short_news' => SiteBlock::getShortNews(),
+            ],
+        ]);
+    }
+
+
+    /**
+     * Album page with slider
+     * @param int $id Album id
+     * @param string $slug Album slug
+     * @return mixed Content
+     */
+    public function actionAlbum($id, $slug) 
+    {
+        $album = Album::find()
+            ->where([
+                'id' => $id,
+                'is_public' => 1,
+            ])->one();
+
+        if (!isset($album)){
+            throw new NotFoundHttpException('Страница не найдена.');
+        }
+
+        return $this->render('@frontend/views/site/index', [
+            'templateType' => 'col2',
+            'title' => 'Альбом: '.$album->title,
+            'columnFirst' => [
+                'content' => [
+                    'view' => '@frontend/views/site/album',
+                    'data' => compact('album'),
+                ],
+                'comments' => Comment::getCommentsBlock($album->id, Comment::COMMENTABLE_ALBUM),
+            ],
+            'columnSecond' => [ 
+                'banner_1' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
+                'banner_2' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
+            ],
+        ]);
+    }
+
+    /**
+     * Album page with slider
+     * @param int $album_id Album id
+     * @param string $slug Album slug
+     * @return mixed Content
+     */
+    public function actionPhoto($album_id, $slug, $photo_id) 
+    {
+        $album = Album::find()
+            ->where([
+                'id' => $album_id,
+                'is_public' => 1,
+            ])->one();
+
+        if (!isset($album)){
+            throw new NotFoundHttpException('Страница не найдена.');
+        }
+
+        $photo = Asset::find()
+            ->where([
+                'id' => $photo_id,
+                'thumbnail' => Asset::THUMBNAIL_CONTENT,
+            ])->one();
+        if (!isset($photo)){
+            $photo = Asset::find()
+            ->where([
+                'id' => $photo_id,
+            ])->one();
+        }
+
+        if (!isset($photo)){
+            throw new NotFoundHttpException('Страница не найдена.');
+        }
+
+        return $this->render('@frontend/views/site/index', [
+            'templateType' => 'col2',
+            'title' => 'Альбом: '.$album->title,
+            'columnFirst' => [
+                'content' => [
+                    'view' => '@frontend/views/site/photo_single',
+                    'data' => compact('album', 'photo'),
+                ],
+                'comments' => Comment::getCommentsBlock($photo->id, Comment::COMMENTABLE_PHOTO),
+            ],
+            'columnSecond' => [ 
+                'banner_1' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
+                'banner_2' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
             ],
         ]);
     }

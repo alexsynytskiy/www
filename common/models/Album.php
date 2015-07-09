@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use yii\helpers\Url;
 use amnah\yii2\user\models\User;
 use dosamigos\transliterator\TransliteratorHelper;
 
@@ -123,15 +124,6 @@ class Album extends ActiveRecord
         return null;
     }
 
-
-    /**
-     * @return array Array of Asset
-     */
-    public function getAssets()
-    {
-        return Asset::getAssets($this->id, Asset::ASSETABLE_ALBUM, NULL);
-    }
-
     /**
      * @return array Array of Tag
      */
@@ -211,5 +203,55 @@ class Album extends ActiveRecord
         $slug = str_replace(" ", "-", $slug);
         $slug = strtolower($slug);
         return $slug;
+    }
+
+    /**
+     * @return string Url to album
+     */
+    public function getUrl()
+    {
+        return Url::to('/album/'.$this->id.'-'.$this->slug);
+    }
+
+    /**
+     * @return string Url to photo
+     */
+    public function getPhotoUrl($id)
+    {
+        return Url::to('/album/'.$this->id.'-'.$this->slug.'/'.$id);
+    }
+
+    /**
+     * @return array Array of Asset
+     */
+    public function getAssets($thumbnail = NULL)
+    {
+        return Asset::getAssets($this->id, Asset::ASSETABLE_ALBUM, $thumbnail, false);
+    }
+
+    /**
+     * Get single asset
+     *
+     * @param string $thumbnail
+     * @return Asset
+     */
+    public function getAsset($thumbnail = NULL)
+    {
+        return Asset::getAssets($this->id, Asset::ASSETABLE_ALBUM, $thumbnail, true);
+    }
+
+    /**
+     * Get amount of photos in album
+     * @return int
+     */
+    public function getPhotosCount() {
+        $count = Asset::find()
+            ->where([
+                'assetable_id' => $this->id,
+                'assetable_type' => Asset::ASSETABLE_ALBUM,
+                'thumbnail' => Asset::THUMBNAIL_BIG,
+            ])
+            ->count();
+        return $count;
     }
 }

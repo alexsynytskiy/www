@@ -58,7 +58,8 @@
                 }
                 $("#images-data").val(keys.join(';'));
             }
-            return true;
+            console.log('asd');
+            return false;
         });
 
         // Modal functions

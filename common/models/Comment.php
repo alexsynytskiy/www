@@ -29,7 +29,8 @@ class Comment extends ActiveRecord
      * @var string commentable types
      */
     const COMMENTABLE_MATCH    = 'match';
-    const COMMENTABLE_PHOTO    = 'photo';
+    const COMMENTABLE_ALBUM    = 'ALBUM';
+    const COMMENTABLE_PHOTO    = 'PHOTO';
     const COMMENTABLE_POST     = 'post';
     const COMMENTABLE_TRANSFER = 'transfer';
 
@@ -386,7 +387,7 @@ class Comment extends ActiveRecord
                             <a href="javascript:void(0)" class="rating-down <?= $ratingDownClass ?>" data-id="<?= $comment->id ?>" data-type="comment"></a>
                         </div>
                         <?php if(!Yii::$app->user->isGuest) { ?>
-                            <a href="<?= Url::to('/complain/'.$comment->id) ?>" class="button-complain" title="Пожаловаться"></a>
+                            <a href="<?= Url::to('/complain/'.$comment->id) ?>" class="button-complain" title="Пожаловаться" data-pjax="0"></a>
                         <?php } ?>
                         <?php if(!Yii::$app->user->isGuest && $options->showReplyButton) { ?>
                             <a href="javascript:void(0)" class="button-reply" title="Ответить"></a>

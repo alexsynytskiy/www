@@ -33,6 +33,25 @@ $(window).load(function() {
         minSlides: 1,
         slideMargin: 0
     });
+
+    $('#album-slider').bxSlider({
+        maxSlides: 1,
+        minSlides: 1,
+        slideMargin: 0,
+        pagerCustom: '#album-bx-pager',
+        adaptiveHeight: true,
+    });
+
+    $('#album-bx-pager').bxSlider({
+        slideWidth: 90,
+        maxSlides: 10,
+        slideMargin: 10,
+        pager: false,
+        moveSlides: 3,
+        infiniteLoop: false,
+        adaptiveHeight: true,
+    });
+
     // BxSlider END
 
 
@@ -68,6 +87,14 @@ $(window).load(function() {
           'mBottom'   : 15,
           'column'    : 2,
     });
+    $('.albums-container').indyMasonry({
+          'clName'    : '.album-item',
+          'gap'       : 15,
+          'mTop'      : 0,
+          'mBottom'   : 15,
+          'column'    : 2,
+    });
+    
     // Masonry tiles view END
 
 

@@ -77,6 +77,9 @@ class PostController extends Controller
         $model->comments_count = 0;
         $model->content_category_id = Post::CATEGORY_NEWS;
         $model->user_id = Yii::$app->user->id;
+        $model->is_pin = 0;
+        $model->with_photo = 0;
+        $model->with_video = 0;
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
@@ -118,22 +121,26 @@ class PostController extends Controller
             $model->image = UploadedFile::getInstance($model, 'image');
             if($model->image)
             {
+                // Save origionals 
+                $asset = new Asset();
+                $asset->assetable_type = Asset::ASSETABLE_POST;
+                $asset->assetable_id = $model->id;
+                $asset->uploadedFile = $model->image;
+                $asset->saveAsset();
+
+                // Save thumbnails 
+                $imageID = $asset->id;
                 $thumbnails = Asset::getThumbnails(Asset::ASSETABLE_POST);
 
                 foreach ($thumbnails as $thumbnail) {
                     $asset = new Asset();
+                    $asset->parent_id = $imageID;
                     $asset->thumbnail = $thumbnail;
                     $asset->assetable_type = Asset::ASSETABLE_POST;
                     $asset->assetable_id = $model->id;
                     $asset->uploadedFile = $model->image;
                     $asset->saveAsset();
                 }
-
-                $asset = new Asset();
-                $asset->assetable_type = Asset::ASSETABLE_POST;
-                $asset->assetable_id = $model->id;
-                $asset->uploadedFile = $model->image;
-                $asset->saveAsset();
             }
 
             $model->save();
@@ -174,27 +181,25 @@ class PostController extends Controller
             $model->image = UploadedFile::getInstance($model, 'image');
             if($model->image)
             {
-                $thumbnails = Asset::getThumbnails(Asset::ASSETABLE_POST);
-                $saveOrigin = false;
-                foreach ($assets as $asset)
-                {
-                    if($asset->thumbnail && in_array($asset->thumbnail, $thumbnails))
-                    {
-                        $asset->uploadedFile = $model->image;
-                        $asset->saveAsset();
-                        $thumbnails = array_diff($thumbnails, [$asset->thumbnail]);
-                    }
-                    // Save original image
-                    elseif (empty($asset->thumbnail))
-                    {
-                        $saveOrigin = true;
-                        $asset->uploadedFile = $model->image;
-                        $asset->saveAsset();
-                    }
+                // Remove old assets
+                foreach ($assets as $asset) {
+                    $asset->delete();
                 }
+
+                // Save origionals 
+                $asset = new Asset();
+                $asset->assetable_type = Asset::ASSETABLE_POST;
+                $asset->assetable_id = $model->id;
+                $asset->uploadedFile = $model->image;
+                $asset->saveAsset();
+
+                // Save thumbnails 
+                $imageID = $asset->id;
+                $thumbnails = Asset::getThumbnails(Asset::ASSETABLE_POST);
 
                 foreach ($thumbnails as $thumbnail) {
                     $asset = new Asset();
+                    $asset->parent_id = $imageID;
                     $asset->thumbnail = $thumbnail;
                     $asset->assetable_type = Asset::ASSETABLE_POST;
                     $asset->assetable_id = $model->id;
@@ -202,14 +207,23 @@ class PostController extends Controller
                     $asset->saveAsset();
                 }
 
-                if(!$saveOrigin)
-                {
-                    $asset = new Asset();
-                    $asset->assetable_type = Asset::ASSETABLE_POST;
-                    $asset->assetable_id = $model->id;
-                    $asset->uploadedFile = $model->image;
-                    $asset->saveAsset();
-                }
+                // Update assets
+                // foreach ($assets as $asset)
+                // {
+                //     if($asset->thumbnail && in_array($asset->thumbnail, $thumbnails))
+                //     {
+                //         $asset->uploadedFile = $model->image;
+                //         $asset->saveAsset();
+                //         $thumbnails = array_diff($thumbnails, [$asset->thumbnail]);
+                //     }
+                //     // Save original image
+                //     elseif (empty($asset->thumbnail))
+                //     {
+                //         $saveOrigin = true;
+                //         $asset->uploadedFile = $model->image;
+                //         $asset->saveAsset();
+                //     }
+                // }
             }
 
             // Save source

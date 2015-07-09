@@ -2234,7 +2234,6 @@ body {
     .photo img {
         border-radius: 5px;
         margin-top: 11px;
-        height: 50px;
         width: 50px;
     }
     .player {
@@ -2598,3 +2597,159 @@ body {
         padding: 10px 5px;
     }
 }
+
+.album-preview-box {
+    padding: 0;
+    width: 300px;
+    position: relative;
+
+    .image-box {
+        .rounded(5px 5px 0 0);
+        overflow: hidden;
+        img {
+            display: block;
+            width: 100%;
+        }
+    }
+    .box-content {
+        padding: 10px;
+        .title {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+    }
+    .photos-count {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: @main-blue;
+        line-height: 25px;
+        height: 25px;
+        padding: 0 8px;
+        color: #fff;
+        .rounded(0 5px 0 5px);
+    }
+}
+
+.album-box {
+    .simple-rounded-box;
+    .clearfix;
+    margin-bottom: 15px;
+    padding: 10px;
+
+    .album-container {
+        width: 615px;
+        margin: 0 -10px;
+    }
+
+    .top-block {
+        height: 21px;
+        margin-bottom: 10px;
+
+        .date-icon {
+            float: left;
+            height: 20px;
+            width: 20px;
+            background: url('/images/date_icon.png') no-repeat;
+            background-size: 20px;
+            margin-right: 7px;
+        }
+
+        .date-text {
+            float: left;
+            line-height: 20px;
+            .text-font(12px, normal, @main-grey);
+        }
+        
+        .right {
+            float: right;
+        }
+
+        .image-icon {
+            float: left;
+            height: 20px;
+            width: 22px;
+            background: url('/images/comments_icon.png') no-repeat;
+            background-size: 22px;
+        }
+
+        .image-count {
+            float: left;
+            line-height: 20px;
+            .text-font(12px, normal, @main-grey);
+            margin-left: 7px;
+        }
+
+        .button-edit {
+            display: block;
+            float: left;
+            margin-right: 10px;
+            background: url(/images/write_sprite.png) center 0 no-repeat;
+            background-size: 22px;
+            width: 22px;
+            height: 22px;
+            &:hover {
+                background-position: center -42px;
+            }
+        }
+    }
+
+    .title {
+        text-align: left;
+        .text-font(16px, bold, @main-blue);
+        line-height: 1.5;
+        padding: 0 10px 5px;
+    }
+
+    .bxslider-main {
+        img {
+            width: 100%;
+        }
+        .bx-controls-direction a {
+            top: 50%;
+        }
+        .bx-prev {
+            left: 15px;
+            background: url(/images/button_left.png) no-repeat center;
+            background-size: 15px;
+        }
+        .bx-next {
+            right: 15px;
+            background: url(/images/button_right.png) no-repeat center;
+            background-size: 15px;
+        }
+    }
+
+    .bxslider-thumbnails {
+        img {
+            width: 100%;
+        }
+        .bx-controls-direction a {
+            top: 50%;
+        }
+        .bx-prev {
+            left: 15px;
+            background: url(/images/button_left.png) no-repeat center;
+            background-size: 10px;
+        }
+        .bx-next {
+            right: 15px;
+            background: url(/images/button_right.png) no-repeat center;
+            background-size: 10px;
+        }
+    }
+    .album-image {
+        width: 100%;
+    }
+}
+
+.bxslider-thumbnails {
+    padding-top: 10px;
+
+    a {
+        display: block;
+        float: left;
+    }
+}
+
