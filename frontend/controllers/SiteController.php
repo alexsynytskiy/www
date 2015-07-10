@@ -35,6 +35,7 @@ use common\models\Source;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
 use yii\web\NotFoundHttpException;
+use yii\web\ForbiddenHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -1124,6 +1125,10 @@ class SiteController extends Controller
      */
     public function actionPostAdd() 
     {
+        if(Yii::$app->user->isGuest) {
+            throw new ForbiddenHttpException("Вы не можете выполнить это действие.");
+        }
+
         $model = new Post();
         $model->tags = [];
         
@@ -1217,9 +1222,10 @@ class SiteController extends Controller
         if (!isset($model)){
             throw new NotFoundHttpException('Страница не найдена.');
         }
+
         if($model->content_category_id != Post::CATEGORY_BLOG || 
-            $model->user_id != Yii::$app->user->id) {
-            throw new BadRequestHttpException("Ошибка доступа");
+            empty(Yii::$app->user) || $model->user_id != Yii::$app->user->id) {
+            throw new ForbiddenHttpException("Вы не можете выполнить это действие.");
         }
 
         $image = $model->getAsset();

@@ -59,6 +59,7 @@
         display: block;
         height: 0;
         clear: both;
+        overflow: hidden;
         visibility: hidden;
     }
 }
@@ -1864,12 +1865,20 @@ body {
 
 }
 
-.site-error {
-    padding-top: 100px;
-    text-align: center;
+.error-container {
+    width: 100%;
+    min-height: 130px;
 
-    .error-message {
-        margin-bottom: 30px;
+    td {
+        vertical-align: middle;
+    }
+    .site-error {
+        // padding-top: 100px;
+        text-align: center;
+
+        .error-message {
+            margin-bottom: 30px;
+        }
     }
 }
 

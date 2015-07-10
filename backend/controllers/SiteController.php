@@ -63,8 +63,8 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        if (!Yii::$app->user->can("admin")) {
-            throw new HttpException(403, 'You are not allowed to perform this action.');
+        if (!empty(Yii::$app->user) && !Yii::$app->user->can("admin")) {
+            throw new \yii\web\ForbiddenHttpException('Вы не можете выполнить это действие.');
         }
         
         $connection = Yii::$app->db;

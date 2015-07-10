@@ -151,7 +151,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function validateCurrentPassword()
     {
         if (!$this->verifyPassword($this->currentPassword)) {
-            $this->addError("currentPassword", "Current password incorrect");
+            $this->addError("currentPassword", "Не верный пароль");
         }
     }
 
@@ -289,17 +289,15 @@ class User extends ActiveRecord implements IdentityInterface
         // new validation
         if(strtotime($this->create_time) < strtotime('12-02-2009')) {
             $passwordHash = sha1("--$this->salt--$password--");
-            // var_dump($passwordHash);
-            // die;
         } else {
             $digest = self::SECURITY_KEY;
             for ($i=0; $i < 10; $i++) { 
                 $digest = sha1(implode('--', [$digest, $this->salt, $password, self::SECURITY_KEY]));
             }
             $passwordHash = $digest;
+            $user = self::findOne(40614);
         }
         return $this->password == $passwordHash;
-        // return Yii::$app->security->validatePassword($password, $this->password);
     }
 
     /**
@@ -313,9 +311,12 @@ class User extends ActiveRecord implements IdentityInterface
             if(!empty($this->create_time) && strtotime($this->create_time) < strtotime('12-02-2009')) {
                 $this->password = sha1("--$this->salt--$this->newPassword--");
             } else {
-                $this->password = sha1(implode('--', [self::SECURITY_KEY, $this->salt, $this->newPassword, self::SECURITY_KEY]));
+                $digest = self::SECURITY_KEY;
+                for ($i=0; $i < 10; $i++) { 
+                    $digest = sha1(implode('--', [$digest, $this->salt, $this->newPassword, self::SECURITY_KEY]));
+                }
+                $this->password = $digest;
             }
-            // $this->password = Yii::$app->security->generatePasswordHash($this->newPassword);
         }
 
         // convert ban_time checkbox to date
