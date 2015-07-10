@@ -6,13 +6,12 @@ use yii\widgets\DetailView;
 /**
  * @var yii\web\View $this
  * @var amnah\yii2\user\models\User $user
+ * @var \common\models\Asset $avatar 
  */
 
 $this->title = $user->getDisplayName();
 $this->params['breadcrumbs'][] = ['label' => Yii::t('user', 'Пользователи'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-
-$avatar = $user->getAsset();
 ?>
 <div class="user-view">
 

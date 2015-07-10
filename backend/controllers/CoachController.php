@@ -52,8 +52,11 @@ class CoachController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $photo = $model->getAsset(Asset::THUMBNAIL_CONTENT);
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'photo' => $photo,
         ]);
     }
 
@@ -74,12 +77,27 @@ class CoachController extends Controller
 
             if(!empty($uploadedFile))
             {
-                $asset = new Asset;
-                $asset->assetable_type = Asset::ASSETABLE_COACH;
-                $asset->assetable_id = $model->id;
-                $asset->uploadedFile = $uploadedFile;
-                $asset->cropData = $model->cropData;
-                $asset->saveCroppedAsset();
+                // Save origionals 
+                $originalAsset = new Asset();
+                $originalAsset->assetable_type = Asset::ASSETABLE_COACH;
+                $originalAsset->assetable_id = $model->id;
+                $originalAsset->uploadedFile = $uploadedFile;
+                $originalAsset->saveAsset();
+
+                // Save thumbnails 
+                $imageID = $originalAsset->id;
+                $thumbnails = Asset::getThumbnails(Asset::ASSETABLE_COACH);
+
+                foreach ($thumbnails as $thumbnail) {
+                    $asset = new Asset();
+                    $asset->assetable_type = Asset::ASSETABLE_COACH;
+                    $asset->assetable_id = $model->id;
+                    $asset->parent_id = $imageID;
+                    $asset->thumbnail = $thumbnail;
+                    $asset->uploadedFile = $uploadedFile;
+                    $asset->cropData = $model->cropData;
+                    $asset->saveCroppedAsset();
+                }
             }
                         
             return $this->redirect(['view', 'id' => $model->id]);
@@ -99,7 +117,7 @@ class CoachController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $photo = $model->getAsset();
+        $photo = $model->getAsset(Asset::THUMBNAIL_CONTENT);
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $uploadedFile = UploadedFile::getInstance($model, 'photo');           
@@ -107,18 +125,33 @@ class CoachController extends Controller
             // If image was uploaded
             if(!empty($uploadedFile))
             {
-                // If asset model did't exist for current model
-                if(!isset($photo->assetable_id))
-                {
-                    $photo = new Asset;
-                    $photo->assetable_type = Asset::ASSETABLE_COACH;
-                    $photo->assetable_id = $model->id;
+                // Save origionals 
+                $originalAsset = $model->getAsset();
+                if(!isset($originalAsset->id)) {
+                    $originalAsset = new Asset();
                 }
+                $originalAsset->assetable_type = Asset::ASSETABLE_COACH;
+                $originalAsset->assetable_id = $model->id;
+                $originalAsset->uploadedFile = $uploadedFile;
+                $originalAsset->saveAsset();
 
-                $photo->uploadedFile = $uploadedFile;
-                $photo->cropData = $model->cropData;
+                // Save thumbnails 
+                $imageID = $originalAsset->id;
+                $thumbnails = Asset::getThumbnails(Asset::ASSETABLE_COACH);
 
-                $photo->saveCroppedAsset();
+                foreach ($thumbnails as $thumbnail) {
+                    $asset = $model->getAsset($thumbnail);
+                    if(!isset($asset->id)) {
+                        $asset = new Asset();
+                    }
+                    $asset->assetable_type = Asset::ASSETABLE_COACH;
+                    $asset->assetable_id = $model->id;
+                    $asset->parent_id = $imageID;
+                    $asset->thumbnail = $thumbnail;
+                    $asset->uploadedFile = $uploadedFile;
+                    $asset->cropData = $model->cropData;
+                    $asset->saveCroppedAsset();
+                }
             }
 
             $model->slug = $model->genSlug();
@@ -140,8 +173,12 @@ class CoachController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $model = $this->findModel($id);
+        $assets = Asset::getAssets($model->id, Asset::ASSETABLE_USER);
+        foreach ($assets as $asset) {
+            $asset->delete();
+        }
+        $model->delete();
         return $this->redirect(['index']);
     }
 

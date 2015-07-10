@@ -140,13 +140,9 @@ class Team extends ActiveRecord
     /**
      * @return Asset
      */
-    public function getAsset()
+    public function getAsset($thumbnail = Asset::THUMBNAIL_CONTENT)
     {
-        $asset = Asset::getAssets($this->id, Asset::ASSETABLE_TEAM, NULL, true);
-        if($asset->assetable_type == null) {
-            $asset->assetable_type = Asset::ASSETABLE_TEAM;
-        }
-        return $asset;
+        return Asset::getAssets($this->id, Asset::ASSETABLE_TEAM, $thumbnail, true);
     }
 
     /**

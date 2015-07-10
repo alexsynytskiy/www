@@ -78,12 +78,27 @@ class PlayerController extends Controller
 
             if(!empty($uploadedFile))
             {
-                $asset = new Asset;
-                $asset->assetable_type = Asset::ASSETABLE_PLAYER;
-                $asset->assetable_id = $model->id;
-                $asset->uploadedFile = $uploadedFile;
-                $asset->cropData = $model->cropData;
-                $asset->saveCroppedAsset();
+                // Save origionals 
+                $originalAsset = new Asset();
+                $originalAsset->assetable_type = Asset::ASSETABLE_PLAYER;
+                $originalAsset->assetable_id = $model->id;
+                $originalAsset->uploadedFile = $uploadedFile;
+                $originalAsset->saveAsset();
+
+                // Save thumbnails 
+                $imageID = $originalAsset->id;
+                $thumbnails = Asset::getThumbnails(Asset::ASSETABLE_PLAYER);
+
+                foreach ($thumbnails as $thumbnail) {
+                    $asset = new Asset();
+                    $asset->assetable_type = Asset::ASSETABLE_PLAYER;
+                    $asset->assetable_id = $model->id;
+                    $asset->parent_id = $imageID;
+                    $asset->thumbnail = $thumbnail;
+                    $asset->uploadedFile = $uploadedFile;
+                    $asset->cropData = $model->cropData;
+                    $asset->saveCroppedAsset();
+                }
             }
 
             return $this->redirect(['view', 'id' => $model->id]);
@@ -103,7 +118,7 @@ class PlayerController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $asset = $model->getAsset();
+        $image = $model->getAsset(Asset::THUMBNAIL_CONTENT);
 
         $achievementModel = new AchievementSearch();
         $params = ['AchievementSearch' => [
@@ -112,24 +127,40 @@ class PlayerController extends Controller
         $achievementDataProvider = $achievementModel->search($params);
         $model->birthday = date('d.m.Y', strtotime($model->birthday));
 
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) 
+        {
             $uploadedFile = UploadedFile::getInstance($model,'avatar');
 
             // If image was uploaded
             if(!empty($uploadedFile))
             {
-                // If asset model did't exist for current model
-                if(!isset($asset->assetable_id))
-                {
-                    $asset = new Asset;
+                // Save origionals 
+                $originalAsset = $model->getAsset();
+                if(!isset($originalAsset->id)) {
+                    $originalAsset = new Asset();
+                }
+                $originalAsset->assetable_type = Asset::ASSETABLE_PLAYER;
+                $originalAsset->assetable_id = $model->id;
+                $originalAsset->uploadedFile = $uploadedFile;
+                $originalAsset->saveAsset();
+
+                // Save thumbnails 
+                $imageID = $originalAsset->id;
+                $thumbnails = Asset::getThumbnails(Asset::ASSETABLE_PLAYER);
+
+                foreach ($thumbnails as $thumbnail) {
+                    $asset = $model->getAsset($thumbnail);
+                    if(!isset($asset->id)) {
+                        $asset = new Asset();
+                    }
                     $asset->assetable_type = Asset::ASSETABLE_PLAYER;
                     $asset->assetable_id = $model->id;
+                    $asset->parent_id = $imageID;
+                    $asset->thumbnail = $thumbnail;
+                    $asset->uploadedFile = $uploadedFile;
+                    $asset->cropData = $model->cropData;
+                    $asset->saveCroppedAsset();
                 }
-
-                $asset->uploadedFile = $uploadedFile;
-                $asset->cropData = $model->cropData;
-
-                $asset->saveCroppedAsset();
             }
 
             $model->slug = $model->genSlug();
@@ -141,6 +172,7 @@ class PlayerController extends Controller
             'model' => $model,
             'achievementModel' => $achievementModel,
             'achievementDataProvider' => $achievementDataProvider,
+            'image' => $image,
         ]);
         
     }
@@ -186,8 +218,10 @@ class PlayerController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        $asset = $model->getAsset();
-        $asset->delete();
+        $assets = Asset::getAssets($model->id, Asset::ASSETABLE_USER);
+        foreach ($assets as $asset) {
+            $asset->delete();
+        }
         $model->delete();
         return $this->redirect(['index']);
     }

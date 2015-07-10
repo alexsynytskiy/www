@@ -68,16 +68,31 @@ class CountryController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
-            $uploadedFile = UploadedFile::getInstance($model,'flag');
+            $uploadedFile = UploadedFile::getInstance($model, 'flag');
             $model->save(false);
 
             if(!empty($uploadedFile))
             {
-                $asset = new Asset;
-                $asset->assetable_type = Asset::ASSETABLE_COUNTRY;
-                $asset->assetable_id = $model->id;
-                $asset->uploadedFile = $uploadedFile;
-                $asset->saveAsset();
+                // Save origionals 
+                $originalAsset = new Asset();
+                $originalAsset->assetable_type = Asset::ASSETABLE_COUNTRY;
+                $originalAsset->assetable_id = $model->id;
+                $originalAsset->uploadedFile = $uploadedFile;
+                $originalAsset->saveAsset();
+
+                // Save thumbnails 
+                $imageID = $originalAsset->id;
+                $thumbnails = Asset::getThumbnails(Asset::ASSETABLE_COUNTRY);
+
+                foreach ($thumbnails as $thumbnail) {
+                    $asset = new Asset();
+                    $asset->assetable_type = Asset::ASSETABLE_COUNTRY;
+                    $asset->assetable_id = $model->id;
+                    $asset->parent_id = $imageID;
+                    $asset->thumbnail = $thumbnail;
+                    $asset->uploadedFile = $uploadedFile;
+                    $asset->saveAsset();
+                }
             }
                         
             return $this->redirect(['view', 'id' => $model->id]);
@@ -101,21 +116,37 @@ class CountryController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
-            $model->flag = UploadedFile::getInstance($model,'flag');
+            $uploadedFile = UploadedFile::getInstance($model, 'flag');
 
             // If image was uploaded
-            if(!empty($model->flag))
+            if(!empty($uploadedFile))
             {
-                // If asset model did't exist for current model
-                if(!isset($flag->assetable_id))
-                {
-                    $flag = new Asset;
-                    $flag->assetable_type = Asset::ASSETABLE_COUNTRY;
-                    $flag->assetable_id = $model->id;
+                // Save origionals 
+                $originalAsset = $model->getAsset();
+                if(!isset($originalAsset->id)) {
+                    $originalAsset = new Asset();
                 }
+                $originalAsset->assetable_type = Asset::ASSETABLE_COUNTRY;
+                $originalAsset->assetable_id = $model->id;
+                $originalAsset->uploadedFile = $uploadedFile;
+                $originalAsset->saveAsset();
 
-                $flag->uploadedFile = $model->flag;
-                $flag->saveAsset();
+                // Save thumbnails 
+                $imageID = $originalAsset->id;
+                $thumbnails = Asset::getThumbnails(Asset::ASSETABLE_COUNTRY);
+
+                foreach ($thumbnails as $thumbnail) {
+                    $asset = $model->getAsset($thumbnail);
+                    if(!isset($asset->id)) {
+                        $asset = new Asset();
+                    }
+                    $asset->assetable_type = Asset::ASSETABLE_COUNTRY;
+                    $asset->assetable_id = $model->id;
+                    $asset->parent_id = $imageID;
+                    $asset->thumbnail = $thumbnail;
+                    $asset->uploadedFile = $uploadedFile;
+                    $asset->saveAsset();
+                }
             }
 
             $model->save(false);

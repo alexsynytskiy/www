@@ -176,10 +176,23 @@ class Asset extends \yii\db\ActiveRecord
 
         if(count($cropData) == 4)
         {
-            $point = new Point($cropData[0]*$width, $cropData[1]*$height);
-            $box = new Box($cropData[2]*$width, $cropData[3]*$height);
-            $imagine->crop($point, $box);
             $imageBox = $this->getImageBox($size);
+            $ratio = $imageBox->getWidth() / $imageBox->getHeight();
+            $cropRatio = $cropData[2] / $cropData[3];
+            $point = new Point($cropData[0] * $width, $cropData[1] * $height);
+            if($ratio == $cropRatio) {
+                $box = new Box($cropData[2] * $width, $cropData[3] * $height);
+            } else {
+                if ($cropData[2] < $cropData[3]) {
+                    $side = $cropData[2];
+                    $box = new Box($side * $width, $side / $ratio * $width);
+
+                } else {
+                    $side = $cropData[3];
+                    $box = new Box($side * $ratio * $height, $side * $height);
+                }
+            }
+            $imagine->crop($point, $box);
 
             if($imageBox) {
                 $imagine->resize($imageBox);
@@ -421,8 +434,12 @@ class Asset extends \yii\db\ActiveRecord
                 'assetable_type' => $assetableType,
             ]);
         if(isset($thumbnail)) {
-            $query->andWhere(['thumbnail' => $thumbnail]);
-        }
+            if($thumbnail === false) {
+                $query->andWhere(['thumbnail' => null]);
+            } else {
+                $query->andWhere(['thumbnail' => $thumbnail]);
+            }
+        } 
         $query->orderBy(['id' => SORT_DESC]);
 
         if(!$single) {
@@ -458,6 +475,25 @@ class Asset extends \yii\db\ActiveRecord
                     self::THUMBNAIL_SMALL,
                     self::THUMBNAIL_CONTENT,
                 ];
+            case self::ASSETABLE_USER:
+            case self::ASSETABLE_PLAYER:
+            case self::ASSETABLE_COACH:
+                return [
+                    self::THUMBNAIL_SMALL,
+                    self::THUMBNAIL_CONTENT,
+                ];
+            case self::ASSETABLE_USER:
+                return [
+                    self::THUMBNAIL_CONTENT,
+                ];
+            case self::ASSETABLE_COUNTRY:
+                return [
+                    self::THUMBNAIL_SMALL,
+                ];
+            case self::ASSETABLE_TEAM:
+                return [
+                    self::THUMBNAIL_CONTENT,
+                ];
             default: return [];
         }
     }
@@ -472,7 +508,21 @@ class Asset extends \yii\db\ActiveRecord
         switch ($this->getAssetableType())
         {
             case self::ASSETABLE_USER:
-                return new Box(80,80);
+                switch (strtolower($this->thumbnail))
+                {
+                    case self::THUMBNAIL_CONTENT:
+                        return new Box(100, 100);
+                    default: break;
+                }
+                break;
+            case self::ASSETABLE_COUNTRY:
+                switch (strtolower($this->thumbnail))
+                {
+                    case self::THUMBNAIL_SMALL:
+                        return new Box(90, 60);
+                    default: break;
+                }
+                break;
             case self::ASSETABLE_MATCH_EVENT_ICON:
                 return new Box(25,25);
             case self::ASSETABLE_POST:
@@ -481,10 +531,10 @@ class Asset extends \yii\db\ActiveRecord
                     // To slider
                     case self::THUMBNAIL_BIG:
                         // return new Box($size->getWidth()*290/$size->getHeight(),290);
-                        return new Box(300,200);
+                        return new Box(300, 200);
                     // To top 6 news and other preview news
                     case self::THUMBNAIL_NEWS:
-                        return new Box(166,110);
+                        return new Box(166, 110);
                     // To content
                     case self::THUMBNAIL_CONTENT:
                         $width = 595;
@@ -495,18 +545,30 @@ class Asset extends \yii\db\ActiveRecord
                     default: break;
                 }
             case self::ASSETABLE_PLAYER:
-                return new Box(460,460);
             case self::ASSETABLE_COACH:
-                return new Box(460,460);
+                switch (strtolower($this->thumbnail))
+                {
+                    case self::THUMBNAIL_SMALL:
+                        return new Box(150, 150);
+                    case self::THUMBNAIL_CONTENT:
+                        return new Box(300, 450);
+                    default: break;
+                }
             case self::ASSETABLE_TEAM:
-                return new Box($size->getWidth(),$size->getHeight());
+                switch (strtolower($this->thumbnail))
+                {
+                    case self::THUMBNAIL_CONTENT:
+                        return new Box(200, 200);
+                    default: break;
+                }
+                break;
             case self::ASSETABLE_ALBUM:
                 switch (strtolower($this->thumbnail))
                 {
                     case self::THUMBNAIL_BIG:
-                        return new Box(300,200);
+                        return new Box(300, 200);
                     case self::THUMBNAIL_SMALL:
-                        return new Box(90,60);
+                        return new Box(90, 60);
                     case self::THUMBNAIL_CONTENT:
                         return new Box(615, 410);
                     default: break;

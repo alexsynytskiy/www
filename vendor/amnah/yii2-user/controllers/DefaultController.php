@@ -181,16 +181,30 @@ class DefaultController extends Controller
                 $user->setRegisterAttributes($role::ROLE_USER, Yii::$app->request->userIP)->save(false);
                 $profile->setUser($user->id)->save(false);
 
-                $user->avatar = UploadedFile::getInstance($user, 'avatar');
-                if(!empty($user->avatar))
+                $uploadedFile = UploadedFile::getInstance($user, 'avatar');
+                if(!empty($uploadedFile))
                 {
-                    $asset = new Asset;
-                    $asset->type = Asset::TYPE_AVATAR;
-                    $asset->assetable_type = Asset::ASSETABLE_USER;
-                    $asset->assetable_id = $user->id;
-                    $asset->uploadedFile = $user->avatar;
-                    $asset->cropData = $user->cropData;
-                    $asset->saveCroppedAsset();
+                    // Save origionals 
+                    $originalAsset = new Asset();
+                    $originalAsset->assetable_type = Asset::ASSETABLE_USER;
+                    $originalAsset->assetable_id = $user->id;
+                    $originalAsset->uploadedFile = $uploadedFile;
+                    $originalAsset->saveAsset();
+
+                    // Save thumbnails 
+                    $imageID = $originalAsset->id;
+                    $thumbnails = Asset::getThumbnails(Asset::ASSETABLE_USER);
+
+                    foreach ($thumbnails as $thumbnail) {
+                        $asset = new Asset();
+                        $asset->assetable_type = Asset::ASSETABLE_USER;
+                        $asset->assetable_id = $user->id;
+                        $asset->parent_id = $imageID;
+                        $asset->thumbnail = $thumbnail;
+                        $asset->uploadedFile = $uploadedFile;
+                        $asset->cropData = $user->cropData;
+                        $asset->saveCroppedAsset();
+                    }
                 }
 
                 $this->afterRegister($user);
@@ -346,21 +360,36 @@ class DefaultController extends Controller
             }
 
             // save avatar
-            $user->avatar = UploadedFile::getInstance($user, 'avatar');
-            if(!empty($user->avatar))
+            $uploadedFile = UploadedFile::getInstance($user, 'avatar');
+            if(!empty($uploadedFile))
             {
-                $asset = $user->getAsset();
-                // If asset model does not exist for current user
-                if(!isset($asset->assetable_id))
-                {
-                    $asset = new Asset;
-                    $asset->type = Asset::TYPE_AVATAR;
+                // Save origionals 
+                $originalAsset = $user->getAsset();
+                if(!isset($originalAsset->id)) {
+                    $originalAsset = new Asset();
+                }
+                $originalAsset->assetable_type = Asset::ASSETABLE_USER;
+                $originalAsset->assetable_id = $user->id;
+                $originalAsset->uploadedFile = $uploadedFile;
+                $originalAsset->saveAsset();
+
+                // Save thumbnails 
+                $imageID = $originalAsset->id;
+                $thumbnails = Asset::getThumbnails(Asset::ASSETABLE_USER);
+
+                foreach ($thumbnails as $thumbnail) {
+                    $asset = $user->getAsset($thumbnail);
+                    if(!isset($asset->id)) {
+                        $asset = new Asset();
+                    }
                     $asset->assetable_type = Asset::ASSETABLE_USER;
                     $asset->assetable_id = $user->id;
+                    $asset->parent_id = $imageID;
+                    $asset->thumbnail = $thumbnail;
+                    $asset->uploadedFile = $uploadedFile;
+                    $asset->cropData = $user->cropData;
+                    $asset->saveCroppedAsset();
                 }
-                $asset->uploadedFile = $user->avatar;
-                $asset->cropData = $user->cropData;
-                $asset->saveCroppedAsset();
             }
                 
 

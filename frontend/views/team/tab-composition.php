@@ -86,7 +86,10 @@ use common\models\Amplua;
                         if(!isset($player)) {
                             $player = new \common\models\Player;
                         }
-                        $playerImage = $player->getAsset();
+                        $playerImage = $player->getAsset(\common\models\Asset::THUMBNAIL_SMALL);
+                        if(!isset($playerImage->id)) {
+                            $playerImage = $player->getAsset();
+                        }
                         $country = $player->country;
                         $countryIconUrl = isset($country) ? $country->getAsset()->getFileUrl() : false;
                         $teamFromName = isset($contract->teamFrom) ? $contract->teamFrom->name : '-';
@@ -148,12 +151,13 @@ use common\models\Amplua;
     <div class="box-content">
         <div class="left-side">
             <?php if(isset($mainCoach->coach)) { ?>
+            <?php $coachPhoto = $mainCoach->coach->getAsset(\common\models\Asset::THUMBNAIL_SMALL); ?>
             <div class="coach-image">
-                <img src="http://dynamomania.dev/images/default_image.png">
+                <img src="<?= $coachPhoto->getFileUrl() ?>">
             </div>
             <div class="coach-name">
                 <div class="label">Главный тренер</div>
-                <a href="#" class="name"><?= $mainCoach->coach->name ?></a>
+                <a href="<?= $mainCoach->coach->getUrl() ?>" class="name"><?= $mainCoach->coach->name ?></a>
             </div>
             <?php } ?>
         </div>
@@ -162,16 +166,18 @@ use common\models\Amplua;
                 $count = 0;
                 foreach ($teamCoaches as $teamCoach) {
                     $count ++;
+                    $coachPhoto = $teamCoach->coach->getAsset(\common\models\Asset::THUMBNAIL_SMALL);
+                    if(!isset($coachPhoto->id)) $coachPhoto = $teamCoach->coach->getAsset(false);
             ?>
             <div class="coach-box">
                 <div class="coach-image">
-                    <img src="http://dynamomania.dev/images/default_image.png">
+                    <img src="<?= $coachPhoto->getFileUrl() ?>">
                 </div>
                 <div class="coach-name">
                     <?php if($count == 1) { ?>
                         <div class="label">Тренеры</div>
                     <?php } ?>
-                    <a href="#" class="name"><?= $teamCoach->coach->name ?></a>
+                    <a href="<?= $teamCoach->coach->getUrl() ?>" class="name"><?= $teamCoach->coach->name ?></a>
                 </div>
             </div>
             <?php } ?>

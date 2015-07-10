@@ -61,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($user, 'avatar', [
                     'template' => '<div class="preview-image"></div><div class="error-msg">{error}</div>'.
                         '<div class="field field-avatar upload-button">'.
-                        '<div class="field-label">Аватар 80х80</div>{input}</div>',
+                        '<div class="field-label">Аватар</div>{input}</div>',
                 ])->fileInput() ?>
                 
         <?= $form->field($user, 'cropData')->hiddenInput(['id' => 'crop-data'])->label(false) ?>

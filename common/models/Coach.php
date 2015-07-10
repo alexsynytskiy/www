@@ -58,6 +58,10 @@ class Coach extends ActiveRecord
             // image
             [['photo'], 'file', 'extensions' => 'jpeg, jpg , gif, png'],
             [['cropData'], 'safe'],
+
+            // required 
+            [['name'], 'required'],
+            
         ];
     }
 
@@ -92,13 +96,11 @@ class Coach extends ActiveRecord
     }
 
     /**
-     * Get single asset
-     *     *
      * @return Asset
      */
-    public function getAsset()
+    public function getAsset($thumbnail = false)
     {
-        return Asset::getAssets($this->id, Asset::ASSETABLE_COACH, NULL, true);
+        return Asset::getAssets($this->id, Asset::ASSETABLE_COACH, $thumbnail, true);
     }
 
     /**
@@ -115,6 +117,14 @@ class Coach extends ActiveRecord
         $slug = str_replace(" ", "-", $slug);
         $slug = strtolower($slug);
         return $slug;
+    }
+
+    /**
+     * @return string Url to post
+     */
+    public function getUrl()
+    {
+        return Url::to('/coach/'.$this->id.'-'.$this->slug);
     }
 
     /**

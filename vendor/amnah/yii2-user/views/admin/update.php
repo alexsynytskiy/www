@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = Yii::t('user', 'Изменить');
 
     <?= $this->render('_form', [
         'user' => $user,
-        'asset' => $asset,
+        'avatar' => $avatar,
         'profile' => $profile,
     ]) ?>
 

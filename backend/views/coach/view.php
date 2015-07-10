@@ -10,7 +10,6 @@ $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Тренеры', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
-$photo = $model->getAsset();
 $photoIMG = '<img src="'.$photo->getFileUrl().'" style="height:300px; width: 200px;">';
 ?>
 <div class="coach-view">

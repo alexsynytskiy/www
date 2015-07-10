@@ -45,6 +45,7 @@ use common\models\Country;
                 'accept' => 'image/*',
                 'multiple' => false,
                 'class' => 'jcrop',
+                'data-crop-ratio' => 2/3,
             ],
             'pluginOptions' => $pluginOptions,
         ]);

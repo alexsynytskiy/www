@@ -178,8 +178,8 @@ class PostController extends Controller
             $model->slug = $model->genSlug($model->title);
 
             // Set image
-            $model->image = UploadedFile::getInstance($model, 'image');
-            if($model->image)
+            $uploadedFile = UploadedFile::getInstance($model, 'image');
+            if($uploadedFile)
             {
                 // Remove old assets
                 foreach ($assets as $asset) {
@@ -190,7 +190,7 @@ class PostController extends Controller
                 $asset = new Asset();
                 $asset->assetable_type = Asset::ASSETABLE_POST;
                 $asset->assetable_id = $model->id;
-                $asset->uploadedFile = $model->image;
+                $asset->uploadedFile = $uploadedFile;
                 $asset->saveAsset();
 
                 // Save thumbnails 
@@ -203,27 +203,9 @@ class PostController extends Controller
                     $asset->thumbnail = $thumbnail;
                     $asset->assetable_type = Asset::ASSETABLE_POST;
                     $asset->assetable_id = $model->id;
-                    $asset->uploadedFile = $model->image;
+                    $asset->uploadedFile = $uploadedFile;
                     $asset->saveAsset();
                 }
-
-                // Update assets
-                // foreach ($assets as $asset)
-                // {
-                //     if($asset->thumbnail && in_array($asset->thumbnail, $thumbnails))
-                //     {
-                //         $asset->uploadedFile = $model->image;
-                //         $asset->saveAsset();
-                //         $thumbnails = array_diff($thumbnails, [$asset->thumbnail]);
-                //     }
-                //     // Save original image
-                //     elseif (empty($asset->thumbnail))
-                //     {
-                //         $saveOrigin = true;
-                //         $asset->uploadedFile = $model->image;
-                //         $asset->saveAsset();
-                //     }
-                // }
             }
 
             // Save source
@@ -286,11 +268,7 @@ class PostController extends Controller
         }
         $post->delete();
 
-        // if(Yii::$app->request->referrer){
-        //     return $this->redirect(Yii::$app->request->referrer);
-        // }else{
-            return $this->redirect(['index']);
-        // }
+        return $this->redirect(['index']);
     }
 
     /**

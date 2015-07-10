@@ -107,7 +107,8 @@ class Request extends \yii\base\Request
      * @see Controller::enableCsrfValidation
      * @see http://en.wikipedia.org/wiki/Cross-site_request_forgery
      */
-    public $enableCsrfValidation = true;
+    // public $enableCsrfValidation = true;
+    public $enableCsrfValidation = false;
     /**
      * @var string the name of the token used to prevent CSRF. Defaults to '_csrf'.
      * This property is used only when [[enableCsrfValidation]] is true.

@@ -37,10 +37,6 @@ if($post->isBlog()) {
     $loginTime = date('d.m.Y', strtotime($post->user->login_time));
     $profile = $post->user->profile;
 }
-var_dump($image->getFilePath());
-var_dump($image->id);
-var_dump($image->parent_id);
-
 ?>
 
 <?php if($post->isBlog()) { ?>

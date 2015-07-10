@@ -564,12 +564,9 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @return Asset
      */
-    public function getAsset()
+    public function getAsset($thumbnail = Asset::THUMBNAIL_CONTENT)
     {
-        $asset = Asset::getAssets($this->id, Asset::ASSETABLE_USER, NULL, true);
-        if($asset->assetable_type == null) {
-            $asset->assetable_type = Asset::ASSETABLE_USER;
-        }
+        $asset = Asset::getAssets($this->id, Asset::ASSETABLE_USER, $thumbnail, true);
         return $asset;
     }
 

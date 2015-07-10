@@ -16,7 +16,7 @@ use common\models\Asset;
 /**
  * TeamController implements the CRUD actions for Team model.
  */
-class TeamsController extends Controller
+class TeamController extends Controller
 {
     public function behaviors()
     {
@@ -73,11 +73,26 @@ class TeamsController extends Controller
 
             if(!empty($uploadedFile))
             {
-                $asset = new Asset;
-                $asset->assetable_type = Asset::ASSETABLE_TEAM;
-                $asset->assetable_id = $model->id;
-                $asset->uploadedFile = $uploadedFile;
-                $asset->saveAsset();
+                // Save origionals 
+                $originalAsset = new Asset();
+                $originalAsset->assetable_type = Asset::ASSETABLE_TEAM;
+                $originalAsset->assetable_id = $model->id;
+                $originalAsset->uploadedFile = $uploadedFile;
+                $originalAsset->saveAsset();
+
+                // Save thumbnails 
+                $imageID = $originalAsset->id;
+                $thumbnails = Asset::getThumbnails(Asset::ASSETABLE_TEAM);
+
+                foreach ($thumbnails as $thumbnail) {
+                    $asset = new Asset();
+                    $asset->assetable_type = Asset::ASSETABLE_TEAM;
+                    $asset->assetable_id = $model->id;
+                    $asset->parent_id = $imageID;
+                    $asset->thumbnail = $thumbnail;
+                    $asset->uploadedFile = $uploadedFile;
+                    $asset->saveAsset();
+                }
             }
 
             return $this->redirect(['view', 'id' => $model->id]);
@@ -106,15 +121,32 @@ class TeamsController extends Controller
             // If image was uploaded
             if(!empty($uploadedFile))
             {
-                // If asset model did't exist for current model
-                if(!isset($asset->assetable_id))
-                {
-                    $asset = new Asset;
+                // Save origionals 
+                $originalAsset = $model->getAsset();
+                if(!isset($originalAsset->id)) {
+                    $originalAsset = new Asset();
+                }
+                $originalAsset->assetable_type = Asset::ASSETABLE_TEAM;
+                $originalAsset->assetable_id = $model->id;
+                $originalAsset->uploadedFile = $uploadedFile;
+                $originalAsset->saveAsset();
+
+                // Save thumbnails 
+                $imageID = $originalAsset->id;
+                $thumbnails = Asset::getThumbnails(Asset::ASSETABLE_TEAM);
+
+                foreach ($thumbnails as $thumbnail) {
+                    $asset = $model->getAsset($thumbnail);
+                    if(!isset($asset->id)) {
+                        $asset = new Asset();
+                    }
                     $asset->assetable_type = Asset::ASSETABLE_TEAM;
                     $asset->assetable_id = $model->id;
+                    $asset->parent_id = $imageID;
+                    $asset->thumbnail = $thumbnail;
+                    $asset->uploadedFile = $uploadedFile;
+                    $asset->saveAsset();
                 }
-                $asset->uploadedFile = $uploadedFile;
-                $asset->saveAsset();
             }
 
             $model->save(false);

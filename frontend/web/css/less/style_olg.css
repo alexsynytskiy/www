@@ -652,7 +652,7 @@ body a:focus {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  width: 180px;
+  width: 140px;
   margin-right: 5px;
   position: relative;
   background: #e9e9e9;
@@ -2473,7 +2473,6 @@ body a:focus {
 .coach-composition-box .left-side .coach-image {
   float: left;
   width: 110px;
-  height: 110px;
   margin-right: 10px;
 }
 .coach-composition-box .left-side .coach-image img {
@@ -2521,13 +2520,11 @@ body a:focus {
 .coach-composition-box .right-side .coach-image {
   float: left;
   width: 50px;
-  height: 50px;
   margin-right: 10px;
 }
 .coach-composition-box .right-side .coach-image img {
   display: block;
   width: 100%;
-  height: 100%;
 }
 .coach-composition-box .box-content {
   padding: 10px 5px;

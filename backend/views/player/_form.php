@@ -34,11 +34,11 @@ use kartik\file\FileInput;
         'browseLabel' => "Обзор...",
         'allowedFileExtensions' => ['jpeg', 'jpg', 'gif', 'png'],
     ];
-    $avatar = $model->getAsset();
-    if (!$model->isNewRecord && $avatar->getFileUrl())
+
+    if (isset($image) && $image->getFileUrl() && !$model->isNewRecord)
     {
         $pluginOptions['initialPreview'] = [
-            Html::img($avatar->getFileUrl()),
+            Html::img($image->getFileUrl()),
         ];
     }
     echo $form->field($model, 'avatar')->widget(FileInput::classname(), [
@@ -46,6 +46,7 @@ use kartik\file\FileInput;
             'accept' => 'image/*',
             'multiple' => false,
             'class' => 'jcrop',
+            'data-crop-ratio' => 2/3,
         ],
         'pluginOptions' => $pluginOptions,
     ]);

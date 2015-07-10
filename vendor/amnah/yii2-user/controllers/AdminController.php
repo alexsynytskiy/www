@@ -76,10 +76,10 @@ class AdminController extends Controller
     public function actionView($id)
     {
         $user = $this->findModel($id);
-        $asset = Asset::getAssets($user->id, Asset::ASSETABLE_USER, NULL, true);
+        $avatar = $user->getAsset(Asset::THUMBNAIL_CONTENT);
         return $this->render('view', [
             'user' => $user,
-            'asset' => $asset,
+            'avatar' => $avatar,
         ]);
     }
 
@@ -101,20 +101,35 @@ class AdminController extends Controller
         $post = Yii::$app->request->post();
         if ($user->load($post) && $user->validate() && $profile->load($post) && $profile->validate()) {
 
-            $user->avatar = UploadedFile::getInstance($user,'avatar');
+            $uploadedFile = UploadedFile::getInstance($user,'avatar');
 
             $user->save(false);
             $profile->setUser($user->id)->save(false);
 
-            if(!empty($user->avatar))
+            // If image was uploaded
+            if(!empty($uploadedFile))
             {
-                $asset = new Asset;
-                $asset->type = Asset::TYPE_AVATAR;
-                $asset->assetable_type = Asset::ASSETABLE_USER;
-                $asset->assetable_id = $user->id;
-                $asset->uploadedFile = $user->avatar;
-                $asset->cropData = $user->cropData;
-                $asset->saveCroppedAsset();
+                // Save origionals 
+                $originalAsset = new Asset();
+                $originalAsset->assetable_type = Asset::ASSETABLE_USER;
+                $originalAsset->assetable_id = $user->id;
+                $originalAsset->uploadedFile = $uploadedFile;
+                $originalAsset->saveAsset();
+
+                // Save thumbnails 
+                $imageID = $originalAsset->id;
+                $thumbnails = Asset::getThumbnails(Asset::ASSETABLE_USER);
+
+                foreach ($thumbnails as $thumbnail) {
+                    $asset = new Asset();
+                    $asset->assetable_type = Asset::ASSETABLE_USER;
+                    $asset->assetable_id = $user->id;
+                    $asset->parent_id = $imageID;
+                    $asset->thumbnail = $thumbnail;
+                    $asset->uploadedFile = $uploadedFile;
+                    $asset->cropData = $user->cropData;
+                    $asset->saveCroppedAsset();
+                }
             }
 
             return $this->redirect(['view', 'id' => $user->id]);
@@ -140,30 +155,44 @@ class AdminController extends Controller
         $user = $this->findModel($id);
         $user->setScenario("admin");
         $profile = $user->profile;
-        $asset = $user->getAsset();
+        $avatar = $user->getAsset(Asset::THUMBNAIL_CONTENT);
 
         // load post data and validate
         $post = Yii::$app->request->post();
         if ($user->load($post) && $user->validate() && $profile->load($post) && $profile->validate())
         {
-            $user->avatar = UploadedFile::getInstance($user,'avatar');
+            $uploadedFile = UploadedFile::getInstance($user,'avatar');
 
             // If image was uploaded
-            if(!empty($user->avatar))
+            if(!empty($uploadedFile))
             {
-                // If asset model did't exist for current user
-                if(!isset($asset->assetable_id))
-                {
-                    $asset = new Asset;
-                    $asset->type = Asset::TYPE_AVATAR;
+                // Save origionals 
+                $originalAsset = $user->getAsset();
+                if(!isset($originalAsset->id)) {
+                    $originalAsset = new Asset();
+                }
+                $originalAsset->assetable_type = Asset::ASSETABLE_USER;
+                $originalAsset->assetable_id = $user->id;
+                $originalAsset->uploadedFile = $uploadedFile;
+                $originalAsset->saveAsset();
+
+                // Save thumbnails 
+                $imageID = $originalAsset->id;
+                $thumbnails = Asset::getThumbnails(Asset::ASSETABLE_USER);
+
+                foreach ($thumbnails as $thumbnail) {
+                    $asset = $user->getAsset($thumbnail);
+                    if(!isset($asset->id)) {
+                        $asset = new Asset();
+                    }
                     $asset->assetable_type = Asset::ASSETABLE_USER;
                     $asset->assetable_id = $user->id;
+                    $asset->parent_id = $imageID;
+                    $asset->thumbnail = $thumbnail;
+                    $asset->uploadedFile = $uploadedFile;
+                    $asset->cropData = $user->cropData;
+                    $asset->saveCroppedAsset();
                 }
-
-                $asset->uploadedFile = $user->avatar;
-                $asset->cropData = $user->cropData;
-
-                $asset->saveCroppedAsset();
             }
 
             $user->save(false);
@@ -174,7 +203,7 @@ class AdminController extends Controller
         // render
         return $this->render('update', [
             'user' => $user,
-            'asset' => $asset,
+            'avatar' => $avatar,
             'profile' => $profile,
         ]);
     }
@@ -195,8 +224,10 @@ class AdminController extends Controller
         UserAuth::deleteAll(['user_id' => $user->id]);
         $profile->delete();
         $user->delete();
-        $asset = $user->getAsset();
-        $asset->delete();
+        $assets = Asset::getAssets($user->id, Asset::ASSETABLE_USER);
+        foreach ($assets as $asset) {
+            $asset->delete();
+        }
 
         if(Yii::$app->request->referrer){
             return $this->redirect(Yii::$app->request->referrer);

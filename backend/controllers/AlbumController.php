@@ -212,7 +212,6 @@ class AlbumController extends Controller
             $model->images = UploadedFile::getInstances($model, 'images');
             if($model->images)
             {
-                
                 foreach ($model->images as $image)
                 {
                     // Save origionals 

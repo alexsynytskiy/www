@@ -38,7 +38,6 @@ $role = Yii::$app->getModule("user")->model("Role");
         'browseLabel' => "Обзор...",
         'allowedFileExtensions' => ['jpg', 'gif', 'png'],
     ];
-    $avatar = $user->getAsset();
     if (!$user->isNewRecord && $avatar->getFileUrl())
     {
         $pluginOptions['initialPreview'] = [

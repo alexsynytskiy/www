@@ -102,7 +102,7 @@ $loginTime = date('d.m.Y', strtotime($profile->user->login_time));
             <?= $form->field($user, 'avatar', [
                     'template' => '<div class="preview-image"></div><div class="error-msg">{error}</div>'.
                         '<div class="field field-avatar-grey upload-button">'.
-                        '<div class="field-label">Загрузить аватар 80х80</div>{input}</div>',
+                        '<div class="field-label">Загрузить аватар</div>{input}</div>',
                 ])->fileInput() ?>
                 
             <?= $form->field($user, 'cropData')->hiddenInput(['id' => 'crop-data'])->label(false) ?>

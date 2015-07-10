@@ -88,12 +88,10 @@ class Country extends ActiveRecord
     }
 
     /**
-     * Get single asset
-     *     *
      * @return Asset
      */
-    public function getAsset()
+    public function getAsset($thumbnail = Asset::THUMBNAIL_SMALL)
     {
-        return Asset::getAssets($this->id, Asset::ASSETABLE_COUNTRY, NULL, true);
+        return Asset::getAssets($this->id, Asset::ASSETABLE_COUNTRY, $thumbnail, true);
     }
 }

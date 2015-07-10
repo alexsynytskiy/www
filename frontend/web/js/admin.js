@@ -20,31 +20,33 @@
             $('#crop-data').val(params.join(';'));
         }
 
-        function initJcrop(elem)
+        function initJcrop($image, ratio)
         {
-            $image = $(elem);
             var height = $image.height();
             var width = $image.width();
-            var maxSize = height < width ? height : width;
+            var minSize = 100;
             $image.Jcrop({
-                aspectRatio: 1,
+                aspectRatio: ratio,
                 setSelect: [
-                    width > maxSize ? (width-maxSize)/2 : 0,
-                    height > maxSize ? (height-maxSize)/2 : 0,
-                    maxSize,
-                    maxSize
+                    0,
+                    0,
+                    height,
+                    width
                 ],
-                minSize: [100, 100],
+                minSize: [ratio * minSize, minSize],
                 onSelect: saveCoords,
                 onChange: saveCoords,
             });
         };
 
         var $inputJcrop = $(".file-input :file.jcrop");
+        var ratio = $inputJcrop.attr('data-crop-ratio');
+        ratio = ratio ? ratio : 1;
         $inputJcrop.on('fileimageloaded', function(event, previewId){
             $('img.file-preview-image').css('width','auto');
             $('img.file-preview-image').css('height','auto');
-            initJcrop('#' + previewId + ' img');
+            var $image = $('#' + previewId + ' img');
+            initJcrop($image, ratio);
         });
 
         var $input = $(".file-input :file");
@@ -58,7 +60,6 @@
                 }
                 $("#images-data").val(keys.join(';'));
             }
-            console.log('asd');
             return false;
         });
 
