@@ -146,7 +146,9 @@ AppAsset::register($this);
                 <div class="top-banners-area">
                     <?php 
                         $bannerBlock = SiteBlock::getBanner(Banner::REGION_TOP);
-                        echo $this->render($bannerBlock['view'], isset($bannerBlock['data']) ? $bannerBlock['data'] : []);
+                        if($bannerBlock) {
+                            echo $this->render($bannerBlock['view'], isset($bannerBlock['data']) ? $bannerBlock['data'] : []);
+                        }    
                     ?>
                 </div>
 
@@ -169,7 +171,9 @@ AppAsset::register($this);
                 <div class="bottom-banners-area">
                     <?php 
                         $bannerBlock = SiteBlock::getBanner(Banner::REGION_BOTTOM);
-                        echo $this->render($bannerBlock['view'], isset($bannerBlock['data']) ? $bannerBlock['data'] : []);
+                        if($bannerBlock) {
+                            echo $this->render($bannerBlock['view'], isset($bannerBlock['data']) ? $bannerBlock['data'] : []);
+                        }
                     ?>
                 </div>
 
