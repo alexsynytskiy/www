@@ -997,6 +997,41 @@ class SiteController extends Controller
     }
 
     /**
+     * Player page
+     * 
+     * @param int $id Player id
+     * @return mixed
+     */
+    public function actionCoach($id, $slug) 
+    {  
+        $coach = Coach::findOne($id);
+
+        if(!isset($coach)) {
+            throw new NotFoundHttpException('Страница не найдена.');
+        }
+
+        $image = $player->getAsset(Asset::THUMBNAIL_CONTENT);
+
+        $options = [
+            'templateType' => 'col2',
+            'title' => $coach->name,
+            'columnFirst' => [
+                'post' => [
+                    'view' => '@frontend/views/site/coach',
+                    'data' => compact('coach','image'),
+                    'weight' => 0,
+                ],
+            ],
+            'columnSecond' => [
+                'blog_column' => SiteBlock::getBlogPosts(),
+            ],
+
+        ];
+
+        return $this->render('@frontend/views/site/index', $options);
+    }
+
+    /**
      * Claim page
      * 
      * @param int $id Comment id

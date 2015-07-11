@@ -174,7 +174,7 @@ class CoachController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        $assets = Asset::getAssets($model->id, Asset::ASSETABLE_USER);
+        $assets = Asset::getAssets($model->id, Asset::ASSETABLE_USER, NULL);
         foreach ($assets as $asset) {
             $asset->delete();
         }
