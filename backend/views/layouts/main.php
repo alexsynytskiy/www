@@ -43,9 +43,10 @@ AppAsset::register($this);
                         ['label' => 'Жалобы', 'url' => '/admin/claim'],
                     ]],
                     ['label' => 'Команда', 'items' => [
-                        ['label' => 'Команды', 'url' => '/admin/team'],
+                        ['label' => 'Команды', 'url' => '/admin/team'],                        
                         ['label' => 'Игроки', 'url' => '/admin/player'],
                         ['label' => 'Тренеры', 'url' => '/admin/coach'],
+                        ['label' => 'Тренеры по сезонам', 'url' => '/admin/team-coach'],
                         ['label' => 'Амплуа', 'url' => '/admin/amplua'],
                         ['label' => 'Игроки команд Динамо', 'url' => '/admin/contract'],                       
                         ['label' => 'Игроки других команд', 'url' => '/admin/membership'],
@@ -75,6 +76,7 @@ AppAsset::register($this);
                         ['label' => 'Топовые теги', 'url' => '/admin/top-tag'],
                         ['label' => 'Подписка', 'url' => '/admin/subscribing'],
                         ['label' => 'Опросы', 'url' => '/admin/question'],
+                        ['label' => 'Банеры', 'url' => '/admin/banner'],
                     ]],
                     ['label' => 'Сайт', 'url' => ('http://'.$_SERVER['HTTP_HOST']) ],
                 ];
