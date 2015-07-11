@@ -37,7 +37,7 @@ class SubscribingController extends Controller {
             ->andWhere(['>', 'created_at', $currentDay])
             ->andWhere(['not in', "id", $ids])
             ->orderBy([
-                'comments_count' => SORT_DESC,
+                'id' => SORT_DESC,
             ])
             ->limit(3)->all();
         $posts = array_merge($importantPosts ,$maxCommentsPosts);

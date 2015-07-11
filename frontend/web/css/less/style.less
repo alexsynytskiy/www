@@ -108,7 +108,7 @@ header {
 				margin-top: @main-margin;
 				height: 39px;
 				width: @logo-width;
-				background: url('/images/logotype.png') no-repeat center;
+				background: url('/images/main_logo.svg') no-repeat center;
 				background-size: @logo-width;
 			}
 
@@ -266,17 +266,21 @@ header {
 						.text-font(14px, normal, @main-grey);
 					}
 
-					.rules:hover {
-						.text-font(14px, normal, @main-grey-hover);
-					}
-
 					.icon {
-						@logo-size: 25px;
+						margin-top: 5px;
 						float: left;
-						height: @logo-size;
-						width: @logo-size;
-						background: url('/images/rules.png') no-repeat center;
-						background-size: @logo-size;
+						height: 16px;
+						width: 26px;
+						background: url('/images/rules.svg') no-repeat 0 0;
+						background-size: 26px;
+					}
+					&:hover {
+						.rules {
+							.text-font(14px, normal, @main-grey-hover);
+						}
+						.icon {
+							background-position: 0 100%;
+						}
 					}
 
 				}
@@ -296,37 +300,38 @@ header {
 					}
 
 					.youtube {
-						background-image: url('/images/youhh.png');
+						background-image: url('/images/youhh.svg');
 						background-repeat: no-repeat;
 						background-size: @button-width;
 					}
 
 					.vk {
-						background-image: url('/images/vkhh.png');
+						background-image: url('/images/vkhh.svg');
 						background-repeat: no-repeat;
 						background-size: @button-width;
 					}
 
 					.twitter {
-						background-image: url('/images/twhh.png');
+						background-image: url('/images/twhh.svg');
 						background-repeat: no-repeat;
 						background-size: @button-width;
 					}
 
 					.fb {
-						background-image: url('/images/fbhh.png');
+						background-image: url('/images/fbhh.svg');
 						background-repeat: no-repeat;
 						background-size: @button-width;
 					}
 
 					.rss {
-						background-image: url('/images/rsshh.png');
+						background-position: center top;
+						background-image: url('/images/rsshh2.svg');
 						background-repeat: no-repeat;
 						background-size: @button-width;
 					}
 
 					.button-hover {
-						background-position: 0 -58px;
+						background-position: 0 100%;
 						background-size: @button-width;
 					}
 
@@ -2030,11 +2035,7 @@ header {
 			.goal {
 				.player {
 					line-height: 18px;
-					.text-font(12px, normal, @main-blue);
-
-					&:hover {
-						.text-font(12px, normal, @main-blue-hover);
-					}
+					font-size: 12px;
 
 					&.house {
 						float: right;
@@ -2273,7 +2274,6 @@ header {
 				img {
 					border-radius: @box-border-radius;
 					margin-top: 11px;
-					height: 50px;
 					width: 50px;
 				}
 			}

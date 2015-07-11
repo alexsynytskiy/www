@@ -36,6 +36,7 @@ body a:focus {
   display: block;
   height: 0;
   clear: both;
+  overflow: hidden;
   visibility: hidden;
 }
 .grid-column {
@@ -70,6 +71,7 @@ body a:focus {
   display: block;
   height: 0;
   clear: both;
+  overflow: hidden;
   visibility: hidden;
 }
 .default-box .box-content {
@@ -81,6 +83,7 @@ body a:focus {
   display: block;
   height: 0;
   clear: both;
+  overflow: hidden;
   visibility: hidden;
 }
 .default-box .box-header {
@@ -780,6 +783,7 @@ body a:focus {
   display: block;
   height: 0;
   clear: both;
+  overflow: hidden;
   visibility: hidden;
 }
 .cabinet-comments {
@@ -1168,6 +1172,7 @@ body a:focus {
   display: block;
   height: 0;
   clear: both;
+  overflow: hidden;
   visibility: hidden;
 }
 .post-container .rating-counter .rating-up {
@@ -1210,6 +1215,7 @@ body a:focus {
   display: block;
   height: 0;
   clear: both;
+  overflow: hidden;
   visibility: hidden;
 }
 .blog-posts .comment,
@@ -1643,6 +1649,7 @@ body a:focus {
   display: block;
   height: 0;
   clear: both;
+  overflow: hidden;
   visibility: hidden;
 }
 .first-team .team .player:last-child {
@@ -1658,9 +1665,6 @@ body a:focus {
   color: #727272;
   font-weight: bold;
   width: 25px;
-}
-.first-team .team .player .name {
-  color: #1972c4;
 }
 .first-team .team .player .yellow-card,
 .first-team .team .player .red-card,
@@ -1795,11 +1799,17 @@ body a:focus {
 .games-calendar .stadium {
   text-align: right;
 }
-.site-error {
-  padding-top: 100px;
+.error-container {
+  width: 100%;
+  min-height: 130px;
+}
+.error-container td {
+  vertical-align: middle;
+}
+.error-container .site-error {
   text-align: center;
 }
-.site-error .error-message {
+.error-container .site-error .error-message {
   margin-bottom: 30px;
 }
 #comment-form {
@@ -1917,6 +1927,7 @@ body a:focus {
   display: block;
   height: 0;
   clear: both;
+  overflow: hidden;
   visibility: hidden;
 }
 .complain-form-box .complain-form .user-photo {
@@ -1963,6 +1974,7 @@ body a:focus {
   display: block;
   height: 0;
   clear: both;
+  overflow: hidden;
   visibility: hidden;
 }
 .navbar .button {
@@ -2061,6 +2073,7 @@ body a:focus {
   display: block;
   height: 0;
   clear: both;
+  overflow: hidden;
   visibility: hidden;
 }
 .team-image-box .caption .left {
@@ -2129,6 +2142,7 @@ body a:focus {
   display: block;
   height: 0;
   clear: both;
+  overflow: hidden;
   visibility: hidden;
 }
 .composition-search .search-composition .club-select {
@@ -2225,6 +2239,7 @@ body a:focus {
   display: block;
   height: 0;
   clear: both;
+  overflow: hidden;
   visibility: hidden;
 }
 .auto-refresh .settings {
@@ -2389,6 +2404,7 @@ body a:focus {
   display: block;
   height: 0;
   clear: both;
+  overflow: hidden;
   visibility: hidden;
 }
 .blog-preview .data-column .author {
@@ -2439,6 +2455,7 @@ body a:focus {
   display: block;
   height: 0;
   clear: both;
+  overflow: hidden;
   visibility: hidden;
 }
 .blog-preview .data-column .comments-count .icon {
@@ -2502,6 +2519,7 @@ body a:focus {
   display: block;
   height: 0;
   clear: both;
+  overflow: hidden;
   visibility: hidden;
 }
 .coach-composition-box .right-side .coach-box:last-child {
@@ -2579,6 +2597,7 @@ body a:focus {
   display: block;
   height: 0;
   clear: both;
+  overflow: hidden;
   visibility: hidden;
 }
 .album-box .album-container {
@@ -2661,11 +2680,14 @@ body a:focus {
   background: url(/images/button_right.png) no-repeat center;
   background-size: 15px;
 }
+.album-box .bxslider-thumbnails {
+  padding-top: 10px;
+}
 .album-box .bxslider-thumbnails img {
   width: 100%;
 }
 .album-box .bxslider-thumbnails .bx-controls-direction a {
-  top: 50%;
+  top: 30px;
 }
 .album-box .bxslider-thumbnails .bx-prev {
   left: 15px;
@@ -2677,13 +2699,10 @@ body a:focus {
   background: url(/images/button_right.png) no-repeat center;
   background-size: 10px;
 }
-.album-box .album-image {
-  width: 100%;
-}
-.bxslider-thumbnails {
-  padding-top: 10px;
-}
-.bxslider-thumbnails a {
+.album-box .bxslider-thumbnails a {
   display: block;
   float: left;
+}
+.album-box .album-image {
+  width: 100%;
 }

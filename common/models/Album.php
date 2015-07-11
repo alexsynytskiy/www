@@ -26,6 +26,11 @@ use dosamigos\transliterator\TransliteratorHelper;
 class Album extends ActiveRecord
 {
     /**
+     * @var File
+     */
+    public $coverImage;
+
+    /**
      * @var array Array of File
      */
     public $images;
@@ -63,7 +68,7 @@ class Album extends ActiveRecord
             [['title'], 'required'],
 
             // images
-            [['images'], 'file', 'extensions' => 'jpeg, gif, png', 'on' => ['create', 'update']],
+            [['images', 'coverImage'], 'file', 'extensions' => 'jpeg, jpg, gif, png', 'on' => ['create', 'update']],
         ];
     }
 
@@ -84,6 +89,7 @@ class Album extends ActiveRecord
             'cached_tag_list' => 'Закешированный список тегов',
             'images'          => 'Изображения',
             'tags'            => 'Теги',
+            'coverImage'      => 'Обложка',
         ];
     }
 
@@ -241,6 +247,31 @@ class Album extends ActiveRecord
     }
 
     /**
+     * Get single cover image asset
+     *
+     * @param string $thumbnail
+     * @return Asset
+     */
+    public function getCoverImageAsset($thumbnail = NULL)
+    {
+        return Asset::getAssets($this->id, Asset::ASSETABLE_ALBUM_COVER, $thumbnail, true);
+    }
+
+    /**
+     * Get single cover image asset for frontend
+     *
+     * @param string $thumbnail
+     * @return Asset
+     */
+    public function getFrontendAsset($thumbnail = NULL)
+    {
+        $asset = $this->getCoverImageAsset($thumbnail);
+        if(!isset($asset->id)) $asset = $this->getAsset($thumbnail);
+        if(!isset($asset->id)) $asset = $this->getAsset();
+        return $asset;
+    }
+
+    /**
      * Get amount of photos in album
      * @return int
      */
@@ -249,9 +280,19 @@ class Album extends ActiveRecord
             ->where([
                 'assetable_id' => $this->id,
                 'assetable_type' => Asset::ASSETABLE_ALBUM,
-                'thumbnail' => Asset::THUMBNAIL_BIG,
+                'parent_id' => null,
             ])
             ->count();
         return $count;
     }
+
+    /**
+     * Get amount of photos in album
+     * @return int
+     */
+    public function getCommentsCount() {
+        return CommentCount::getCommentCount($this->id, CommentCount::COMMENTABLE_ALBUM);
+    }
+
+    
 }

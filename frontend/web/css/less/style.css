@@ -52,7 +52,7 @@ header .header-wrapper .header-top-part .logo {
   margin-top: 15px;
   height: 39px;
   width: 260px;
-  background: url('/images/logotype.png') no-repeat center;
+  background: url('/images/main_logo.svg') no-repeat center;
   background-size: 260px;
 }
 header .header-wrapper .header-top-part .navigation-bar {
@@ -205,17 +205,21 @@ header .header-wrapper .header-top-part .navigation-bar .bottom-block .rules {
   font-weight: normal;
   color: #727272;
 }
-header .header-wrapper .header-top-part .navigation-bar .bottom-block .rules:hover {
+header .header-wrapper .header-top-part .navigation-bar .bottom-block .icon {
+  margin-top: 5px;
+  float: left;
+  height: 16px;
+  width: 26px;
+  background: url('/images/rules.svg') no-repeat 0 0;
+  background-size: 26px;
+}
+header .header-wrapper .header-top-part .navigation-bar .bottom-block:hover .rules {
   font-size: 14px;
   font-weight: normal;
   color: #494949;
 }
-header .header-wrapper .header-top-part .navigation-bar .bottom-block .icon {
-  float: left;
-  height: 25px;
-  width: 25px;
-  background: url('/images/rules.png') no-repeat center;
-  background-size: 25px;
+header .header-wrapper .header-top-part .navigation-bar .bottom-block:hover .icon {
+  background-position: 0 100%;
 }
 header .header-wrapper .header-top-part .navigation-bar .social-buttons {
   float: right;
@@ -228,32 +232,33 @@ header .header-wrapper .header-top-part .navigation-bar .social-buttons .button 
   float: right;
 }
 header .header-wrapper .header-top-part .navigation-bar .social-buttons .youtube {
-  background-image: url('/images/youhh.png');
+  background-image: url('/images/youhh.svg');
   background-repeat: no-repeat;
   background-size: 36px;
 }
 header .header-wrapper .header-top-part .navigation-bar .social-buttons .vk {
-  background-image: url('/images/vkhh.png');
+  background-image: url('/images/vkhh.svg');
   background-repeat: no-repeat;
   background-size: 36px;
 }
 header .header-wrapper .header-top-part .navigation-bar .social-buttons .twitter {
-  background-image: url('/images/twhh.png');
+  background-image: url('/images/twhh.svg');
   background-repeat: no-repeat;
   background-size: 36px;
 }
 header .header-wrapper .header-top-part .navigation-bar .social-buttons .fb {
-  background-image: url('/images/fbhh.png');
+  background-image: url('/images/fbhh.svg');
   background-repeat: no-repeat;
   background-size: 36px;
 }
 header .header-wrapper .header-top-part .navigation-bar .social-buttons .rss {
-  background-image: url('/images/rsshh.png');
+  background-position: center top;
+  background-image: url('/images/rsshh2.svg');
   background-repeat: no-repeat;
   background-size: 36px;
 }
 header .header-wrapper .header-top-part .navigation-bar .social-buttons .button-hover {
-  background-position: 0 -58px;
+  background-position: 0 100%;
   background-size: 36px;
 }
 header .header-wrapper .menu {
@@ -1924,13 +1929,6 @@ header .header-wrapper .breadcrumbs .tag:hover {
 .grid-column .match-protocol .team .goal .player {
   line-height: 18px;
   font-size: 12px;
-  font-weight: normal;
-  color: #1972c4;
-}
-.grid-column .match-protocol .team .goal .player:hover {
-  font-size: 12px;
-  font-weight: normal;
-  color: #0090e8;
 }
 .grid-column .match-protocol .team .goal .player.house {
   float: right;
@@ -2159,7 +2157,6 @@ header .header-wrapper .breadcrumbs .tag:hover {
 .grid-column .transfers tbody .photo img {
   border-radius: 5px;
   margin-top: 11px;
-  height: 50px;
   width: 50px;
 }
 .grid-column .transfers tbody .possibility {

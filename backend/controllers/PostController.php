@@ -7,6 +7,7 @@ use common\models\Post;
 use common\models\PostSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\ForbiddenHttpException;
 use yii\filters\VerbFilter;
 
 use yii\web\UploadedFile;
@@ -29,6 +30,18 @@ class PostController extends Controller
                 ],
             ],
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        if (!empty(Yii::$app->user) && !Yii::$app->user->can("admin")) {
+            throw new ForbiddenHttpException('Вы не можете выполнить это действие.');
+        }
+
+        parent::init();
     }
 
     /**
@@ -74,7 +87,6 @@ class PostController extends Controller
         // default values
         $model->allow_comment = 1;
         $model->is_public = 1;
-        $model->comments_count = 0;
         $model->content_category_id = Post::CATEGORY_NEWS;
         $model->user_id = Yii::$app->user->id;
         $model->is_pin = 0;

@@ -18,10 +18,11 @@ use yii\helpers\Url;
         <div class="date"><?= date('d.m.Y', strtotime($post->created_at)) ?></div>
         <div class="right-sidebar">
             <div class="time"><?= date('H:i', strtotime($post->created_at)) ?></div>
-            <?php if($post->comments_count > 0) { ?>
+            <?php $commentsCount = $post->getCommentsCount(); ?>
+            <?php if($commentsCount > 0) { ?>
             <div class="comments">
                 <div class="icon"></div>
-                <div class="count"><?= $post->comments_count ?></div>
+                <div class="count"><?= $commentsCount ?></div>
             </div>
             <?php } ?>
         </div>

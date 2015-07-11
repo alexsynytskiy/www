@@ -73,8 +73,6 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'guest_goals') ?>
 
-    <?php // echo $form->field($model, 'comments_count') ?>
-
     <?php // echo $form->field($model, 'created_at') ?>
 
     <?php // echo $form->field($model, 'updated_at') ?>

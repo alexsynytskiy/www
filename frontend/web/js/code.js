@@ -2,12 +2,16 @@
 
 $(window).load(function() {
 
-    // PreLoading page animation turn off START
+    // => PreLoading page animation turn off START
     $("#loading").delay(1000).fadeOut(500);
-    // PreLoading page animation turn off END
+    // => PreLoading page animation turn off END
 
 
-    // BxSlider START
+    // => Error page START
+    $('.error-container').height($(window).innerHeight());
+    // => Error page END
+
+    // => BxSlider START
     $('.top-news-slider .slider').bxSlider({
         slideWidth: 300,
         preloadImages: 'all',
@@ -51,21 +55,20 @@ $(window).load(function() {
         infiniteLoop: false,
         adaptiveHeight: true,
     });
+    // => BxSlider END
 
-    // BxSlider END
 
-
-    // Hover functions for matches slider on top of 2nd column at main page START
+    // => Hover functions for matches slider on top of 2nd column at main page START
     $('.top-matches-slider .bx-prev, .top-matches-slider .bx-next').hover( function(){
        $(this).addClass("bx-control-hover");
     },
     function(){
        $(this).removeClass("bx-control-hover");
     });
-    // Hover functions for matches slider on top of 2nd column at main page END
+    // => Hover functions for matches slider on top of 2nd column at main page END
 
 
-    // Masonry tiles view START
+    // => Masonry tiles view START
     $('.inquirers-container').indyMasonry({
           'clName'    : '.inquirer-item',
           'gap'       : 15,
@@ -94,8 +97,7 @@ $(window).load(function() {
           'mBottom'   : 15,
           'column'    : 2,
     });
-    
-    // Masonry tiles view END
+    // => Masonry tiles view END
 
 
     // => Selectize START
@@ -112,7 +114,7 @@ $(window).load(function() {
     // => Selectize END
      
 
-    // Smooth scroll to some elements START
+    // => Smooth scroll to some elements START
     $('#table-translation-link').click(function(){
         var target = $(this).attr('href');
         $('html, body').animate({
@@ -128,7 +130,7 @@ $(window).load(function() {
         }, 800);
         return false;
     });
-    // Smooth scroll to some elements END
+    // => Smooth scroll to some elements END
     
 
     // => Autorefresh START 
@@ -175,22 +177,22 @@ $(window).load(function() {
 
 $(document).ready(function() {
 
-    // iCheck START
+    // => iCheck START
 	$('input').iCheck({
 		checkboxClass: 'icheckbox_flat-blue',
 		radioClass: 'iradio_flat-blue'
 	});
-    // iCheck END
+    // => iCheck END
 
 
-    // Autoresize textarea START
+    // => Autoresize textarea START
     $('textarea.autosize').each(function(index, el) {
         autosize($(this));
     });
-    // Autoresize textarea START
+    // => Autoresize textarea START
 
 
-	// Hover functions for header social buttons, rss and inform buttons START
+	// => Hover functions for header social buttons, rss and inform buttons START
 	$('.block-top .button, .social-buttons .button').hover( function(){
 	   $(this).addClass("button-hover");
 	}, function(){
@@ -206,10 +208,10 @@ $(document).ready(function() {
 	function(){
 	   $(this).removeClass("hover");
 	});
-    // Hover functions for header social buttons, rss and inform buttons END
+    // => Hover functions for header social buttons, rss and inform buttons END
 
 
-    // Toggle comments START
+    // => Toggle comments START
     $(document).on('click', '.toggle-button', function(event) {
         if($(this).hasClass('toggle-show')) {
             $(this).removeClass('toggle-show');
@@ -229,7 +231,7 @@ $(document).ready(function() {
         $el.text('');
         $el.addClass('no-replies');
     });
-    // Toggle comments END
+    // => Toggle comments END
     
 
     // => Comments form START

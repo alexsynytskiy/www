@@ -41,15 +41,15 @@ $this->params['breadcrumbs'][] = $this->title;
             'title:html',
             'slug',
             [
+                'label' => 'Обложка',
+                'value' => Html::img($coverImage->getFileUrl()),
+                'format' => 'html',
+            ],
+            [
                 'attribute' => 'description',
                 'value' => $model->description,
                 'format' => 'html',
             ],
-            // [
-            //     'label' => 'Изображение',
-            //     'value' => empty($image->filename) ? null : Html::img($image->getFileUrl()),
-            //     'format' => 'html',
-            // ],
             'created_at',
             'updated_at',
             [

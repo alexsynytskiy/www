@@ -44,10 +44,11 @@ if(abs(Yii::$app->session['news_post_time_last'] - $time) >= 60*60*24)
         <?= $model->getShortContent() ?>
         </div>
     </div>
-    <?php if($model->comments_count > 0) { ?>
+    <?php $commentsCount = $model->getCommentsCount(); ?>
+    <?php if($commentsCount > 0) { ?>
     <div class="news-comments-block">
         <div class="icon"></div>
-        <div class="count"><?= $model->comments_count ?></div>
+        <div class="count"><?= $commentsCount ?></div>
         <div class="clearfix"></div>
     </div>
     <?php } ?>

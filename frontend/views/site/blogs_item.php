@@ -63,10 +63,11 @@ foreach ($tags as $tag) {
                 <span class="label">Рейтинг: </span>
                 <span class="blue"><?= $model->getRating() ?></span>
             </div>
-            <?php if($model->comments_count > 0) { ?>
+            <?php $commentsCount = $model->getCommentsCount(); ?>
+            <?php if($commentsCount > 0) { ?>
                 <div class="comments-count">
                     <div class="icon"></div>
-                    <div class="count"><?= $model->comments_count ?></div>
+                    <div class="count"><?= $commentsCount ?></div>
                 </div>
             <?php } ?>
         </div>

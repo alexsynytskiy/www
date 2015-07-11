@@ -43,7 +43,6 @@ use yii\db\ActiveRecord;
  * @property integer $guest_goals
  * @property integer $home_ball_possession
  * @property integer $guest_ball_possession
- * @property integer $comments_count
  * @property string $created_at
  * @property string $updated_at
  * @property integer $championship_part_id
@@ -91,7 +90,7 @@ class Match extends ActiveRecord
                 'guest_fouls', 'home_yellow_cards', 
                 'guest_yellow_cards', 'home_red_cards', 
                 'guest_red_cards', 'home_goals', 
-                'guest_goals', 'comments_count', 
+                'guest_goals', 
                 'championship_part_id', 'league_id', 
                 'is_finished', 'home_ball_possession',
                 'guest_ball_possession'], 'integer'],
@@ -142,7 +141,6 @@ class Match extends ActiveRecord
             'guest_red_cards'        => 'Красные карточки(гости)',
             'home_goals'             => 'Голы(хозяева)',
             'guest_goals'            => 'Голы(гости)',
-            'comments_count'         => 'Количество комментариев',
             'created_at'             => 'Создано',
             'updated_at'             => 'Обновлено',
             'championship_part_id'   => 'Этап турнира',
@@ -251,6 +249,14 @@ class Match extends ActiveRecord
                 ],
             ],
         ];
+    }
+
+    /**
+     * Get amount of photos in album
+     * @return int
+     */
+    public function getCommentsCount() {
+        return CommentCount::getCommentCount($this->id, CommentCount::COMMENTABLE_MATCH);
     }
 
     /**

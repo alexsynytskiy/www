@@ -186,18 +186,12 @@ class SiteBlock
     {
         $postTable = Post::tableName();
         $assetTable = Asset::tableName();
-        
+
         // Photo review
-        $query = Post::find()
-            ->innerJoin($assetTable, "{$assetTable}.assetable_id = {$postTable}.id")
+        $photoReviewNews = Album::find()
             ->where([
                 'is_public' => 1, 
-                'with_photo' => 1,
-                'content_category_id' => Post::CATEGORY_NEWS,
-                "{$assetTable}.assetable_type" => Asset::ASSETABLE_POST,
-                "{$assetTable}.thumbnail" => Asset::THUMBNAIL_BIG,
-            ]);
-        $photoReviewNews = $query->andWhere(['not in', "{$postTable}.id", self::$postExcludeIds])
+            ])
             ->orderBy(['created_at' => SORT_DESC])
             ->limit(3)
             ->all();
@@ -242,31 +236,16 @@ class SiteBlock
      */
     public static function getPhotoNews()
     {
-        $postTable = Post::tableName();
-        $assetTable = Asset::tableName();
-        
         // Photo review
-        $query = Post::find()
-            ->innerJoin($assetTable, "{$assetTable}.assetable_id = {$postTable}.id")
+        $photoReviewNews = Album::find()
             ->where([
                 'is_public' => 1, 
-                'with_photo' => 1,
-                'content_category_id' => Post::CATEGORY_NEWS,
-                "{$assetTable}.assetable_type" => Asset::ASSETABLE_POST,
-                "{$assetTable}.thumbnail" => Asset::THUMBNAIL_BIG,
-            ]);
-        $photoReviewNews = $query->andWhere(['not in', "{$postTable}.id", self::$postExcludeIds])
+            ])
             ->orderBy(['created_at' => SORT_DESC])
             ->limit(3)
             ->all();
 
-        foreach ($photoReviewNews as $post) {
-            self::$postExcludeIds[] = $post->id;
-        }
-
-        if(count($photoReviewNews) == 0) {
-            return false;
-        }
+        if(count($photoReviewNews) == 0) return false;
 
         $block = [
             'view' => '@frontend/views/blocks/review_news_block',

@@ -11,10 +11,19 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
+    // 'on beforeRequest' => function () {
+    //     $app = Yii::$app;
+    //     $pathInfo = $app->request->pathInfo;
+    //     if (!empty($pathInfo) && substr($pathInfo, -1) == '/') {
+    //         $newPathInfo = mb_substr($pathInfo, 0, mb_strlen($pathInfo, 'UTF-8') - 1, 'UTF-8');
+    //         $app->response->redirect('/' . $newPathInfo, 301);
+    //     }
+    // },
     'components' => [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            // 'suffix' => '/',
             'rules' => [
                 '/'                                      => 'site/index',
                 'news'                                   => 'site/news',

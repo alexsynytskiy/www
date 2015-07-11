@@ -6,7 +6,7 @@ use yii\helpers\Url;
  * @var $model common\models\Album
 **/
 
-$image = $model->getAsset(\common\models\Asset::THUMBNAIL_BIG);
+$image = $model->getFrontendAsset(\common\models\Asset::THUMBNAIL_BIG);
 $imageUrl = $image->getFileUrl();
 
 ?>
