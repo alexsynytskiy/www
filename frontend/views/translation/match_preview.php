@@ -53,10 +53,22 @@ function findEvent($event, $players) {
         <?php 
             foreach ($goalEvents as $goalEvent) {
                 if(findEvent($goalEvent, $teamHomePlayers)) {
+                    $contract = $goalEvent->composition->contract;
+                    if(isset($contract) && in_array($contract->command_id, \common\models\Team::getTeamsConstants())) {
+                        $playerUrl = $contract->player->getUrl();
+                    } else {
+                        $playerUrl = false;
+                    }
                 ?>
                 <div class="goal">
                     <div class="minute house"><?= $goalEvent->getTime() ?></div>
-                    <a href="#"><div class="player house"><?= $goalEvent->composition->name ?></div></a>
+                    <?php if($playerUrl) { ?>
+                        <a href="<?= $playerUrl ?>">
+                    <?php } ?>
+                    <div class="player house"><?= $goalEvent->composition->name ?></div>
+                    <?php if($playerUrl) { ?>
+                        </a>
+                    <?php } ?>
                     <div class="clearfix"></div>
                 </div>
                 <?php }        
@@ -78,10 +90,22 @@ function findEvent($event, $players) {
         <?php 
             foreach ($goalEvents as $goalEvent) {
                 if(findEvent($goalEvent, $teamGuestPlayers)) {
+                    $contract = $goalEvent->composition->contract;
+                    if(isset($contract) && in_array($contract->command_id, \common\models\Team::getTeamsConstants())) {
+                        $playerUrl = $contract->player->getUrl();
+                    } else {
+                        $playerUrl = false;
+                    }
                 ?>
                 <div class="goal">
                     <div class="minute visitors"><?= $goalEvent->getTime() ?></div>
-                    <a href="#"><div class="player visitors"><?= $goalEvent->composition->name ?></div></a>
+                    <?php if($playerUrl) { ?>
+                        <a href="<?= $playerUrl ?>">
+                    <?php } ?>
+                    <div class="player visitors"><?= $goalEvent->composition->name ?></div>
+                    <?php if($playerUrl) { ?>
+                        </a>
+                    <?php } ?>
                     <div class="clearfix"></div>
                 </div>
                 <?php }        

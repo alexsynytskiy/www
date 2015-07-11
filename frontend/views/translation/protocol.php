@@ -46,12 +46,25 @@ function renderSquad($team, $isBasis, $substitutions, $yellowCards, $redCards) {
     if($team != NULL) {
         $finalBlockSquad .= '<div class="team team-a">';
             foreach ($team as $player) {
-                if($player->is_basis == $isBasis) {       
+                if($player->is_basis == $isBasis) {   
+                    if(in_array($player->contract->command_id, \common\models\Team::getTeamsConstants())) {
+                        $playerUrl = $player->contract->player->getUrl();
+                    } else {
+                        $playerUrl = false;
+                    }
                     $finalBlockSquad .= '<div class="player">
-                    <div class="dest">'.$player->contract->amplua->abr.'</div>
-                    <div class="number">'.$player->number.'</div>
-                    <div class="desc">
-                        <a href="#"><div class="name">'.$player->contract->player->name.'</div></a>';                        
+                        <div class="dest">'.$player->contract->amplua->abr.'</div>
+                        <div class="number">'.$player->number.'</div>
+                        <div class="desc">';
+                    if($playerUrl) {
+                        $finalBlockSquad .= '<a href="'.$playerUrl.'"><div class="name">'.
+                            $player->contract->player->name.
+                        '</div></a>';   
+                    } else {
+                        $finalBlockSquad .= '<div class="name">'.
+                            $player->contract->player->name.
+                        '</div>';
+                    }                    
                         foreach ($substitutions as $substitution) {
                             if( findEventSquad($substitution, $player) ) {
                                 $finalBlockSquad .= '<div class="replacement"></div>
