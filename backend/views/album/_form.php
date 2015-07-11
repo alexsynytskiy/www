@@ -67,6 +67,31 @@ use dosamigos\selectize\SelectizeDropDownList;
     ?>
 
     <?php
+        $pluginOptions = [
+            'showUpload' => false,
+            'showRemove' => false,
+            'overwriteInitial' => true,
+            'browseLabel' => "Обзор...",
+            'allowedFileExtensions' => ['jpg', 'gif', 'png'],
+        ];
+
+        if (isset($coverImage) && $coverImage->getFileUrl())
+        {
+            $pluginOptions['initialPreview'] = [
+                Html::img($coverImage->getFileUrl()),
+            ];
+        }
+
+        echo $form->field($model, 'coverImage')->widget(FileInput::classname(), [
+            'options' => [
+                'accept' => 'image/*',
+                'multiple' => false,
+            ],
+            'pluginOptions' => $pluginOptions,
+        ]);
+    ?>
+
+    <?php
     $pluginOptions = [
         'showUpload' => false,
         'showRemove' => false,
@@ -85,7 +110,7 @@ use dosamigos\selectize\SelectizeDropDownList;
             "</div>",
         ],
     ];
-    if (isset($images))
+    if(isset($images))
     {
         foreach ($images as $image) {
             if ($image->getFileUrl()) {

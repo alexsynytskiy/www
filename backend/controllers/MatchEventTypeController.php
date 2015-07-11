@@ -86,7 +86,7 @@ class MatchEventTypeController extends Controller
             if(!empty($uploadedFile))
             {
                 $icon = new Asset;
-                $icon->assetable_type = Asset::ASSETABLE_MATCH_EVENT_ICON;
+                $icon->assetable_type = Asset::ASSETABLE_MATCH_EVENT;
                 $icon->assetable_id = $model->id;
                 $icon->uploadedFile = $uploadedFile;
                 $icon->saveAsset();
@@ -122,7 +122,7 @@ class MatchEventTypeController extends Controller
                 if(!isset($icon->assetable_id))
                 {
                     $icon = new Asset;
-                    $icon->assetable_type = Asset::ASSETABLE_MATCH_EVENT_ICON;
+                    $icon->assetable_type = Asset::ASSETABLE_MATCH_EVENT;
                     $icon->assetable_id = $model->id;
                 }
 

@@ -144,6 +144,7 @@ use common\models\Amplua;
     </div>
 </div>
 
+<?php if(isset($mainCoach->id) && count($teamCoaches) != 0) { ?>
 <div class="default-box coach-composition-box">
     <div class="box-header">
         <div class="box-title">Тренерский состав</div>
@@ -184,3 +185,4 @@ use common\models\Amplua;
         </div>
     </div>
 </div>
+<?php } ?>
