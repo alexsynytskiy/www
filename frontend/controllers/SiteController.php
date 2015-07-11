@@ -24,6 +24,7 @@ use common\models\Claim;
 use common\models\Contract;
 use common\models\MainInfo;
 use common\models\Player;
+use common\models\Coach;
 use common\models\TeamCoach;
 use common\models\Album;
 use common\models\Banner;
@@ -1011,7 +1012,7 @@ class SiteController extends Controller
             throw new NotFoundHttpException('Страница не найдена.');
         }
 
-        $image = $player->getAsset(Asset::THUMBNAIL_CONTENT);
+        $image = $coach->getAsset(Asset::THUMBNAIL_CONTENT);
 
         $options = [
             'templateType' => 'col2',
