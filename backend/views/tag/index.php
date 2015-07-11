@@ -20,7 +20,9 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php
             if(count(Yii::$app->getRequest()->getQueryParams()) > 0) {
                 echo Html::a('Сброс', ['/'.Yii::$app->controller->id], ['class' => 'btn btn-primary']);
-            } 
+            }
+
+            echo Html::a('Пересоздать топ-теги', ['/tag/tags-cloud-rebuild'], ['class' => 'btn btn-primary']);
         ?>
     </p>
 

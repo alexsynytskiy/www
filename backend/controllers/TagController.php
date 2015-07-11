@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Tag;
+use common\models\TagsCloud;
 use common\models\TagSearch;
 use common\models\Tagging;
 use common\models\Post;
@@ -138,6 +139,46 @@ class TagController extends Controller
         }else{
             return $this->redirect(['index']);
         }
+    }
+
+    /**
+     * Rebuilds table of top tags
+     *     
+     */
+    public function actionTagsCloudRebuild() {
+        $success = false;
+
+        $connection = Yii::$app->db;
+
+        $query = 'DELETE FROM '.TagsCloud::tableName();
+        $cmd = $connection
+             ->createCommand($query)
+             ->execute();
+
+        $query = 'SELECT tag_id AS i, count(tag_id) AS c FROM taggings GROUP BY tag_id ORDER BY c DESC LIMIT 50';
+        $cmd = $connection->createCommand($query);
+        $newTopTags = $cmd->queryAll();
+
+        $weight = 10;
+        $count = 0;
+        foreach ($newTopTags as $topTag) {
+            $count++;
+            if(50 % $count == 0) {
+                $weight -= 2;
+            }
+
+            $cmd = $connection
+                 ->createCommand()
+                 ->batchInsert(TagsCloud::tableName(), ['tag_id', 'weight'], [
+                                                                                  [$topTag['i'], $weight],
+                                                                               ])->execute();
+        }
+
+        $success = true;
+
+        return $this->render('rebuildSuccess', [
+                'success' => $success,
+            ]);        
     }
 
     /**

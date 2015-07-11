@@ -73,6 +73,23 @@ class SiteBlock
     }
 
     /**
+     * Get top 200 tags to cloud
+     * @return array Data
+     */
+    public static function getTop200Tags()
+    {
+        $topTags = TagsCloud::find()
+            ->orderBy(['weight' => SORT_DESC])
+            ->all();
+
+        $block = [
+            'view' => '@frontend/views/blocks/top_tags_block',
+            'data' => ['topTags' => $topTags],
+        ];
+        return $block;
+    }
+
+    /**
      * Get block with last 50 news
      * @return array Data
      */

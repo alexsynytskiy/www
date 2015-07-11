@@ -22,6 +22,7 @@ return [
                 'album/<id:\d+>-<slug>'                  => 'site/album',
                 'album/<album_id:\d+>-<slug>/<photo_id:\d+>' => 'site/photo',
                 'blogs'                                  => 'site/blogs',
+                'tags'                                   => 'site/tags',
                 'blogs/<id:\d+>'                         => 'site/blogs',
                 'search'                                 => 'site/search',
                 'matches'                                => 'site/matches',

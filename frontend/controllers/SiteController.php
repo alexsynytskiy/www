@@ -101,6 +101,7 @@ class SiteController extends Controller
                 'reviewNews' => SiteBlock::getPhotoVideoNews(),
                 'questionBlock' => SiteBlock::getQuestionBlock(),
                 'tournament' => SiteBlock::getTournamentTable(),
+                'top200tags' => SiteBlock::getTop200Tags(),
             ],
         ]);
     }
@@ -670,6 +671,36 @@ class SiteController extends Controller
                     'data' => compact('match', 'matchEvents', 'teamHomePlayers', 'teamGuestPlayers'),
                 ],
                 'comments' => Comment::getCommentsBlock($match->id, Comment::COMMENTABLE_MATCH),
+            ],
+            'columnSecond' => [ 
+                'short_news' => SiteBlock::getShortNews(),
+            ],
+        ]);
+    }
+
+    /**
+     * All tags page
+     *     
+     * @return mixed
+     */
+    public function actionTags() 
+    {
+        $tags = Tag::find()->all();
+        
+        if(!isset($tags)) {
+            throw new NotFoundHttpException('Страница не найдена.');
+        }
+
+        $title = "Все теги";
+
+        return $this->render('@frontend/views/site/index', [
+            'templateType' => 'col2',
+            'title' => $title,
+            'columnFirst' => [
+                'allTags' => [
+                    'view' => '@frontend/views/site/tags',
+                    'data' => compact('tags'),
+                ],                
             ],
             'columnSecond' => [ 
                 'short_news' => SiteBlock::getShortNews(),
