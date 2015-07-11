@@ -28,13 +28,13 @@ Yii::$app->formatter->locale = 'ru-RU';
             <div class="clearfix"></div>         
             <div class="text-about-person">
             <?php 
-                if(isset($coach->coach_carrer)) {
+                if(isset($coach->coach_carrer) && trim($coach->coach_carrer) != '') {
                     echo $coach->coach_carrer;
                 }
-                else if(isset($coach->player_carrer)){
+                else if(isset($coach->player_carrer) && trim($coach->player_carrer) != ''){
                     echo $coach->player_carrer;
                 }
-                else if(isset($coach->notes)){
+                else if(isset($coach->notes) && trim($coach->notes) != ''){
                     echo $coach->notes;
                 }
             ?>
@@ -43,8 +43,9 @@ Yii::$app->formatter->locale = 'ru-RU';
     </div>
 </div>
 
-<?php if(isset($coach->coach_carrer) && isset($coach->player_carrer)) { ?>
-    <div class="default-box profile-achievments">
+<?php if(isset($coach->coach_carrer) && trim($coach->coach_carrer) != '' && 
+        isset($coach->player_carrer) && trim($coach->player_carrer) != '') { ?>
+    <div class="default-box coach-player-career">
         <div class="box-header">
             <div class="main-title">Карьера игрока</div>
         </div> 
@@ -54,8 +55,10 @@ Yii::$app->formatter->locale = 'ru-RU';
     </div>
 <?php } ?>
 
-<?php if(isset($coach->coach_carrer) && isset($coach->player_carrer) && isset($coach->notes)) { ?>
-    <div class="default-box profile-achievments">
+<?php if((isset($coach->coach_carrer) && trim($coach->coach_carrer) != '' || 
+        isset($coach->player_carrer) && trim($coach->player_carrer) != '') && 
+        isset($coach->notes) && trim($coach->notes) != '') { ?>
+    <div class="default-box coach-biography">
         <div class="box-header">
             <div class="main-title">Биография</div>
         </div> 
