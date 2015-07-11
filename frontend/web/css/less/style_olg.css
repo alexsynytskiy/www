@@ -1666,9 +1666,6 @@ body a:focus {
   font-weight: bold;
   width: 25px;
 }
-.first-team .team .player .name {
-  color: #1972c4;
-}
 .first-team .team .player .yellow-card,
 .first-team .team .player .red-card,
 .first-team .team .player .replacement {

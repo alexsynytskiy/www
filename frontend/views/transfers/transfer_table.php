@@ -50,6 +50,9 @@ use yii\helpers\Url;
                 foreach ($transfers as $transfer) { 
                     $count++;
                     $player = $transfer->player;
+                    
+                    if($className == 'buy' && $transfer->probability != 100) $playerUrl = false; 
+                    else $playerUrl = $player->getUrl();
                     if(!isset($player)) {
                         $player = new \common\models\Player;
                     }
@@ -98,10 +101,15 @@ use yii\helpers\Url;
                         <img src="<?= $playerImage->getFileUrl() ?>">
                     </td>
                     <td class="player">
-                        <a href="#">
+                        <?php if($playerUrl) { ?>
+                        <a href="<?= $playerUrl ?>">
                             <div><?= $player->firstname ?></div>
                             <div><?= $player->lastname ?></div>
                         </a>
+                        <?php } else { ?>
+                            <div><?= $player->firstname ?></div>
+                            <div><?= $player->lastname ?></div>
+                        <?php } ?>
                     </td>
                     <td class="possibility"><?= $probability ?></td>
                     <td class="position"><?= $amplua ?></td>
