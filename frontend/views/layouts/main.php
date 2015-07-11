@@ -6,6 +6,8 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use frontend\widgets\Alert;
+use common\models\SiteBlock;
+use common\models\Banner;
 
 use amnah\yii2\user\models\User;
 
@@ -141,8 +143,11 @@ AppAsset::register($this);
                     </div>
                 </div>
 
-                <div class="google-banner-main">
-                    <img src="/images/730-1.png">
+                <div class="top-banners-area">
+                    <?php 
+                        $bannerBlock = SiteBlock::getBanner(Banner::REGION_TOP);
+                        echo $this->render($bannerBlock['view'], isset($bannerBlock['data']) ? $bannerBlock['data'] : []);
+                    ?>
                 </div>
 
                 <div class="breadcrumbs">
@@ -160,8 +165,12 @@ AppAsset::register($this);
 
         <footer id="colophon" class="site-footer" role="contentinfo">
             <div class="footer-wrapper">
-                <div class="google-banner-main" style="margin-top: 0;">
-                    <img src="/images/730-2.png">
+
+                <div class="bottom-banners-area">
+                    <?php 
+                        $bannerBlock = SiteBlock::getBanner(Banner::REGION_BOTTOM);
+                        echo $this->render($bannerBlock['view'], isset($bannerBlock['data']) ? $bannerBlock['data'] : []);
+                    ?>
                 </div>
 
                 <div class="footer-bottom">

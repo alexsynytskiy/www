@@ -130,14 +130,14 @@ class PostController extends Controller
             $model->cached_tag_list = implode(', ', $cached_tag_list);
 
             // Set image
-            $model->image = UploadedFile::getInstance($model, 'image');
-            if($model->image)
+            $uploadedFile = UploadedFile::getInstance($model, 'image');
+            if($uploadedFile)
             {
                 // Save origionals 
                 $asset = new Asset();
                 $asset->assetable_type = Asset::ASSETABLE_POST;
                 $asset->assetable_id = $model->id;
-                $asset->uploadedFile = $model->image;
+                $asset->uploadedFile = $uploadedFile;
                 $asset->saveAsset();
 
                 // Save thumbnails 
@@ -150,7 +150,7 @@ class PostController extends Controller
                     $asset->thumbnail = $thumbnail;
                     $asset->assetable_type = Asset::ASSETABLE_POST;
                     $asset->assetable_id = $model->id;
-                    $asset->uploadedFile = $model->image;
+                    $asset->uploadedFile = $uploadedFile;
                     $asset->saveAsset();
                 }
             }

@@ -37,23 +37,29 @@ switch ($classes) {
     if($region == Banner::REGION_SECOND_COLUMN) {
         echo $this->render('@frontend/views/site/alert');
     }
-
-    foreach ($blocks as $block) {
-        if($block) {
-            echo $this->render($block['view'], isset($block['data']) ? $block['data'] : []);
-            if($isSmall) {
-                $bannerBlock = SiteBlock::getBanner($region);
-                if($bannerBlock) {
-                    echo $this->render($bannerBlock['view'], isset($bannerBlock['data']) ? $bannerBlock['data'] : []);
-                }
-            }
-        }
-    }
-    if(!$isSmall) {
-        $bannerBlock = SiteBlock::getBanner($region, true);
+    if($region == Banner::REGION_THIRD_COLUMN) {
+        $bannerBlock = SiteBlock::getBanner(Banner::REGION_TOP_THIRD_COLUMN);
         if($bannerBlock) {
             echo $this->render($bannerBlock['view'], isset($bannerBlock['data']) ? $bannerBlock['data'] : []);
         }
     }
+
+    foreach ($blocks as $block) {
+        if($block) {
+            echo $this->render($block['view'], isset($block['data']) ? $block['data'] : []);
+            // if($isSmall) {
+            //     $bannerBlock = SiteBlock::getBanner($region);
+            //     if($bannerBlock) {
+            //         echo $this->render($bannerBlock['view'], isset($bannerBlock['data']) ? $bannerBlock['data'] : []);
+            //     }
+            // }
+        }
+    }
+    // if(!$isSmall) {
+    //     $bannerBlock = SiteBlock::getBanner($region, true);
+    //     if($bannerBlock) {
+    //         echo $this->render($bannerBlock['view'], isset($bannerBlock['data']) ? $bannerBlock['data'] : []);
+    //     }
+    // }
 ?>
 </div>

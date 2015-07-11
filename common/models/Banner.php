@@ -19,9 +19,13 @@ use yii\db\ActiveRecord;
  */
 class Banner extends ActiveRecord
 {
-    const REGION_FIRST_COLUMN  = '1';
-    const REGION_SECOND_COLUMN = '2';
-    const REGION_THIRD_COLUMN  = '3';
+    const REGION_FIRST_COLUMN     = 1;
+    const REGION_SECOND_COLUMN    = 2;
+    const REGION_THIRD_COLUMN     = 3;
+    const REGION_NEWS             = 4;
+    const REGION_TOP              = 5;
+    const REGION_BOTTOM           = 6;
+    const REGION_TOP_THIRD_COLUMN = 7;
 
     /**
      * @inheritdoc
@@ -84,10 +88,13 @@ class Banner extends ActiveRecord
      */
     public static function dropdownRegions() {
         return [
-            0                          => self::getRegionHumanName(0),
-            self::REGION_FIRST_COLUMN  => self::getRegionHumanName(self::REGION_FIRST_COLUMN),
-            self::REGION_SECOND_COLUMN => self::getRegionHumanName(self::REGION_SECOND_COLUMN),
-            self::REGION_THIRD_COLUMN  => self::getRegionHumanName(self::REGION_THIRD_COLUMN),
+            self::REGION_FIRST_COLUMN     => self::getRegionHumanName(self::REGION_FIRST_COLUMN),
+            self::REGION_SECOND_COLUMN    => self::getRegionHumanName(self::REGION_SECOND_COLUMN),
+            self::REGION_THIRD_COLUMN     => self::getRegionHumanName(self::REGION_THIRD_COLUMN),
+            self::REGION_NEWS             => self::getRegionHumanName(self::REGION_NEWS),
+            self::REGION_TOP              => self::getRegionHumanName(self::REGION_TOP),
+            self::REGION_BOTTOM           => self::getRegionHumanName(self::REGION_BOTTOM),
+            self::REGION_TOP_THIRD_COLUMN => self::getRegionHumanName(self::REGION_TOP_THIRD_COLUMN),
         ];
     }
 
@@ -97,10 +104,13 @@ class Banner extends ActiveRecord
      */
     public static function getRegionHumanName($id) {
         $regions = [
-            0                          => 'Все колонки',
             self::REGION_FIRST_COLUMN  => 'Первая колонка',
             self::REGION_SECOND_COLUMN => 'Вторая колонка',
             self::REGION_THIRD_COLUMN  => 'Третья колонка',
+            self::REGION_NEWS             => 'Новостной блок',
+            self::REGION_TOP              => 'Верхний',
+            self::REGION_BOTTOM           => 'Нижний',
+            self::REGION_TOP_THIRD_COLUMN => 'Верхний в третьей',
         ];
         return isset($regions[$id]) ? $regions[$id] : $regions[0];
     }

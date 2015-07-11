@@ -18,12 +18,12 @@ use yii\helpers\Url;
         $imageUrl = $avatar->getFileUrl();
     ?>
     <div class="blog-preview">
-        <a href="<?= Url::to('/user/profile/'.$post->user->id) ?>">
+        <a href="<?= Url::to('/blogs/'.$post->user->id) ?>">
             <img src="<?= $imageUrl ?>" class="photo" alt="user avatar">
         </a>
         <div class="about-info">
             <div class="author">
-                <a href="<?= Url::to('/user/profile/'.$post->user->id) ?>">
+                <a href="<?= Url::to('/blogs/'.$post->user->id) ?>">
                     <?= $userName ?>
                 </a>
             </div>

@@ -97,12 +97,12 @@ class SiteController extends Controller
             ],
             'columnSecond' => [
                 'slider_matches' => SiteBlock::getMatchesSlider(),
-                'short_news' => SiteBlock::getShortNews(),
+                'short_news' => SiteBlock::getShortNews(50, false),
             ],
             'columnThird' => [
-                'reviewNews' => SiteBlock::getPhotoVideoNews(),
                 'questionBlock' => SiteBlock::getQuestionBlock(),
                 'tournament' => SiteBlock::getTournamentTable(),
+                'reviewNews' => SiteBlock::getPhotoVideoNews(),
                 'top200tags' => SiteBlock::getTop200Tags(),
             ],
         ]);
@@ -262,7 +262,7 @@ class SiteController extends Controller
                 ],
             ],
             'columnSecond' => [
-                'blog_column' => SiteBlock::getBlogPosts(),
+                'short_news' => SiteBlock::getShortNews(20),
             ],
 
         ];
@@ -397,7 +397,7 @@ class SiteController extends Controller
                 ],
             ],
             'columnSecond' => [  
-                'short_news' => SiteBlock::getShortNews(),
+                'tournament' => SiteBlock::getShortNews(20),
             ],
         ]);
     }
@@ -519,7 +519,9 @@ class SiteController extends Controller
                 'comments' => Comment::getCommentsBlock($transfer->id, Comment::COMMENTABLE_TRANSFER),
             ],
             'columnSecond' => [ 
-                'short_news' => SiteBlock::getShortNews(),
+                'short_news' => SiteBlock::getShortNews(10),
+                // 'blogs' => SiteBlock::getBlogPosts(),
+                // banners 3
             ],
         ]);
     }
@@ -623,7 +625,7 @@ class SiteController extends Controller
                 ],
             ],
             'columnSecond' => [ 
-                'short_news' => SiteBlock::getShortNews(),
+                'short_news' => SiteBlock::getShortNews(20),
             ],
         ]);
     }
@@ -675,7 +677,8 @@ class SiteController extends Controller
                 'comments' => Comment::getCommentsBlock($match->id, Comment::COMMENTABLE_MATCH),
             ],
             'columnSecond' => [ 
-                'short_news' => SiteBlock::getShortNews(),
+                'tournament' => SiteBlock::getTournamentTable(),
+                'short_news' => SiteBlock::getShortNews(20),
             ],
         ]);
     }
@@ -760,7 +763,7 @@ class SiteController extends Controller
                 'comments' => Comment::getCommentsBlock($match->id, Comment::COMMENTABLE_MATCH),
             ],
             'columnSecond' => [ 
-                'short_news' => SiteBlock::getShortNews(),
+                'short_news' => SiteBlock::getShortNews(20),
             ],
         ]);
     }
@@ -839,7 +842,7 @@ class SiteController extends Controller
                 ],
             ],
             'columnSecond' => [ 
-                'short_news' => SiteBlock::getShortNews(),
+                'short_news' => SiteBlock::getShortNews(20),
             ],
         ]);
     }
@@ -901,7 +904,7 @@ class SiteController extends Controller
                 ],
             ],
             'columnSecond' => [ 
-                'short_news' => SiteBlock::getShortNews(),
+                'short_news' => SiteBlock::getShortNews(20),
             ],
         ];
 
@@ -1079,7 +1082,7 @@ class SiteController extends Controller
                 ],
             ],
             'columnSecond' => [ 
-                'short_news' => SiteBlock::getShortNews(),
+                'photo_news' => SiteBlock::getPhotoNews(),
             ],
         ]);
     }
@@ -1180,7 +1183,7 @@ class SiteController extends Controller
                 ],
             ],
             'columnSecond' => [ 
-                'short_news' => SiteBlock::getShortNews(),
+                'tournament' => SiteBlock::getShortNews(20),
             ],
         ]);
     }
@@ -1197,6 +1200,7 @@ class SiteController extends Controller
         }
 
         $model = new Post();
+        $model->content_category_id = Post::CATEGORY_BLOG;
         $model->tags = [];
         
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
@@ -1208,14 +1212,6 @@ class SiteController extends Controller
 
             // Set slug
             $model->slug = $model->genSlug($model->title);
-
-            // Save source
-            // $source = new Source;
-            // $source->name = $model->source_title;
-            // $source->url = $model->source_url;
-            // if(!$source->modelExist()) {
-            //     $source->save();
-            // }
 
             // Save the model to have a record number
             if($model->save())
@@ -1236,29 +1232,35 @@ class SiteController extends Controller
                 $model->cached_tag_list = implode(', ', $cached_tag_list);
 
                 // Set image
-                $model->image = UploadedFile::getInstance($model, 'image');
-                if($model->image)
+                $uploadedFile = UploadedFile::getInstance($model, 'image');
+                if($uploadedFile)
                 {
+                    // Save origionals 
+                    $asset = new Asset();
+                    $asset->assetable_type = Asset::ASSETABLE_POST;
+                    $asset->assetable_id = $model->id;
+                    $asset->uploadedFile = $uploadedFile;
+                    $asset->saveAsset();
+
+                    // Save thumbnails 
+                    $imageID = $asset->id;
                     $thumbnails = Asset::getThumbnails(Asset::ASSETABLE_POST);
 
                     foreach ($thumbnails as $thumbnail) {
                         $asset = new Asset();
+                        $asset->parent_id = $imageID;
                         $asset->thumbnail = $thumbnail;
                         $asset->assetable_type = Asset::ASSETABLE_POST;
                         $asset->assetable_id = $model->id;
-                        $asset->uploadedFile = $model->image;
+                        $asset->uploadedFile = $uploadedFile;
                         $asset->saveAsset();
                     }
-
-                    $asset = new Asset();
-                    $asset->assetable_type = Asset::ASSETABLE_POST;
-                    $asset->assetable_id = $model->id;
-                    $asset->uploadedFile = $model->image;
-                    $asset->saveAsset();
                 }
                 $model->save(false);
                 return $this->redirect($model->getUrl());
             }
+            var_dump($model->getErrors());
+            die;
         } 
         $title = 'Добавить запись в блог';
         return $this->render('@frontend/views/site/index', [
@@ -1271,7 +1273,7 @@ class SiteController extends Controller
                 ],
             ],
             'columnSecond' => [ 
-                'short_news' => SiteBlock::getShortNews(),
+                'blogs' => SiteBlock::getBlogPosts(), // 3 blogs
             ],
         ]);
     }
@@ -1311,54 +1313,35 @@ class SiteController extends Controller
             $model->slug = $model->genSlug($model->title);
 
             // Set image
-            $model->image = UploadedFile::getInstance($model, 'image');
-            if($model->image)
+            $uploadedFile = UploadedFile::getInstance($model, 'image');
+            if($uploadedFile)
             {
-                $thumbnails = Asset::getThumbnails(Asset::ASSETABLE_POST);
-                $saveOrigin = false;
-                foreach ($assets as $asset)
-                {
-                    if($asset->thumbnail && in_array($asset->thumbnail, $thumbnails))
-                    {
-                        $asset->uploadedFile = $model->image;
-                        $asset->saveAsset();
-                        $thumbnails = array_diff($thumbnails, [$asset->thumbnail]);
-                    }
-                    // Save original image
-                    elseif (empty($asset->thumbnail))
-                    {
-                        $saveOrigin = true;
-                        $asset->uploadedFile = $model->image;
-                        $asset->saveAsset();
-                    }
+                // Remove old assets
+                foreach ($assets as $asset) {
+                    $asset->delete();
                 }
+
+                // Save origionals 
+                $asset = new Asset();
+                $asset->assetable_type = Asset::ASSETABLE_POST;
+                $asset->assetable_id = $model->id;
+                $asset->uploadedFile = $uploadedFile;
+                $asset->saveAsset();
+
+                // Save thumbnails 
+                $imageID = $asset->id;
+                $thumbnails = Asset::getThumbnails(Asset::ASSETABLE_POST);
 
                 foreach ($thumbnails as $thumbnail) {
                     $asset = new Asset();
+                    $asset->parent_id = $imageID;
                     $asset->thumbnail = $thumbnail;
                     $asset->assetable_type = Asset::ASSETABLE_POST;
                     $asset->assetable_id = $model->id;
-                    $asset->uploadedFile = $model->image;
-                    $asset->saveAsset();
-                }
-
-                if(!$saveOrigin)
-                {
-                    $asset = new Asset();
-                    $asset->assetable_type = Asset::ASSETABLE_POST;
-                    $asset->assetable_id = $model->id;
-                    $asset->uploadedFile = $model->image;
+                    $asset->uploadedFile = $uploadedFile;
                     $asset->saveAsset();
                 }
             }
-
-            // Save source
-            // $source = new Source;
-            // $source->name = strip_tags($model->source_title);
-            // $source->url = strip_tags($model->source_url);
-            // if(!$source->modelExist()) {
-            //     $source->save();
-            // }
 
             $existingTags = [];
             // Remove tags
@@ -1398,7 +1381,7 @@ class SiteController extends Controller
                 ],
             ],
             'columnSecond' => [ 
-                'short_news' => SiteBlock::getShortNews(),
+                'blogs' => SiteBlock::getBlogPosts(), // 3 blogs
             ],
         ]);
     }
@@ -1506,8 +1489,7 @@ class SiteController extends Controller
                 'comments' => Comment::getCommentsBlock($album->id, Comment::COMMENTABLE_ALBUM),
             ],
             'columnSecond' => [ 
-                'banner_1' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
-                'banner_2' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
+                'short_news' => SiteBlock::getShortNews(20), 
             ],
         ]);
     }
@@ -1557,8 +1539,7 @@ class SiteController extends Controller
                 'comments' => Comment::getCommentsBlock($photo->id, Comment::COMMENTABLE_PHOTO),
             ],
             'columnSecond' => [ 
-                'banner_1' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
-                'banner_2' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
+                'short_news' => SiteBlock::getShortNews(20),
             ],
         ]);
     }

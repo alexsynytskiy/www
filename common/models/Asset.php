@@ -440,7 +440,6 @@ class Asset extends \yii\db\ActiveRecord
                 $query->andWhere(['thumbnail' => $thumbnail]);
             }
         } 
-        $query->orderBy(['id' => SORT_DESC]);
 
         if(!$single) {
             return $query->all();
