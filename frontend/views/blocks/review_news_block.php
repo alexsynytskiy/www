@@ -17,7 +17,7 @@ $photoReviewCount = count($photoReviewNews);
 <?php if ($photoReviewCount || $videoReviewCount) { ?>
 <div class="video-photo-reports default-box">
     <?php if($photoReviewCount) { ?>
-    <div class="photo-report">
+    <div class="photo-report <?= $videoReviewCount ? '' : 'single' ?>">
         <div class="box-header">
             <div class="box-title">Фоторепортаж</div>
             <a href="<?= Url::to('/photos') ?>"><div class="box-link">Все фото:</div></a>

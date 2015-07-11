@@ -347,6 +347,11 @@ body a:focus {
   margin-bottom: 10px;
   border-bottom: 1px solid #e9e9e9;
 }
+.video-photo-reports .photo-report.single {
+  padding-bottom: 0;
+  margin-bottom: 0;
+  border-bottom: none;
+}
 .video-photo-reports .video-preview,
 .video-photo-reports .photo-preview {
   position: relative;
@@ -1692,11 +1697,6 @@ body a:focus {
   margin-right: 5px;
   font-weight: bold;
 }
-.additional-data .photo-report {
-  margin-bottom: 0;
-  padding-bottom: 0;
-  border-bottom: none;
-}
 .inquirers-container .inquirer {
   width: 300px;
 }
@@ -2381,6 +2381,14 @@ body a:focus {
 }
 .banner-box.big {
   width: 615px;
+}
+.banner-box img {
+  max-width: 100%;
+}
+.top-banners-area .banner-box,
+.bottom-banners-area .banner-box {
+  width: 730px;
+  margin: 0 auto 15px;
 }
 .blog-preview {
   padding: 10px;

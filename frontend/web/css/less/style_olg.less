@@ -470,6 +470,12 @@ body {
         padding-bottom: 10px;
         margin-bottom: 10px;
         border-bottom: 1px solid @main-body-background;
+
+        &.single {
+            padding-bottom: 0;
+            margin-bottom: 0;
+            border-bottom: none;
+        }
     }
 
     .video-preview, .photo-preview {
@@ -1727,15 +1733,6 @@ body {
     }
 }
 
-//cabinet pages
-.additional-data {
-    .photo-report {
-        margin-bottom: 0;
-        padding-bottom: 0;
-        border-bottom: none;
-    }
-}
-
 // For masonry tiles view
 .inquirers-container {
     .inquirer {
@@ -2436,6 +2433,17 @@ body {
 
     &.big {
         width: 615px;
+    }
+
+    img {
+        max-width: 100%;
+    }
+}
+
+.top-banners-area, .bottom-banners-area {
+    .banner-box {
+        width: 730px;
+        margin: 0 auto 15px;
     }
 }
 

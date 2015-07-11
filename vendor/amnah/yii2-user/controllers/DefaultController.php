@@ -413,7 +413,7 @@ class DefaultController extends Controller
                 ],
             ],
             'columnSecond' => [
-                'short_news' => SiteBlock::getShortNews(),
+                'blogs' => SiteBlock::getBlogPosts(), // 3 blogs
             ],
         ]);
     }
@@ -563,7 +563,7 @@ class DefaultController extends Controller
                 ],
             ],
             'columnSecond' => [
-                'short_news' => SiteBlock::getShortNews(),
+                'blogs' => SiteBlock::getBlogPosts(), // 3 blogs
             ],
         ]);
     }

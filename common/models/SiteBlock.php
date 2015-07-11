@@ -90,20 +90,20 @@ class SiteBlock
     }
 
     /**
-     * Get block with last 50 news
+     * Get block with last $amount news
      * @return array Data
      */
-    public static function getShortNews()
+    public static function getShortNews($amount = 50, $enableBanners = true)
     {
         $newsPosts = Post::find()
             ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_NEWS])
             ->orderBy(['created_at' => SORT_DESC])
-            ->limit(50)
+            ->limit($amount)
             ->all();
 
         $block = [
             'view' => '@frontend/views/blocks/news_block',
-            'data' => ['posts' => $newsPosts],
+            'data' => ['posts' => $newsPosts, 'enableBanners' => $enableBanners],
         ];
         return $block;
     }

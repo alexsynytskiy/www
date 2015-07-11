@@ -267,6 +267,7 @@ header .header-wrapper .menu {
   background-color: #ffffff;
   height: 50px;
   background: linear-gradient(to bottom, #4193df, #1972c4);
+  margin-bottom: 15px;
 }
 header .header-wrapper .menu ul {
   padding: 6px 10px;
@@ -864,6 +865,9 @@ header .header-wrapper .breadcrumbs .tag:hover {
   background-color: #ffffff;
   margin-bottom: 15px;
 }
+.grid-column .news .banner-box {
+  margin: 0;
+}
 .grid-column .news .header {
   height: 29px;
   width: 290px;
@@ -911,6 +915,9 @@ header .header-wrapper .breadcrumbs .tag:hover {
   width: 290px;
   margin: 0 auto;
   border-bottom: 1px solid #e9e9e9;
+}
+.grid-column .news .message.border-none {
+  border: none;
 }
 .grid-column .news .message .text {
   line-height: 16px;

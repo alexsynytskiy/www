@@ -22,6 +22,7 @@ use kartik\checkbox\CheckboxX;
             'buttons' => ['html', 'formatting', 'bold', 'italic', 'underline', 'deleted',
                 'unorderedlist', 'orderedlist', 'outdent', 'indent',
                 'image', 'link', 'alignment'],
+            'imageUpload' => \yii\helpers\Url::to(['/site/image-upload']),
             'plugins' => [
                 'fullscreen',
                 'table',

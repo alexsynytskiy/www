@@ -74,7 +74,7 @@ class BannerController extends Controller
     {
         $model = new Banner();
         $model->weight = 0;
-        $model->region = 0;
+        $model->region = Banner::REGION_FIRST_COLUMN;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);

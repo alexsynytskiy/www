@@ -345,6 +345,7 @@ header {
 			.simple-rounded-box;
 			height: 50px;
 			background: linear-gradient(to bottom, #4193DF, @main-blue);
+			margin-bottom: 15px;
 
 			ul {
 				padding: 6px 10px;
@@ -999,6 +1000,10 @@ header {
 		.simple-rounded-box;
 		margin-bottom: @main-margin;
 
+		.banner-box {
+			margin: 0;
+		}
+
 		.header {
 			@header-height: 29px;
 			height: @header-height;
@@ -1048,6 +1053,10 @@ header {
 			width: 290px;
 			margin: 0 auto;
 			border-bottom: 1px solid @main-body-background;
+
+			&.border-none {
+				border: none;
+			}
 
 			.text {
 				line-height: 16px;

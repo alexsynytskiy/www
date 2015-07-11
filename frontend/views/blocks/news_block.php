@@ -1,9 +1,12 @@
 <?php
 use yii\helpers\Url;
+use common\models\Banner;
+use common\models\SiteBlock;
 
 /**
  * @var $this yii\web\View
  * @var $posts Array of common\models\Post
+ * @var $enableBanners boolean 
 **/
 ?>
 <div class="news">
@@ -14,8 +17,12 @@ use yii\helpers\Url;
 			<div class="link-to-all-text">Все новости:</div>
 		</a>
 	</div>
-	<?php foreach($posts as $post) { ?>
-	<div class="message">		
+	<?php 
+		$count = 0;
+		foreach($posts as $post) { 
+			$count++;
+	?>
+	<div class="message <?= $enableBanners && $count && $count % 10 == 0 ? 'border-none' : '' ?>">		
 		<div class="text">
 			<a href="<?= $post->getUrl() ?>">
 				<div class="time">
@@ -41,7 +48,15 @@ use yii\helpers\Url;
 			</div>
 		</div>		
 	</div>
-	<?php }	?>
+	<?php 
+			if($enableBanners && $count && $count % 10 == 0) {
+				$bannerBlock = SiteBlock::getBanner(Banner::REGION_NEWS);
+		        if($bannerBlock) {
+		            echo $this->render($bannerBlock['view'], isset($bannerBlock['data']) ? $bannerBlock['data'] : []);
+		        }
+			}
+		}	
+	?>
 	<div class="header no-border">
 		<a href="<?= Url::to(['/site/news']) ?>">
 			<div class="link-to-all-icon"></div>
