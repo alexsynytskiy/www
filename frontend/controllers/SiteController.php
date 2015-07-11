@@ -1136,7 +1136,6 @@ class SiteController extends Controller
 
             $model->allow_comment = 1;
             $model->is_public = 1;
-            $model->comments_count = 0;
             $model->content_category_id = Post::CATEGORY_BLOG;
             $model->user_id = Yii::$app->user->id;
 

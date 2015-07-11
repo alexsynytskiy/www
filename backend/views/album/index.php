@@ -98,7 +98,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     0 => 'Нет',
                 ],
             ],
-            // 'comments_count',
 
             [
                 'class' => 'yii\grid\ActionColumn',

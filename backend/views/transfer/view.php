@@ -68,7 +68,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'contract_date',
             'created_at',
             'updated_at',
-            'comments_count',
+            [
+                'label' => 'Количество комментариев',
+                'value' => $model->getCommentsCount(), 
+            ],
         ],
     ]) ?>
 

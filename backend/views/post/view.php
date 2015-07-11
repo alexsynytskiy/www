@@ -90,7 +90,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'is_yandex_rss',
                 'value' => $model->is_yandex_rss ? 'Да' : 'Нет',
             ],
-            'comments_count',
+            [
+                'label' => 'Количество комментариев',
+                'value' => $model->getCommentsCount(), 
+            ],
             'cached_tag_list',
             [
                 'label' => 'Рейтинг',

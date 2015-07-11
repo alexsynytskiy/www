@@ -22,7 +22,6 @@ use yii\db\ActiveRecord;
  * @property string $contract_date
  * @property string $created_at
  * @property string $updated_at
- * @property integer $comments_count
  */
 class Transfer extends ActiveRecord
 {
@@ -40,7 +39,7 @@ class Transfer extends ActiveRecord
     public function rules()
     {
         return [
-            [['season_id', 'transfer_type_id', 'player_id', 'probability', 'command_from_id', 'command_to_id', 'is_active', 'comments_count'], 'integer'],
+            [['season_id', 'transfer_type_id', 'player_id', 'probability', 'command_from_id', 'command_to_id', 'is_active'], 'integer'],
             [['contract_date', 'created_at', 'updated_at'], 'safe'],
             [['sum', 'clubs', 'others'], 'string', 'max' => 255],
 
@@ -69,7 +68,6 @@ class Transfer extends ActiveRecord
             'contract_date' => 'Дата контракта',
             'created_at' => 'Создано',
             'updated_at' => 'Обновлено',
-            'comments_count' => 'Количество комментариев',
         ];
     }
 
@@ -124,7 +122,13 @@ class Transfer extends ActiveRecord
         return \yii\helpers\Url::to(['/site/transfer/', 'id' => $this->id]);
     }
 
-    
+    /**
+     * Get amount of photos in album
+     * @return int
+     */
+    public function getCommentsCount() {
+        return CommentCount::getCommentCount($this->id, CommentCount::COMMENTABLE_TRANSFER);
+    }    
 
     /**
      * @return \yii\db\ActiveQuery

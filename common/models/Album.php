@@ -263,10 +263,11 @@ class Album extends ActiveRecord
      * @param string $thumbnail
      * @return Asset
      */
-    public function getFrontendCoverImageAsset($thumbnail = NULL)
+    public function getFrontendAsset($thumbnail = NULL)
     {
         $asset = $this->getCoverImageAsset($thumbnail);
         if(!isset($asset->id)) $asset = $this->getAsset($thumbnail);
+        if(!isset($asset->id)) $asset = $this->getAsset();
         return $asset;
     }
 
@@ -279,9 +280,19 @@ class Album extends ActiveRecord
             ->where([
                 'assetable_id' => $this->id,
                 'assetable_type' => Asset::ASSETABLE_ALBUM,
-                'thumbnail' => Asset::THUMBNAIL_BIG,
+                'parent_id' => null,
             ])
             ->count();
         return $count;
     }
+
+    /**
+     * Get amount of photos in album
+     * @return int
+     */
+    public function getCommentsCount() {
+        return CommentCount::getCommentCount($this->id, CommentCount::COMMENTABLE_ALBUM);
+    }
+
+    
 }

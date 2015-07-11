@@ -24,7 +24,6 @@ use Imagine\Image\ManipulatorInterface;
  * @property string $type
  * @property integer $assetable_id
  * @property string $assetable_type
- * @property integer $comments_count
  *
  * @property Users $user
  * @property Asset $parent
@@ -112,7 +111,7 @@ class Asset extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['width', 'height', 'assetable_id', 'comments_count', 'parent_id'], 'integer'],
+            [['width', 'height', 'assetable_id', 'parent_id'], 'integer'],
             [['filename', 'thumbnail'], 'string', 'max' => 255],
             [['type', 'assetable_type'], 'string', 'max' => 20],
 
@@ -136,7 +135,6 @@ class Asset extends \yii\db\ActiveRecord
             'type'           => 'Type',
             'assetable_id'   => 'Assetable ID',
             'assetable_type' => 'Assetable Type',
-            'comments_count' => 'Comments Count',
         ];
     }
 

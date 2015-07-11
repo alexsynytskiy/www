@@ -18,7 +18,7 @@ class TransferSearch extends Transfer
     public function rules()
     {
         return [
-            [['id', 'season_id', 'transfer_type_id', 'player_id', 'probability', 'command_from_id', 'command_to_id', 'is_active', 'comments_count'], 'integer'],
+            [['id', 'season_id', 'transfer_type_id', 'player_id', 'probability', 'command_from_id', 'command_to_id', 'is_active'], 'integer'],
             [['sum', 'clubs', 'others', 'contract_date', 'created_at', 'updated_at', 'teamFrom.name', 'teamTo.name', 'player.lastname'], 'safe'],
         ];
     }
@@ -110,7 +110,6 @@ class TransferSearch extends Transfer
             'contract_date' => $this->contract_date,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'comments_count' => $this->comments_count,
         ]);
 
         $query->andFilterWhere(['like', 'sum', $this->sum])

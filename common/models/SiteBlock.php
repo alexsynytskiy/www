@@ -167,6 +167,9 @@ class SiteBlock
      */
     public static function getPhotoVideoNews()
     {
+        $postTable = Post::tableName();
+        $assetTable = Asset::tableName();
+
         // Photo review
         $photoReviewNews = Album::find()
             ->where([
@@ -181,9 +184,6 @@ class SiteBlock
         }
 
         // Video review
-        $postTable = Post::tableName();
-        $assetTable = Asset::tableName();
-        
         $query = Post::find()
             ->innerJoin($assetTable, "{$assetTable}.assetable_id = {$postTable}.id")
             ->where([

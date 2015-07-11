@@ -66,7 +66,7 @@ class AlbumController extends Controller
     {
         $model = $this->findModel($id);
         $images = $model->getAssets(Asset::THUMBNAIL_BIG);
-        $coverImage = $model->getFrontendCoverImageAsset(Asset::THUMBNAIL_BIG);
+        $coverImage = $model->getFrontendAsset(Asset::THUMBNAIL_BIG);
         return $this->render('view', [
             'model' => $model,
             'images' => $images,
@@ -190,7 +190,7 @@ class AlbumController extends Controller
     {
         $model = $this->findModel($id);
         $tags = $model->getTags();
-        $coverImage = $model->getFrontendCoverImageAsset(Asset::THUMBNAIL_BIG);
+        $coverImage = $model->getFrontendAsset(Asset::THUMBNAIL_BIG);
         $allAssets = $model->getAssets();
         $assets = [];
         foreach ($allAssets as $asset) {

@@ -2683,11 +2683,14 @@ body a:focus {
   background: url(/images/button_right.png) no-repeat center;
   background-size: 15px;
 }
+.album-box .bxslider-thumbnails {
+  padding-top: 10px;
+}
 .album-box .bxslider-thumbnails img {
   width: 100%;
 }
 .album-box .bxslider-thumbnails .bx-controls-direction a {
-  top: 50%;
+  top: 30px;
 }
 .album-box .bxslider-thumbnails .bx-prev {
   left: 15px;
@@ -2699,13 +2702,10 @@ body a:focus {
   background: url(/images/button_right.png) no-repeat center;
   background-size: 10px;
 }
-.album-box .album-image {
-  width: 100%;
-}
-.bxslider-thumbnails {
-  padding-top: 10px;
-}
-.bxslider-thumbnails a {
+.album-box .bxslider-thumbnails a {
   display: block;
   float: left;
+}
+.album-box .album-image {
+  width: 100%;
 }

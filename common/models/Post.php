@@ -25,7 +25,6 @@ use yii\helpers\Url;
  * @property integer $with_video
  * @property integer $with_photo
  * @property integer $content_category_id
- * @property integer $comments_count
  * @property string  $source_title
  * @property string  $source_url
  * @property integer $is_yandex_rss
@@ -77,7 +76,7 @@ class Post extends ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'is_public', 'is_index', 'is_top', 'is_pin', 'with_video', 'with_photo', 'content_category_id', 'comments_count', 'is_yandex_rss', 'allow_comment'], 'integer'],
+            [['user_id', 'is_public', 'is_index', 'is_top', 'is_pin', 'with_video', 'with_photo', 'content_category_id', 'is_yandex_rss', 'allow_comment'], 'integer'],
             [['content'], 'string'],
             [['created_at', 'updated_at', 'tags'], 'safe'],
             [['title', 'slug', 'source_title', 'source_url', 'cached_tag_list'], 'string', 'max' => 255],
@@ -110,7 +109,6 @@ class Post extends ActiveRecord
             'is_top'              => 'Топ 6',
             'is_pin'              => 'Закреплено',
             'content_category_id' => 'Категория',
-            'comments_count'      => 'Количество комментариев',
             'source_title'        => 'Название источника',
             'source_url'          => 'Адрес источника',
             'is_yandex_rss'       => 'Яндекс RSS',
@@ -357,6 +355,14 @@ class Post extends ActiveRecord
             $sortedComments[$index][] = $comment;
         }
         return $sortedComments;
+    }
+
+    /**
+     * Get amount of photos in album
+     * @return int
+     */
+    public function getCommentsCount() {
+        return CommentCount::getCommentCount($this->id, CommentCount::COMMENTABLE_POST);
     }
 
     /**

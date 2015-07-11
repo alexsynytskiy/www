@@ -25,17 +25,18 @@ $photoReviewCount = count($photoReviewNews);
         <div class="box-content">
             <ul class="photo-list">
                 <?php foreach ($photoReviewNews as $album) { 
-                    $image = $album->getFrontendCoverImageAsset(\common\models\Asset::THUMBNAIL_BIG);
+                    $image = $album->getFrontendAsset(\common\models\Asset::THUMBNAIL_BIG);
+                    $commentsCount = $album->getCommentsCount();
                     ?>
                 <li class="photo-preview">
                     <div class="image"><img src="<?= $image->getFileUrl() ?>" alt=""></div>
                     <div class="title"><a href="<?= $album->getUrl() ?>"><?= $album->title ?></a></div>
-                    <?php // if($album->comments_count > 0) { ?>
+                    <?php if($commentsCount > 0) { ?>
                     <div class="comments">
-                        <div class="count"><?php // echo $album->comments_count; ?></div>
+                        <div class="count"><?= $commentsCount; ?></div>
                         <div class="icon"></div>
                     </div>
-                    <?php // } ?>
+                    <?php } ?>
                 </li>
                 <?php } ?>
             </ul>
@@ -57,9 +58,10 @@ $photoReviewCount = count($photoReviewNews);
                 <li class="video-preview">
                     <div class="image"><img src="<?= $image->getFileUrl() ?>" alt=""></div>
                     <div class="title"><a href="<?= $post->getUrl() ?>"><?= $post->title ?></a></div>
-                    <?php if($post->comments_count > 0) { ?>
+                    <?php $commentsCount = $post->getCommentsCount(); ?>
+                    <?php if($commentsCount > 0) { ?>
                     <div class="comments">
-                        <div class="count"><?= $post->comments_count ?></div>
+                        <div class="count"><?= $commentsCount ?></div>
                         <div class="icon"></div>
                     </div>
                     <?php } ?>

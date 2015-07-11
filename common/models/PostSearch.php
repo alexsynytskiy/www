@@ -18,7 +18,7 @@ class PostSearch extends Post
     public function rules()
     {
         return [
-            [['id', 'user_id', 'is_public', 'is_index', 'is_top', 'is_pin', 'with_video', 'with_photo', 'content_category_id', 'comments_count', 'is_yandex_rss', 'allow_comment'], 'integer'],
+            [['id', 'user_id', 'is_public', 'is_index', 'is_top', 'is_pin', 'with_video', 'with_photo', 'content_category_id', 'is_yandex_rss', 'allow_comment'], 'integer'],
             [['user.username', 'title', 'slug', 'content', 'created_at', 'updated_at', 'source_title', 'source_url', 'cached_tag_list'], 'safe'],
         ];
     }
@@ -92,7 +92,6 @@ class PostSearch extends Post
             'with_video' => $this->with_video,
             'with_photo' => $this->with_photo,
             'content_category_id' => $this->content_category_id,
-            'comments_count' => $this->comments_count,
             'is_yandex_rss' => $this->is_yandex_rss,
             'allow_comment' => $this->allow_comment,
         ]);

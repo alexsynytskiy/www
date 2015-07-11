@@ -27,9 +27,10 @@ use yii\helpers\Url;
 			</a>
 			<div class="icons">
 				<div class="icons-mokup">
-					<?php if($post->comments_count > 0) { ?>
+					<?php $commentsCount = $post->getCommentsCount(); ?>
+					<?php if($commentsCount > 0) { ?>
 						<div class="comments-icon"></div>
-						<div class="comments-count"><?= $post->comments_count ?></div>
+						<div class="comments-count"><?= $commentsCount ?></div>
 					<?php } ?>
 					<?php if($post->with_video) { ?>
 						<div class="video-icon"></div>

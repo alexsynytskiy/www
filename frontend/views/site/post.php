@@ -70,7 +70,7 @@ if($post->isBlog()) {
             <a class="button-edit" href="<?= Url::to(['/post/edit', 'id' => $post->id]) ?>"></a>
             <?php } ?>
             <div class="comments-icon"></div>
-            <div class="comments-count"><?= $post->comments_count ?></div>
+            <div class="comments-count"><?= $post->getCommentsCount() ?></div>
         </div>
     </div>
     <div class="post-container">

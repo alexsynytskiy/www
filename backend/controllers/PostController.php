@@ -87,7 +87,6 @@ class PostController extends Controller
         // default values
         $model->allow_comment = 1;
         $model->is_public = 1;
-        $model->comments_count = 0;
         $model->content_category_id = Post::CATEGORY_NEWS;
         $model->user_id = Yii::$app->user->id;
         $model->is_pin = 0;
