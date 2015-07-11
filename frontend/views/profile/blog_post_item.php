@@ -57,7 +57,7 @@ if(!Yii::$app->user->isGuest && Yii::$app->user->id != $model->user->id)
     </div>
     <div class="comment-replies">
         <a href="<?= $model->getUrl().'#comments' ?>">
-            <div class="toggle-text"><?= $model->comments_count ?> комментариев</div>
+            <div class="toggle-text"><?= $model->getCommentsCount() ?> комментариев</div>
             <div class="toggle-icon"></div>
         </a>
     </div>

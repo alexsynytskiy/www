@@ -45,9 +45,9 @@ class MatchEventType extends ActiveRecord
      */
     public function getAsset()
     {
-        $asset = Asset::getAssets($this->id, Asset::ASSETABLE_MATCH_EVENT_ICON, NULL, true);
+        $asset = Asset::getAssets($this->id, Asset::ASSETABLE_MATCH_EVENT, NULL, true);
         if($asset->assetable_type == null) {
-            $asset->assetable_type = Asset::ASSETABLE_MATCH_EVENT_ICON;
+            $asset->assetable_type = Asset::ASSETABLE_MATCH_EVENT;
         }
         return $asset;
     }

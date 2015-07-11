@@ -31,6 +31,18 @@ class AlbumController extends Controller
     }
 
     /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        if (!empty(Yii::$app->user) && !Yii::$app->user->can("admin")) {
+            throw new \yii\web\ForbiddenHttpException('Вы не можете выполнить это действие.');
+        }
+
+        parent::init();
+    }
+
+    /**
      * Lists all Album models.
      * @return mixed
      */
@@ -54,9 +66,11 @@ class AlbumController extends Controller
     {
         $model = $this->findModel($id);
         $images = $model->getAssets(Asset::THUMBNAIL_BIG);
+        $coverImage = $model->getFrontendAsset(Asset::THUMBNAIL_BIG);
         return $this->render('view', [
             'model' => $model,
             'images' => $images,
+            'coverImage' => $coverImage,
         ]);
     }
 
@@ -101,6 +115,32 @@ class AlbumController extends Controller
                 $cached_tag_list[] = $newTag->name;
             }
             $model->cached_tag_list = implode(', ', $cached_tag_list);
+
+            // Save cover image
+            $uploadedFile = UploadedFile::getInstance($model, 'coverImage');
+            if(!empty($uploadedFile))
+            {
+                // Save origionals 
+                $originalAsset = new Asset();
+                $originalAsset->assetable_type = Asset::ASSETABLE_ALBUM_COVER;
+                $originalAsset->assetable_id = $model->id;
+                $originalAsset->uploadedFile = $uploadedFile;
+                $originalAsset->saveAsset();
+
+                // Save thumbnails 
+                $imageID = $originalAsset->id;
+                $thumbnails = Asset::getThumbnails(Asset::ASSETABLE_ALBUM_COVER);
+
+                foreach ($thumbnails as $thumbnail) {
+                    $asset = new Asset();
+                    $asset->assetable_type = Asset::ASSETABLE_ALBUM_COVER;
+                    $asset->assetable_id = $model->id;
+                    $asset->parent_id = $imageID;
+                    $asset->thumbnail = $thumbnail;
+                    $asset->uploadedFile = $uploadedFile;
+                    $asset->saveAsset();
+                }
+            }
 
             // Save images
             $model->images = UploadedFile::getInstances($model, 'images');
@@ -150,6 +190,7 @@ class AlbumController extends Controller
     {
         $model = $this->findModel($id);
         $tags = $model->getTags();
+        $coverImage = $model->getFrontendAsset(Asset::THUMBNAIL_BIG);
         $allAssets = $model->getAssets();
         $assets = [];
         foreach ($allAssets as $asset) {
@@ -174,6 +215,38 @@ class AlbumController extends Controller
         {
             // Set slug
             $model->slug = $model->genSlug($model->title);
+
+            // Save cover image
+            $uploadedFile = UploadedFile::getInstance($model, 'coverImage');
+            if(!empty($uploadedFile))
+            {
+                // Save origionals 
+                $originalAsset = $model->getCoverImageAsset();
+                if(!isset($originalAsset->id)) {
+                    $originalAsset = new Asset();
+                }
+                $originalAsset->assetable_type = Asset::ASSETABLE_ALBUM_COVER;
+                $originalAsset->assetable_id = $model->id;
+                $originalAsset->uploadedFile = $uploadedFile;
+                $originalAsset->saveAsset();
+
+                // Save thumbnails 
+                $imageID = $originalAsset->id;
+                $thumbnails = Asset::getThumbnails(Asset::ASSETABLE_ALBUM_COVER);
+
+                foreach ($thumbnails as $thumbnail) {
+                    $asset = $model->getCoverImageAsset($thumbnail);
+                    if(!isset($asset->id)) {
+                        $asset = new Asset();
+                    }
+                    $asset->assetable_type = Asset::ASSETABLE_ALBUM_COVER;
+                    $asset->assetable_id = $model->id;
+                    $asset->parent_id = $imageID;
+                    $asset->thumbnail = $thumbnail;
+                    $asset->uploadedFile = $uploadedFile;
+                    $asset->saveAsset();
+                }
+            }
 
             // Remove selected images
             $currentAssetKeys = explode(';', $model->imagesData);
@@ -209,10 +282,10 @@ class AlbumController extends Controller
             }
 
             // Save images
-            $model->images = UploadedFile::getInstances($model, 'images');
-            if($model->images)
+            $uploadedFiles = UploadedFile::getInstances($model, 'images');
+            if($uploadedFiles)
             {
-                foreach ($model->images as $image)
+                foreach ($uploadedFiles as $image)
                 {
                     // Save origionals 
                     $asset = new Asset();
@@ -270,6 +343,7 @@ class AlbumController extends Controller
             return $this->render('update', [
                 'model' => $model,
                 'images' => $assets,
+                'coverImage' => $coverImage,
                 'tags' => $tags,
             ]);
         }

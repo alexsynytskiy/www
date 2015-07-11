@@ -18,7 +18,7 @@ class MatchSearch extends Match
     public function rules()
     {
         return [
-            [['id', 'is_visible', 'home_shots', 'guest_shots', 'home_shots_in', 'guest_shots_in', 'home_offsides', 'guest_offsides', 'home_corners', 'guest_corners', 'home_fouls', 'guest_fouls', 'home_yellow_cards', 'guest_yellow_cards', 'home_red_cards', 'guest_red_cards', 'home_goals', 'guest_goals', 'comments_count', 'is_finished'], 'integer'],
+            [['id', 'is_visible', 'home_shots', 'guest_shots', 'home_shots_in', 'guest_shots_in', 'home_offsides', 'guest_offsides', 'home_corners', 'guest_corners', 'home_fouls', 'guest_fouls', 'home_yellow_cards', 'guest_yellow_cards', 'home_red_cards', 'guest_red_cards', 'home_goals', 'guest_goals', 'is_finished'], 'integer'],
             [['championship.name', 
               'teamGuest.name', 
               'teamHome.name',
@@ -186,7 +186,6 @@ class MatchSearch extends Match
             'guest_red_cards' => $this->guest_red_cards,
             'home_goals' => $this->home_goals,
             'guest_goals' => $this->guest_goals,
-            'comments_count' => $this->comments_count,
             'is_finished' => $this->is_finished,
         ]);
 

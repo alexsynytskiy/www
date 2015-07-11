@@ -119,7 +119,10 @@ $guestPossession = isset($model->guest_ball_possession) ? $model->guest_ball_pos
                 'attribute' => 'guest_ball_possession',  
                 'value' => $guestPossession,
             ],   
-            'comments_count',
+            [
+                'label' => 'Количество комментариев',
+                'value' => $model->getCommentsCount(), 
+            ],
             'created_at',
             'updated_at',
             [

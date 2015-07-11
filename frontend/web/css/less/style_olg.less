@@ -59,6 +59,7 @@
         display: block;
         height: 0;
         clear: both;
+        overflow: hidden;
         visibility: hidden;
     }
 }
@@ -1864,12 +1865,20 @@ body {
 
 }
 
-.site-error {
-    padding-top: 100px;
-    text-align: center;
+.error-container {
+    width: 100%;
+    min-height: 130px;
 
-    .error-message {
-        margin-bottom: 30px;
+    td {
+        vertical-align: middle;
+    }
+    .site-error {
+        // padding-top: 100px;
+        text-align: center;
+
+        .error-message {
+            margin-bottom: 30px;
+        }
     }
 }
 
@@ -2719,11 +2728,12 @@ body {
     }
 
     .bxslider-thumbnails {
+        padding-top: 10px;
         img {
             width: 100%;
         }
         .bx-controls-direction a {
-            top: 50%;
+            top: 30px;
         }
         .bx-prev {
             left: 15px;
@@ -2735,18 +2745,12 @@ body {
             background: url(/images/button_right.png) no-repeat center;
             background-size: 10px;
         }
+        a {
+            display: block;
+            float: left;
+        }
     }
     .album-image {
         width: 100%;
     }
 }
-
-.bxslider-thumbnails {
-    padding-top: 10px;
-
-    a {
-        display: block;
-        float: left;
-    }
-}
-

@@ -104,7 +104,6 @@ $seasonFilter = ArrayHelper::map($seasons, 'id', 'name');
             // 'contract_date',
             // 'created_at',
             // 'updated_at',
-            // 'comments_count',
 
             [
                 'class' => 'yii\grid\ActionColumn',

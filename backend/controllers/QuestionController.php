@@ -29,6 +29,18 @@ class QuestionController extends Controller
     }
 
     /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        if (!empty(Yii::$app->user) && !Yii::$app->user->can("admin")) {
+            throw new \yii\web\ForbiddenHttpException('Вы не можете выполнить это действие.');
+        }
+
+        parent::init();
+    }
+
+    /**
      * Lists all Question models.
      * @return mixed
      */

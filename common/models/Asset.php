@@ -24,7 +24,6 @@ use Imagine\Image\ManipulatorInterface;
  * @property string $type
  * @property integer $assetable_id
  * @property string $assetable_type
- * @property integer $comments_count
  *
  * @property Users $user
  * @property Asset $parent
@@ -54,15 +53,16 @@ class Asset extends \yii\db\ActiveRecord
     /**
      * @var string assetable types
      */
-    const ASSETABLE_ALBUM   = 'album';
-    const ASSETABLE_BANNER  = 'banner';
-    const ASSETABLE_COACH   = 'coach';
-    const ASSETABLE_TEAM    = 'team';
-    const ASSETABLE_COUNTRY = 'country';
-    const ASSETABLE_PLAYER  = 'player';
-    const ASSETABLE_POST    = 'post';
-    const ASSETABLE_USER    = 'user';
-    const ASSETABLE_MATCH_EVENT_ICON    = 'match_events_icon';
+    const ASSETABLE_ALBUM       = 'album';
+    const ASSETABLE_ALBUM_COVER = 'album_cover';
+    const ASSETABLE_BANNER      = 'banner';
+    const ASSETABLE_COACH       = 'coach';
+    const ASSETABLE_TEAM        = 'team';
+    const ASSETABLE_COUNTRY     = 'country';
+    const ASSETABLE_PLAYER      = 'player';
+    const ASSETABLE_POST        = 'post';
+    const ASSETABLE_USER        = 'user';
+    const ASSETABLE_MATCH_EVENT = 'match_event';
 
     /**
      * @var string assets thumbnail types
@@ -111,7 +111,7 @@ class Asset extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['width', 'height', 'assetable_id', 'comments_count', 'parent_id'], 'integer'],
+            [['width', 'height', 'assetable_id', 'parent_id'], 'integer'],
             [['filename', 'thumbnail'], 'string', 'max' => 255],
             [['type', 'assetable_type'], 'string', 'max' => 20],
 
@@ -135,7 +135,6 @@ class Asset extends \yii\db\ActiveRecord
             'type'           => 'Type',
             'assetable_id'   => 'Assetable ID',
             'assetable_type' => 'Assetable Type',
-            'comments_count' => 'Comments Count',
         ];
     }
 
@@ -270,6 +269,7 @@ class Asset extends \yii\db\ActiveRecord
         switch ($this->getAssetableType()) {
             case self::ASSETABLE_POST:
             case self::ASSETABLE_ALBUM:
+            case self::ASSETABLE_ALBUM_COVER:
                 $path = 'galleries/';
                 break;
             case self::ASSETABLE_PLAYER:
@@ -288,7 +288,7 @@ class Asset extends \yii\db\ActiveRecord
             case self::ASSETABLE_TEAM:
                 $path = 'logos/';
                 break;
-            case self::ASSETABLE_MATCH_EVENT_ICON:
+            case self::ASSETABLE_MATCH_EVENT:
                 $path = 'icons/';
                 break;
             default: 
@@ -470,6 +470,7 @@ class Asset extends \yii\db\ActiveRecord
                     self::THUMBNAIL_CONTENT,
                 ];
             case self::ASSETABLE_ALBUM:
+            case self::ASSETABLE_ALBUM_COVER:
                 return [
                     self::THUMBNAIL_BIG,
                     self::THUMBNAIL_SMALL,
@@ -523,7 +524,7 @@ class Asset extends \yii\db\ActiveRecord
                     default: break;
                 }
                 break;
-            case self::ASSETABLE_MATCH_EVENT_ICON:
+            case self::ASSETABLE_MATCH_EVENT:
                 return new Box(25,25);
             case self::ASSETABLE_POST:
                 switch (strtolower($this->thumbnail))
@@ -563,6 +564,7 @@ class Asset extends \yii\db\ActiveRecord
                 }
                 break;
             case self::ASSETABLE_ALBUM:
+            case self::ASSETABLE_ALBUM_COVER:
                 switch (strtolower($this->thumbnail))
                 {
                     case self::THUMBNAIL_BIG:

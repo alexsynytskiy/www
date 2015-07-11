@@ -29,12 +29,10 @@ class Comment extends ActiveRecord
      * @var string commentable types
      */
     const COMMENTABLE_MATCH    = 'match';
-    const COMMENTABLE_ALBUM    = 'ALBUM';
-    const COMMENTABLE_PHOTO    = 'PHOTO';
+    const COMMENTABLE_ALBUM    = 'album';
+    const COMMENTABLE_PHOTO    = 'photo';
     const COMMENTABLE_POST     = 'post';
     const COMMENTABLE_TRANSFER = 'transfer';
-
-    private $lastPost = 0;
 
     /**
      * @inheritdoc
@@ -93,16 +91,89 @@ class Comment extends ActiveRecord
     {
         switch ($this->commentable_type) {
             case self::COMMENTABLE_POST:
-                $post = Post::findOne($this->commentable_id);
-                if(!empty($post->id))
-                {
-                    $count = Comment::find()
+            case self::COMMENTABLE_TRANSFER:
+            case self::COMMENTABLE_MATCH:
+                $commentCount = CommentCount::find()
+                    ->where([
+                        'commentable_id' => $this->commentable_id,
+                        'commentable_type' => $this->commentable_type,
+                    ])->one();
+                if(empty($commentCount->id)) {
+                    $commentCount = new CommentCount();
+                    $commentCount->commentable_id = $this->commentable_id;
+                    $commentCount->commentable_type = $this->commentable_type;
+                }
+                $count = Comment::find()
+                    ->where([
+                        'commentable_type' => $this->commentable_type,
+                        'commentable_id' => $this->commentable_id,
+                    ])->count();
+                $commentCount->count = $count;
+                $commentCount->save(false);
+                break;
+            case self::COMMENTABLE_PHOTO:
+            case self::COMMENTABLE_ALBUM:
+                if($this->commentable_type == self::COMMENTABLE_ALBUM) {
+                    $albumID = $this->commentable_id;
+                } else {
+                    $albumTable = Album::tableName();
+                    $assetTable = Asset::tableName();
+                    $album = (new \yii\db\Query())
+                        ->select("{$albumTable}.id")
+                        ->from($albumTable)
+                        ->innerJoin($assetTable, "{$assetTable}.assetable_id = {$albumTable}.id")
                         ->where([
-                            'commentable_type' => self::COMMENTABLE_POST,
-                            'commentable_id' => $post->id,
+                            "{$assetTable}.id" => $this->commentable_id,
+                            "{$assetTable}.assetable_type" => Asset::ASSETABLE_ALBUM,
+                        ])
+                        ->one();
+                    if(isset($album['id'])) {
+                        $albumID = $album['id'];
+                    }
+                }
+                if(isset($albumID)) {
+                    $commentCount = CommentCount::find()
+                        ->where([
+                            'commentable_id' => $albumID,
+                            'commentable_type' => self::COMMENTABLE_ALBUM,
+                        ])->one();
+                    if(empty($commentCount->id)) {
+                        $commentCount = new CommentCount();
+                        $commentCount->commentable_id = $albumID;
+                        $commentCount->commentable_type = self::COMMENTABLE_ALBUM;
+                        $commentCount->count = 0;
+                    }
+                    // $commentCount->count++;
+                    $albumCount = Comment::find()
+                        ->where([
+                            'commentable_type' => $this->commentable_type,
+                            'commentable_id' => $this->commentable_id,
                         ])->count();
-                    $post->comments_count = $count;
-                    $post->save(false);
+
+                    $assetTable = Asset::tableName();
+                    $albumTable = self::tableName();
+                    $ids = (new \yii\db\Query())
+                        ->select("{$assetTable}.id")
+                        ->from($assetTable)
+                        ->innerJoin($albumTable, "{$albumTable}.id = {$assetTable}.assetable_id")
+                        ->where([
+                            "{$albumTable}.id" => $albumID,
+                            "{$assetTable}.assetable_type" => Asset::ASSETABLE_ALBUM,
+                        ])
+                        ->all();
+                    $assetIDs = [];
+                    foreach ($ids as $id) {
+                        $assetIDs[] = (int) $id['id'];
+                    }
+
+                    $assetsCount = Comment::find()
+                        ->where([
+                            'commentable_type' => self::COMMENTABLE_PHOTO,
+                            'commentable_id' => $assetIDs,
+                        ])->count();
+
+                    $commentCount->count = $albumCount + $assetsCount;
+                    $commentCount->save(false);
                 }
                 break;
             default:

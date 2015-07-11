@@ -31,6 +31,18 @@ class MatchEventTypeController extends Controller
     }
 
     /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        if (!empty(Yii::$app->user) && !Yii::$app->user->can("admin")) {
+            throw new \yii\web\ForbiddenHttpException('Вы не можете выполнить это действие.');
+        }
+
+        parent::init();
+    }
+
+    /**
      * Lists all MatchEventType models.
      * @return mixed
      */
@@ -74,7 +86,7 @@ class MatchEventTypeController extends Controller
             if(!empty($uploadedFile))
             {
                 $icon = new Asset;
-                $icon->assetable_type = Asset::ASSETABLE_MATCH_EVENT_ICON;
+                $icon->assetable_type = Asset::ASSETABLE_MATCH_EVENT;
                 $icon->assetable_id = $model->id;
                 $icon->uploadedFile = $uploadedFile;
                 $icon->saveAsset();
@@ -110,7 +122,7 @@ class MatchEventTypeController extends Controller
                 if(!isset($icon->assetable_id))
                 {
                     $icon = new Asset;
-                    $icon->assetable_type = Asset::ASSETABLE_MATCH_EVENT_ICON;
+                    $icon->assetable_type = Asset::ASSETABLE_MATCH_EVENT;
                     $icon->assetable_id = $model->id;
                 }
 

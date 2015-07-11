@@ -30,7 +30,7 @@ if(!Yii::$app->user->isGuest && Yii::$app->user->can("admin")){
         <div class="right">
             <?= $editLink ?>
             <div class="image-icon"></div>
-            <div class="image-count"><?= $album->getPhotosCount() ?></div>
+            <div class="image-count"><?= $album->getCommentsCount() ?></div>
         </div>
     </div>
     <div class="album-container">
