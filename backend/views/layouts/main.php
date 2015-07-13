@@ -30,7 +30,7 @@ AppAsset::register($this);
             if(Yii::$app->user->can("admin")) {
                 NavBar::begin([
                     //'' => 'Динамомания',
-                    'brandLabel' => '<img src="/images/logotype_admin.png" class="img-responsive" style="margin-top: -7px; width: 250px;">',
+                    'brandLabel' => '<img src="/images/logoadmin.svg" class="img-responsive" style="margin-top: -7px; width: 250px;">',
                     'brandUrl' => Yii::$app->homeUrl,
                     'options' => [
                         'class' => 'navbar-inverse navbar-fixed-top',
@@ -78,6 +78,7 @@ AppAsset::register($this);
                         ['label' => 'Подписка', 'url' => '/admin/subscribing'],
                         ['label' => 'Опросы', 'url' => '/admin/question'],
                         ['label' => 'Банеры', 'url' => '/admin/banner'],
+                        ['label' => 'Избранные блоги', 'url' => '/admin/selected-blog'],
                     ]],
                     ['label' => 'Сайт', 'url' => ('http://'.$_SERVER['HTTP_HOST']) ],
                 ];

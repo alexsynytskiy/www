@@ -155,7 +155,8 @@ a.desc:after {
 }
 
 html .navbar-inverse {
-    background: linear-gradient(to bottom, #4193df, #1972c4);
+    /*background: linear-gradient(to bottom, #4193df, #1972c4);*/
+    background: #4193df;
     border: none;
 }
 
