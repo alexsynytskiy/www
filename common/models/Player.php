@@ -211,6 +211,6 @@ class Player extends ActiveRecord
             ->andWhere(['season_id' => $seasonID->id])
             ->one();
 
-        return $number->number;
+        return isset($number->number) ? $number->number : '-';
     }
 }

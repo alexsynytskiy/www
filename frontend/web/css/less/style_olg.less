@@ -2447,9 +2447,21 @@ body {
     }
 }
 
-.blog-preview {
+.blog-list-item {
     padding: 10px;
+    position: relative;
 
+    .popular {
+        position: absolute;
+        bottom: 12px;
+        left: 15px;
+        @popular-star: 15px;
+        height: @popular-star;
+        width: @popular-star;
+        margin-top: 2px;
+        background: url('/images/popular.png') no-repeat center;
+        background-size: @popular-star;
+    }
     .user-column {
         float: left;
         width: 50px;

@@ -16,12 +16,15 @@ foreach ($tags as $tag) {
 }
 ?>
 
-<div class="default-box blog-preview">
+<div class="default-box blog-list-item">
     <div class="user-column">
         <a href="<?= $model->user->getUrl() ?>">
             <img src="<?= $avatar->getFileUrl() ?>">
         </a>
     </div>
+    <?php if($model->isSelected()) { ?>
+        <div class="popular"></div>
+    <?php } ?>
     <div class="data-column">
         <div class="row row-desc">
             <div class="author">
@@ -32,17 +35,9 @@ foreach ($tags as $tag) {
                 <?= Yii::$app->formatter->asDate(strtotime($model->created_at),'d MMMM Y HH:mm') ?>
             </div>
         </div>
-        <a href="<?= $model->url ?>" class="title" style="float:left;">
+        <a href="<?= $model->url ?>" class="title">
             <?= $model->title ?>
         </a>
-        <?php
-            if($model->isSelected()) {
-        ?>
-                <div style="float:right;">!</div>
-        <?php
-            }
-        ?>
-        <div class="clearfix"></div>
         <div class="short-content">
             <?= $model->getShortContent() ?>
         </div>

@@ -63,6 +63,9 @@ if($post->isBlog()) {
 
 <div class="post-page">
     <div class="top-block">
+        <?php if($post->isSelected() && $post->isBlog()) { ?>
+            <div class="popular"></div>
+        <?php } ?>
         <div class="date-icon"></div>
         <div class="date-text"><?= Yii::$app->formatter->asDate(strtotime($post->created_at),'d MMMM Y HH:mm') ?></div>
         <div class="right">
@@ -74,15 +77,7 @@ if($post->isBlog()) {
         </div>
     </div>
     <div class="post-container">
-        <div class="title" style="float:left;"><?= $post->title.$editLink ?></div>
-        <?php
-            if($post->isSelected() && $post->isBlog()) {
-        ?>
-                <div style="float:right;">tyuytuty</div>
-        <?php
-            }
-        ?>
-        <div class="clearfix"></div>
+        <div class="title"><?= $post->title.$editLink ?></div>
         <?php if(!empty($image->getFileUrl())) { ?>
             <img class="post-image" src="<?= $image->getFileUrl() ?>">
          <?php } ?>

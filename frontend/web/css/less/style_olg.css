@@ -2390,24 +2390,35 @@ body a:focus {
   width: 730px;
   margin: 0 auto 15px;
 }
-.blog-preview {
+.blog-list-item {
   padding: 10px;
+  position: relative;
 }
-.blog-preview .user-column {
+.blog-list-item .popular {
+  position: absolute;
+  bottom: 12px;
+  left: 15px;
+  height: 15px;
+  width: 15px;
+  margin-top: 2px;
+  background: url('/images/popular.png') no-repeat center;
+  background-size: 15px;
+}
+.blog-list-item .user-column {
   float: left;
   width: 50px;
   margin-right: 10px;
 }
-.blog-preview .user-column img {
+.blog-list-item .user-column img {
   display: block;
   width: 100%;
   border-radius: 5px;
 }
-.blog-preview .data-column {
+.blog-list-item .data-column {
   float: left;
   width: 535px;
 }
-.blog-preview .data-column .row:after {
+.blog-list-item .data-column .row:after {
   content: ".";
   display: block;
   height: 0;
@@ -2415,32 +2426,32 @@ body a:focus {
   overflow: hidden;
   visibility: hidden;
 }
-.blog-preview .data-column .author {
+.blog-list-item .data-column .author {
   float: left;
   height: 26px;
   line-height: 26px;
 }
-.blog-preview .data-column .time {
+.blog-list-item .data-column .time {
   height: 26px;
   float: right;
   line-height: 26px;
 }
-.blog-preview .data-column .title {
+.blog-list-item .data-column .title {
   display: block;
   font-size: 18px;
   font-weight: bold;
   line-height: 1.5;
   margin-bottom: 5px;
 }
-.blog-preview .data-column .row-tags {
+.blog-list-item .data-column .row-tags {
   padding-top: 5px;
   line-height: 1.5;
 }
-.blog-preview .data-column .row-tags .label {
+.blog-list-item .data-column .row-tags .label {
   float: left;
   margin-right: 5px;
 }
-.blog-preview .data-column .tag {
+.blog-list-item .data-column .tag {
   float: left;
   border-radius: 5px;
   background-color: #e9e9e9;
@@ -2448,17 +2459,17 @@ body a:focus {
   margin-right: 5px;
   margin-bottom: 5px;
 }
-.blog-preview .data-column .rating {
+.blog-list-item .data-column .rating {
   float: left;
 }
-.blog-preview .data-column .rating .blue {
+.blog-list-item .data-column .rating .blue {
   font-weight: bold;
   color: #1972c4;
 }
-.blog-preview .data-column .comments-count {
+.blog-list-item .data-column .comments-count {
   float: right;
 }
-.blog-preview .data-column .comments-count:after {
+.blog-list-item .data-column .comments-count:after {
   content: ".";
   display: block;
   height: 0;
@@ -2466,7 +2477,7 @@ body a:focus {
   overflow: hidden;
   visibility: hidden;
 }
-.blog-preview .data-column .comments-count .icon {
+.blog-list-item .data-column .comments-count .icon {
   float: left;
   height: 15px;
   width: 15px;
@@ -2474,18 +2485,18 @@ body a:focus {
   background-size: 15px;
   margin-right: 5px;
 }
-.blog-preview .data-column .comments-count .count {
+.blog-list-item .data-column .comments-count .count {
   float: left;
   font-size: 14px;
   font-weight: bold;
   color: #1972c4;
   line-height: 15px;
 }
-.blog-preview .data-column .row-image img {
+.blog-list-item .data-column .row-image img {
   margin-top: 5px;
   width: 100%;
 }
-.blog-preview .data-column .row-footer {
+.blog-list-item .data-column .row-footer {
   padding-top: 5px;
 }
 .coach-composition-box .box-header .box-title {

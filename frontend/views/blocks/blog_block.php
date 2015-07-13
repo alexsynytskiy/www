@@ -29,7 +29,6 @@ use yii\helpers\Url;
                 </a>
             </div>
             <div class="popular"></div>
-            <!-- <div class="popular"></div> -->
             <div class="date">
                 <?= Yii::$app->formatter->asDate(strtotime($post->created_at),'d MMMM Y HH:mm') ?>
             </div>
