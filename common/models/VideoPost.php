@@ -9,60 +9,42 @@ use dosamigos\transliterator\TransliteratorHelper;
 use yii\helpers\Url;
 
 /**
- * This is the model class for table "posts".
+ * This is the model class for table "video".
  *
  * @property integer $id
  * @property integer $user_id
- * @property string  $title
- * @property string  $slug
- * @property string  $content
+ * @property string $title
+ * @property string $slug
+ * @property string $content
  * @property integer $is_public
- * @property string  $created_at
- * @property string  $updated_at
- * @property integer $is_index
- * @property integer $is_top
+ * @property string $created_at
+ * @property string $updated_at
+ * @property string $cached_tag_list
  * @property integer $is_pin
- * @property integer $with_video
- * @property integer $with_photo
- * @property integer $content_category_id
- * @property string  $source_title
- * @property string  $source_url
- * @property integer $is_yandex_rss
- * @property string  $cached_tag_list
- * @property integer $allow_comment
- *
- * @property Users $user
  */
-class Post extends ActiveRecord
+class VideoPost extends ActiveRecord
 {
-
-    /**
-     * @var int content_category_id for news
-     */
-    const CATEGORY_NEWS = 1;
-    /**
-     * @var int content_category_id for blog
-     */
-    const CATEGORY_BLOG = 2;
-
     /**
      * @var Asset
      */
     public $image;
 
     /**
+     * @var Asset
+     */
+    public $video;
+
+    /**
      * @var string Tags
      */
     public $tags;
-
-    // public static $count = 0;
 
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'posts';
+        return 'video';
     }
 
     /**
@@ -71,13 +53,11 @@ class Post extends ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'is_public', 'is_index', 'is_top', 'is_pin', 'with_video', 'with_photo', 'content_category_id', 'is_yandex_rss', 'allow_comment'], 'integer'],
+            [['user_id', 'title'], 'required'],
+            [['id', 'user_id', 'is_public', 'is_pin'], 'integer'],
             [['content'], 'string'],
             [['created_at', 'updated_at', 'tags'], 'safe'],
-            [['title', 'slug', 'source_title', 'source_url', 'cached_tag_list'], 'string', 'max' => 255],
-
-            //required
-            [['title', 'content', 'content_category_id'], 'required'],
+            [['title', 'slug', 'cached_tag_list'], 'string', 'max' => 255],
 
             // image
             [['image'], 'file', 'extensions' => 'jpeg, jpg, gif, png'],
@@ -90,27 +70,19 @@ class Post extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'                  => 'ID записи',
-            'user_id'             => 'Автор',
-            'title'               => 'Заголовок',
-            'slug'                => 'URL псевдоним',
-            'content'             => 'Содержимое',
-            'is_public'           => 'Опубликовано',
-            'created_at'          => 'Создано',
-            'updated_at'          => 'Обновлено',
-            'with_video'          => 'С видео',
-            'with_photo'          => 'С фото',
-            'is_index'            => 'Топ 3',
-            'is_top'              => 'Топ 6',
-            'is_pin'              => 'Закреплено',
-            'content_category_id' => 'Категория',
-            'source_title'        => 'Название источника',
-            'source_url'          => 'Адрес источника',
-            'is_yandex_rss'       => 'Яндекс RSS',
-            'cached_tag_list'     => 'Закешированный список тегов',
-            'allow_comment'       => 'Можно комментировать',
-            'image'               => 'Изображение',
-            'tags'                => 'Теги',
+            'id' => 'ID',
+            'user_id' => 'Пользователь',
+            'title' => 'Заголовок',
+            'slug' => 'URL псевдоним',
+            'content' => 'Содержимое',
+            'is_public' => 'Опубликовано',
+            'created_at' => 'Создано',
+            'updated_at' => 'Обновлено',
+            'cached_tag_list' => 'Закешированный список тегов',
+            'is_pin' => 'Закреплено',
+            'tags' => 'Теги',
+            'image' => 'Изображение',
+            'video' => 'Видеофайл',
         ];
     }
 
@@ -140,57 +112,6 @@ class Post extends ActiveRecord
     }
 
     /**
-     * Get author's username
-     *
-     * @return string
-     */
-    public function getUserName(){
-        return $this->user->username;
-    }
-
-
-    /**
-     * Get list of categories for creating dropdowns
-     *
-     * @return array Array of string
-     */
-    public static function categoryDropdown()
-    {
-        static $dropdown;
-        if ($dropdown === null) {
-
-            $dropdown[self::CATEGORY_BLOG] = self::categoryHumanName(self::CATEGORY_BLOG);
-            $dropdown[self::CATEGORY_NEWS] = self::categoryHumanName(self::CATEGORY_NEWS);
-
-        }
-        return $dropdown;
-    }
-
-    /**
-     * Get category human name
-     *
-     * @param int $category_id
-     * @return string
-     */
-    public static function categoryHumanName($category_id)
-    {
-        if ($category_id == self::CATEGORY_BLOG) return 'Блог';
-        elseif ($category_id == self::CATEGORY_NEWS) return 'Новости';
-
-        return 'Не определено';
-    }
-
-    /**
-     * Get current category
-     *
-     * @return string
-     */
-    public function getCategory()
-    {
-        return self::categoryHumanName($this->content_category_id);
-    }
-    
-    /**
      * Get short content
      *
      * @return string
@@ -218,15 +139,11 @@ class Post extends ActiveRecord
     }
 
     /**
-     * @return string Url to post
+     * @return string Url to video post
      */
     public function getUrl()
     {
-        if($this->content_category_id == self::CATEGORY_NEWS) {
-            return Url::to('/news/'.$this->id.'-'.$this->slug);
-        } else {
-            return Url::to('/blog/'.$this->id.'-'.$this->slug);
-        }
+        return Url::to('/video/'.$this->id.'-'.$this->slug);
     }
 
     /**
@@ -246,7 +163,16 @@ class Post extends ActiveRecord
      */
     public function getAsset($thumbnail = NULL)
     {
-        return Asset::getAssets($this->id, Asset::ASSETABLE_POST, $thumbnail, true);
+        return Asset::getAssets($this->id, Asset::ASSETABLE_VIDEO, $thumbnail, true);
+    }
+
+    /**
+     * Get single video asset
+     * @return Asset
+     */
+    public function getVideoAsset()
+    {
+        return Asset::getAssets($this->id, Asset::ASSETABLE_VIDEOFILE, NULL, true);
     }
 
     /**
@@ -257,7 +183,7 @@ class Post extends ActiveRecord
         $tagging = Tagging::find()
             ->where([
                 'taggable_id' => $this->id,
-                'taggable_type' => Tagging::TAGGABLE_POST,
+                'taggable_type' => Tagging::TAGGABLE_VIDEO,
             ])
             ->asArray()
             ->all();
@@ -279,7 +205,7 @@ class Post extends ActiveRecord
             ->where([
                 'taggable_id' => $this->id,
                 'tag_id' => $id,
-                'taggable_type' => Tagging::TAGGABLE_POST,
+                'taggable_type' => Tagging::TAGGABLE_VIDEO,
             ])->one();
         if($tagging) return $tagging->delete();
         return false;
@@ -307,7 +233,7 @@ class Post extends ActiveRecord
         if(!empty($tag)) {
             $tagging = new Tagging();
             $tagging->taggable_id = $this->id;
-            $tagging->taggable_type = Tagging::TAGGABLE_POST;
+            $tagging->taggable_type = Tagging::TAGGABLE_VIDEO;
             $tagging->tag_id = $tag->id;
             return $tagging->save();
         }
@@ -338,7 +264,7 @@ class Post extends ActiveRecord
     {
         $comments = Comment::find()
             ->where([
-                'commentable_type' => Comment::COMMENTABLE_POST,
+                'commentable_type' => Comment::COMMENTABLE_VIDEO,
                 'commentable_id' => $this->id,
             ])
             ->all();
@@ -357,50 +283,6 @@ class Post extends ActiveRecord
      * @return int
      */
     public function getCommentsCount() {
-        return CommentCount::getCommentCount($this->id, CommentCount::COMMENTABLE_POST);
+        return CommentCount::getCommentCount($this->id, CommentCount::COMMENTABLE_VIDEO);
     }
-
-    /**
-     * Get rating
-     * 
-     * @return integer 
-     */
-    public function getRating()
-    {
-        return Vote::getRating($this->id, Vote::VOTEABLE_POST);
-    }
-
-    /**
-     * Get user vote for comment
-     * 
-     * @return integer 
-     */
-    public function getUserVote()
-    {
-        return Vote::getUserVote($this->id, Vote::VOTEABLE_POST);
-    }
-
-    /**
-     * Check type model of post if it blog
-     * 
-     * @return boolean 
-     */
-    public function isBlog() {
-        return $this->content_category_id == self::CATEGORY_BLOG;
-    }
-
-    /**
-     * Check type model of post if it blog
-     * 
-     * @return boolean 
-     */
-    public function isSelected() {
-
-        $selectedBlogs = SelectedBlog::find()
-            ->where(['post_id' => $this->id])
-            ->one();
-
-        return count($selectedBlogs) > 0;
-    }
-
 }

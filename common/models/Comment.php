@@ -33,6 +33,7 @@ class Comment extends ActiveRecord
     const COMMENTABLE_PHOTO    = 'photo';
     const COMMENTABLE_POST     = 'post';
     const COMMENTABLE_TRANSFER = 'transfer';
+    const COMMENTABLE_VIDEO    = 'video';
 
     /**
      * @inheritdoc
@@ -93,6 +94,7 @@ class Comment extends ActiveRecord
             case self::COMMENTABLE_POST:
             case self::COMMENTABLE_TRANSFER:
             case self::COMMENTABLE_MATCH:
+            case self::COMMENTABLE_VIDEO:
                 $commentCount = CommentCount::find()
                     ->where([
                         'commentable_id' => $this->commentable_id,

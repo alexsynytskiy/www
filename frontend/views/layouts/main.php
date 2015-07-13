@@ -120,8 +120,19 @@ AppAsset::register($this);
                         <a href="<?= Url::to(['/site/team', 'tab' => 'composition']) ?>">
                             <li class="<?= Yii::$app->controller->action->id == 'team' ? 'current-page' : '' ?>">Команда</li>
                         </a>
+                        <?php 
+                            $matchControllers = [
+                                'matches',
+                                'match-translation',
+                                'match-protocol',
+                                'match-report',
+                                'match-news',
+                                'match-videos',
+                                'match-photos',
+                            ];
+                        ?>
                         <a href="<?= Url::to(['/site/matches']) ?>">
-                            <li class="<?= Yii::$app->controller->action->id == 'matches' ? 'current-page' : '' ?>">Матчи</li>
+                            <li class="<?= in_array(Yii::$app->controller->action->id, $matchControllers) ? 'current-page' : '' ?>">Матчи</li>
                         </a>
                         <a href="<?= Url::to(['/site/transfers']) ?>">
                             <li class="<?= Yii::$app->controller->action->id == 'transfers' ? 'current-page' : '' ?>">Трансферы</li>
@@ -132,7 +143,9 @@ AppAsset::register($this);
                         <a href="<?= Url::to(['/site/photos']) ?>">
                             <li class="<?= Yii::$app->controller->action->id == 'photos' ? 'current-page' : '' ?>">Фото</li>
                         </a>
-                        <a href="#"><li>Видео</li></a>
+                        <a href="<?= Url::to(['/site/videos']) ?>">
+                            <li class="<?= Yii::$app->controller->action->id == 'videos' ? 'current-page' : '' ?>">Видео</li>
+                        </a>
                     </ul>
 
                     <div class="search">

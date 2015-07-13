@@ -63,6 +63,8 @@ class Asset extends \yii\db\ActiveRecord
     const ASSETABLE_POST        = 'post';
     const ASSETABLE_USER        = 'user';
     const ASSETABLE_MATCH_EVENT = 'match_event';
+    const ASSETABLE_VIDEO       = 'video';
+    const ASSETABLE_VIDEOFILE   = 'videofile';
 
     /**
      * @var string assets thumbnail types
@@ -261,6 +263,34 @@ class Asset extends \yii\db\ActiveRecord
     }
 
     /**
+     * Save usual asset record and attached file
+     *
+     * @return boolean
+     */
+    public function saveVideoAsset() 
+    {
+        if(!empty($this->uploadedFile))
+        {
+            // If file is exist -> remove him
+            if(!empty($this->filename) && file_exists($this->getFilePath()))
+            {
+                unlink($this->getFilePath());
+            }
+            $this->genFilename();
+            if(!$this->save()) {
+                return false;
+            }
+            $this->createFilePath();
+            $this->uploadedFile->saveAs($this->getFilePath());
+        }
+        else
+        {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Get folder name
      * @return string
      */
@@ -268,6 +298,7 @@ class Asset extends \yii\db\ActiveRecord
     {
         switch ($this->getAssetableType()) {
             case self::ASSETABLE_POST:
+            case self::ASSETABLE_VIDEO:
             case self::ASSETABLE_ALBUM:
             case self::ASSETABLE_ALBUM_COVER:
                 $path = 'galleries/';
@@ -290,6 +321,9 @@ class Asset extends \yii\db\ActiveRecord
                 break;
             case self::ASSETABLE_MATCH_EVENT:
                 $path = 'icons/';
+                break;
+            case self::ASSETABLE_VIDEOFILE:
+                $path = 'videos/';
                 break;
             default: 
                 $path = 'other/';
@@ -463,6 +497,7 @@ class Asset extends \yii\db\ActiveRecord
     {
         switch ($assetableType) {
             case self::ASSETABLE_POST:
+            case self::ASSETABLE_VIDEO:
                 return [
                     self::THUMBNAIL_BIG,
                     self::THUMBNAIL_NEWS,
@@ -526,6 +561,7 @@ class Asset extends \yii\db\ActiveRecord
             case self::ASSETABLE_MATCH_EVENT:
                 return new Box(25,25);
             case self::ASSETABLE_POST:
+            case self::ASSETABLE_VIDEO:
                 switch (strtolower($this->thumbnail))
                 {
                     // To slider

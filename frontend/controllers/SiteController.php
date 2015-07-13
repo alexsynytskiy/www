@@ -28,6 +28,7 @@ use common\models\Coach;
 use common\models\TeamCoach;
 use common\models\Album;
 use common\models\Banner;
+use common\models\VideoPost;
 
 use frontend\models\ContactForm;
 use common\models\Source;
@@ -1452,6 +1453,40 @@ class SiteController extends Controller
                 'content' => [
                     'view' => '@frontend/views/site/photos',
                     'data' => compact('albumsDataProvider'),
+                ],
+            ],
+            'columnSecond' => [ 
+                'short_news' => SiteBlock::getShortNews(),
+            ],
+        ]);
+    }
+
+    /**
+     * Video page
+     * @return mixed
+     */
+    public function actionVideos() 
+    {
+        $query = VideoPost::find()
+            ->where([
+                'is_public' => 1,
+            ]);
+        $query->orderBy(['created_at' => SORT_DESC]);
+
+        $videosDataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+
+        return $this->render('@frontend/views/site/index', [
+            'templateType' => 'col2',
+            'title' => 'Видео',
+            'columnFirst' => [
+                'content' => [
+                    'view' => '@frontend/views/site/videos',
+                    'data' => compact('videosDataProvider'),
                 ],
             ],
             'columnSecond' => [ 

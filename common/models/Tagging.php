@@ -27,6 +27,7 @@ class Tagging extends \yii\db\ActiveRecord
     const TAGGABLE_PLAYER  = 'player';
     const TAGGABLE_POST    = 'post';
     const TAGGABLE_USER    = 'user';
+    const TAGGABLE_VIDEO   = 'video';
 
     /**
      * @inheritdoc
