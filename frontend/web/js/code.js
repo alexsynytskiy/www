@@ -97,6 +97,13 @@ $(window).load(function() {
           'mBottom'   : 15,
           'column'    : 2,
     });
+    $('.videos-container').indyMasonry({
+          'clName'    : '.video-item',
+          'gap'       : 15,
+          'mTop'      : 0,
+          'mBottom'   : 15,
+          'column'    : 2,
+    });
     // => Masonry tiles view END
 
 

@@ -5,18 +5,19 @@ use yii\grid\GridView;
 use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
-/* @var $searchModel common\models\PostSearch */
+/* @var $searchModel common\models\VideoPostSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Записи';
+$this->title = 'Видеозаписи';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="post-index">
+<div class="video-post-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Добавить запись', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Добавить видеозапись', ['create'], ['class' => 'btn btn-success']) ?>
         <?php
             if(count(Yii::$app->getRequest()->getQueryParams()) > 0) {
                 echo Html::a('Сброс', ['/'.Yii::$app->controller->id], ['class' => 'btn btn-primary']);
@@ -37,14 +38,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Автор',
                 'options' => ['width' => '120'],
                 'value' => function($model) {
-                    return Html::a($model->getUserName(), ['/user/admin/view', 'id' => $model->user_id]);
+                    return Html::a($model->user->username, ['/user/admin/view', 'id' => $model->user_id]);
                 },
                 'format' => 'html',
             ],
             [
                 'attribute' => 'title',
                 'value' => function($model) {
-                    return Html::a($model->title, ['post/'.$model->id]);
+                    return Html::a($model->title, ['/video-post/view', 'id' => $model->id]);
                 },
                 'format' => 'html',
             ],
@@ -85,14 +86,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     ]
                 ]),
                 'options' => ['width' => '140'],
-            ],
-            [
-                'attribute' => 'content_category_id',
-                'value' => function($model) {
-                    return $model->getCategory();
-                },
-                'filter' => $searchModel::categoryDropdown(),
-                'options' => ['width' => '110'],
             ],
             [
                 'attribute' => 'is_public',

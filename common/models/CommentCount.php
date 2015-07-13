@@ -22,6 +22,7 @@ class CommentCount extends \yii\db\ActiveRecord
     const COMMENTABLE_POST     = 'post';
     const COMMENTABLE_TRANSFER = 'transfer';
     const COMMENTABLE_MATCH    = 'match';
+    const COMMENTABLE_VIDEO    = 'video';
 
     /**
      * @inheritdoc

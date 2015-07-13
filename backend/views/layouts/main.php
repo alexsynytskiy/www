@@ -70,6 +70,7 @@ AppAsset::register($this);
                     ['label' => 'Публикации', 'items' => [
                         ['label' => 'Записи', 'url' => '/admin/post'],
                         ['label' => 'Альбомы', 'url' => '/admin/album'],
+                        ['label' => 'Видеозаписи', 'url' => '/admin/video-post'],
                         ['label' => 'Комментарии', 'url' => '/admin/comment'],
                         ['label' => 'Источники', 'url' => '/admin/source'],
                         ['label' => 'Теги', 'url' => '/admin/tag'],
