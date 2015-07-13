@@ -103,7 +103,7 @@ class SiteController extends Controller
                 'questionBlock' => SiteBlock::getQuestionBlock(),
                 'tournament' => SiteBlock::getTournamentTable(),
                 'reviewNews' => SiteBlock::getPhotoVideoNews(),
-                'top200tags' => SiteBlock::getTop200Tags(),
+                'top200tags' => SiteBlock::getTop200Tags(),                
             ],
         ]);
     }
@@ -1419,7 +1419,8 @@ class SiteController extends Controller
                     'data' => compact('postsDataProvider'),
                 ],
             ],
-            'columnSecond' => [ 
+            'columnSecond' => [
+                'bestblogs' => SiteBlock::getBlogPostsByRating(),
                 'short_news' => SiteBlock::getShortNews(),
             ],
         ]);

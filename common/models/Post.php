@@ -394,4 +394,18 @@ class Post extends ActiveRecord
         return $this->content_category_id == self::CATEGORY_BLOG;
     }
 
+    /**
+     * Check type model of post if it blog
+     * 
+     * @return boolean 
+     */
+    public function isSelected() {
+
+        $selectedBlogs = SelectedBlog::find()
+            ->where(['post_id' => $this->id])
+            ->one();
+
+        return count($selectedBlogs) > 0;
+    }
+
 }

@@ -74,7 +74,15 @@ if($post->isBlog()) {
         </div>
     </div>
     <div class="post-container">
-        <div class="title"><?= $post->title.$editLink ?></div>
+        <div class="title" style="float:left;"><?= $post->title.$editLink ?></div>
+        <?php
+            if($post->isSelected() && $post->isBlog()) {
+        ?>
+                <div style="float:right;">tyuytuty</div>
+        <?php
+            }
+        ?>
+        <div class="clearfix"></div>
         <?php if(!empty($image->getFileUrl())) { ?>
             <img class="post-image" src="<?= $image->getFileUrl() ?>">
          <?php } ?>

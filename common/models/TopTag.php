@@ -12,7 +12,7 @@ use yii\db\ActiveRecord;
  * @property integer $id
  * @property integer $tag_id
  */
-class TopTag extends \yii\db\ActiveRecord
+class TopTag extends ActiveRecord
 {
     /**
      * @inheritdoc

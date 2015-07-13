@@ -14,6 +14,8 @@ use yii\web\UploadedFile;
 use common\models\Asset;
 use common\models\Source;
 use common\models\Tagging;
+use yii\helpers\Json;
+use yii\db\Query;
 
 /**
  * PostController implements the CRUD actions for Post model.
@@ -297,5 +299,28 @@ class PostController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    /**
+     * Display list of blogs in json format
+     *
+     * @param string $query Query for search
+     * @return mixed Json data
+     */
+    public function actionBlogList($query = null) {
+        if($query == null) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+        $search = urldecode($query);
+        $query = new Query;
+        $query->select('id as value, title as text')
+            ->from(Post::tableName())
+            ->where(['like', 'title', $search])
+            ->andWhere(['=', 'content_category_id', Post::CATEGORY_BLOG])
+            ->limit(10);
+        $command = $query->createCommand();
+        $data = $command->queryAll();
+        $out = array_values($data);
+        echo Json::encode($out);
     }
 }

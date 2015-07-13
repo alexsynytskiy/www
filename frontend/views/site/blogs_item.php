@@ -32,9 +32,17 @@ foreach ($tags as $tag) {
                 <?= Yii::$app->formatter->asDate(strtotime($model->created_at),'d MMMM Y HH:mm') ?>
             </div>
         </div>
-        <a href="<?= $model->url ?>" class="title">
+        <a href="<?= $model->url ?>" class="title" style="float:left;">
             <?= $model->title ?>
         </a>
+        <?php
+            if($model->isSelected()) {
+        ?>
+                <div style="float:right;">!</div>
+        <?php
+            }
+        ?>
+        <div class="clearfix"></div>
         <div class="short-content">
             <?= $model->getShortContent() ?>
         </div>

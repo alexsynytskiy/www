@@ -54,20 +54,89 @@ class SiteBlock
     }
 
     /**
-     * Get block with last 6 blog posts
+     * Get block with last 3 blog posts selected by site, and 3 last blog posts, which are not in selected
      * @return array Data
      */
     public static function getBlogPosts()
     {
-        $blogPosts = Post::find()
-            ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_BLOG])
+        $postTable = Post::tableName();
+        $selectedBlogsTable = SelectedBlog::tableName();
+        $selectedBlogs = Post::find()
+            ->innerJoin($selectedBlogsTable, "{$postTable}.id = {$selectedBlogsTable}.post_id")
+            ->where(['is_public' => 1])
             ->orderBy(['created_at' => SORT_DESC])
-            ->limit(6)
+            ->limit(3)
             ->all();
+
+        $selectedID = [];
+        foreach ($selectedBlogs as $blog) {
+            $selectedID[] = $blog->id;
+        }
+
+        $posts = Post::find()
+            ->where([
+                'is_public' => 1,
+                'content_category_id' => Post::CATEGORY_BLOG
+                ])
+            ->andWhere(['not in', 'id', $selectedID])
+            ->orderBy(['created_at' => SORT_DESC])
+            ->limit(3)
+            ->all();        
 
         $block = [
             'view' => '@frontend/views/blocks/blog_block',
-            'data' => ['posts' => $blogPosts],
+            'data' => compact('posts', 'selectedBlogs'),
+        ];
+        return $block;
+    }
+
+    /**
+     * Get block with 3 blog posts, which are best by rating during last 3 months
+     * @return array Data
+     */
+    public static function getBlogPostsByRating()
+    {
+        $connection = Yii::$app->db;
+
+        $blogsIDQuery = 'SELECT id
+                    FROM posts
+                    WHERE created_at > DATE_SUB(NOW(), INTERVAL 90 day) AND content_category_id = '.Post::CATEGORY_BLOG;
+
+        //INNER JOIN votes ON post.id = votes.voteable_id AND votes.voteable_type = '.Vote::VOTEABLE_POST.'
+
+        $cmd = $connection->createCommand($blogsIDQuery);
+        $bestBlogs = $cmd->queryAll();
+
+        $ratingArray = [];
+        foreach ($bestBlogs as &$blog) {
+            $blog['rating'] = Vote::getRating($blog['id'], Vote::VOTEABLE_POST);
+        }
+
+        for ($i = 0; $i < count($bestBlogs) - 1; $i++) {
+            for ($j = $i + 1; $j < count($bestBlogs); $j++) {
+                if($bestBlogs[$j]['rating'] > $bestBlogs[$i]['rating']) {
+                    $temp = $bestBlogs[$j];
+                    $bestBlogs[$j] = $bestBlogs[$i];
+                    $bestBlogs[$i] = $temp;
+                }
+            }
+        }
+
+        $count = 3;
+        if (count($bestBlogs) < 3) {
+            $count = count($bestBlogs);
+        }
+
+        $best3Blogs = [];
+        for ($i = 0; $i < $count; $i++) {
+            $best3Blogs[] = $bestBlogs[$i]['id'];
+        }
+
+        $blogs = Post::findAll($best3Blogs);
+
+        $block = [
+            'view' => '@frontend/views/blocks/blog_block_rating',
+            'data' => compact('blogs'),
         ];
         return $block;
     }
