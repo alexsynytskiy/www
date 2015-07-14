@@ -1428,6 +1428,46 @@ class SiteController extends Controller
     }
 
     /**
+     * Info page
+     * @return mixed
+     */
+    public function actionInfo()
+    {
+        return $this->render('@frontend/views/site/index', [
+            'templateType' => 'col2',
+            'title' => 'Блоги',
+            'columnFirst' => [
+                'content' => [
+                    'view' => '@frontend/views/site/info',
+                ],
+            ],
+            'columnSecond' => [
+                'reviewNews' => SiteBlock::getPhotoVideoNews(),
+            ],
+        ]);
+    }
+
+    /**
+     * Contscts page
+     * @return mixed
+     */
+    public function actionContacts()
+    {
+        return $this->render('@frontend/views/site/index', [
+            'templateType' => 'col2',
+            'title' => 'Блоги',
+            'columnFirst' => [
+                'content' => [
+                    'view' => '@frontend/views/site/contacts',
+                ],
+            ],
+            'columnSecond' => [
+                'reviewNews' => SiteBlock::getPhotoVideoNews(),
+            ],
+        ]);
+    }
+
+    /**
      * Photo page
      * @return mixed
      */
