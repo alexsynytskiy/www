@@ -203,11 +203,11 @@ AppAsset::register($this);
                             <div class="button rss"></div>
                             <div class="text">RSS</div>
                         </a>
-                        <a href="#">
+                        <a href="/info">
                             <div class="button inform"></div>
                             <div class="text">Информация</div>
                         </a>
-                        <a href="#">
+                        <a href="/contacts">
                             <div class="button contact"></div>
                             <div class="text">Контакты</div>
                         </a>
