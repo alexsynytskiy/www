@@ -18,6 +18,7 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
+        'css/fonts.css',
         'css/jquery.bxslider.css',
         'css/jquery.datepick.css',
         'css/jquery.Jcrop.css',

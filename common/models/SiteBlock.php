@@ -40,6 +40,7 @@ class SiteBlock
 
         $allBanners = self::getBannerModels();
         foreach ($allBanners as $banner) {
+            if(!$banner) continue;
             if(in_array($banner->id, self::$postedBannerIds)) continue;
             if($big && !$banner->size) continue;
             if($banner->region != $region) continue;

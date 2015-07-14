@@ -663,6 +663,12 @@ class SiteController extends Controller
             }
         }
 
+        // Disable banners if match is online 
+        if($match->is_visible && !$match->is_finished && strtotime($match->date) < time())
+        {
+             SiteBlock::$banners = [false];
+        }
+
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
             'title' => $title,

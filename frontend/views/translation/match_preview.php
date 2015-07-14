@@ -23,7 +23,7 @@ $teamGuestIconUrl = $teamGuestIcon->getFileUrl();
 
 $goalEvents = [];
 foreach ($matchEvents as $event) {
-    if($event->match_event_type_id == $event::GOAL) {
+    if(in_array($event->match_event_type_id, $event::getGoalTypes())) {
         $goalEvents[] = $event;
     }
 }
@@ -33,6 +33,25 @@ function findEvent($event, $players) {
         if($event->composition_id == $player->id) return true;
     }
     return false;
+}
+
+$homeGoalEvents = [];
+$guestGoalEvents = [];
+foreach ($goalEvents as $goalEvent) {
+    if(findEvent($goalEvent, $teamHomePlayers)) {
+        if($goalEvent->match_event_type_id == $goalEvent::AUTOGOAL) {
+            $guestGoalEvents[] = $goalEvent;
+        } else {
+            $homeGoalEvents[] = $goalEvent;
+        }
+    }
+    if(findEvent($goalEvent, $teamGuestPlayers)) {
+        if($goalEvent->match_event_type_id == $goalEvent::AUTOGOAL) {
+            $homeGoalEvents[] = $goalEvent;
+        } else {
+            $guestGoalEvents[] = $goalEvent;
+        }
+    }
 }
 
 ?>
@@ -51,13 +70,16 @@ function findEvent($event, $players) {
     <div class="team">
         <div class="name house"><?= $teamHome->name ?></div>
         <?php 
-            foreach ($goalEvents as $goalEvent) {
-                if(findEvent($goalEvent, $teamHomePlayers)) {
+            foreach ($homeGoalEvents as $goalEvent) {
                     $contract = $goalEvent->composition->contract;
                     if(isset($contract) && in_array($contract->command_id, \common\models\Team::getTeamsConstants())) {
                         $playerUrl = $contract->player->getUrl();
                     } else {
                         $playerUrl = false;
+                    }
+                    $autoGoal = '';
+                    if($goalEvent->match_event_type_id == $goalEvent::AUTOGOAL) {
+                        $autoGoal = ' (АГ)';
                     }
                 ?>
                 <div class="goal">
@@ -65,13 +87,13 @@ function findEvent($event, $players) {
                     <?php if($playerUrl) { ?>
                         <a href="<?= $playerUrl ?>">
                     <?php } ?>
-                    <div class="player house"><?= $goalEvent->composition->name ?></div>
+                    <div class="player house"><?= $goalEvent->composition->name.$autoGoal ?></div>
                     <?php if($playerUrl) { ?>
                         </a>
                     <?php } ?>
                     <div class="clearfix"></div>
                 </div>
-                <?php }        
+                <?php    
             }
         ?>
         
@@ -88,13 +110,16 @@ function findEvent($event, $players) {
     <div class="team">
         <div class="name visitors"><?= $teamGuest->name ?></div>
         <?php 
-            foreach ($goalEvents as $goalEvent) {
-                if(findEvent($goalEvent, $teamGuestPlayers)) {
+            foreach ($guestGoalEvents as $goalEvent) {
                     $contract = $goalEvent->composition->contract;
                     if(isset($contract) && in_array($contract->command_id, \common\models\Team::getTeamsConstants())) {
                         $playerUrl = $contract->player->getUrl();
                     } else {
                         $playerUrl = false;
+                    }
+                    $autoGoal = '';
+                    if($goalEvent->match_event_type_id == $goalEvent::AUTOGOAL) {
+                        $autoGoal = ' (АГ)';
                     }
                 ?>
                 <div class="goal">
@@ -102,13 +127,13 @@ function findEvent($event, $players) {
                     <?php if($playerUrl) { ?>
                         <a href="<?= $playerUrl ?>">
                     <?php } ?>
-                    <div class="player visitors"><?= $goalEvent->composition->name ?></div>
+                    <div class="player visitors"><?= $goalEvent->composition->name.$autoGoal ?></div>
                     <?php if($playerUrl) { ?>
                         </a>
                     <?php } ?>
                     <div class="clearfix"></div>
                 </div>
-                <?php }        
+                <?php       
             }
         ?>
     </div>

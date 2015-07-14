@@ -19,19 +19,20 @@ use yii\db\ActiveRecord;
 class Role extends ActiveRecord
 {
     /**
+     * @var int Default user role
+     */
+    const ROLE_USER = 1;
+    /**
      * @var int Moder user role
      */
-    const ROLE_MODER = 1;
+    const ROLE_MODER = 2;
 
     /**
      * @var int Admin user role
      */
-    const ROLE_ADMIN = 2;
+    const ROLE_ADMIN = 3;
 
-    /**
-     * @var int Default user role
-     */
-    const ROLE_USER = 0;
+    
 
     /**
      * @inheritdoc

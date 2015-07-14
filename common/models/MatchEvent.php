@@ -28,6 +28,14 @@ class MatchEvent extends ActiveRecord
      */
     const GOAL = 1;
     /**
+     * @var string Goal type id
+     */
+    const GOAL_PENALTY = 6;
+    /**
+     * @var string Goal type id
+     */
+    const AUTOGOAL = 9;
+    /**
      * @var string substitution type id
      */
     const SUBSTITUTION = 15;
@@ -99,6 +107,19 @@ class MatchEvent extends ActiveRecord
             'additional_minute' => 'Дополнительное время',
             'is_hidden' => 'Скрыт',
             'position' => 'Position',
+        ];
+    }
+
+    /**
+     * Get goal ids
+     * @return array
+     */
+    public static function getGoalTypes()
+    {
+        return [
+            self::GOAL,
+            self::GOAL_PENALTY,
+            self::AUTOGOAL,
         ];
     }
 
