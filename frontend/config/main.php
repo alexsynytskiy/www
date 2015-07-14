@@ -57,6 +57,7 @@ return [
                 'complain/<id:\d+>'                      => 'site/complain',
                 'user/profile'                           => 'user/default/profile',
                 'user/edit'                              => 'user/default/account',
+                'unsubscribe/<key>'                      => 'site/unsubscribe',
                 '<controller:\w+>/<id:\d+>'              => '<controller>/view',
                 '<controller:\w+>'                       => '<controller>/index',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',

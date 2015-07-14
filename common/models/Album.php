@@ -20,6 +20,7 @@ use dosamigos\transliterator\TransliteratorHelper;
  * @property string $updated_at
  * @property integer $is_public
  * @property string $cached_tag_list
+ * @property string $match_id
  *
  * @property Users $user
  */
@@ -60,7 +61,7 @@ class Album extends ActiveRecord
     {
         return [
             [['description'], 'string'],
-            [['user_id', 'is_public'], 'integer'],
+            [['user_id', 'is_public', 'match_id'], 'integer'],
             [['created_at', 'updated_at', 'tags', 'imagesData'], 'safe'],
             [['title', 'slug', 'cached_tag_list'], 'string', 'max' => 255],
 
@@ -90,6 +91,7 @@ class Album extends ActiveRecord
             'images'          => 'Изображения',
             'tags'            => 'Теги',
             'coverImage'      => 'Обложка',
+            'match_id'        => 'ID матча',
         ];
     }
 

@@ -107,16 +107,20 @@ $loginTime = date('d.m.Y', strtotime($profile->user->login_time));
                 
             <?= $form->field($user, 'cropData')->hiddenInput(['id' => 'crop-data'])->label(false) ?>
 
+            <?php if($user->isSubscribed()) { ?>
             <div class="field field-submit-grey field-submit-subscribe">
-                <input type="button" name="subscribe" value="Отписаться от новостей">
+                <a class="button" href="<?= Url::to('/unsubscribe/'.$user->getUnsubscribeKey()) ?>">
+                    Отписаться от новостей
+                </a>
             </div>
+            <?php } ?>
 
-            <div class="replies-subscribe-box" onmousedown="return false" onselectstart="return false">
+            <!-- <div class="replies-subscribe-box">
                 <div class="input-box">
-                    <div class="icheckbox_flat-blue" style="position: relative;"><input id="replies-subscribe-check" type="checkbox" name="replies-subscribe-check" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins></div>
+                    <input id="replies-subscribe-check" type="checkbox" name="replies-subscribe-check">
                 </div>
                 <label for="replies-subscribe-check" class="">Присылать на e-mail ответы на мои комментарии</label>
-            </div>
+            </div> -->
 
             <div class="field field-submit field-submit-edit">
                 <?= Html::submitInput("Изменить настройки") ?>

@@ -671,4 +671,31 @@ class User extends ActiveRecord implements IdentityInterface
         }
         return false;
     }
+
+    /**
+     * Return true if user is subscribed
+     * @return boolean 
+     */
+    public function isSubscribed()
+    {
+        $subscribing = \common\models\Subscribing::find()
+            ->where(['email' => $this->email])
+            ->one();
+        return isset($subscribing->id);
+    }
+
+    /**
+     * Return true if user is subscribed
+     * @return boolean 
+     */
+    public function getUnsubscribeKey()
+    {
+        $subscribing = \common\models\Subscribing::find()
+            ->where(['email' => $this->email])
+            ->one();
+        if(isset($subscribing->id)) {
+            return md5($subscribing->id.$subscribing->email);
+        }
+        return '';
+    }
 }
