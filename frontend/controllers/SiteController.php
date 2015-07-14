@@ -29,6 +29,8 @@ use common\models\TeamCoach;
 use common\models\Album;
 use common\models\Banner;
 use common\models\VideoPost;
+use common\models\Subscribing;
+
 
 use frontend\models\ContactForm;
 use common\models\Source;
@@ -1584,6 +1586,24 @@ class SiteController extends Controller
                 'short_news' => SiteBlock::getShortNews(20),
             ],
         ]);
+    }
+
+    /**
+     * Unsubscribe
+     * @param $key string
+     * @return mixed 
+     */
+    public function actionUnsubscribe($key)
+    {
+        $subscribings = Subscribing::find()->all();
+        foreach ($subscribings as $subscribing) {
+            if(md5($subscribing->id.$subscribing->email) === $key) {
+                Yii::$app->session->setFlash("success-unsubscribe", "Ваш email ".$subscribing->email." успешно отписан от рассылки новостей.");
+                $subscribing->delete();
+            }
+        }
+        return $this->redirect(\yii\helpers\Url::to('/'));
+        
     }
 
     /**
