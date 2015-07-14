@@ -2105,8 +2105,8 @@ header .header-wrapper .breadcrumbs .tag:hover {
 .grid-column .text-translation .message .info .icon {
   display: block;
   margin: 10px auto 0;
-  height: 25px;
-  width: 25px;
+  height: 50px;
+  width: 50px;
 }
 .grid-column .text-translation .message .info .minute {
   min-height: 10px;
@@ -2266,23 +2266,28 @@ header .header-wrapper .breadcrumbs .tag:hover {
   float: left;
 }
 .footer-wrapper .footer-bottom .block-top .rss {
-  background-image: url('/images/rsshh2.png');
+  background-image: url('/images/rsshh2.svg');
   background-repeat: no-repeat;
   background-size: 36px;
 }
 .footer-wrapper .footer-bottom .block-top .inform {
-  background-image: url('/images/informhh.png');
+  background-image: url('/images/inform_icon.svg');
+  background-repeat: no-repeat;
+  background-size: 36px;
+}
+.footer-wrapper .footer-bottom .block-top .contact {
+  background-image: url('/images/contacts_icon.svg');
   background-repeat: no-repeat;
   background-size: 36px;
 }
 .footer-wrapper .footer-bottom .block-top .button-hover {
-  background-position: 0 -58px;
+  background-position: 0 100%;
   background-size: 36px;
 }
 .footer-wrapper .footer-bottom .block-top .text {
   line-height: 35px;
   float: left;
-  margin-right: 30px;
+  margin-right: 15px;
   font-size: 16px;
   font-weight: normal;
   color: #1972c4;

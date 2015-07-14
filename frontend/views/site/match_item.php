@@ -17,7 +17,7 @@ use yii\helpers\Url;
         $image = $model->getAssetHome();        
     ?>
     <th class="logo">
-        <?php if (!empty($image->getFileUrl())) { ?>
+        <?php if (isset($image->id)) { ?>
             <img src="<?= $image->getFileUrl() ?>" style="height: 30px; width: 30px;">
         <?php } ?>
     </th>    
@@ -26,7 +26,7 @@ use yii\helpers\Url;
         $image = $model->getAssetGuest();        
     ?>
     <th class="logo">
-        <?php if (!empty($image->getFileUrl())) { ?>
+        <?php if (isset($image->id)) { ?>
             <img src="<?= $image->getFileUrl() ?>" style="height: 30px; width: 30px;">
         <?php } ?>
     </th>    

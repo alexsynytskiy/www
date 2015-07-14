@@ -34,7 +34,7 @@ if(abs(Yii::$app->session['news_post_time_last'] - $time) >= 60*60*24)
     <div class="sub-part">
         <?php
             $image = $model->getAsset(\common\models\Asset::THUMBNAIL_NEWS);
-            if (!empty($image->getFileUrl())) {
+            if (!$image->getFileUrl()) {
         ?>
         <div class="photo-img">
             <img src="<?= $image->getFileUrl() ?>">

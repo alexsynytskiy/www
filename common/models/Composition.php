@@ -90,31 +90,33 @@ class Composition extends ActiveRecord
             ])
             ->all();
 
-        $playersArray = array_values($playersArray);
+        usort($playersArray, 'self::ampluaCmp');
 
-        $goalkeeperArray = array();
-        $defenderArray = array();
-        $midfielderArray = array();
-        $forwardArray = array();
+        // $playersArray = array_values($playersArray);
 
-        foreach ($playersArray as $player) {
-            if($player->contract->amplua->id == Amplua::GOALKEEPER) {
-                array_push($goalkeeperArray, $player);
-            }
-            else if($player->contract->amplua->id == Amplua::DEFENDER) {
-                array_push($defenderArray, $player);
-            }
-            else if($player->contract->amplua->id == Amplua::MIDFIELDER) {
-                array_push($midfielderArray, $player);
-            }
-            else {
-                array_push($forwardArray, $player);
-            }
-        }
+        // $goalkeeperArray = array();
+        // $defenderArray = array();
+        // $midfielderArray = array();
+        // $forwardArray = array();
 
-        $sortedArray = array_merge($goalkeeperArray, $defenderArray, $midfielderArray, $forwardArray);
+        // foreach ($playersArray as $player) {
+        //     if($player->contract->amplua->id == Amplua::GOALKEEPER) {
+        //         array_push($goalkeeperArray, $player);
+        //     }
+        //     else if($player->contract->amplua->id == Amplua::DEFENDER) {
+        //         array_push($defenderArray, $player);
+        //     }
+        //     else if($player->contract->amplua->id == Amplua::MIDFIELDER) {
+        //         array_push($midfielderArray, $player);
+        //     }
+        //     else {
+        //         array_push($forwardArray, $player);
+        //     }
+        // }
 
-        return $sortedArray;
+        // $sortedArray = array_merge($goalkeeperArray, $defenderArray, $midfielderArray, $forwardArray);
+
+        return $playersArray;
     }
 
     /**
@@ -160,5 +162,21 @@ class Composition extends ActiveRecord
         } elseif($this->getContractType() == self::MEMBERSHIP_TYPE) {
             return $this->hasOne(Membership::className(), ['id' => 'contract_id']);
         } else return null;
+    }
+
+    /**
+     * Comparing a weight of blocks in columns
+     * @param array $a
+     * @param array $b
+     * @return int Result of comparing
+     */
+    private static function ampluaCmp($a, $b)
+    {
+        if(!isset($a->contract)) return -1;
+        if(!isset($b->contract)) return -1;
+        if ($a->contract->amplua_id == $b->contract->amplua_id) {
+            return 0;
+        }
+        return ($a->contract->amplua_id < $b->contract->amplua_id) ? -1 : 1;
     }
 }

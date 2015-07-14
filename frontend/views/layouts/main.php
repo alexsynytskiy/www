@@ -205,7 +205,11 @@ AppAsset::register($this);
                         </a>
                         <a href="#">
                             <div class="button inform"></div>
-                            <div class="text">Дополнительная Информация</div>
+                            <div class="text">Информация</div>
+                        </a>
+                        <a href="#">
+                            <div class="button contact"></div>
+                            <div class="text">Контакты</div>
                         </a>
                     </div>
                     <div class="text-bottom">

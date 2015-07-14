@@ -134,7 +134,11 @@ class TeamController extends Controller
             if(!empty($uploadedFile))
             {
                 // Save origionals 
-                $originalAsset = $model->getAsset();
+                $originalAsset = $model->getAsset(false);
+                // echo '<pre>';
+                // var_dump($originalAsset);
+                // echo '</pre>';
+                // die;
                 if(!isset($originalAsset->id)) {
                     $originalAsset = new Asset();
                 }

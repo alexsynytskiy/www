@@ -321,7 +321,7 @@ class User extends ActiveRecord implements IdentityInterface
 
         // convert ban_time checkbox to date
         if ($this->ban_time) {
-            $this->ban_time = date("Y-m-d H:i:s");
+            $this->ban_time = date("Y-m-d H:i:s", time() + 60*60*24*7);
         }
 
         // ensure fields are null so they won't get set as empty string
