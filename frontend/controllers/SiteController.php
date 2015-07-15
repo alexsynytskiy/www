@@ -942,6 +942,60 @@ class SiteController extends Controller
     }
 
     /**
+     * Match photos page
+     * @param $id Match id
+     * @return mixed
+     */
+    public function actionMatchPhotos($id) 
+    {
+        $match = Match::findOne($id);
+        
+        if(!isset($match)) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+
+        $title = "Фото матча ".$match->name;
+
+        $album = Album::find()
+            ->where([
+                'is_public' => 1,
+                'match_id' => $id,
+            ])->one();
+        
+        $columnData = [];
+        $columnData['menu'] = [
+            'view' => '@frontend/views/translation/menu',
+            'data' => compact('match'),
+        ];
+
+        if (!isset($album)){
+            $columnData['content'] = [
+                'view' => '@frontend/views/site/empty',
+                'data' => ['message' => 'Фотографий к матчу не найдено'],
+                'weight' => 10,
+            ];
+        } else {
+            $columnData['content'] = [
+                'view' => '@frontend/views/site/album',
+                'data' => compact('album'),
+                'weight' => 10,
+            ];
+            $columnData['comments'] = Comment::getCommentsBlock($album->id, Comment::COMMENTABLE_ALBUM);
+            $columnData['comments']['weight'] = 20;
+        }
+        usort($columnData, 'self::cmp');
+
+        return $this->render('@frontend/views/site/index', [
+            'templateType' => 'col2',
+            'title' => $title,
+            'columnFirst' => $columnData,
+            'columnSecond' => [ 
+                'short_news' => SiteBlock::getShortNews(20),
+            ],
+        ]);
+    }
+
+    /**
      * Inquirers page
      * 
      * @return mixed

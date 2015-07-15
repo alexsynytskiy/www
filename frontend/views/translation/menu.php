@@ -34,14 +34,14 @@ $tab = Yii::$app->controller->action->id;
             <div class="icon"></div>
         </div>
     </a>
-    <a href="<?= Url::to('/match/'.$match->id.'/photo') ?>">
-        <div class="button photo <?= $tab == 'match-photo' ? 'active' : '' ?>">
+    <a href="<?= Url::to('/match/'.$match->id.'/photos') ?>">
+        <div class="button photo <?= $tab == 'match-photos' ? 'active' : '' ?>">
             Фото
             <div class="icon"></div>
         </div>
     </a>
-    <a href="<?= Url::to('/match/'.$match->id.'/video') ?>">
-        <div class="button video <?= $tab == 'match-video' ? 'active' : '' ?>">
+    <a href="<?= Url::to('/match/'.$match->id.'/videos') ?>">
+        <div class="button video <?= $tab == 'match-videos' ? 'active' : '' ?>">
             Видео
             <div class="icon"></div>
         </div>

@@ -159,5 +159,24 @@
             sliderInput.slider('setValue', value);
         }); 
 
+        $(document).on('change', '#album-match_id', function(event) {
+            var matchID = parseInt($(this).val().trim());
+            if(!isNaN(matchID)){
+                $.ajax({
+                    type: "GET",
+                    url: '/admin/match/match-name',
+                    dataType: "json",
+                    data: {
+                        matchID: matchID
+                    },
+                    success: function(response){
+                        console.log(response);
+                    },
+                }).done(function(response){
+                    $('#match-preview-name').text(response.data);
+                });  
+            }
+        });
+
     });
 })(jQuery);

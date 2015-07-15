@@ -296,5 +296,22 @@ class Album extends ActiveRecord
         return CommentCount::getCommentCount($this->id, CommentCount::COMMENTABLE_ALBUM);
     }
 
+    /**
+     * Get match name
+     * @return string
+     */
+    public function getMatchName() {
+        if(isset($this->match_id) && $this->match_id != '') {
+            $match = Match::findOne($this->match_id);
+            if(!isset($match->id)) {
+                return 'Матч не найден';
+            } else {
+                $date = date('d.m.Y', strtotime($match->date));
+                return $match->name.' ('.$date.')';
+            }
+        }
+        return '';
+    }
+
     
 }

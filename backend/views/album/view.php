@@ -57,6 +57,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => $model->is_public ? 'Да' : 'Нет',
             ],
             'cached_tag_list',
+            [
+                'label' => 'Матч',
+                'value' => $model->getMatchName(),
+            ],
         ],
     ]) ?>
     

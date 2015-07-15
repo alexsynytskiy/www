@@ -326,4 +326,18 @@ class MatchController extends Controller
         header("Content-type: text/html; charset=utf-8");
         echo Json::encode($out);
     }
+
+    /**
+     * Deletes an existing Match model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionMatchName($matchID)
+    {
+        $model = Match::findOne($matchID);
+        if(!isset($model->id)) return Json::encode(['data' => 'Матч не найден']);
+        $date = date('d.m.Y', strtotime($model->date));
+        return Json::encode(['data' => $model->name.' ('.$date.')']);
+    }
 }

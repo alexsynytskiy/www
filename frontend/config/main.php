@@ -43,6 +43,7 @@ return [
                 'match/<id:\d+>/protocol'                => 'site/match-protocol',
                 'match/<id:\d+>/report'                  => 'site/match-report',
                 'match/<id:\d+>/news'                    => 'site/match-news',
+                'match/<id:\d+>/photos'                  => 'site/match-photos',
                 'player/<id:\d+>-<slug>'                 => 'site/player',
                 'coach/<id:\d+>-<slug>'                  => 'site/coach',
                 'match/<id:\d+>/photo'                   => 'site/match-photo',
