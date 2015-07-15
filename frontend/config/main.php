@@ -29,6 +29,7 @@ return [
                 'news'                                   => 'site/news',
                 'photos'                                 => 'site/photos',
                 'album/<id:\d+>-<slug>'                  => 'site/album',
+                'album/load-images'                      => 'site/album-load-images',
                 'album/<album_id:\d+>-<slug>/<photo_id:\d+>' => 'site/photo',
                 'blogs'                                  => 'site/blogs',
                 'info'                                   => 'site/info',

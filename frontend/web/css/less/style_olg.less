@@ -2733,16 +2733,27 @@ body {
             width: 100%;
         }
         .bx-controls-direction a {
-            top: 50%;
+            top: 0;
+            &:hover {
+                background-color: rgba(88, 115, 147, 0.4);
+            }
         }
         .bx-prev {
-            left: 15px;
-            background: url(/images/button_left.png) no-repeat center;
+            width: 60px;
+            height: 100%;
+            left: 0;
+            top: 0;
+            margin: 0;
+            background: url(/images/button_left.png) no-repeat 20px center;
             background-size: 15px;
         }
         .bx-next {
-            right: 15px;
-            background: url(/images/button_right.png) no-repeat center;
+            width: 60px;
+            height: 100%;
+            right: 0;
+            top: 0;
+            margin: 0;
+            background: url(/images/button_right.png) no-repeat 25px center;
             background-size: 15px;
         }
     }
@@ -2753,21 +2764,38 @@ body {
             width: 100%;
         }
         .bx-controls-direction a {
-            top: 30px;
+            top: 0;
+            &:hover {
+                background-color: rgba(88, 115, 147, 0.4);
+            }
         }
         .bx-prev {
-            left: 15px;
-            background: url(/images/button_left.png) no-repeat center;
+            width: 30px;
+            height: 100%;
+            left: 0;
+            top: 0;
+            margin: 0;
+            background: url(/images/button_left.png) no-repeat 10px center;
             background-size: 10px;
         }
         .bx-next {
-            right: 15px;
-            background: url(/images/button_right.png) no-repeat center;
+            width: 30px;
+            height: 100%;
+            right: 0;
+            top: 0;
+            margin: 0;
+            background: url(/images/button_right.png) no-repeat 10px center;
             background-size: 10px;
         }
-        a {
+        a.pager-item {
             display: block;
             float: left;
+            height: 60px;
+            overflow: hidden;
+            border-bottom: 5px solid transparent;
+            &.active {
+                border-bottom: 5px solid @main-blue;
+            }
         }
     }
     .album-image {

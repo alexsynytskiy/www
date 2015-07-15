@@ -975,9 +975,56 @@ class SiteController extends Controller
                 'weight' => 10,
             ];
         } else {
+            $contentImagesCount = Asset::find()
+                ->where([
+                    'assetable_id' => $album->id,
+                    'assetable_type' => Asset::ASSETABLE_ALBUM,
+                    'thumbnail' => Asset::THUMBNAIL_CONTENT,
+                ])->count();
+            if($contentImagesCount > 0) {
+                $imageCount = $contentImagesCount;
+                $bigImages = Asset::find()
+                    ->where([
+                        'assetable_id' => $album->id,
+                        'assetable_type' => Asset::ASSETABLE_ALBUM,
+                        'thumbnail' => Asset::THUMBNAIL_CONTENT,
+                    ])
+                    ->limit(12)
+                    ->offset(0)
+                    ->orderBy(['id' => SORT_ASC])
+                    ->all();
+                $smallImages = Asset::find()
+                    ->where([
+                        'assetable_id' => $album->id,
+                        'assetable_type' => Asset::ASSETABLE_ALBUM,
+                        'thumbnail' => Asset::THUMBNAIL_SMALL,
+                    ])
+                    ->limit(12)
+                    ->offset(0)
+                    ->orderBy(['id' => SORT_ASC])
+                    ->all();
+            } else {
+                $imageCount = Asset::find()
+                    ->where([
+                        'assetable_id' => $album->id,
+                        'assetable_type' => Asset::ASSETABLE_ALBUM,
+                        'parent_id' => NULL,
+                    ])->count();
+                $bigImages = Asset::find()
+                    ->where([
+                        'assetable_id' => $album->id,
+                        'assetable_type' => Asset::ASSETABLE_ALBUM,
+                    ])
+                    ->limit(12)
+                    ->offset(0)
+                    ->orderBy(['id' => SORT_ASC])
+                    ->all();
+                $smallImages = $bigImages;
+            }
+
             $columnData['content'] = [
                 'view' => '@frontend/views/site/album',
-                'data' => compact('album'),
+                'data' => compact('album', 'bigImages', 'smallImages', 'imageCount'),
                 'weight' => 10,
             ];
             $columnData['comments'] = Comment::getCommentsBlock($album->id, Comment::COMMENTABLE_ALBUM);
@@ -1616,13 +1663,60 @@ class SiteController extends Controller
             throw new NotFoundHttpException('Страница не найдена.');
         }
 
+        $contentImagesCount = Asset::find()
+            ->where([
+                'assetable_id' => $id,
+                'assetable_type' => Asset::ASSETABLE_ALBUM,
+                'thumbnail' => Asset::THUMBNAIL_CONTENT,
+            ])->count();
+        if($contentImagesCount > 0) {
+            $imageCount = $contentImagesCount;
+            $bigImages = Asset::find()
+                ->where([
+                    'assetable_id' => $id,
+                    'assetable_type' => Asset::ASSETABLE_ALBUM,
+                    'thumbnail' => Asset::THUMBNAIL_CONTENT,
+                ])
+                ->limit(12)
+                ->offset(0)
+                ->orderBy(['id' => SORT_ASC])
+                ->all();
+            $smallImages = Asset::find()
+                ->where([
+                    'assetable_id' => $id,
+                    'assetable_type' => Asset::ASSETABLE_ALBUM,
+                    'thumbnail' => Asset::THUMBNAIL_SMALL,
+                ])
+                ->limit(12)
+                ->offset(0)
+                ->orderBy(['id' => SORT_ASC])
+                ->all();
+        } else {
+            $imageCount = Asset::find()
+                ->where([
+                    'assetable_id' => $id,
+                    'assetable_type' => Asset::ASSETABLE_ALBUM,
+                    'parent_id' => NULL,
+                ])->count();
+            $bigImages = Asset::find()
+                ->where([
+                    'assetable_id' => $id,
+                    'assetable_type' => Asset::ASSETABLE_ALBUM,
+                ])
+                ->limit(12)
+                ->offset(0)
+                ->orderBy(['id' => SORT_ASC])
+                ->all();
+            $smallImages = $bigImages;
+        }
+
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
             'title' => 'Альбом: '.$album->title,
             'columnFirst' => [
                 'content' => [
                     'view' => '@frontend/views/site/album',
-                    'data' => compact('album'),
+                    'data' => compact('album', 'bigImages', 'smallImages', 'imageCount'),
                 ],
                 'comments' => Comment::getCommentsBlock($album->id, Comment::COMMENTABLE_ALBUM),
             ],
@@ -1630,6 +1724,59 @@ class SiteController extends Controller
                 'short_news' => SiteBlock::getShortNews(20), 
             ],
         ]);
+    }
+
+    /**
+     * Album page with slider
+     * @param int $id Album id
+     * @param int $count Exist amount of images
+     * @return mixed Content
+     */
+    public function actionAlbumLoadImages($id, $count) 
+    {
+        $contentImagesCount = Asset::find()
+            ->where([
+                'assetable_id' => $id,
+                'assetable_type' => Asset::ASSETABLE_ALBUM,
+                'thumbnail' => Asset::THUMBNAIL_CONTENT,
+            ])->count();
+        $query = Asset::find()
+            ->where([
+                'assetable_id' => $id,
+                'assetable_type' => Asset::ASSETABLE_ALBUM,
+            ]);
+        if($contentImagesCount > 0) {
+            $query->andWhere([
+                'thumbnail' => Asset::THUMBNAIL_CONTENT,
+            ]);
+        } 
+        $images = $query->limit(12)
+            ->offset($count)
+            ->orderBy(['id' => SORT_ASC])
+            ->all();
+
+        $thumbnailImages = [];
+        $contentImagesHtml = '';
+        $thumbnailImagesHtml = '';
+        foreach ($images as $image) {
+            if(isset($image->parent_id)) {
+                $thumbnailImage = Asset::find()
+                    ->where([
+                        'parent_id' => $image->parent_id,
+                        'thumbnail' => Asset::THUMBNAIL_SMALL,
+                    ])->one();
+                $thumbnailImages[] = isset($thumbnailImage->id) ? $thumbnailImage : $image;
+            } else {
+                $thumbnailImages[] = $image;
+            }
+            $contentImagesHtml .= '<div><img src="'.$image->getFileUrl().'" alt="slide"></div>';
+        }
+        foreach ($thumbnailImages as $image) {
+            $thumbnailImagesHtml .= '<a class="pager-item" data-slide-index="'.$count.'" href="javascript:void(0)"><img src="'.$image->getFileUrl().'" alt="slide"></a>';
+            $count++;
+        }
+
+        return Json::encode(compact('contentImagesHtml','thumbnailImagesHtml'));
     }
 
     /**

@@ -38,23 +38,60 @@ $(window).load(function() {
         slideMargin: 0
     });
 
-    $('#album-slider').bxSlider({
+    var albumPagerSettings = {
+        slideWidth: 90,
+        maxSlides: 10,
+        slideMargin: 10,
+        pager: false,
+        moveSlides: 4,
+        infiniteLoop: false,
+        adaptiveHeight: true,
+    };
+    albumPagerSlider = $('#album-bx-pager').bxSlider(albumPagerSettings);
+
+    var albumSlider = $('#album-slider').bxSlider({
         maxSlides: 1,
         minSlides: 1,
         slideMargin: 0,
         pagerCustom: '#album-bx-pager',
         adaptiveHeight: true,
-    });
-
-    $('#album-bx-pager').bxSlider({
-        slideWidth: 90,
-        maxSlides: 10,
-        slideMargin: 10,
-        pager: false,
-        moveSlides: 3,
         infiniteLoop: false,
-        adaptiveHeight: true,
+        onSlideAfter : function($slideElement, oldIndex, newIndex){
+            var pagerSlideCount = albumSlider.getSlideCount();
+            var pagerNextSlide = parseInt((newIndex - 1)/albumPagerSettings.moveSlides);
+            pagerNextSlide = pagerNextSlide < 0 ? 0 : pagerNextSlide;
+            if(newIndex < pagerSlideCount - 1) {
+                albumPagerSlider.goToSlide(pagerNextSlide);
+            }
+
+            var globalSlideCount = albumSlider.attr('data-max-count');
+            if(newIndex > pagerSlideCount - 6 && pagerSlideCount < globalSlideCount) {
+                var albumSliderSettings = {
+                    startSlide: newIndex,
+                    adaptiveHeight: this.adaptiveHeight,
+                    infiniteLoop: this.infiniteLoop,
+                    slideMargin: this.slideMargin,
+                    minSlides: this.minSlides,
+                    maxSlides: this.maxSlides,
+                    onSlideAfter: this.onSlideAfter,
+                    pagerCustom: this.pagerCustom
+                };
+                var albumID = albumSlider.attr('data-album-id');
+                $.get('/album/load-images', {id: albumID, count: pagerSlideCount}, function(response){
+                    albumSlider.append(response.contentImagesHtml);
+                    albumPagerSlider.append(response.thumbnailImagesHtml);
+
+                    var currentSlide = albumPagerSlider.getCurrentSlide();
+                    albumPagerSettings.startSlide = albumPagerSlider.getCurrentSlide();
+                    albumPagerSlider.reloadSlider(albumPagerSettings);
+                    // albumPagerSlider.goToSlide(currentSlide);
+
+                    albumSlider.reloadSlider(albumSliderSettings);
+                }, 'json');
+            }
+        }
     });
+    
     // => BxSlider END
 
 

@@ -4,15 +4,10 @@ use yii\helpers\Url;
 /**
  * @var $this yii\web\View
  * @var $album common\models\Album
+ * @var $bigImages array of common\models\Asset
+ * @var $smallImages array of common\models\Asset
+ * @var $imageCount int 
 **/
-
-$bigImages = $album->getAssets(\common\models\Asset::THUMBNAIL_CONTENT);
-$smallImages = $album->getAssets(\common\models\Asset::THUMBNAIL_SMALL);
-if(!count($bigImages)) {
-    $bigImages = $album->getAssets();
-    $smallImages = $bigImages;
-}
-
 
 $editLink = '';
 if(!Yii::$app->user->isGuest && Yii::$app->user->can("admin")){
@@ -38,7 +33,7 @@ if(!Yii::$app->user->isGuest && Yii::$app->user->can("admin")){
 
         <div class="bxslider-main">
             <?php if(count($bigImages)) { ?>
-            <div id="album-slider">
+            <div id="album-slider" data-album-id="<?= $album->id ?>" data-max-count="<?= $imageCount ?>">
                 <?php foreach ($bigImages as $image) { ?>
                     <?php if($image->getFileUrl()) { ?>
                         <div>
@@ -58,7 +53,7 @@ if(!Yii::$app->user->isGuest && Yii::$app->user->can("admin")){
                 <?php $count = 0; ?>
                 <?php foreach ($smallImages as $image) { ?>
                     <?php if($image->getFileUrl()) { ?>
-                        <a data-slide-index="<?= $count++ ?>" href="javascript:void()" class="pager-item">
+                        <a data-slide-index="<?= $count++ ?>" href="javascript:void(0)" class="pager-item">
                             <img src="<?= $image->getFileUrl() ?>" />
                         </a>
                     <?php } ?>        

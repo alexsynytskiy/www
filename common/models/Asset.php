@@ -19,9 +19,6 @@ use Imagine\Image\ManipulatorInterface;
  * @property integer $parent_id
  * @property string $filename
  * @property string $thumbnail
- * @property integer $width
- * @property integer $height
- * @property string $type
  * @property integer $assetable_id
  * @property string $assetable_type
  *
@@ -113,9 +110,9 @@ class Asset extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['width', 'height', 'assetable_id', 'parent_id'], 'integer'],
+            [['assetable_id', 'parent_id'], 'integer'],
             [['filename', 'thumbnail'], 'string', 'max' => 255],
-            [['type', 'assetable_type'], 'string', 'max' => 20],
+            [['assetable_type'], 'string', 'max' => 20],
 
             //required
             [['filename'], 'required'],
@@ -132,9 +129,6 @@ class Asset extends \yii\db\ActiveRecord
             'parent_id'      => 'Parent ID',
             'filename'       => 'Filename',
             'thumbnail'      => 'Thumbnail',
-            'width'          => 'Width',
-            'height'         => 'Height',
-            'type'           => 'Type',
             'assetable_id'   => 'Assetable ID',
             'assetable_type' => 'Assetable Type',
         ];
