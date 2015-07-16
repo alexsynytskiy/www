@@ -3,7 +3,7 @@ return [
     'components' => [
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=localhost;dbname=summertest',
+            'dsn' => 'mysql:host=localhost;dbname=myisam_dynamo',
             'emulatePrepare' => true,
             'username' => 'root',
             'password' => '',
