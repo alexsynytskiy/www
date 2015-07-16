@@ -1,5 +1,7 @@
 <?php
 use yii\helpers\Url;
+use common\models\TournamentSettings;
+use common\models\Season;
 
 /**
  * @var $this yii\web\View
@@ -7,6 +9,91 @@ use yii\helpers\Url;
  * @var $championshipsData array Array of available championships
  * @var $seasonsData array Array of available seasons
 **/
+
+$tournamentTableSettings = TournamentSettings::tableName();
+$seasonTable = Season::tableName();
+
+$currentSeason = array_values($seasonsData)[0];
+$currentSeasonValue = $currentSeason->value;
+
+foreach ($seasonsData as $season) {
+    if ($season->active) {
+        $currentSeasonValue = $season->value;
+    }
+}
+
+$settings = TournamentSettings::find()
+    ->where([
+                'season_id' => $currentSeasonValue,
+            ])
+    ->one();
+
+
+$positions = preg_replace('/\s+/', '', $settings->cl_positions);
+$ECLpositionsArray = explode(",", $positions);
+
+$positions = preg_replace('/\s+/', '', $settings->el_positions);
+$ELpositionsArray = explode(",", $positions);
+
+$positions = preg_replace('/\s+/', '', $settings->reduction_positions);
+$reductionPositionsArray = explode(",", $positions);
+
+$priorityCriteria = [];
+$count = 0;
+
+if (isset($settings->win_weight)) {
+    $priorityCriteria[$count]['value'] = $settings->win_weight;
+    $priorityCriteria[$count]['type'] = "won";
+    $count++;
+}
+
+if (isset($settings->draw_weight)) {
+    $priorityCriteria[$count]['value'] = $settings->draw_weight;
+    $priorityCriteria[$count]['type'] = "draw";
+    $count++;
+}
+
+if (isset($settings->defeat_weight)) {
+    $priorityCriteria[$count]['value'] = $settings->defeat_weight;
+    $priorityCriteria[$count]['type'] = "lost";
+    $count++;
+}
+
+if (isset($settings->scored_missed_weight)) {
+    $priorityCriteria[$count]['value'] = $settings->scored_missed_weight;
+    $priorityCriteria[$count]['type'] = "scored_missed";
+    $count++;
+}
+
+if (isset($settings->goal_scored_weight)) {
+    $priorityCriteria[$count]['value'] = $settings->goal_scored_weight;
+    $priorityCriteria[$count]['type'] = "scored";
+    $count++;
+}
+
+if (isset($settings->goal_missed_weight)) {
+    $priorityCriteria[$count]['value'] = $settings->goal_missed_weight;
+    $priorityCriteria[$count]['type'] = "missed";
+    $count++;
+}
+
+// echo "<pre>";
+// var_dump($priorityCriteria);
+// echo "</pre>";
+// die;
+
+for ($i = 0; $i < count($tournamentData) - 1; $i++) {
+    for ($j = $i + 1; $j < count($tournamentData); $j++) {
+        if(($tournamentData[$i]->points == $tournamentData[$j]->points)) {
+            
+        }
+        // echo "<pre>";
+        // var_dump($tournamentData[$i]);
+        // echo "</pre>";
+        // die;
+    }
+}
+
 ?>
 
 <div class="search-box default-box" style="min-height: 0;">
@@ -66,9 +153,9 @@ use yii\helpers\Url;
                     if($team->getAsset()){
                         $teamIconUrl = $team->getAsset()->getFileUrl();
                     } else $teamIconUrl = false;
-                    $teamStatus = ($count < 3) ? 'green' : '';
-                    $teamStatus = ($count == 3 || $count == 4) ? 'yellow' : $teamStatus;
-                    $teamStatus = ($count == count($tournamentData)) ? 'red' : $teamStatus;
+                    $teamStatus = (in_array($count, $ECLpositionsArray)) ? 'green' : '';
+                    $teamStatus = (in_array($count, $ELpositionsArray)) ? 'yellow' : $teamStatus;
+                    $teamStatus = (in_array($count, $reductionPositionsArray)) ? 'red' : $teamStatus;
                     ?>
                 <tr>
                     <td class="status <?= $teamStatus ?>"></td>

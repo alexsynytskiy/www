@@ -9,15 +9,15 @@ use yii\helpers\Url;
 
 <div class="scoreboard default-box">
     <div class="box-header">
-        <div class="box-title">Турнирная таблица</div>
-        <a href="<?= Url::to('/site/tournament') ?>"><div class="box-link">Полная версия:</div></a>
+        <div class="box-title">УПЛ</div>
+        <a href="<?= Url::to('/site/tournament') ?>"><div class="box-link">Детальнее:</div></a>
     </div>
     <div class="box-content">
         <table>
             <thead>
-                <th class="num">№</th>
+                <th class="num">М</th>
                 <th class="team">Команда</th>
-                <th class="score">Очки</th>
+                <th class="score">О</th>
             </thead>
             <tbody>
             <?php

@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\TournamentSettings */
 
-$this->title = 'Update Tournament Settings: ' . ' ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Tournament Settings', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'Изменить настройки сезона: ' . ' ' . $model->season->name;
+$this->params['breadcrumbs'][] = ['label' => 'Настройки сезона', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->season->name, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = 'Изменить';
 ?>
 <div class="tournament-settings-update">
 
