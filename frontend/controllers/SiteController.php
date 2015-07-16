@@ -1644,6 +1644,43 @@ class SiteController extends Controller
         ]);
     }
 
+    /**
+     * Video page
+     * @param int $id Album id
+     * @param string $slug Album slug
+     * @return mixed
+     */
+    public function actionVideoPost($id, $slug) 
+    {
+        $videoPost = VideoPost::find()
+            ->where([
+                'id' => $id,
+                'is_public' => 1,
+            ])->one();
+
+        if (!isset($videoPost)){
+            throw new NotFoundHttpException('Страница не найдена.');
+        }
+
+        $image = $videoPost->getAsset();
+        $video = $videoPost->getVideoAsset();
+
+        return $this->render('@frontend/views/site/index', [
+            'templateType' => 'col2',
+            'title' => 'Видео: '.$videoPost->title,
+            'columnFirst' => [
+                'content' => [
+                    'view' => '@frontend/views/site/video_post',
+                    'data' => compact('videoPost', 'image', 'video'),
+                ],
+                'comments' => Comment::getCommentsBlock($videoPost->id, Comment::COMMENTABLE_VIDEO),
+            ],
+            'columnSecond' => [ 
+                'short_news' => SiteBlock::getShortNews(),
+            ],
+        ]);
+    }
+
 
     /**
      * Album page with slider

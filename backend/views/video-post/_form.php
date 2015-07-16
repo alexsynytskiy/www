@@ -99,16 +99,19 @@ use dosamigos\selectize\SelectizeDropDownList;
         'overwriteInitial' => true,
         'browseLabel' => "Обзор...",
         'allowedFileExtensions' => ['mp4', 'avi'],
+        'previewSettings' => [
+            'video' => ['width' => "500px", 'height' => "auto"],
+        ],
     ];
-    // if (isset($image) && $image->getFileUrl())
-    // {
-    //     $pluginOptions['initialPreview'] = [
-    //         Html::img($image->getFileUrl()),
-    //     ];
-    // }
+    if (isset($videoAsset) && $videoAsset->getFileUrl())
+    {
+        $pluginOptions['initialPreview'] = [
+            '<video src="'.$videoAsset->getFileUrl().'" controls></video>',
+        ];
+    }
     echo $form->field($model, 'video')->widget(FileInput::classname(), [
         'options' => [
-            // 'accept' => 'image/*',
+            'accept' => 'video/*',
             'multiple' => false,
         ],
         'pluginOptions' => $pluginOptions,

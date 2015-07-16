@@ -104,7 +104,9 @@ a.desc:after {
 
 .file-input .file-preview-frame,
 .file-input img.file-preview-image,
-.file-input .file-preview-initial img {
+.file-input .file-preview-initial img,
+.file-input video.file-preview-image,
+.file-input .file-preview-initial video {
     max-width: 500px;
     max-height: 500px;
     min-width: 100px;

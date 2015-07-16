@@ -27,6 +27,8 @@ return [
             'rules' => [
                 '/'                                      => 'site/index',
                 'news'                                   => 'site/news',
+                'videos'                                 => 'site/videos',
+                'video/<id:\d+>-<slug>'                  => 'site/video-post',
                 'photos'                                 => 'site/photos',
                 'album/<id:\d+>-<slug>'                  => 'site/album',
                 'album/load-images'                      => 'site/album-load-images',

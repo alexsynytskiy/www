@@ -17,6 +17,7 @@ $this->params['breadcrumbs'][] = 'Изменить';
     <?= $this->render('_form', [
         'model' => $model,
         'image' => $image,
+        'videoAsset' => $videoAsset,
         'tags' => $tags,
     ]) ?>
 

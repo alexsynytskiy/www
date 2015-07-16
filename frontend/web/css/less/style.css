@@ -1234,6 +1234,10 @@ header .header-wrapper .breadcrumbs .tag:hover {
   -moz-border-radius: 5px;
   border-radius: 5px;
 }
+.grid-column .post-page .post-video {
+  width: 100%;
+  margin-bottom: 10px;
+}
 .grid-column .post-page .content {
   font-size: 14px;
   font-weight: lighter;

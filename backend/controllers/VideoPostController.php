@@ -265,6 +265,7 @@ class VideoPostController extends Controller
             return $this->render('update', [
                 'model' => $model,
                 'image' => $image,
+                'videoAsset' => $videoAsset,
                 'tags' => $tags,
             ]);
         }
