@@ -14,6 +14,7 @@ use yii\web\UploadedFile;
 use yii\data\Pagination;
 use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
+use yii\web\NotFoundHttpException;
 
 use common\models\Post;
 use common\models\Asset;
@@ -424,6 +425,10 @@ class DefaultController extends Controller
     public function actionProfile()
     {
         /** @var \amnah\yii2\user\models\Profile $profile */
+
+        if( Yii::getAlias('@app') == Yii::getAlias('@backend')) {
+            throw new NotFoundHttpException('Страница не найдена.');
+        }
 
         $profile = Yii::$app->user->identity->profile;
 

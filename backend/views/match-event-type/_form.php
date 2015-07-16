@@ -25,7 +25,7 @@ use kartik\file\FileInput;
 	        'showRemove' => false,
 	        'overwriteInitial' => true,
 	        'browseLabel' => "Обзор...",
-	        'allowedFileExtensions' => ['jpg', 'gif', 'png'],
+	        'allowedFileExtensions' => ['jpg', 'jpeg', 'gif', 'png', 'svg'],
 	    ];
 	    $icon = $model->getAsset();
 	    if (!$model->isNewRecord && $icon->getFileUrl())

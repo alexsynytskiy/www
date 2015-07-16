@@ -51,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter' => $role::dropdown(),
                 'value' => function($model, $index, $dataColumn) use ($role) {
                     $roleDropdown = $role::dropdown();
-                    return $roleDropdown[$model->role_id];
+                    return isset($roleDropdown[$model->role_id]) ? $roleDropdown[$model->role_id] : null;
                 },
                 'options' => ['width' => '130'],
             ],

@@ -32,8 +32,6 @@ class Role extends ActiveRecord
      */
     const ROLE_ADMIN = 3;
 
-    
-
     /**
      * @inheritdoc
      */
@@ -119,7 +117,8 @@ class Role extends ActiveRecord
         if ($dropdown === null) {
 
             // get all records from database and generate
-            $models = static::find()->all();
+            $models = self::find()->all();
+            $dropdown = [];
             foreach ($models as $model) {
                 $dropdown[$model->id] = $model->name;
             }

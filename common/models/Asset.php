@@ -218,6 +218,11 @@ class Asset extends \yii\db\ActiveRecord
                 return false;
             }
             $this->createFilePath();
+            // svg 
+            if($this->uploadedFile->type == 'image/svg+xml') {
+                $this->uploadedFile->saveAs($this->getFilePath());
+                return true;
+            }
             $img = Image::getImagine()->open($this->uploadedFile->tempName);
         }
         else

@@ -2453,42 +2453,42 @@ header .header-wrapper .breadcrumbs .tag:hover {
   float: left;
   margin-right: 5px;
 }
-.about .main-title {
+.about.default-box .main-title {
   padding-left: 10px;
   font-size: 16px;
   font-weight: bold;
   color: #727272;
 }
-.about .box-content {
+.about.default-box .box-content {
   padding-left: 10px;
   padding-top: 10px;
   font-size: 14px;
   font-weight: normal;
   color: #727272;
 }
-.mail-to .main-title {
+.mail-to.default-box .main-title {
   padding-left: 10px;
   font-size: 16px;
   font-weight: bold;
   color: #727272;
 }
-.mail-to .box-content {
+.mail-to.default-box .box-content {
   padding-left: 10px;
   padding-top: 10px;
   font-size: 14px;
   font-weight: normal;
   color: #727272;
 }
-.mail-to .box-content .link {
+.mail-to.default-box .box-content .link {
   text-align: center;
 }
-.mail-to .box-content .link a {
+.mail-to.default-box .box-content .link a {
   line-height: 50px;
   font-size: 18px;
   font-weight: bold;
   color: #1972c4;
 }
-.mail-to .box-content .link a:hover {
+.mail-to.default-box .box-content .link a:hover {
   font-size: 18px;
   font-weight: bold;
   color: #0090e8;

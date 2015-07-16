@@ -36,7 +36,7 @@ class MatchEventType extends ActiveRecord
             [['name'], 'required'],
 
              // image
-            [['icon'], 'file', 'extensions' => 'jpeg, jpg , gif, png'],
+            [['icon'], 'file', 'extensions' => 'jpeg, jpg , gif, png, svg'],
         ];
     }
 

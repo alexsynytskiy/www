@@ -9,7 +9,7 @@ use yii\widgets\Pjax;
 **/
 ?>
 
-<div class="search-box default-box" style="min-height: 0;">
+<div class="search-box default-box transfers-search" style="min-height: 0;">
     <div class="box-content">
         <form class="search-matches" action="<?= Url::to(['/site/transfers']) ?>">
             <div class="select-championship selectize-box">
