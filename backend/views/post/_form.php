@@ -171,6 +171,27 @@ use kartik\datetime\DateTimePicker;
         // ]);
     ?>
 
+    <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+            <a href="javascript:void(0)" class="spoiler-trigger pull-left" data-toggle="collapse">Привязять к матчу</a>
+            <button type="button" class="spoiler-trigger pull-right btn btn-default btn-xs <?= isset($relation->match) ? 'dropup' : 'dropdown' ?>" data-toggle="collapse"><span class="caret"></span></button>
+        </div>
+        <div class="panel-collapse collapse <?= isset($relation->match) ? 'in' : 'out' ?>">
+            <div class="panel-body">
+                <?php 
+                    echo $this->render('relation', [
+                        'form' => $form,
+                        'post' => $model,
+                        'relation' => $relation,
+                        'matchModel' => $matchModel,
+                        'matchesList' => $matchesList,
+                    ]);
+                ?>
+            </div>
+        </div>
+    </div>
+    
+
     <?= $form->field($model, 'is_public')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState' => false]]) ?>
 
     <?= $form->field($model, 'is_index')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState'=>false]]) ?>

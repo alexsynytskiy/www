@@ -18,7 +18,14 @@ class MatchSearch extends Match
     public function rules()
     {
         return [
-            [['id', 'is_visible', 'home_shots', 'guest_shots', 'home_shots_in', 'guest_shots_in', 'home_offsides', 'guest_offsides', 'home_corners', 'guest_corners', 'home_fouls', 'guest_fouls', 'home_yellow_cards', 'guest_yellow_cards', 'home_red_cards', 'guest_red_cards', 'home_goals', 'guest_goals', 'is_finished'], 'integer'],
+            [['id', 'is_visible', 'home_shots', 'guest_shots',
+              'home_shots_in', 'guest_shots_in', 'home_offsides', 
+              'guest_offsides', 'home_corners', 'guest_corners', 
+              'home_fouls', 'guest_fouls', 'home_yellow_cards', 
+              'guest_yellow_cards', 'home_red_cards', 'guest_red_cards', 
+              'home_goals', 'guest_goals', 'is_finished',
+              'championship_id', 'season_id', 'league_id',
+              'command_home_id', 'command_guest_id'], 'integer'],
             [['championship.name', 
               'teamGuest.name', 
               'teamHome.name',
@@ -187,6 +194,11 @@ class MatchSearch extends Match
             'home_goals' => $this->home_goals,
             'guest_goals' => $this->guest_goals,
             'is_finished' => $this->is_finished,
+            "{$matchTable}.championship_id" => $this->championship_id,
+            "{$matchTable}.season_id" => $this->season_id,
+            "{$matchTable}.league_id" => $this->league_id,
+            "{$matchTable}.command_home_id" => $this->command_home_id,
+            "{$matchTable}.command_guest_id" => $this->command_guest_id,
         ]);
 
         $createdTime = strtotime($this->created_at);

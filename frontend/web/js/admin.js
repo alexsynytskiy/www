@@ -1,4 +1,16 @@
 (function($){
+
+    $(".spoiler-trigger").click(function() {
+        $(this).parent().next().collapse('toggle');
+        if($(this).hasClass('dropdown')) {
+            $(this).removeClass('dropdown');
+            $(this).addClass('dropup');
+        } else if($(this).hasClass('dropup')) {
+            $(this).removeClass('dropup');
+            $(this).addClass('dropdown');
+        }
+    });
+
     $(window).load(function() {
 
         if($('.redactor-toolbar').length > 0) {
@@ -176,6 +188,45 @@
                     $('#match-preview-name').text(response.data);
                 });  
             }
+        });
+
+        $(document).on('change', '.match-search-item', function(event) {
+            var postData = new Object();
+            $('.match-search-item').each(function(index, el) {
+                var id = parseInt($(this).val());
+                if(!isNaN(id)){
+                    postData[$(this).attr('name')] = id;
+                }
+            });
+            // if(Object.keys(postData).length > 0){
+                $.ajax({
+                    type: "GET",
+                    url: '/admin/match/match-list',
+                    dataType: "json",
+                    data: postData,
+                    success: function(response){
+                        // console.log(response);
+                    },
+                }).done(function(response){
+                    if(response.success && response.list) {
+                        var newHtml = '';
+                        $.each(response.list, function(index, value) {
+                            newHtml += '<label><input type="checkbox" name="Relation[parent_id][]"' 
+                                + 'value="' + index + '"> ' + value + '</label>';
+                        });
+                        $('#match-list').html(newHtml);
+                    } else if(!response.success) {
+                        $('#match-list').html(response.message);
+                    }
+                    // $('#match-preview-name').text(response.data);
+                });  
+            // }
+        });
+    
+        $(document).on('change', '#match-list :checkbox', function(event) {
+            var state = $(this).prop("checked");
+            $('#match-list :checkbox').prop("checked", false);
+            $(this).prop("checked", state);
         });
 
     });

@@ -1823,6 +1823,9 @@ header .header-wrapper .breadcrumbs .tag:hover {
   background-size: 22px;
   background-position: 0 -38px;
 }
+.grid-column .match-navigation .video {
+  color: #cb181e;
+}
 .grid-column .match-navigation .video .icon {
   height: 18px;
   width: 18px;
@@ -1835,6 +1838,9 @@ header .header-wrapper .breadcrumbs .tag:hover {
 .grid-column .match-navigation .video.active .icon {
   background: url('/images/video_active.png') no-repeat;
   background-size: 18px;
+}
+.grid-column .match-navigation .video:hover:not(.active) {
+  color: #f94351;
 }
 .grid-column .match-navigation .video:hover:not(.active) .icon {
   background: url('/images/video_sprite.png') no-repeat;

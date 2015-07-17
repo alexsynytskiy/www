@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $image common\models\Asset */
 /* @var $tags array Array of common\models\Tag */
 
-$this->title = 'Изменить запись: ' . ' ' . $model->title;
+$this->title = 'Изменить запись: ' . $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Записи', 'url' => ['/post']];
 $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Изменить';
@@ -20,6 +20,9 @@ $this->params['breadcrumbs'][] = 'Изменить';
         'model' => $model,
         'image' => $image,
         'tags' => $tags,
+        'relation' => $relation,
+        'matchModel' => $matchModel,
+        'matchesList' => $matchesList,
     ]) ?>
 
 </div>

@@ -328,10 +328,8 @@ class MatchController extends Controller
     }
 
     /**
-     * Deletes an existing Match model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
+     * @param integer $matchID
+     * @return Json Name of match
      */
     public function actionMatchName($matchID)
     {
@@ -339,5 +337,23 @@ class MatchController extends Controller
         if(!isset($model->id)) return Json::encode(['data' => 'Матч не найден']);
         $date = date('d.m.Y', strtotime($model->date));
         return Json::encode(['data' => $model->name.' ('.$date.')']);
+    }
+
+    /**
+     * @param array $query
+     * @return Json Name of match
+     */
+    public function actionMatchList()
+    {
+        $searchModel = new MatchSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $matches = $dataProvider->getModels();
+        $matchesList = [];
+        foreach ($matches as $match) {
+            $matchDate = date('d.m.Y', strtotime($match->date));
+            $matchesList[(int)$match->id] = $match->name.' ('.$matchDate.')';
+        }
+        if(!count($matchesList)) return Json::encode(['success' => false, 'message' => 'Матчей не найдено']);
+        return Json::encode(['success' => true, 'list' => $matchesList]);
     }
 }

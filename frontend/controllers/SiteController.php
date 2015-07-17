@@ -30,6 +30,7 @@ use common\models\Album;
 use common\models\Banner;
 use common\models\VideoPost;
 use common\models\Subscribing;
+use common\models\Relation;
 
 
 use frontend\models\ContactForm;
@@ -790,40 +791,19 @@ class SiteController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
 
-        $title = "Материалы по матчу ".$match->teamHome->name." - ".$match->teamGuest->name;
+        $title = "Материалы по матчу ".$match->name;
         
         $postTable = Post::tableName();
-        $taggingTable = Tagging::tableName();
-        $tagTable = Tag::tableName();
+        $relationTable = Relation::tableName();
 
-        $startDate = $match->date;
-        $endDate = date('Y-m-d H:i:s', strtotime($match->date) + 60*60*24*7);
-        $teamHomeName = $match->teamHome->name;
-        $teamHomeName = str_replace('"', '', $teamHomeName);
-        $teamHomeTemp = explode(' ', $teamHomeName);
-        $teamHomeName = array_shift($teamHomeTemp);
-        $teamGuestName = $match->teamGuest->name;
-        $teamGuestName = str_replace('"', '', $teamGuestName);
-        $teamGuestTemp = explode(' ', $teamGuestName);
-        $teamGuestName = array_shift($teamGuestTemp);
-
-        $query = Post::find();
-        $query->select(["{$postTable}.*", 'co' => 'COUNT(*)']);
-        $query->innerJoin($taggingTable, "{$postTable}.id = {$taggingTable}.taggable_id");
-        $query->innerJoin(['tags' => $tagTable], "{$taggingTable}.tag_id = tags.id");
-        $query->where([
+        $query = Post::find()
+            ->innerJoin($relationTable, "{$postTable}.id = {$relationTable}.relationable_id")
+            ->where([
                 'is_public' => 1,
-                "{$taggingTable}.taggable_type" => Tagging::TAGGABLE_POST,
+                "{$relationTable}.relation_type_id" => Relation::RELATION_NEWS,
+                "{$relationTable}.relationable_type" => Relation::RELATIONABLE_POST,
+                "{$relationTable}.parent_id" => $match->id,
             ]);
-        $query->andWhere(['between', 'created_at', $startDate, $endDate]);
-        $query->andWhere([
-            'or', 
-            ['like', "tags.name", $teamHomeName],
-            ['like', "tags.name", $teamGuestName],
-        ]);
-        $query->orderBy(['created_at' => SORT_ASC]);
-        $query->groupBy("{$postTable}.id");
-        $query->having(['>', 'co', 1]);
 
         if(!isset($_GET['page']) || $_GET['page'] == 1) {
             Yii::$app->session['news_post_time_last'] = 1;
@@ -870,42 +850,20 @@ class SiteController extends Controller
         }
 
         $postTable = Post::tableName();
-        $taggingTable = Tagging::tableName();
-        $tagTable = Tag::tableName();
+        $relationTable = Relation::tableName();
 
-        $startDate = $match->date;
-        $teamHomeName = $match->teamHome->name;
-        $teamHomeName = str_replace('"', '', $teamHomeName);
-        $teamHomeTemp = explode(' ', $teamHomeName);
-        $teamHomeName = array_shift($teamHomeTemp);
-        $teamGuestName = $match->teamGuest->name;
-        $teamGuestName = str_replace('"', '', $teamGuestName);
-        $teamGuestTemp = explode(' ', $teamGuestName);
-        $teamGuestName = array_shift($teamGuestTemp);
-
-        $query = Post::find();
-        $query->select(["{$postTable}.*", 'co' => 'COUNT(*)']);
-        $query->innerJoin($taggingTable, "{$postTable}.id = {$taggingTable}.taggable_id");
-        $query->innerJoin(['tags' => $tagTable], "{$taggingTable}.tag_id = tags.id");
-        $query->where([
+        $post = Post::find()
+            ->innerJoin($relationTable, "{$postTable}.id = {$relationTable}.relationable_id")
+            ->where([
                 'is_public' => 1,
-                "{$taggingTable}.taggable_type" => Tagging::TAGGABLE_POST,
-            ]);
-        $query->andWhere(['>', 'created_at', $startDate]);
-        $query->andWhere([
-            'or', 
-            ['like', "tags.name", $teamHomeName],
-            ['like', "tags.name", $teamGuestName],
-        ]);
-        $query->orderBy(['created_at' => SORT_ASC]);
-        $query->groupBy("{$postTable}.id");
-        $query->having(['>', 'co', 1]);
-
-        $post = $query->one();
+                "{$relationTable}.relation_type_id" => Relation::RELATION_REPORT,
+                "{$relationTable}.relationable_type" => Relation::RELATIONABLE_POST,
+                "{$relationTable}.parent_id" => $match->id,
+            ])->one();
         
         $options = [
             'templateType' => 'col2',
-            'title' => 'Отчет по матчу: '.$match->teamHome->name." - ".$match->teamGuest->name,
+            'title' => 'Отчет по матчу: '.$match->name,
             'columnFirst' => [
                 'menu' => [
                     'view' => '@frontend/views/translation/menu',

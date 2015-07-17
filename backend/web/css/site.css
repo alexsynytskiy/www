@@ -203,6 +203,29 @@ html .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .ope
     margin-top: 25px;
 }
 
+.field-relation-parent_id {
+    margin-bottom: 12px;
+}
+#match-list {
+    height: 181px;
+    overflow-y: auto;
+}
+#match-list > label {
+    display: block;
+    padding: 0 10px;
+    height: 30px;
+    line-height: 30px;
+    margin: 0;
+    border: 1px solid #ddd;
+    border-bottom: none;
+}
+#match-list > label:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+#match-list > label:last-child {
+    border-bottom: 1px solid #ddd;
+}
+
 @media screen and (min-width: 768px) and (max-width: 992px) {
     .navbar .navbar-header {
         display: none;
