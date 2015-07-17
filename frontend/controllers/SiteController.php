@@ -535,11 +535,11 @@ class SiteController extends Controller
      * 
      * @return mixed
      */
-    public function actionTournament() 
+    public function actionTournament()
     {
         $tournamentTable = Tournament::tableName();
         $championshipTable = Championship::tableName();
-        $seasonTable = Season::tableName();
+        $seasonTable = Season::tableName();        
 
         // championship type select
         $championships = Championship::find()
