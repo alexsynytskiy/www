@@ -332,8 +332,7 @@ class SiteController extends Controller
 
         //select seasons
         $seasons = Season::find()
-            ->where(['window' => Season::WINDOW_WINTER])
-            ->andWhere(['>', 'id', 42])
+            ->innerJoinWith('matches')
             ->orderBy(['id' => SORT_DESC])
             ->all();
 
@@ -440,7 +439,7 @@ class SiteController extends Controller
 
         // season select
         $seasons = Season::find()
-            ->where(['>', 'id', 42])
+            ->innerJoinWith('matches')
             ->orderBy(['id' => SORT_DESC])
             ->all();
         
@@ -572,7 +571,7 @@ class SiteController extends Controller
 
         // season select
         $seasons = Season::find()
-            ->innerJoin($tournamentTable, "{$tournamentTable}.season_id = {$seasonTable}.id")
+            ->innerJoinWith('tournaments')
             ->orderBy(['id' => SORT_DESC])
             ->all();
         
@@ -1038,36 +1037,19 @@ class SiteController extends Controller
             ],
         ]);
         
-        $columnData = [];
-        $columnData['menu'] = [
-            'view' => '@frontend/views/translation/menu',
-            'data' => compact('match'),
-        ];
-        $columnData['content'] = [
-            'view' => '@frontend/views/site/videos',
-            'data' => compact('videosDataProvider'),
-            'weight' => 10,
-        ];
-
-        // if (!isset($album)){
-        //     $columnData['content'] = [
-        //         'view' => '@frontend/views/site/empty',
-        //         'data' => ['message' => 'Видеозаписей к матчу не найдено'],
-        //         'weight' => 10,
-        //     ];
-        // } else {
-            // $columnData['content'] = [
-            //     'view' => '@frontend/views/site/videos',
-            //     'data' => compact('videosDataProvider'),
-            //     'weight' => 10,
-            // ];
-        // }
-        usort($columnData, 'self::cmp');
-
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
             'title' => $title,
-            'columnFirst' => $columnData,
+            'columnFirst' => [
+                'menu' => [
+                    'view' => '@frontend/views/translation/menu',
+                    'data' => compact('match'),
+                ],
+                'content' => [
+                    'view' => '@frontend/views/site/videos',
+                    'data' => compact('videosDataProvider'),
+                ],
+            ],
             'columnSecond' => [ 
                 'short_news' => SiteBlock::getShortNews(20),
             ],
@@ -1252,11 +1234,10 @@ class SiteController extends Controller
             ];   
 
             $seasonTable = Season::tableName();
-            $contractTable = Contract::tableName();
             $availableSeasons = Season::find()
-                ->innerJoin('contracts', "$seasonTable.id = $contractTable.season_id")
+                ->innerJoinWith('contracts')
                 ->where(['window' => Season::WINDOW_WINTER])
-                ->andWhere(["$contractTable.command_id" => $id])
+                ->andWhere(["command_id" => $id])
                 ->orderBy(["$seasonTable.id" => SORT_DESC])
                 ->all();
             $availableSeasonsIds = [];

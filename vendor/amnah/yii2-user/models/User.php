@@ -286,16 +286,17 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function verifyPassword($password)
     {
-        // new validation
-        if(strtotime($this->create_time) < strtotime('12-02-2009')) {
-            $passwordHash = sha1("--$this->salt--$password--");
-        } else {
+        // old validation
+        // if(strtotime($this->create_time) < strtotime('12-02-2009')) {
+        
+        $passwordHash = sha1("--$this->salt--$password--");
+        if($passwordHash != $this->password) 
+        {
             $digest = self::SECURITY_KEY;
             for ($i=0; $i < 10; $i++) { 
                 $digest = sha1(implode('--', [$digest, $this->salt, $password, self::SECURITY_KEY]));
             }
             $passwordHash = $digest;
-            $user = self::findOne(40614);
         }
         return $this->password == $passwordHash;
     }
