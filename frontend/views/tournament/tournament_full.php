@@ -77,20 +77,68 @@ if (isset($settings->goal_missed_weight)) {
     $count++;
 }
 
-// echo "<pre>";
-// var_dump($priorityCriteria);
-// echo "</pre>";
-// die;
+for ($i = 0; $i < count($priorityCriteria) - 1; $i++) {
+    for ($j = $i + 1; $j < count($priorityCriteria); $j++) {
+        if(($priorityCriteria[$i]['value'] < $priorityCriteria[$j]['value'])) {
+            $temp = $priorityCriteria[$i];
+            $priorityCriteria[$i] = $priorityCriteria[$j];
+            $priorityCriteria[$j] = $temp;
+        }
+    }
+}
 
 for ($i = 0; $i < count($tournamentData) - 1; $i++) {
     for ($j = $i + 1; $j < count($tournamentData); $j++) {
         if(($tournamentData[$i]->points == $tournamentData[$j]->points)) {
-            
+            for ($k = 0; $k < count($priorityCriteria); $k++) {
+                switch ($priorityCriteria[$k]['type']) {
+                    case "won":
+                        if(($tournamentData[$i]->won < $tournamentData[$j]->won)) {
+                            $temp = $tournamentData[$i];
+                            $tournamentData[$i] = $tournamentData[$j];
+                            $tournamentData[$j] = $temp;
+                        }
+                        break 2;
+                    case "draw":
+                        if(($tournamentData[$i]->draw < $tournamentData[$j]->draw)) {
+                            $temp = $tournamentData[$i];
+                            $tournamentData[$i] = $tournamentData[$j];
+                            $tournamentData[$j] = $temp;
+                        }
+                        break 2;
+                    case "lost":
+                        if(($tournamentData[$i]->lost < $tournamentData[$j]->lost)) {
+                            $temp = $tournamentData[$i];
+                            $tournamentData[$i] = $tournamentData[$j];
+                            $tournamentData[$j] = $temp;
+                        }
+                        break 2;
+                    case "scored_missed":
+                        if(($tournamentData[$i]->goals_for - $tournamentData[$i]->goals_against) < ($tournamentData[$j]->goals_for - $tournamentData[$j]->goals_against)) {
+                            $temp = $tournamentData[$i];
+                            $tournamentData[$i] = $tournamentData[$j];
+                            $tournamentData[$j] = $temp;
+                        }
+                        break 2;
+                    case "scored":
+                        if($tournamentData[$i]->goals_for < $tournamentData[$j]->goals_for) {
+                            $temp = $tournamentData[$i];
+                            $tournamentData[$i] = $tournamentData[$j];
+                            $tournamentData[$j] = $temp;
+                        }
+                        break 2;
+                    case "missed":
+                        if($tournamentData[$i]->goals_against < $tournamentData[$j]->goals_against) {
+                            $temp = $tournamentData[$i];
+                            $tournamentData[$i] = $tournamentData[$j];
+                            $tournamentData[$j] = $temp;
+                        }
+                        break 2;
+                    default:
+                        break 2;
+                }
+            }
         }
-        // echo "<pre>";
-        // var_dump($tournamentData[$i]);
-        // echo "</pre>";
-        // die;
     }
 }
 
