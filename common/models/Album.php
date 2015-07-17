@@ -20,7 +20,6 @@ use dosamigos\transliterator\TransliteratorHelper;
  * @property string $updated_at
  * @property integer $is_public
  * @property string $cached_tag_list
- * @property string $match_id
  *
  * @property Users $user
  */
@@ -61,7 +60,7 @@ class Album extends ActiveRecord
     {
         return [
             [['description'], 'string'],
-            [['user_id', 'is_public', 'match_id'], 'integer'],
+            [['user_id', 'is_public'], 'integer'],
             [['created_at', 'updated_at', 'tags', 'imagesData'], 'safe'],
             [['title', 'slug', 'cached_tag_list'], 'string', 'max' => 255],
 
@@ -91,7 +90,6 @@ class Album extends ActiveRecord
             'images'          => 'Изображения',
             'tags'            => 'Теги',
             'coverImage'      => 'Обложка',
-            'match_id'        => 'ID матча',
         ];
     }
 
@@ -301,14 +299,22 @@ class Album extends ActiveRecord
      * @return string
      */
     public function getMatchName() {
-        if(isset($this->match_id) && $this->match_id != '') {
-            $match = Match::findOne($this->match_id);
-            if(!isset($match->id)) {
-                return 'Матч не найден';
-            } else {
-                $date = date('d.m.Y', strtotime($match->date));
-                return $match->name.' ('.$date.')';
-            }
+
+        $matchTable = Match::tableName();
+        $relationTable = Relation::tableName();
+
+        $match = Match::find()
+            ->innerJoin($relationTable, "{$matchTable}.id = {$relationTable}.parent_id")
+            ->where([
+                "{$relationTable}.relationable_type" => Relation::RELATIONABLE_ALBUM,
+                "{$relationTable}.relationable_id" => $this->id,
+            ])->one();
+
+        if(!isset($match)) {
+            return 'Матч не найден';
+        } else {
+            $date = date('d.m.Y', strtotime($match->date));
+            return $match->name.' ('.$date.')';
         }
         return '';
     }
