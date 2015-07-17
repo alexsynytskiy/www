@@ -99,6 +99,7 @@ class PostController extends Controller
 
         $matchModel = new \common\models\MatchSearch();
         $relation = new Relation();
+        $relation->relationable_type = Relation::RELATIONABLE_POST;
         $matches = $matchModel::find()
             ->orderBy(['date' => SORT_DESC])
             ->limit(10)
@@ -171,10 +172,8 @@ class PostController extends Controller
                 }
             }
 
-            $model->save();
 
             $relation->relationable_id = $model->id;
-            $relation->relationable_type = Relation::RELATIONABLE_POST;
             if($relation->load(Yii::$app->request->post()) && $model->validate()) {
 
                 if($relation->parent_id != '' && is_array($relation->parent_id)) {
@@ -184,6 +183,8 @@ class PostController extends Controller
                     $relation->save();
                 }
             }
+
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -221,6 +222,7 @@ class PostController extends Controller
         $matchesList = [];
         if(!isset($relation)) {
             $relation = new Relation();
+            $relation->relationable_type = Relation::RELATIONABLE_POST;
         }
         if(!isset($relation->match)) {
             $matches = $matchModel::find()
@@ -312,8 +314,6 @@ class PostController extends Controller
             }
             $model->cached_tag_list = implode(', ', $cached_tag_list);
 
-            $model->save();
-
             if(!isset($relation->relationable_id)) {
                 $relation->relationable_id = $model->id;
                 $relation->relationable_type = Relation::RELATIONABLE_POST;
@@ -330,6 +330,7 @@ class PostController extends Controller
                 }
             }
 
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [

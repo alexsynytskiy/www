@@ -91,6 +91,26 @@ use dosamigos\selectize\SelectizeDropDownList;
         ]);
     ?>
 
+    <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+            <a href="javascript:void(0)" class="spoiler-trigger pull-left" data-toggle="collapse">Привязять к матчу</a>
+            <button type="button" class="spoiler-trigger pull-right btn btn-default btn-xs <?= isset($relation->match) ? 'dropup' : 'dropdown' ?>" data-toggle="collapse"><span class="caret"></span></button>
+        </div>
+        <div class="panel-collapse collapse <?= isset($relation->match) ? 'in' : 'out' ?>">
+            <div class="panel-body">
+                <?php 
+                    echo $this->render('@backend/views/relation/relation', [
+                        'form' => $form,
+                        'post' => $model,
+                        'relation' => $relation,
+                        'matchModel' => $matchModel,
+                        'matchesList' => $matchesList,
+                    ]);
+                ?>
+            </div>
+        </div>
+    </div>
+
     <?php
     $pluginOptions = [
         'showUpload' => false,

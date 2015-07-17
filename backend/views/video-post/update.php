@@ -19,6 +19,9 @@ $this->params['breadcrumbs'][] = 'Изменить';
         'image' => $image,
         'videoAsset' => $videoAsset,
         'tags' => $tags,
+        'relation' => $relation,
+        'matchModel' => $matchModel,
+        'matchesList' => $matchesList,
     ]) ?>
 
 </div>

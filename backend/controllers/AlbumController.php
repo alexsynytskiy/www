@@ -12,6 +12,8 @@ use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 use common\models\Asset;
 use common\models\Tagging;
+use common\models\Relation;
+use common\models\Match;
 
 /**
  * AlbumController implements the CRUD actions for Album model.
@@ -87,6 +89,19 @@ class AlbumController extends Controller
         // default values
         $model->is_public = 1;
         $model->user_id = Yii::$app->user->id;
+
+        $matchModel = new \common\models\MatchSearch();
+        $relation = new Relation();
+        $relation->relationable_type = Relation::RELATIONABLE_POST;
+        $matches = $matchModel::find()
+            ->orderBy(['date' => SORT_DESC])
+            ->limit(10)
+            ->all();
+        $matchesList = [];
+        foreach ($matches as $match) {
+            $matchDate = date('d.m.Y', strtotime($match->date));
+            $matchesList[$match->id] = $match->name.' ('.$matchDate.')';
+        }
 
         if ($model->load(Yii::$app->request->post())) {
 
@@ -170,12 +185,27 @@ class AlbumController extends Controller
                     }
                 }
             }
+
+            $relation->relationable_id = $model->id;
+            $relation->relationable_type = Relation::RELATIONABLE_ALBUM;
+            if($relation->load(Yii::$app->request->post()) && $model->validate()) {
+
+                if($relation->parent_id != '' && is_array($relation->parent_id)) {
+                    $relation->parent_id = $relation->parent_id[0];
+                }
+                if($relation->parent_id && is_numeric($relation->parent_id)) {
+                    $relation->save();
+                }
+            }
             
             $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'relation' => $relation,
+                'matchModel' => $matchModel,
+                'matchesList' => $matchesList,
             ]);
         }
     }
@@ -206,6 +236,36 @@ class AlbumController extends Controller
         $model->tags = [];
         foreach ($tags as $tag) {
             $model->tags[] = $tag->id;
+        }
+
+        $relation = Relation::find()
+            ->where([
+                'relationable_id' => $model->id,
+                'relationable_type' => Relation::RELATIONABLE_ALBUM,
+            ])->one();
+        $matchModel = new \common\models\MatchSearch();
+        $matchesList = [];
+        if(!isset($relation)) {
+            $relation = new Relation();
+            $relation->relationable_type = Relation::RELATIONABLE_POST;
+        }
+        if(!isset($relation->match)) {
+            $matches = $matchModel::find()
+                ->orderBy(['date' => SORT_DESC])
+                ->limit(10)
+                ->all();
+            foreach ($matches as $match) {
+                $matchDate = date('d.m.Y', strtotime($match->date));
+                $matchesList[$match->id] = $match->name.' ('.$matchDate.')';
+            }
+        } else {
+            $matchModel->championship_id = $relation->match->championship_id;
+            $matchModel->league_id = $relation->match->league_id;
+            $matchModel->season_id = $relation->match->season_id;
+            $matchModel->command_home_id = $relation->match->command_home_id;
+            $matchModel->command_guest_id = $relation->match->command_guest_id;
+            $matchDate = date('d.m.Y', strtotime($relation->match->date));
+            $matchesList[$relation->match->id] = $relation->match->name.' ('.$matchDate.')';
         }
 
         $model->title = html_entity_decode($model->title);
@@ -335,6 +395,22 @@ class AlbumController extends Controller
             }
             $model->cached_tag_list = implode(', ', $cached_tag_list);
 
+            if(!isset($relation->relationable_id)) {
+                $relation->relationable_id = $model->id;
+                $relation->relationable_type = Relation::RELATIONABLE_ALBUM;
+            }
+            if($relation->load(Yii::$app->request->post()) && $model->validate()) {
+
+                if($relation->parent_id != '' && is_array($relation->parent_id)) {
+                    $relation->parent_id = $relation->parent_id[0];
+                }
+                if($relation->parent_id && is_numeric($relation->parent_id)) {
+                    $relation->save();
+                } elseif(isset($relation->id)) {
+                    $relation->delete();
+                }
+            }
+
             $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         }
@@ -345,6 +421,9 @@ class AlbumController extends Controller
                 'images' => $assets,
                 'coverImage' => $coverImage,
                 'tags' => $tags,
+                'relation' => $relation,
+                'matchModel' => $matchModel,
+                'matchesList' => $matchesList,
             ]);
         }
     }
@@ -360,6 +439,7 @@ class AlbumController extends Controller
         $post = $this->findModel($id);
 
         Tagging::deleteAll(['taggable_type' => Tagging::TAGGABLE_ALBUM ,'taggable_id' => $id]);
+        Relation::deleteAll(['relationable_type' => Relation::RELATIONABLE_ALBUM ,'relationable_id' => $id]);
         $assets = Asset::find()->where(['assetable_type' => Asset::ASSETABLE_ALBUM ,'assetable_id' => $id])->all();
         foreach ($assets as $asset) {
             $asset->delete();

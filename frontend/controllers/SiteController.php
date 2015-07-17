@@ -914,10 +914,15 @@ class SiteController extends Controller
 
         $title = "Фото матча ".$match->name;
 
+        $albumTable = Album::tableName();
+        $relationTable = Relation::tableName();
+
         $album = Album::find()
+            ->innerJoin($relationTable, "{$albumTable}.id = {$relationTable}.relationable_id")
             ->where([
                 'is_public' => 1,
-                'match_id' => $id,
+                "{$relationTable}.relationable_type" => Relation::RELATIONABLE_ALBUM,
+                "{$relationTable}.parent_id" => $match->id,
             ])->one();
         
         $columnData = [];
@@ -988,6 +993,75 @@ class SiteController extends Controller
             $columnData['comments'] = Comment::getCommentsBlock($album->id, Comment::COMMENTABLE_ALBUM);
             $columnData['comments']['weight'] = 20;
         }
+        usort($columnData, 'self::cmp');
+
+        return $this->render('@frontend/views/site/index', [
+            'templateType' => 'col2',
+            'title' => $title,
+            'columnFirst' => $columnData,
+            'columnSecond' => [ 
+                'short_news' => SiteBlock::getShortNews(20),
+            ],
+        ]);
+    }
+
+    /**
+     * Match videos page
+     * @param $id Match id
+     * @return mixed
+     */
+    public function actionMatchVideos($id) 
+    {
+        $match = Match::findOne($id);
+        
+        if(!isset($match)) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+
+        $title = "Видео матча ".$match->name;
+
+        $videoPostTable = VideoPost::tableName();
+        $relationTable = Relation::tableName();
+
+        $query = VideoPost::find()
+            ->innerJoin($relationTable, "{$videoPostTable}.id = {$relationTable}.relationable_id")
+            ->where([
+                'is_public' => 1,
+                "{$relationTable}.relationable_type" => Relation::RELATIONABLE_VIDEO,
+                "{$relationTable}.parent_id" => $match->id,
+            ])->orderBy(['created_at' => SORT_DESC]);
+
+        $videosDataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+        
+        $columnData = [];
+        $columnData['menu'] = [
+            'view' => '@frontend/views/translation/menu',
+            'data' => compact('match'),
+        ];
+        $columnData['content'] = [
+            'view' => '@frontend/views/site/videos',
+            'data' => compact('videosDataProvider'),
+            'weight' => 10,
+        ];
+
+        // if (!isset($album)){
+        //     $columnData['content'] = [
+        //         'view' => '@frontend/views/site/empty',
+        //         'data' => ['message' => 'Видеозаписей к матчу не найдено'],
+        //         'weight' => 10,
+        //     ];
+        // } else {
+            // $columnData['content'] = [
+            //     'view' => '@frontend/views/site/videos',
+            //     'data' => compact('videosDataProvider'),
+            //     'weight' => 10,
+            // ];
+        // }
         usort($columnData, 'self::cmp');
 
         return $this->render('@frontend/views/site/index', [

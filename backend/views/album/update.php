@@ -21,6 +21,9 @@ $this->params['breadcrumbs'][] = 'Изменить';
         'images' => $images,
         'coverImage' => $coverImage,
         'tags' => $tags,
+        'relation' => $relation,
+        'matchModel' => $matchModel,
+        'matchesList' => $matchesList,
     ]) ?>
 
 </div>

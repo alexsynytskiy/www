@@ -179,7 +179,7 @@ use kartik\datetime\DateTimePicker;
         <div class="panel-collapse collapse <?= isset($relation->match) ? 'in' : 'out' ?>">
             <div class="panel-body">
                 <?php 
-                    echo $this->render('relation', [
+                    echo $this->render('@backend/views/relation/relation', [
                         'form' => $form,
                         'post' => $model,
                         'relation' => $relation,

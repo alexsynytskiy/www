@@ -103,8 +103,13 @@ use common\models\Season;
             </div>
             <div class="row">
                 <div class="col-sm-6">
-                    <?= $form->field($relation, 'relation_type_id')
-                        ->dropDownList($relation::dropdownRelations()) ?>
+                    <?php 
+                        if(isset($relation->relationable_type) && 
+                            $relation->relationable_type == $relation::RELATIONABLE_POST) { 
+                            echo $form->field($relation, 'relation_type_id')
+                                ->dropDownList($relation::dropdownRelations());
+                        }
+                    ?>
                 </div>
             </div>
         </div>
