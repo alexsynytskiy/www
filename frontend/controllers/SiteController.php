@@ -1036,7 +1036,8 @@ class SiteController extends Controller
                 'pageSize' => 10,
             ],
         ]);
-        
+        $emptyText = 'Видеозаписей к матчу не найдено';
+
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
             'title' => $title,
@@ -1047,7 +1048,7 @@ class SiteController extends Controller
                 ],
                 'content' => [
                     'view' => '@frontend/views/site/videos',
-                    'data' => compact('videosDataProvider'),
+                    'data' => compact('videosDataProvider', 'emptyText'),
                 ],
             ],
             'columnSecond' => [ 

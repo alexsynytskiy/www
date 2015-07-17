@@ -5,7 +5,10 @@ use yii\web\JsExpression;
 /**
  * @var $this yii\web\View
  * @var $videosDataProvider yii\data\ActiveDataProvider
+ * @var $emptyText string
 **/
+
+$emptyText = !isset($emptyText) ? 'Видеозаписей не найдено' : $emptyText;
 ?>
 
 <div class="videos-container">
@@ -26,6 +29,7 @@ use yii\web\JsExpression;
             }"),
          ],
          'summary' => '', 
+         'emptyText' => $emptyText,
     ]);
     ?>
 </div>
