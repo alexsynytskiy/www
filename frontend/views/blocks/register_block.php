@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\file\FileInput;
+use yii\captcha\Captcha;
 
 /**
  * @var yii\web\View $this
@@ -45,6 +46,17 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($user, 'newPasswordConfirm', [
                     'template' => '<div class="field field-pass2 text-field">{input}<div class="status-box"></div></div><div class="error-msg">{error}</div>',
                 ])->passwordInput(['placeholder' => 'Повторите пароль*']) ?>
+
+        <?= $form->field($user, 'captcha', [
+                    'template' => '{input}<div class="error-msg">{error}</div>',
+                ])->widget(Captcha::className(), [
+                'captchaAction' => \yii\helpers\Url::to('/site/captcha'),
+                'template' => '<div class="captcha-image">{image}</div>
+                    <div class="field field-captcha text-field">
+                        {input}<div class="status-box"></div>
+                    </div>',
+                'options' => ['placeholder' => 'Введите код с картинки*'],
+            ]) ?>
 
         <?= $form->field($user, 'avatar', [
                     'template' => '<div class="preview-image"></div><div class="error-msg">{error}</div>'.
