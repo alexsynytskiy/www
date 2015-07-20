@@ -9,7 +9,7 @@ use frontend\widgets\Alert;
 use common\models\SiteBlock;
 use common\models\Banner;
 
-use amnah\yii2\user\models\User;
+use common\modules\user\models\User;
 
 /* @var $this \yii\web\View */
 /* @var $content string */

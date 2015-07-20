@@ -44,7 +44,7 @@ class m150214_044831_init_user extends Migration
             'id' => Schema::TYPE_PK,
             'user_id' => Schema::TYPE_INTEGER . ' not null',
             'type' => Schema::TYPE_SMALLINT . ' not null',
-            'key' => Schema::TYPE_STRING . ' not null',
+            'key_value' => Schema::TYPE_STRING . ' not null',
             'create_time' => Schema::TYPE_TIMESTAMP . ' null default null',
             'consume_time' => Schema::TYPE_TIMESTAMP . ' null default null',
             'expire_time' => Schema::TYPE_TIMESTAMP . ' null default null',
@@ -69,7 +69,7 @@ class m150214_044831_init_user extends Migration
         // add indexes for performance optimization
         $this->createIndex('{{%user_email}}', '{{%user}}', 'email', true);
         $this->createIndex('{{%user_username}}', '{{%user}}', 'username', true);
-        $this->createIndex('{{%user_key_key}}', '{{%user_key}}', 'key', true);
+        $this->createIndex('{{%user_key_key_value}}', '{{%user_key}}', 'key_value', true);
         $this->createIndex('{{%user_auth_provider_id}}', '{{%user_auth}}', 'provider_id', false);
 
         // add foreign keys for data integrity
@@ -93,7 +93,7 @@ class m150214_044831_init_user extends Migration
                 Role::ROLE_ADMIN,
                 'neo@neo.com',
                 'neo',
-                '$2y$13$dyVw4WkZGkABf2UrGWrhHO4ZmVBv.K4puhOL59Y9jQhIdj63TlV.O',
+                '$2y$13$dyVw4WkZGkABf2UrGWrhHO4ZmVBv.K4puhOL59Y9jQhIdj63TlV.O', // neo
                 User::STATUS_ACTIVE,
                 date('Y-m-d H:i:s'),
                 $security->generateRandomString(),

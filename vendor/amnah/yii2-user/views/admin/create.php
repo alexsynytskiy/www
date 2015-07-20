@@ -8,7 +8,9 @@ use yii\helpers\Html;
  * @var amnah\yii2\user\models\Profile $profile
  */
 
-$this->title = Yii::t('user', 'Создать пользователя');
+$this->title = Yii::t('user', 'Create {modelClass}', [
+  'modelClass' => 'User',
+]);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('user', 'Users'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

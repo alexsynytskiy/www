@@ -10,11 +10,6 @@ use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\helpers\Json;
-use yii\db\Query;
-
-use yii\web\UploadedFile;
-use common\models\Asset;
 
 /**
  * AdminController implements the CRUD actions for User model.
@@ -29,7 +24,7 @@ class AdminController extends Controller
         // check for admin permission (`tbl_role.can_admin`)
         // note: check for Yii::$app->user first because it doesn't exist in console commands (throws exception)
         if (!empty(Yii::$app->user) && !Yii::$app->user->can("admin")) {
-            throw new ForbiddenHttpException('Вы не можете выполнить это действие.');
+            throw new ForbiddenHttpException('You are not allowed to perform this action.');
         }
 
         parent::init();
@@ -75,11 +70,8 @@ class AdminController extends Controller
      */
     public function actionView($id)
     {
-        $user = $this->findModel($id);
-        $avatar = $user->getAsset(Asset::THUMBNAIL_CONTENT);
         return $this->render('view', [
-            'user' => $user,
-            'avatar' => $avatar,
+            'user' => $this->findModel($id),
         ]);
     }
 
@@ -100,38 +92,8 @@ class AdminController extends Controller
 
         $post = Yii::$app->request->post();
         if ($user->load($post) && $user->validate() && $profile->load($post) && $profile->validate()) {
-
-            $uploadedFile = UploadedFile::getInstance($user,'avatar');
-
             $user->save(false);
             $profile->setUser($user->id)->save(false);
-
-            // If image was uploaded
-            if(!empty($uploadedFile))
-            {
-                // Save origionals 
-                $originalAsset = new Asset();
-                $originalAsset->assetable_type = Asset::ASSETABLE_USER;
-                $originalAsset->assetable_id = $user->id;
-                $originalAsset->uploadedFile = $uploadedFile;
-                $originalAsset->saveAsset();
-
-                // Save thumbnails 
-                $imageID = $originalAsset->id;
-                $thumbnails = Asset::getThumbnails(Asset::ASSETABLE_USER);
-
-                foreach ($thumbnails as $thumbnail) {
-                    $asset = new Asset();
-                    $asset->assetable_type = Asset::ASSETABLE_USER;
-                    $asset->assetable_id = $user->id;
-                    $asset->parent_id = $imageID;
-                    $asset->thumbnail = $thumbnail;
-                    $asset->uploadedFile = $uploadedFile;
-                    $asset->cropData = $user->cropData;
-                    $asset->saveCroppedAsset();
-                }
-            }
-
             return $this->redirect(['view', 'id' => $user->id]);
         }
 
@@ -155,46 +117,10 @@ class AdminController extends Controller
         $user = $this->findModel($id);
         $user->setScenario("admin");
         $profile = $user->profile;
-        $avatar = $user->getAsset(Asset::THUMBNAIL_CONTENT);
 
         // load post data and validate
         $post = Yii::$app->request->post();
-        if ($user->load($post) && $user->validate() && $profile->load($post) && $profile->validate())
-        {
-            $uploadedFile = UploadedFile::getInstance($user,'avatar');
-
-            // If image was uploaded
-            if(!empty($uploadedFile))
-            {
-                // Save origionals 
-                $originalAsset = $user->getAsset();
-                if(!isset($originalAsset->id)) {
-                    $originalAsset = new Asset();
-                }
-                $originalAsset->assetable_type = Asset::ASSETABLE_USER;
-                $originalAsset->assetable_id = $user->id;
-                $originalAsset->uploadedFile = $uploadedFile;
-                $originalAsset->saveAsset();
-
-                // Save thumbnails 
-                $imageID = $originalAsset->id;
-                $thumbnails = Asset::getThumbnails(Asset::ASSETABLE_USER);
-
-                foreach ($thumbnails as $thumbnail) {
-                    $asset = $user->getAsset($thumbnail);
-                    if(!isset($asset->id)) {
-                        $asset = new Asset();
-                    }
-                    $asset->assetable_type = Asset::ASSETABLE_USER;
-                    $asset->assetable_id = $user->id;
-                    $asset->parent_id = $imageID;
-                    $asset->thumbnail = $thumbnail;
-                    $asset->uploadedFile = $uploadedFile;
-                    $asset->cropData = $user->cropData;
-                    $asset->saveCroppedAsset();
-                }
-            }
-
+        if ($user->load($post) && $user->validate() && $profile->load($post) && $profile->validate()) {
             $user->save(false);
             $profile->setUser($user->id)->save(false);
             return $this->redirect(['view', 'id' => $user->id]);
@@ -203,7 +129,6 @@ class AdminController extends Controller
         // render
         return $this->render('update', [
             'user' => $user,
-            'avatar' => $avatar,
             'profile' => $profile,
         ]);
     }
@@ -224,16 +149,8 @@ class AdminController extends Controller
         UserAuth::deleteAll(['user_id' => $user->id]);
         $profile->delete();
         $user->delete();
-        $assets = Asset::getAssets($user->id, Asset::ASSETABLE_USER);
-        foreach ($assets as $asset) {
-            $asset->delete();
-        }
 
-        if(Yii::$app->request->referrer){
-            return $this->redirect(Yii::$app->request->referrer);
-        } else {
-            return $this->redirect(['index']);
-        }
+        return $this->redirect(['index']);
     }
 
     /**
@@ -253,32 +170,5 @@ class AdminController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
-    }
-
-    /**
-     * Display list of all users in json format
-     *
-     * @param string $search - username
-     * @return mixed
-     */
-    public function actionUserList($search = null, $id = null) {
-        $out = ['more' => false];
-        if (!is_null($search)) {
-            $query = new Query;
-            $query->select('id, username AS text')
-                ->from(User::tableName())
-                ->where(['like', 'username', $search])
-                ->limit(20);
-            $command = $query->createCommand();
-            $data = $command->queryAll();
-            $out['results'] = array_values($data);
-        }
-        elseif ($id > 0) {
-            $out['results'] = ['id' => $id, 'text' => $this->findModel($id)->username];
-        }
-        else {
-            $out['results'] = ['id' => 0, 'text' => 'No matching records found'];
-        }
-        echo Json::encode($out);
     }
 }

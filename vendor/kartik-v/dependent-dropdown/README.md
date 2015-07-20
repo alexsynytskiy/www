@@ -11,7 +11,7 @@ A multi level dependent dropdown JQuery plugin that allows nested dependencies. 
 select inputs, whose options are derived based on value selected in another input/or a group of inputs. It works both
 with normal select options and select with optgroups as well.
 
-> NOTE: The latest version of the plugin v1.4.1 has been released. Refer the [CHANGE LOG](https://github.com/kartik-v/dependent-dropdown/blob/master/CHANGE.md) for details.
+> NOTE: The latest version of the plugin v1.4.3 has been released. Refer the [CHANGE LOG](https://github.com/kartik-v/dependent-dropdown/blob/master/CHANGE.md) for details.
 
 ## Features
 
@@ -29,7 +29,7 @@ with normal select options and select with optgroups as well.
 - Triggers JQuery events for advanced development. Events currently available are `depdrop.init`, `depdrop.change`,
   `depdrop.beforeChange`,`depdrop.afterChange`, and  `depdrop.error`.
 - Size of the entire plugin is less than 4KB (about 3KB for the minified JS and 1KB for the minified CSS).
-
+- Ability to configure HTML attributes of each `option` element via ajax response (for example dynamically disabling some dropdown options or adding styles).
 
 ## Demo
 
@@ -77,11 +77,11 @@ You can use the `bower` package manager to install. Run:
 ### Using Composer
 You can use the `composer` package manager to install. Either run:
 
-    $ php composer.phar require kartik-v/dependent-dropdown "dev-master"
+    $ php composer.phar require kartik-v/dependent-dropdown "@dev"
 
 or add:
 
-    "kartik-v/dependent-dropdown": "dev-master"
+    "kartik-v/dependent-dropdown": "@dev"
 
 to your composer.json file
 
@@ -143,11 +143,33 @@ $("#child-2").depdrop({
 The plugin supports these following options:
 
 ##### depends
-_array_ The list of parent input `ID` attributes on which the current dropdown is dependent on. DO NOT prepend any hash
+_array_ the list of parent input `ID` attributes on which the current dropdown is dependent on. DO NOT prepend any hash
 before the input id.
 
+##### initDepends
+_array_ the list of INITIAL nested parent input`ID` attributes on which the current dropdown is dependent on. This is applicable only when`initialize` is set to`true` (for firing the ajax requests on page initialization). Usually you may set it to the topmost parent in the hierarchy while initializing, unless you have complex multiple many to many dependencies. The ajax requests will be fired in sequence based on these dependent ids. DO NOT prepend any hash before the input id. If not set, this will default to`depends`. For example you could use`depends` and`initDepends` in the following manner:
+
+```js
+$("#child-1").depdrop({
+    depends: ['parent-1'],
+    url: '/path/to/child_1_list'
+});
+
+$("#child-2").depdrop({
+    depends: ['child-1'], // dependent only on child-1
+    url: '/path/to/child_1_list'
+});
+
+$("#child-3").depdrop({
+    depends: ['child-2'], // dependent only on child-2
+    initDepends: ['parent-1'], // initial ajax loading will be fired first for parent-1, then child-1, and child-2
+    initialize: true,
+    url: '/path/to/child_2_list'
+});
+```
+
 ##### params
-_array_ The list of additional input `ID` attributes, whose values will be parsed and passed to the ajax call. DO NOT 
+_array_ the list of additional input `ID` attributes, whose values will be parsed and passed to the ajax call. DO NOT 
 prepend  any hash before the input id. When this is setup, the `$_POST` request would contain an array named `depdrop_params`
 with the values of these input identifiers. For example in PHP you can retrieve this as:
 
@@ -329,4 +351,3 @@ $('#input-id').depdrop('init');
 ## License
 
 **dependent-dropdown** is released under the BSD 3-Clause License. See the bundled `LICENSE.md` for details.
-

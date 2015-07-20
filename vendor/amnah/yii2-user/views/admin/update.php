@@ -8,10 +8,12 @@ use yii\helpers\Html;
  * @var amnah\yii2\user\models\Profile $profile
  */
 
-$this->title = Yii::t('user', 'Изменить данные пользователя:') .' '. $user->getDisplayName();
+$this->title = Yii::t('user', 'Update {modelClass}: ', [
+  'modelClass' => 'User',
+]) . ' ' . $user->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('user', 'Users'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $user->getDisplayName(), 'url' => ['view', 'id' => $user->id]];
-$this->params['breadcrumbs'][] = Yii::t('user', 'Изменить');
+$this->params['breadcrumbs'][] = ['label' => $user->id, 'url' => ['view', 'id' => $user->id]];
+$this->params['breadcrumbs'][] = Yii::t('user', 'Update');
 ?>
 <div class="user-update">
 
@@ -19,7 +21,6 @@ $this->params['breadcrumbs'][] = Yii::t('user', 'Изменить');
 
     <?= $this->render('_form', [
         'user' => $user,
-        'avatar' => $avatar,
         'profile' => $profile,
     ]) ?>
 

@@ -7,8 +7,8 @@ use kartik\file\FileInput;
 /**
  * @var yii\web\View $this
  * @var yii\widgets\ActiveForm $form
- * @var amnah\yii2\user\models\User $user
- * @var amnah\yii2\user\models\User $profile
+ * @var common\modules\user\models\User $user
+ * @var common\modules\user\models\User $profile
  * @var string $userDisplayName
  */
 

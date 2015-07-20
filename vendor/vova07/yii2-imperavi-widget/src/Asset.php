@@ -59,7 +59,7 @@ class Asset extends AssetBundle
 		}
 		if (!empty($this->plugins)) {
 			foreach ($this->plugins as $plugin) {
-				if ($plugin === 'quote') {
+				if ($plugin === 'clips') {
 					$this->css[] = 'plugins/' . $plugin . '/' . $plugin . '.css';
 				}
 				$this->js[] = 'plugins/' . $plugin . '/' . $plugin .'.js';
@@ -67,9 +67,4 @@ class Asset extends AssetBundle
 		}
 		parent::registerAssetFiles($view);
 	}
-	public function init()
-    {
-        parent::init();
-        $this->publishOptions['forceCopy'] = true;
-    }
 }

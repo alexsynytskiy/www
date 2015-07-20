@@ -5,7 +5,7 @@ namespace common\models;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\Url;
-use amnah\yii2\user\models\User;
+use common\modules\user\models\User;
 use dosamigos\transliterator\TransliteratorHelper;
 
 /**

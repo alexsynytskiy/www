@@ -1,6 +1,6 @@
 /*!
  * @copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
- * @version 1.5.2
+ * @version 1.5.3
  *
  * An extended checkbox plugin for Bootstrap 3 that allows three states and additional styles.
  *
@@ -10,7 +10,7 @@
 .cbx-loading {
     width: 25px;
     height: 25px;
-    font-size: 0px;
+    font-size: 0;
     color: #fff;
     background: transparent url('../img/loading.gif') top left no-repeat;
     border: none;
@@ -28,6 +28,13 @@
     vertical-align: middle;
     border-radius: 3px;
     position: relative;
+}
+
+.cbx, .cbx-container, .cbx-label {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .cbx-label {
@@ -106,11 +113,11 @@ label .cbx {
 }
 
 .has-success .cbx-icon-null {
-    background-color: #66512c;
+    background-color: #2b542c;
 }
 
 .has-warning .cbx-icon-null {
-    background-color: #2b542c;
+    background-color: #66512c;
 }
 
 .cbx-xs .cbx-icon-null {

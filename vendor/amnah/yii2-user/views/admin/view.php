@@ -6,11 +6,10 @@ use yii\widgets\DetailView;
 /**
  * @var yii\web\View $this
  * @var amnah\yii2\user\models\User $user
- * @var \common\models\Asset $avatar 
  */
 
-$this->title = $user->getDisplayName();
-$this->params['breadcrumbs'][] = ['label' => Yii::t('user', 'Пользователи'), 'url' => ['index']];
+$this->title = $user->id;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('user', 'Users'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-view">
@@ -18,8 +17,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('user', 'Изменить'), ['update', 'id' => $user->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('user', 'Удалить'), ['delete', 'id' => $user->id], [
+        <?= Html::a(Yii::t('user', 'Update'), ['update', 'id' => $user->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('user', 'Delete'), ['delete', 'id' => $user->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => Yii::t('user', 'Are you sure you want to delete this item?'),
@@ -32,24 +31,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $user,
         'attributes' => [
             'id',
-            'profile.full_name',
-            'username',
+            'role_id',
+            'status',
             'email:email',
-            [
-                'label' => 'Аватар',
-                'value' => Html::img($avatar->getFileUrl()),
-                'format' => 'html',
-            ],
-            'role.name',
-            [
-                'attribute' => 'status',
-                'value' => $user->getStatus(),
-            ],
-            'profile.description',
-            [
-                'attribute' => 'password',
-                'label' => 'Хеш пароля',
-            ],
+            'new_email:email',
+            'username',
+            'profile.full_name',
+            'password',
             'auth_key',
             'api_key',
             'login_ip',

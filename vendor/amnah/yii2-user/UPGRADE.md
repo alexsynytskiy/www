@@ -1,6 +1,15 @@
 Yii 2 User - Upgrade notes
 =========
 
+## Upgrading from ~2.0 to 3.0.0
+
+This release just has some minor updates, but unfortunately contains backwards-compatibility
+breaking changes.
+
+To update to this version:
+
+* Change table column ```tbl_user_key.key``` to ```tbl_user_key.key_value``` in your sql database
+
 ## Upgrading from 1.0.0-beta to 2.0.0-alpha
 
 This release is basically a code overhaul and does not contain any functionality changes.

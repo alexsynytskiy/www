@@ -7,7 +7,7 @@ return [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'class' => 'amnah\yii2\user\components\User',
+            'class' => 'common\modules\user\components\User',
         ],
         'i18n' => [
             'translations' => [
@@ -24,7 +24,7 @@ return [
     ],
     'modules' => [
         'user' => [
-            'class' => 'amnah\yii2\user\Module',
+            'class' => 'common\modules\user\Module',
             // set custom module properties here ...
         ],
         'yii2images' => [

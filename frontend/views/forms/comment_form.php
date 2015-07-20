@@ -5,7 +5,7 @@ use yii\widgets\ActiveForm;
 use yii\web\JsExpression;
 use yii\widgets\Pjax;
 
-use amnah\yii2\user\models\User;
+use common\modules\user\models\User;
 
 /**
  * @var $this yii\web\View
