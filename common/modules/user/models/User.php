@@ -96,6 +96,11 @@ class User extends ActiveRecord implements IdentityInterface
     public $cropData;
 
     /**
+     * @var string Captcha
+     */
+    public $captcha;
+
+    /**
      * @inheritdoc
      */
     public static function tableName()
@@ -140,6 +145,10 @@ class User extends ActiveRecord implements IdentityInterface
             // image
             [['avatar'], 'file', 'extensions' => 'jpeg, jpg , gif, png'],
             [['cropData'], 'safe'],
+
+            // captcha
+            ['captcha', 'required', 'on' => ['register']],
+            ['captcha', 'captcha', 'on' => ['register']],
         ];
 
         return $rules;
@@ -182,7 +191,7 @@ class User extends ActiveRecord implements IdentityInterface
             'newPassword'     => 'Новый пароль',
             'newPasswordConfirm' => 'Подтверждение пароля',
             'avatar' => 'Аватар',
-
+            'captha' => 'Каптча',
         ];
     }
 

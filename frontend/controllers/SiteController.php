@@ -49,7 +49,6 @@ use yii\data\ArrayDataProvider;
 use yii\data\Pagination;
 use yii\helpers\Json;
 use yii\web\UploadedFile;
-use himiklab\rss\models\Feed;
 
 /**
  * Site controller
