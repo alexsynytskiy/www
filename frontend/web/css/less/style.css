@@ -97,6 +97,8 @@ header .header-wrapper .header-top-part .navigation-bar .logged-in .main-functio
   font-weight: normal;
   color: #727272;
   text-align: left;
+  max-width: 118px;
+  white-space: nowrap;
 }
 header .header-wrapper .header-top-part .navigation-bar .logged-in .main-functions .create-post {
   height: 15px;

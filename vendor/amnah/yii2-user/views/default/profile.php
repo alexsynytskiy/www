@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-default-profile">
 
-	<h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title) ?></h1>
 
     <?php if ($flash = Yii::$app->session->getFlash("Profile-success")): ?>
 
@@ -34,10 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'enableAjaxValidation' => true,
     ]); ?>
 
-    <?= $form->field($profile, 'full_name')->textInput(['maxlength' => 200]) ?>
-
-    <?= $form->field($profile, 'description')->textarea(['rows' => 6]) ?>
-
+    <?= $form->field($profile, 'full_name') ?>
 
     <div class="form-group">
         <div class="col-lg-offset-2 col-lg-10">

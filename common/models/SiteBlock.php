@@ -4,7 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\helpers\Url;
-use amnah\yii2\user\models\User;
+use common\modules\user\models\User;
 
 class SiteBlock
 {

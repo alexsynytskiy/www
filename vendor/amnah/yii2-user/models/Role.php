@@ -19,18 +19,14 @@ use yii\db\ActiveRecord;
 class Role extends ActiveRecord
 {
     /**
-     * @var int Default user role
-     */
-    const ROLE_USER = 1;
-    /**
-     * @var int Moder user role
-     */
-    const ROLE_MODER = 2;
-
-    /**
      * @var int Admin user role
      */
-    const ROLE_ADMIN = 3;
+    const ROLE_ADMIN = 1;
+
+    /**
+     * @var int Default user role
+     */
+    const ROLE_USER = 2;
 
     /**
      * @inheritdoc
@@ -45,12 +41,22 @@ class Role extends ActiveRecord
      */
     public function rules()
     {
-        return [
+        $rules = [
             [['name'], 'required'],
-            //            [['create_time', 'update_time'], 'safe'],
-            [['can_admin'], 'integer'],
             [['name'], 'string', 'max' => 255]
+//            [['can_admin'], 'integer'],
+//            [['create_time', 'update_time'], 'safe'],
         ];
+
+        // add can_ rules
+        foreach ($this->attributes() as $attribute) {
+            if (strpos($attribute, 'can_') === 0) {
+                $rules[] = [[$attribute], 'integer'];
+            }
+        }
+
+        return $rules;
+
     }
 
     /**
@@ -60,7 +66,7 @@ class Role extends ActiveRecord
     {
         return [
             'id'          => Yii::t('user', 'ID'),
-            'name'        => Yii::t('user', 'Роль'),
+            'name'        => Yii::t('user', 'Name'),
             'create_time' => Yii::t('user', 'Create Time'),
             'update_time' => Yii::t('user', 'Update Time'),
             'can_admin'   => Yii::t('user', 'Can Admin'),
@@ -117,8 +123,7 @@ class Role extends ActiveRecord
         if ($dropdown === null) {
 
             // get all records from database and generate
-            $models = self::find()->all();
-            $dropdown = [];
+            $models = static::find()->all();
             foreach ($models as $model) {
                 $dropdown[$model->id] = $model->name;
             }

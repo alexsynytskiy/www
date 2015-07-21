@@ -1,6 +1,6 @@
 /*!
  * @copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
- * @version 1.5.2
+ * @version 1.5.3
  *
  * An extended checkbox plugin for bootstrap with three states and additional styles.
  *
@@ -171,7 +171,7 @@
             var self = this,
                 icon = self.getIndicator(),
                 size = self.options.size,
-                tab = self.disabled ? '' : ' tabindex="1000"',
+                tab = self.disabled || !self.options.tabindex ? '' : ' tabindex="' + self.options.tabindex + '"',
                 css = 'cbx cbx-' + size + (self.disabled ? ' cbx-disabled' : ' cbx-active');
             return '<div class="' + css + '"' + tab + '>' + icon + '</div>';
         }
@@ -204,7 +204,8 @@
         iconNull: '<div class="cbx-icon-null"></div>',
         size: 'md',
         enclosedLabel: false,
-        useNative: false
+        useNative: false,
+        tabindex: 1000
     };
 
     $.fn.checkboxX.Constructor = CheckboxX;

@@ -2861,10 +2861,3 @@ body a:focus {
   color: #f94351;
   background-position: right -35px;
 }
-#register-form #user-captcha-image {
-  display: block;
-  margin: 0 auto;
-}
-#register-form .field-captcha {
-  margin-top: 0;
-}

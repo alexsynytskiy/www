@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-default-account">
 
-	<h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title) ?></h1>
 
     <?php if ($flash = Yii::$app->session->getFlash("Account-success")): ?>
 
@@ -46,11 +46,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'enableAjaxValidation' => true,
     ]); ?>
 
+    <?= $form->field($user, 'currentPassword')->passwordInput() ?>
 
+    <hr/>
 
-    <?= $form->field($profile, 'full_name')->textInput() ?>
-
-    <?= $form->field($user, 'email') ?>
+    <?php if (Yii::$app->getModule("user")->useEmail): ?>
+        <?= $form->field($user, 'email') ?>
+    <?php endif; ?>
 
     <div class="form-group">
         <div class="col-lg-offset-2 col-lg-10">
@@ -71,11 +73,11 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 
-    <?php echo $form->field($user, 'currentPassword')->passwordInput() ?>
+    <?php if (Yii::$app->getModule("user")->useUsername): ?>
+        <?= $form->field($user, 'username') ?>
+    <?php endif; ?>
 
     <?= $form->field($user, 'newPassword')->passwordInput() ?>
-
-    <?= $form->field($profile, 'description')->textarea(['rows' => 6]) ?>
 
     <div class="form-group">
         <div class="col-lg-offset-2 col-lg-10">

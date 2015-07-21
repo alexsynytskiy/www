@@ -3,7 +3,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
-use amnah\yii2\user\models\User;
+use common\modules\user\models\User;
 
 /**
  * @var $this yii\web\View

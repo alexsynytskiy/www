@@ -4,7 +4,7 @@ use yii\helpers\Url;
 
 /**
  * @var yii\web\View $this
- * @var amnah\yii2\user\models\Profile $profile
+ * @var common\modules\user\models\Profile $profile
  */
 
 $this->title = 'Личный кабинет';

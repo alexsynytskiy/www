@@ -4,12 +4,10 @@ namespace amnah\yii2\user\models;
 
 use Yii;
 use yii\db\ActiveRecord;
-use yii\helpers\Url;
 use yii\web\IdentityInterface;
 use yii\swiftmailer\Mailer;
 use yii\swiftmailer\Message;
 use yii\helpers\Inflector;
-use common\models\Asset;
 use ReflectionClass;
 
 /**
@@ -32,12 +30,6 @@ use ReflectionClass;
  * @property string    $ban_time
  * @property string    $ban_reason
  *
- * @property string    $salt
- * @property string    $name
- * @property string    $description
- * @property string    $state
- *
- * @property Asset     $avatar
  * @property Profile   $profile
  * @property Role      $role
  * @property UserKey[] $userKeys
@@ -61,11 +53,6 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_UNCONFIRMED_EMAIL = 2;
 
     /**
-     * @var int Key for hashing password
-     */
-    const SECURITY_KEY = '6763750ac11ad4cbc97c4035268e7af5849fc006';
-
-    /**
      * @var string Current password - for account page updates
      */
     public $currentPassword;
@@ -84,28 +71,13 @@ class User extends ActiveRecord implements IdentityInterface
      * @var array Permission cache array
      */
     protected $_access = [];
-
-    /**
-     * @var File User photo
-     */
-    public $avatar;
-
-    /**
-     * @var string Coordinates data for crop image
-     */
-    public $cropData;
-
-    /**
-     * @var string Captcha
-     */
-    public $captcha;
-
+    
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return static::getDb()->tablePrefix . "users";
+        return static::getDb()->tablePrefix . "user";
     }
 
     /**
@@ -117,17 +89,17 @@ class User extends ActiveRecord implements IdentityInterface
         $rules = [
             // general email and username rules
             [['email', 'username'], 'string', 'max' => 255],
-            [['email', 'username'], 'unique', 'on' => ['register', 'create']],
+            [['email', 'username'], 'unique'],
             [['email', 'username'], 'filter', 'filter' => 'trim'],
-            [['email'], 'email', 'message' => '{attribute} не является правильным адресом.'],
-            [['username'], 'match', 'pattern' => '/^[A-Za-z0-9_-]+$/u', 'message' => Yii::t('user', '{attribute} can contain only letters, numbers, "_" and "-"')],
+            [['email'], 'email'],
+            [['username'], 'match', 'pattern' => '/^[A-Za-z0-9_]+$/u', 'message' => Yii::t('user', '{attribute} can contain only letters, numbers, and "_"')],
 
             // password rules
             [['newPassword'], 'string', 'min' => 3],
             [['newPassword'], 'filter', 'filter' => 'trim'],
-            [['newPassword'], 'required', 'on' => ['register', 'reset'], 'message' => 'Пожалуйста, введите Пароль'],
-            [['newPasswordConfirm'], 'required', 'on' => ['register', 'reset'], 'message' => 'Пожалуйста, подтвердите Пароль'],
-            [['newPasswordConfirm'], 'compare', 'compareAttribute' => 'newPassword', 'message' => 'Пароли не совпадают'],
+            [['newPassword'], 'required', 'on' => ['register', 'reset']],
+            [['newPasswordConfirm'], 'required', 'on' => ['reset']],
+            [['newPasswordConfirm'], 'compare', 'compareAttribute' => 'newPassword', 'message' => Yii::t('user','Passwords do not match')],
 
             // account page
             [['currentPassword'], 'required', 'on' => ['account']],
@@ -138,19 +110,16 @@ class User extends ActiveRecord implements IdentityInterface
             [['role_id', 'status'], 'integer', 'on' => ['admin']],
             [['ban_time'], 'integer', 'on' => ['admin']],
             [['ban_reason'], 'string', 'max' => 255, 'on' => 'admin'],
-
-            // required rules
-            [['email', 'username'], 'required', 'message' => 'Пожалуйста, введите {attribute}'],
-
-            // image
-            [['avatar'], 'file', 'extensions' => 'jpeg, jpg , gif, png'],
-            [['cropData'], 'safe'],
-
-            // captcha
-            ['captcha', 'required', 'on' => ['register']],
-            ['captcha', 'captcha', 'on' => ['register']],
-            
         ];
+
+        // add required rules for email/username depending on module properties
+        $requireFields = ["requireEmail", "requireUsername"];
+        foreach ($requireFields as $requireField) {
+            if (Yii::$app->getModule("user")->$requireField) {
+                $attribute = strtolower(substr($requireField, 7)); // "email" or "username"
+                $rules[]   = [$attribute, "required"];
+            }
+        }
 
         return $rules;
     }
@@ -160,8 +129,8 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function validateCurrentPassword()
     {
-        if (!$this->verifyPassword($this->currentPassword)) {
-            $this->addError("currentPassword", "Не верный пароль");
+        if (!$this->validatePassword($this->currentPassword)) {
+            $this->addError("currentPassword", "Current password incorrect");
         }
     }
 
@@ -171,13 +140,13 @@ class User extends ActiveRecord implements IdentityInterface
     public function attributeLabels()
     {
         return [
-            'id'          => 'ID',
-            'role_id'     => 'Роль',
-            'status'      => 'Статус',
-            'email'       => 'E-mail',
-            'new_email'   => 'Новый Email',
-            'username'    => 'Логин',
-            'password'    => 'Пароль',
+            'id'          => Yii::t('user', 'ID'),
+            'role_id'     => Yii::t('user', 'Role ID'),
+            'status'      => Yii::t('user', 'Status'),
+            'email'       => Yii::t('user', 'Email'),
+            'new_email'   => Yii::t('user', 'New Email'),
+            'username'    => Yii::t('user', 'Username'),
+            'password'    => Yii::t('user', 'Password'),
             'auth_key'    => Yii::t('user', 'Auth Key'),
             'api_key'     => Yii::t('user', 'Api Key'),
             'login_ip'    => Yii::t('user', 'Login Ip'),
@@ -185,14 +154,13 @@ class User extends ActiveRecord implements IdentityInterface
             'create_ip'   => Yii::t('user', 'Create Ip'),
             'create_time' => Yii::t('user', 'Create Time'),
             'update_time' => Yii::t('user', 'Update Time'),
-            'ban_time'    => 'Время бана',
-            'ban_reason'  => 'Причина бана',
+            'ban_time'    => Yii::t('user', 'Ban Time'),
+            'ban_reason'  => Yii::t('user', 'Ban Reason'),
 
-            'currentPassword' => 'Текущий пароль',
-            'newPassword'     => 'Новый пароль',
-            'newPasswordConfirm' => 'Подтверждение пароля',
-            'avatar' => 'Аватар',
-            'captha' => 'Каптча',
+            // virtual attributes set above
+            'currentPassword' => Yii::t('user', 'Current Password'),
+            'newPassword'     => Yii::t('user', 'New Password'),
+            'newPasswordConfirm' => Yii::t('user', 'New Password Confirm'),
         ];
     }
 
@@ -212,6 +180,18 @@ class User extends ActiveRecord implements IdentityInterface
             ],
         ];
     }
+
+    /**
+     * Stick with 1 user:1 profile
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    /*
+    public function getProfiles()
+    {
+        return $this->hasMany(Profile::className(), ['user_id' => 'id']);
+    }
+    */
 
     /**
      * @return \yii\db\ActiveQuery
@@ -294,21 +274,9 @@ class User extends ActiveRecord implements IdentityInterface
      * @param string $password
      * @return bool
      */
-    public function verifyPassword($password)
+    public function validatePassword($password)
     {
-        // old validation
-        // if(strtotime($this->create_time) < strtotime('12-02-2009')) {
-        
-        $passwordHash = sha1("--$this->salt--$password--");
-        if($passwordHash != $this->password) 
-        {
-            $digest = self::SECURITY_KEY;
-            for ($i=0; $i < 10; $i++) { 
-                $digest = sha1(implode('--', [$digest, $this->salt, $password, self::SECURITY_KEY]));
-            }
-            $passwordHash = $digest;
-        }
-        return $this->password == $passwordHash;
+        return Yii::$app->security->validatePassword($password, $this->password);
     }
 
     /**
@@ -316,23 +284,21 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function beforeSave($insert)
     {
+        // check if we're setting $this->password directly
+        // handle it by setting $this->newPassword instead
+        $dirtyAttributes = $this->getDirtyAttributes();
+        if (isset($dirtyAttributes["password"])) {
+            $this->newPassword = $dirtyAttributes["password"];
+        }
+
         // hash new password if set
         if ($this->newPassword) {
-            $this->salt = Yii::$app->security->generateRandomString();
-            if(!empty($this->create_time) && strtotime($this->create_time) < strtotime('12-02-2009')) {
-                $this->password = sha1("--$this->salt--$this->newPassword--");
-            } else {
-                $digest = self::SECURITY_KEY;
-                for ($i=0; $i < 10; $i++) { 
-                    $digest = sha1(implode('--', [$digest, $this->salt, $this->newPassword, self::SECURITY_KEY]));
-                }
-                $this->password = $digest;
-            }
+            $this->password = Yii::$app->security->generatePasswordHash($this->newPassword);
         }
 
         // convert ban_time checkbox to date
         if ($this->ban_time) {
-            $this->ban_time = date("Y-m-d H:i:s", time() + 60*60*24*7);
+            $this->ban_time = date("Y-m-d H:i:s");
         }
 
         // ensure fields are null so they won't get set as empty string
@@ -417,8 +383,6 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function updateLoginMeta()
     {
-        // Save to session a previous login time for calculate new comments
-        Yii::$app->session['prev_login_time'] = $this->login_time;
         // set data
         $this->login_ip   = Yii::$app->getRequest()->getUserIP();
         $this->login_time = date("Y-m-d H:i:s");
@@ -483,20 +447,17 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getDisplayName($default = "")
     {
-        $profile = $this->getProfile();
-
         // define possible fields
         $possibleNames = [
-            $this->profile->full_name,
-            $this->username,
-            $this->email,
-            $this->id,
+            "username",
+            "email",
+            "id",
         ];
 
         // go through each and return if valid
         foreach ($possibleNames as $possibleName) {
-            if (!empty($possibleName)) {
-                return $possibleName;
+            if (!empty($this->$possibleName)) {
+                return $this->$possibleName;
             }
         }
 
@@ -550,163 +511,22 @@ class User extends ActiveRecord implements IdentityInterface
         static $dropdown;
         if ($dropdown === null) {
 
-            $dropdown[self::STATUS_ACTIVE] = self::statusHumanName(self::STATUS_ACTIVE);
-            $dropdown[self::STATUS_INACTIVE] = self::statusHumanName(self::STATUS_INACTIVE);
-            $dropdown[self::STATUS_UNCONFIRMED_EMAIL] = self::statusHumanName(self::STATUS_UNCONFIRMED_EMAIL);
+            // create a reflection class to get constants
+            $reflClass = new ReflectionClass(get_called_class());
+            $constants = $reflClass->getConstants();
 
-        }
-        return $dropdown;
-    }
+            // check for status constants (e.g., STATUS_ACTIVE)
+            foreach ($constants as $constantName => $constantValue) {
 
-    /**
-     * Get status human name
-     *
-     * @param int $status
-     * @return string
-     */
-    public static function statusHumanName($status)
-    {
-        if ($status == self::STATUS_ACTIVE) return 'Активный';
-        elseif ($status == self::STATUS_INACTIVE) return 'Неактивный';
-        elseif ($status == self::STATUS_UNCONFIRMED_EMAIL) return 'Не подтвержденный';
-
-        return 'Не определено';
-    }
-
-    /**
-     * @return Asset
-     */
-    public function getAsset($thumbnail = Asset::THUMBNAIL_CONTENT)
-    {
-        $asset = Asset::getAssets($this->id, Asset::ASSETABLE_USER, $thumbnail, true);
-        return $asset;
-    }
-
-    /**
-     * @return string Url to profile
-     */
-    public function getUrl()
-    {
-        return Url::to('/blogs/'.$this->id);
-    }
-
-    /**
-     * Get current status
-     *
-     * @return string
-     */
-    public function getStatus()
-    {
-        return self::statusHumanName($this->status);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAlbums()
-    {
-        return $this->hasMany(Album::className(), ['user_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAssets()
-    {
-        return $this->hasMany(Asset::className(), ['user_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getComments()
-    {
-        return $this->hasMany(Comment::className(), ['user_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getNews()
-    {
-        return $this->hasMany(News::className(), ['user_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPosts()
-    {
-        return $this->hasMany(Post::className(), ['user_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getQuestionUsers()
-    {
-        return $this->hasMany(QuestionUser::className(), ['user_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getVotes()
-    {
-        return $this->hasMany(Vote::className(), ['user_id' => 'id']);
-    }
-
-    /**
-     * Return true if current user has banned ip
-     * @return boolean 
-     */
-    public static function hasBannedIP()
-    {
-        $userIP = Yii::$app->getRequest()->getUserIP();
-        $userIPlong = ip2long($userIP);
-        if($userIPlong == -1 || $userIPlong === false) {
-            return false;
-        }
-        $bannedIPs = \common\models\BannedIP::find()
-            ->where([
-                'is_active' => 1,
-            ])->all();
-        foreach ($bannedIPs as $bannedIP) {
-            if(!isset($bannedIP->end_ip_num) || empty($bannedIP->end_ip_num)) {
-                if($userIPlong == $bannedIP->start_ip_num) return true;
-            } else {
-                if($userIPlong >= $bannedIP->start_ip_num && $userIPlong <= $bannedIP->end_ip_num) {
-                    return true;
+                // add prettified name to dropdown
+                if (strpos($constantName, "STATUS_") === 0) {
+                    $prettyName               = str_replace("STATUS_", "", $constantName);
+                    $prettyName               = Inflector::humanize(strtolower($prettyName));
+                    $dropdown[$constantValue] = $prettyName;
                 }
             }
         }
-        return false;
-    }
 
-    /**
-     * Return true if user is subscribed
-     * @return boolean 
-     */
-    public function isSubscribed()
-    {
-        $subscribing = \common\models\Subscribing::find()
-            ->where(['email' => $this->email])
-            ->one();
-        return isset($subscribing->id);
-    }
-
-    /**
-     * Return true if user is subscribed
-     * @return boolean 
-     */
-    public function getUnsubscribeKey()
-    {
-        $subscribing = \common\models\Subscribing::find()
-            ->where(['email' => $this->email])
-            ->one();
-        if(isset($subscribing->id)) {
-            return md5($subscribing->id.$subscribing->email);
-        }
-        return '';
+        return $dropdown;
     }
 }

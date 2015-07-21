@@ -1,6 +1,6 @@
 /*!
- * @copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
- * @version 1.4.1
+ * @copyright &copy; Kartik Visweswaran, Krajee.com, 2013 - 2015
+ * @version 1.4.3
  *
  * A multi level dependent dropdown JQuery plugin. The plugin
  * allows nested and combined dependencies.
@@ -13,9 +13,11 @@
     var isEmpty = function (value, trim) {
             return value === null || value === undefined || value.length === 0 || (trim && $.trim(value) === '');
         },
-        addOption = function ($el, id, name, sel) {
+        addOption = function ($el, id, name, sel, opts) {
             var settings = {value: id, text: name};
-            if (id === sel && sel !== null) {
+            opts = opts || {};
+            settings = $.extend(settings, opts);
+            if (sel !== null && sel.length && id.toString() === sel) {
                 settings.selected = "selected";
             }
             $("<option/>", settings).appendTo($el);
@@ -46,6 +48,7 @@
         constructor: DepDrop,
         initData: function () {
             var self = this, $el = self.$element;
+            self.initVal = $el.val();
             $el.data('url', self.url)
                 .data('depends', self.depends)
                 .data('placeholder', self.placeholder)
@@ -58,60 +61,36 @@
         },
         init: function () {
             var self = this, depends = self.depends, $id, $el = self.$element, len = depends.length,
-                pValue = {}, chkOptions = $el.find('option').length,
-                handler = function ($elCurr) {
-                    return function () {
-                        self.setDep($elCurr, depends, len, false);
-                    };
-                };
+                pValue = {}, chkOptions = $el.find('option').length, initDepends = self.initDepends || self.depends;
             if (chkOptions === 0 || $el.find('option[value=""]').length === chkOptions) {
                 $el.attr('disabled', 'disabled');
             }
             for (var i = 0; i < len; i++) {
                 $id = $('#' + depends[i]);
-                $id.on('change', handler($id));
-            }
-            if (self.initialize === true) {
-                for (var j = 0; j < len; j++) {
-                    if (j > 0) {
-                        pValue[j] = $('#' + depends[j]).val();
+                $id.on('depdrop.change change select2:select krajeeselect2:cleared', function (e) {
+                    if (!isEmpty($id.data('select2')) && e.type === 'change') {
+                        return;
                     }
-                }
-                depends[len] = $el.attr('id');
-                pValue[len] = $el.val();
-                $(document).ready(function () {
-                    self.initDep(0, depends, pValue);
+                    self.setDep($id, depends, len);
                 });
             }
-
+            if (self.initialize === true) {
+                for (var i = 0; i < initDepends.length; i++) {
+                    $('#' + initDepends[i]).trigger('depdrop.change');
+                }
+            }            
             $el.trigger('depdrop.init');
         },
-        setDep: function ($elCurr, depends, len, vInit) {
-            var self = this, $elInit = self.$element, $el, typ, value = {}, initVal = vInit,
-                callBack = function () {
-                    $elInit.trigger('change');
-                };
+        setDep: function ($elCurr, depends, len) {
+            var self = this, $elInit = self.$element, $el, typ, value = {};
             for (var j = 0; j < len; j++) {
                 $el = $('#' + depends[j]);
                 typ = $el.attr('type');
                 value[j] = (typ === "checkbox" || typ === "radio") ? $el.prop('checked') : $el.val();
             }
-            self.processDep($elInit, $elCurr.attr('id'), value, initVal, callBack, depends);
+            self.processDep($elInit, $elCurr.attr('id'), value, depends);
         },
-        initDep: function (j, depends, preset) {
-            var self = this, value = {}, i, initVal = preset[j + 1], 
-                $el = $('#' + depends[j + 1]), id = $el.attr('id'),
-                len = depends.length, callBack = function () {
-                    self.initDep(j + 1, depends, preset);
-                };
-            for (i = 0; i <= j; i++) {
-                value[i] = $('#' + depends[i]).val();
-            }
-            if (j < len - 1) {
-                self.processDep($el, id, value, initVal, callBack, depends);
-            }
-        },
-        processDep: function ($el, vId, vVal, vInit, vFunc, vDep) {
+        processDep: function ($el, vId, vVal, vDep) {
             var self = this, selected, optCount = 0, params = {}, settings, i, ajaxData = {depdrop_parents: vVal},
                 paramsMain = setParams(vDep, vVal), paramsOther = {}, key, val, vUrl = $el.data('url'),
                 vDefault = $el.data('placeholder'), vLoad = $el.data('loading'), vLoadCss = $el.data('loadingClass'),
@@ -131,8 +110,16 @@
                 type: 'post',
                 data: ajaxData,
                 dataType: 'json',
+                beforeSend: function () {
+                    $el.trigger('depdrop.beforeChange', [vId, $("#" + vId).val(), self.initVal]);
+                    $el.find('option[selected]').removeAttr('selected');
+                    $el.val('').attr('disabled', 'disabled').html('');
+                    if (vLoad) {
+                        $el.removeClass(vLoadCss).addClass(vLoadCss).html('<option id="">' + vLoadMsg + '</option>');
+                    }
+                },
                 success: function (data) {
-                    selected = (vInit === false) ? (isEmpty(data.selected) ? null : data.selected) : vInit;
+                    selected = isEmpty(data.selected) ? (self.initVal === false ? null : self.initVal): data.selected;
                     if (isEmpty(data)) {
                         addOption($el, '', vNullMsg, '');
                     }
@@ -141,38 +128,30 @@
                         if ($el.find('optgroup').length > 0) {
                             $el.find('option[value=""]').attr('disabled', 'disabled');
                         }
-                        if (data.output.length !== 0) {
-                            $el.val(selected).removeAttr('disabled');
+                        if (data.output) {
+                            $el.removeAttr('disabled');
                         }
                     }
                     optCount = $el.find('option').length;
                     if ($el.find('option[value=""]').length > 0) {
                         optCount -= 1;
                     }
-                    $el.trigger('depdrop.change', [vId, $("#" + vId).val(), optCount, vInit]);
+                    $el.trigger('depdrop.change', [vId, $("#" + vId).val(), optCount, self.initVal]);
+                },
+                error: function () {
+                    $el.trigger('depdrop.error', [vId, $("#" + vId).val(), self.initVal]);
+                },
+                complete: function () {
+                    if (vLoad) {
+                        $el.removeClass(vLoadCss);
+                    }
+                    $el.trigger('depdrop.afterChange', [vId, $("#" + vId).val(), self.initVal]);
                 }
-            };
-            settings.beforeSend = function () {
-                $el.trigger('depdrop.beforeChange', [vId, $("#" + vId).val(), vInit]);
-                $el.attr('disabled', 'disabled').html('');
-                if (vLoad) {
-                    $el.removeClass(vLoadCss).addClass(vLoadCss).html('<option id="">' + vLoadMsg + '</option>');
-                }
-            };
-            settings.error = function () {
-                $el.trigger('depdrop.error', [vId, $("#" + vId).val(), vInit]);
-            };
-            settings.complete = function () {
-                vFunc();
-                if (vLoad) {
-                    $el.removeClass(vLoadCss);
-                }
-                $el.trigger('depdrop.afterChange', [vId, $("#" + vId).val(), vInit]);
             };
             $.ajax(settings);
         },
         getSelect: function (data, placeholder, defVal) {
-            var self = this, $select = $("<select>"), idParam = self.idParam, nameParam = self.nameParam;
+            var self = this, $select = $("<select>"), idParam = self.idParam, nameParam = self.nameParam, options;
             if (placeholder !== false) {
                 addOption($select, "", placeholder, defVal);
             }
@@ -181,11 +160,13 @@
             }
             $.each(data, function (i, groups) {
                 if (groups[idParam]) {
-                    addOption($select, groups[idParam], groups[nameParam], defVal);
+                    options = groups.options || {};
+                    addOption($select, groups[idParam], groups[nameParam], defVal, options);
                 }
                 else {
                     var $group = $('<optgroup>', {label: i});
                     $.each(groups, function (j, option) {
+                        options = option.options || {};
                         addOption($group, option[idParam], option[nameParam], defVal);
                     });
                     $group.appendTo($select);

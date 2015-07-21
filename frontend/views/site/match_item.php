@@ -10,7 +10,7 @@ use yii\helpers\Url;
 
 <tr>
     <td class="status <?= $model->checkMatchWinner() ?>"></td>
-    <th class="date"><?= date("d.m.Y H:i", strtotime($model->date)) ?></th>
+    <th class="date"><?= date("d.m.Y", strtotime($model->date)) ?></th>
     <th class="competition"><?= $model->getTournamentName() ?></th>
     <th class="home"><?= $model->teamHome->name ?></th>
     <?php

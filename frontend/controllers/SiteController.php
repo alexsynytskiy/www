@@ -81,18 +81,6 @@ class SiteController extends Controller
                 'url' => 'http://dynamomania.dev/images/store/post_attachments/', // Directory URL address, where files are stored.
                 'path' => '@frontend/web/images/store/post_attachments' // Or absolute path to directory where files are stored.
             ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'foreColor' => '1667780',
-                // 'minLength' => 5,
-                'maxLength' => 5,
-                'width' => 100,
-                // 'width' => 280,
-                'height' => 45,
-                'offset' => -2,
-                'testLimit' => 3,
-                // 'fixedVerifyCode' => 'Dynamomania',
-            ],
         ];
     }
 
@@ -546,11 +534,11 @@ class SiteController extends Controller
      * 
      * @return mixed
      */
-    public function actionTournament()
+    public function actionTournament() 
     {
         $tournamentTable = Tournament::tableName();
         $championshipTable = Championship::tableName();
-        $seasonTable = Season::tableName();        
+        $seasonTable = Season::tableName();
 
         // championship type select
         $championships = Championship::find()
