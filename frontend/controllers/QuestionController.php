@@ -81,15 +81,22 @@ class QuestionController extends Controller
         if(isset($question)){
             $question->voutes++;
             $vote = new QuestionVote();
-            $vote->question_id = $answer->parent_id;
+            $vote->question_id = $question->id;
             $vote->user_id = $userID;
             if(!$vote->validate() || !$question->validate()) {
-                return Json::encode(['success' => false, 'msg' => 'vote']);
+                Yii::$app->getSession()->setFlash('error-question', 'Ошибка при сохранении ответа в опросе.');
+                return Yii::$app->getResponse()->redirect(Url::to('/'));
             }
-            $vote->save();
-            $question->save();
+            $vote->save(false);
+            $question->save(false);
             foreach ($answers as $answer) {
-                $answer->mark = round(($value + $answer->mark * ($question->voutes - 1))/$question->voutes, 4);
+                if(!isset($answerValues[$answer->id])) continue;
+                $value = $answerValues[$answer->id];
+                if($answer->mark == 0) {
+                    $answer->mark = $value; 
+                } else {
+                    $answer->mark = round(($value + $answer->mark * ($question->voutes - 1))/$question->voutes, 4);
+                }
                 $answer->save();
             }
             Yii::$app->getSession()->setFlash('success-question', 'Ваш ответ на опрос успешно сохранен.');

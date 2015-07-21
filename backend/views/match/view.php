@@ -28,6 +28,7 @@ $guestPossession = isset($model->guest_ball_possession) ? $model->guest_ball_pos
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a('<span class="glyphicon glyphicon-send"></span> Сгенерировать опрос', ['/question/autogen', 'matchID' => $model->id], ['class' => 'btn btn-success pull-right']) ?>
     </p>
 
     <?= DetailView::widget([

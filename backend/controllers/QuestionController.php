@@ -236,6 +236,68 @@ class QuestionController extends Controller
     }
 
     /**
+     * Vote for selected float answer
+     * @param $matchID int
+     * @return mixed Json
+     */
+    public function actionAutogen($matchID)
+    {
+        $match = \common\models\Match::findOne($matchID);
+        
+        if(!isset($match)) {
+            throw new NotFoundHttpException('Страница не найдена.');
+        }
+
+        if(in_array($match->teamHome->id, \common\models\Team::getTeamsConstants())) {
+            $ourTeam = $match->teamHome;
+            $opponentTeam = $match->teamGuest;
+        } else {
+            $ourTeam = $match->teamGuest;
+            $opponentTeam = $match->teamHome;
+        }
+
+        $basisPlayers = \common\models\Composition::find()
+            ->where([
+                'match_id' => $match->id, 
+                'command_id' => $ourTeam->id, 
+                'is_basis' => 1,
+            ])
+            ->all();
+
+        $compositionTable = \common\models\Composition::tableName();
+        $matchEventTable = \common\models\MatchEvent::tableName();
+        $substitutionPlayers = \common\models\Composition::find()
+            ->innerJoin($matchEventTable, "$matchEventTable.substitution_id = $compositionTable.id")
+            ->where([
+                $compositionTable.'.match_id' => $match->id, 
+                'command_id' => $ourTeam->id, 
+            ])
+            ->all();
+
+        $teamPlayers = array_merge($basisPlayers, $substitutionPlayers);
+
+        $question = new Question();
+        $question->title = 'Оценки игрокам '.$ourTeam->name.' в матче с '.$opponentTeam->name;
+        $question->voutes = 0;
+        $question->is_active = 1;
+        $question->is_float = 1;
+        $question->is_multipart = 0;
+        $question->mark = 0;
+
+        if($question->save()) {
+            foreach ($teamPlayers as $teamPlayer) {
+                $answer = new Question();
+                $answer->parent_id = $question->id;
+                $answer->title = $teamPlayer->name;
+                $answer->mark = 0;
+                $answer->save();
+            }
+        }
+        
+        return $this->redirect(['view', 'id' => $question->id]);
+    }
+
+    /**
      * Finds the Question model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
