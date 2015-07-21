@@ -486,7 +486,7 @@ class User extends ActiveRecord implements IdentityInterface
         // go through each and return if valid
         foreach ($possibleNames as $possibleName) {
             if (!empty($possibleName)) {
-                return $possibleName.'common';
+                return $possibleName;
             }
         }
 
