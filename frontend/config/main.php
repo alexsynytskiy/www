@@ -66,6 +66,8 @@ return [
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>'          => '<controller>/<action>',
                 'user/<controller:\w+>/<action:\w+>/<id:\d+>'  => 'user/<controller>/<action>',
+                ['pattern' => 'rss', 'route' => 'site/news-rss', 'suffix' => '.xml'],
+                ['pattern' => 'match/rss', 'route' => 'site/events-rss', 'suffix' => '.xml'],
             ],
         ],
         'log' => [

@@ -49,6 +49,7 @@ use yii\data\ArrayDataProvider;
 use yii\data\Pagination;
 use yii\helpers\Json;
 use yii\web\UploadedFile;
+use himiklab\rss\models\Feed;
 
 /**
  * Site controller
@@ -80,6 +81,18 @@ class SiteController extends Controller
                 'class' => 'vova07\imperavi\actions\UploadAction',
                 'url' => 'http://dynamomania.dev/images/store/post_attachments/', // Directory URL address, where files are stored.
                 'path' => '@frontend/web/images/store/post_attachments' // Or absolute path to directory where files are stored.
+            ],
+            'captcha' => [
+                'class' => 'yii\captcha\CaptchaAction',
+                'foreColor' => '1667780',
+                // 'minLength' => 5,
+                'maxLength' => 5,
+                'width' => 100,
+                // 'width' => 280,
+                'height' => 45,
+                'offset' => -2,
+                'testLimit' => 3,
+                // 'fixedVerifyCode' => 'Dynamomania',
             ],
         ];
     }
@@ -534,11 +547,11 @@ class SiteController extends Controller
      * 
      * @return mixed
      */
-    public function actionTournament() 
+    public function actionTournament()
     {
         $tournamentTable = Tournament::tableName();
         $championshipTable = Championship::tableName();
-        $seasonTable = Season::tableName();
+        $seasonTable = Season::tableName();        
 
         // championship type select
         $championships = Championship::find()
@@ -1896,6 +1909,82 @@ class SiteController extends Controller
         }
         return $this->redirect(\yii\helpers\Url::to('/'));
         
+    }
+
+    /**
+     * Rss output of last news
+     * @return mixed 
+     */
+    public function actionNewsRss()
+    {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        $headers = Yii::$app->response->headers;
+        $headers->add('Content-Type', 'application/rss+xml; charset=utf-8');
+
+        $posts = Post::find()
+            ->where(['is_public' => 1])
+            ->orderBy(['created_at' => SORT_DESC])
+            ->limit(50)
+            ->all();
+        $items = [];
+        foreach ($posts as $post) {
+            $content = $post->getShortContent(500, 700);
+            $item = [
+                'title' => htmlspecialchars($post->title),
+                'link' => $post->url,
+                'description' => htmlspecialchars($content),
+                'pubDate' => date('r', strtotime($post->created_at)),
+            ];
+            $items[] = (object) $item;
+        }
+        $title = 'Динамомания: Новости';
+        $description = 'Лента последних новостей';
+        return $this->renderPartial('@frontend/views/site/rss', compact(
+                'title',
+                'description',
+                'items'
+            )
+        );
+    }
+
+    /**
+     * Rss output of last match events
+     * @return mixed 
+     */
+    public function actionEventsRss()
+    {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        $headers = Yii::$app->response->headers;
+        $headers->add('Content-Type', 'application/rss+xml; charset=utf-8');
+
+        $events = MatchEvent::find()
+            ->where(['not', ['is_hidden' => 1]])
+            ->orderBy(['created_at' => SORT_DESC])
+            ->limit(50)
+            ->all();
+        $items = [];
+        foreach ($events as $event) {
+            $content = strip_tags($event->notes,"<a><p><br>");
+            $title = $event->match->name;
+            if(isset($event->matchEventType)) {
+                $title .= ' - '.$event->matchEventType->name;
+            }
+            $item = [
+                'title' => htmlspecialchars($title),
+                'link' => \yii\helpers\Url::to('/match/'.$event->match_id),
+                'description' => htmlspecialchars($content),
+                'pubDate' => date('r', strtotime($event->created_at)),
+            ];
+            $items[] = (object) $item;
+        }
+        $title = 'Динамомания: Трансляция';
+        $description = 'Лента последних событий';
+        return $this->renderPartial('@frontend/views/site/rss', compact(
+                'title',
+                'description',
+                'items'
+            )
+        );
     }
 
     /**
