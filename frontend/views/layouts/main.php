@@ -47,6 +47,15 @@ AppAsset::register($this);
     <!-- Preloadding animation END -->
 
     <div id="page">
+        <div id="banner-wrapper">
+            <div class="hide-area"></div>
+            <?php 
+                $bannerBlock = SiteBlock::getBanner(Banner::REGION_WRAPPER);
+                if($bannerBlock) {
+                    echo $this->render($bannerBlock['view'], isset($bannerBlock['data']) ? $bannerBlock['data'] : []);
+                }
+            ?>
+        </div>
         <header>
             <div class="header-wrapper">
                 <div class="header-top-part">
@@ -105,7 +114,7 @@ AppAsset::register($this);
                             <a target="_blank" href="https://vk.com/dynamomaniacom"><div class="button vk"></div></a>
                             <a target="_blank" href="https://twitter.com/dynamomania_com"><div class="button twitter"></div></a>
                             <a target="_blank" href="https://www.facebook.com/dynamomaniacom"><div class="button fb"></div></a>
-                            <a target="_blank" href="#"><div class="button rss"></div></a>
+                            <a target="_blank" href="/rss.xml"><div class="button rss"></div></a>
                         </div>
                     </div>
 
@@ -199,7 +208,7 @@ AppAsset::register($this);
 
                 <div class="footer-bottom">
                     <div class="block-top">
-                        <a href="#">
+                        <a target="_blank" href="/rss.xml">
                             <div class="button rss"></div>
                             <div class="text">RSS</div>
                         </a>

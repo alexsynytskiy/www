@@ -76,17 +76,6 @@ class Asset extends \yii\db\ActiveRecord
     const THUMBNAIL_THUMB   = 'thumb';
 
     /**
-     * @var string asset types NOT used
-     */
-    const TYPE_PHOTO      = 'photo';
-    const TYPE_ATTACHMENT = 'attachment';
-    const TYPE_AVATAR     = 'avatar';
-    const TYPE_FACE       = 'face';
-    const TYPE_FLAG       = 'flag';
-    const TYPE_IMAGE      = 'image';
-    const TYPE_LOGO       = 'logo';
-
-    /**
      * @inheritdoc
      */
     public function __construct( $config = [] ) {

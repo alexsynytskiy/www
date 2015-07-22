@@ -15,7 +15,9 @@ $inquirerMoreLink = (Yii::$app->controller->action->id == 'inquirers') ? false :
     <div class="box-header">
         <div class="box-title">Опрос</div>
         <?php if($inquirerMoreLink) { ?>
-        <a href="<?= Url::to('/inquirers') ?>"><div class="box-link">Все опросы:</div></a>
+        <a href="<?= Url::to('/inquirers') ?>">
+            <div class="box-link">Все опросы:<div class="icon-arrow"></div></div>
+        </a>
         <?php } ?>
     </div>
     <div class="box-content">

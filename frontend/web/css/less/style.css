@@ -318,7 +318,7 @@ header .header-wrapper .menu .search .search-icon {
   margin-top: 3px;
   height: 21px;
   width: 21px;
-  background: url('/images/search_icon.png') no-repeat center;
+  background: url('/images/search_icon.svg') no-repeat center;
   background-size: 21px;
 }
 header .header-wrapper .menu .search form {
@@ -359,7 +359,7 @@ header .header-wrapper .breadcrumbs .arrow {
   float: left;
   height: 30px;
   width: 16px;
-  background: url('/images/main_arrow.png') no-repeat center;
+  background: url('/images/main_arrow.svg') no-repeat center;
   background-size: 16px;
 }
 header .header-wrapper .breadcrumbs .tag {
@@ -460,22 +460,22 @@ header .header-wrapper .breadcrumbs .tag:hover {
   width: 70px;
 }
 .grid-column .top-news-slider .bx-wrapper .bx-pager a {
-  background: url(/images/unactive.png) no-repeat center;
+  background: url(/images/unactive.svg) no-repeat center;
   background-size: 6px;
   margin: 0 2px;
 }
 .grid-column .top-news-slider .bx-wrapper .bx-pager a.active {
-  background: url(/images/active.png) no-repeat center;
+  background: url(/images/active.svg) no-repeat center;
   background-size: 10px;
 }
 .grid-column .top-news-slider .bx-wrapper .bx-prev {
   left: 105px;
-  background: url(/images/button_left.png) no-repeat center;
+  background: url(/images/button_left.svg) no-repeat center;
   background-size: 10px 15px;
 }
 .grid-column .top-news-slider .bx-wrapper .bx-next {
   right: 105px;
-  background: url(/images/button_right.png) no-repeat center;
+  background: url(/images/button_right.svg) no-repeat center;
   background-size: 10px 15px;
 }
 .grid-column .top-news-slider .bx-wrapper .bx-controls-direction a {
@@ -521,7 +521,7 @@ header .header-wrapper .breadcrumbs .tag:hover {
   float: right;
   height: 15px;
   width: 15px;
-  background: url('/images/comments.png') no-repeat center;
+  background: url('/images/comments.svg') no-repeat center;
   background-size: 15px;
   margin-right: 3px;
   margin-top: 3px;
@@ -572,19 +572,19 @@ header .header-wrapper .breadcrumbs .tag:hover {
   border-color: #727272;
 }
 .grid-column .main-news.type-text .icon-logo {
-  background-image: url(/images/txt.png);
+  background-image: url(/images/txt.svg);
 }
 .grid-column .main-news.type-photo .photo .right-border {
   border-color: #1972c4;
 }
 .grid-column .main-news.type-photo .icon-logo {
-  background-image: url(/images/photo.png);
+  background-image: url(/images/photo.svg);
 }
 .grid-column .main-news.type-video .photo.right-border {
   border-color: #cb181e;
 }
 .grid-column .main-news.type-video .icon-logo {
-  background-image: url(/images/video.png);
+  background-image: url(/images/video.svg);
 }
 .grid-column .subscribe {
   border-radius: 5px;
@@ -609,12 +609,12 @@ header .header-wrapper .breadcrumbs .tag:hover {
 }
 .grid-column .subscribe .icon {
   float: left;
-  width: 29px;
+  width: 30px;
   height: 21px;
   margin-top: 10px;
   margin-left: 13px;
-  background: url('/images/subscribe.png') no-repeat center;
-  background-size: 29px;
+  background: url('/images/subscribe.svg') no-repeat center;
+  background-size: 30px;
   margin-right: 15px;
 }
 .grid-column .subscribe .subscribe-form {
@@ -648,7 +648,7 @@ header .header-wrapper .breadcrumbs .tag:hover {
   border-radius: 5px;
   box-shadow: 0 2px 0 #d0d0d0;
   background-color: #1972c4;
-  padding: 2px 10px;
+  padding: 0 10px;
   font-size: 14px;
   font-weight: normal;
   color: #ffffff;
@@ -718,7 +718,7 @@ header .header-wrapper .breadcrumbs .tag:hover {
   height: 15px;
   width: 15px;
   margin-top: 2px;
-  background: url('/images/popular.png') no-repeat center;
+  background: url('/images/popular.svg') no-repeat center;
   background-size: 15px;
 }
 .grid-column .blogs .blog-preview .about-info .date {
@@ -821,8 +821,8 @@ header .header-wrapper .breadcrumbs .tag:hover {
   float: right;
   margin-top: 4px;
   margin-left: 2px;
-  background: url('/images/tv_sprite.png') no-repeat;
-  background-size: 22px;
+  background: url('/images/tv_sprite.svg') no-repeat;
+  background-size: 22px 36px;
   height: 18px;
   width: 22px;
 }
@@ -832,9 +832,9 @@ header .header-wrapper .breadcrumbs .tag:hover {
   color: #0090e8;
 }
 .grid-column .top-matches-slider ul li .main-part .intro .translation-link:hover .translation-icon {
-  background: url('/images/tv_sprite.png') no-repeat;
-  background-size: 22px;
-  background-position: 0 -38px;
+  background: url('/images/tv_sprite.svg') no-repeat;
+  background-size: 22px 36px;
+  background-position: 0 100%;
 }
 .grid-column .top-matches-slider .bx-pager {
   display: none;
@@ -843,18 +843,18 @@ header .header-wrapper .breadcrumbs .tag:hover {
   height: 70px;
   width: 20px;
   left: 3px;
-  background: url(/images/play_bttn_lefthh.png) no-repeat;
+  background: url(/images/play_bttn_lefthh.svg) no-repeat;
   background-size: 20px;
 }
 .grid-column .top-matches-slider .bx-controls-direction .bx-next {
   height: 70px;
   width: 20px;
   right: 3px;
-  background: url(/images/play_bttn_righthh.png) no-repeat;
+  background: url(/images/play_bttn_righthh.svg) no-repeat;
   background-size: 20px;
 }
 .grid-column .top-matches-slider .bx-controls-direction .bx-control-hover {
-  background-position: 0 -90px;
+  background-position: 0 100%;
   background-size: 20px;
 }
 .grid-column .top-matches-slider .bx-controls-direction a {
@@ -885,7 +885,6 @@ header .header-wrapper .breadcrumbs .tag:hover {
 }
 .grid-column .news .header .link-to-all-text {
   float: right;
-  margin-right: 5px;
   line-height: 29px;
   font-size: 14px;
   font-weight: bold;
@@ -893,11 +892,11 @@ header .header-wrapper .breadcrumbs .tag:hover {
 }
 .grid-column .news .header .link-to-all-icon {
   float: right;
-  height: 14px;
-  width: 14px;
-  background: url(/images/link_arrowsp1.png) no-repeat;
-  background-size: 14px;
-  margin-top: 6px;
+  background: url(/images/link_arrowsp1.svg) 100% 0 no-repeat;
+  background-size: 10px 30px;
+  width: 15px;
+  height: 15px;
+  margin-top: 7px;
 }
 .grid-column .news .header a:hover {
   text-decoration: none;
@@ -908,8 +907,7 @@ header .header-wrapper .breadcrumbs .tag:hover {
   color: #0090e8;
 }
 .grid-column .news .header a:hover .link-to-all-icon {
-  background-position: 0 -42px;
-  background-size: 14px;
+  background-position: 100% 100%;
 }
 .grid-column .news .message {
   padding: 5px;
@@ -961,7 +959,7 @@ header .header-wrapper .breadcrumbs .tag:hover {
   margin-top: 1px;
   height: 15px;
   width: 15px;
-  background: url('/images/comments.png') no-repeat center;
+  background: url('/images/comments.svg') no-repeat center;
   background-size: 15px;
 }
 .grid-column .news .message .text .icons .icons-mokup .photo-icon {
@@ -970,7 +968,7 @@ header .header-wrapper .breadcrumbs .tag:hover {
   right: 0;
   height: 10px;
   width: 15px;
-  background: url('/images/photo2.png') no-repeat center;
+  background: url('/images/photo2.svg') no-repeat center;
   background-size: 15px;
 }
 .grid-column .news .message .text .icons .icons-mokup .video-icon {
@@ -979,7 +977,7 @@ header .header-wrapper .breadcrumbs .tag:hover {
   right: 0;
   height: 10px;
   width: 15px;
-  background: url('/images/video2.png') no-repeat center;
+  background: url('/images/video2.svg') no-repeat center;
   background-size: 15px;
 }
 .grid-column .news .message .text a:hover {
@@ -1168,7 +1166,7 @@ header .header-wrapper .breadcrumbs .tag:hover {
   height: 15px;
   width: 15px;
   margin-top: 2px;
-  background: url('/images/popular.png') no-repeat center;
+  background: url('/images/popular.svg') no-repeat center;
   background-size: 15px;
 }
 .grid-column .post-page .top-block .date-icon {
@@ -1599,12 +1597,12 @@ header .header-wrapper .breadcrumbs .tag:hover {
   float: left;
   height: 15px;
   width: 15px;
-  background: url('/images/comments.png') no-repeat center;
+  background: url('/images/comments.svg') no-repeat center;
   background-size: 15px;
   margin-right: 5px;
 }
 .grid-column .news-block .news-post .news-comments-block .video-icon {
-  background: url('/images/comments2.png') no-repeat center;
+  background: url('/images/comments2.svg') no-repeat center;
   background-size: 15px;
 }
 .grid-column .news-block .news-post .news-comments-block .count {
@@ -1676,14 +1674,13 @@ header .header-wrapper .breadcrumbs .tag:hover {
   border-radius: 5px;
 }
 .grid-column .matches .more .link .arrow {
-  height: 14px;
-  width: 14px;
-  background: url(/images/link_arrowsp1.png) no-repeat;
-  background-size: 14px;
+  background: url(/images/link_arrowsp1.svg) center 0 no-repeat;
+  background-size: 10px 30px;
+  width: 15px;
+  height: 15px;
 }
 .grid-column .matches .more .link:hover .arrow {
-  background-position: 0 -42px;
-  background-size: 14px;
+  background-position: center 100%;
 }
 .grid-column .match-navigation {
   padding: 10px 12px;
@@ -1741,17 +1738,17 @@ header .header-wrapper .breadcrumbs .tag:hover {
   float: right;
   margin-top: 3px;
   margin-left: 7px;
-  background: url('/images/tv_sprite.png') no-repeat;
+  background: url('/images/tv_sprite.svg') no-repeat;
   background-size: 22px;
 }
 .grid-column .match-navigation .translation.active .icon {
-  background: url('/images/tv_active.png') no-repeat;
+  background: url('/images/tv_active.svg') no-repeat;
   background-size: 22px;
 }
 .grid-column .match-navigation .translation:hover:not(.active) .icon {
-  background: url('/images/tv_sprite.png') no-repeat;
+  background: url('/images/tv_sprite.svg') no-repeat;
   background-size: 22px;
-  background-position: 0 -38px;
+  background-position: 0 100%;
 }
 .grid-column .match-navigation .protocol .icon {
   height: 18px;
@@ -1759,17 +1756,17 @@ header .header-wrapper .breadcrumbs .tag:hover {
   float: right;
   margin-top: 3px;
   margin-left: 7px;
-  background: url('/images/protocol_sprite.png') no-repeat;
+  background: url('/images/protocol_sprite.svg') no-repeat;
   background-size: 16px;
 }
 .grid-column .match-navigation .protocol.active .icon {
-  background: url('/images/protocol_active.png') no-repeat;
+  background: url('/images/protocol_active.svg') no-repeat;
   background-size: 16px;
 }
 .grid-column .match-navigation .protocol:hover:not(.active) .icon {
-  background: url('/images/protocol_sprite.png') no-repeat;
+  background: url('/images/protocol_sprite.svg') no-repeat;
   background-size: 16px;
-  background-position: 0 -38px;
+  background-position: 0 100%;
 }
 .grid-column .match-navigation .report .icon {
   height: 18px;
@@ -1777,17 +1774,17 @@ header .header-wrapper .breadcrumbs .tag:hover {
   float: right;
   margin-top: 3px;
   margin-left: 7px;
-  background: url('/images/report_sprite.png') no-repeat;
+  background: url('/images/report_sprite.svg') no-repeat;
   background-size: 16px;
 }
 .grid-column .match-navigation .report.active .icon {
-  background: url('/images/report_active.png') no-repeat;
+  background: url('/images/report_active.svg') no-repeat;
   background-size: 16px;
 }
 .grid-column .match-navigation .report:hover:not(.active) .icon {
-  background: url('/images/report_sprite.png') no-repeat;
+  background: url('/images/report_sprite.svg') no-repeat;
   background-size: 16px;
-  background-position: 0 -38px;
+  background-position: 0 100%;
 }
 .grid-column .match-navigation .other .icon {
   height: 18px;
@@ -1795,17 +1792,17 @@ header .header-wrapper .breadcrumbs .tag:hover {
   float: right;
   margin-top: 3px;
   margin-left: 7px;
-  background: url('/images/materials_sprite.png') no-repeat;
+  background: url('/images/materials_sprite.svg') no-repeat;
   background-size: 16px;
 }
 .grid-column .match-navigation .other.active .icon {
-  background: url('/images/materials_active.png') no-repeat;
+  background: url('/images/materials_active.svg') no-repeat;
   background-size: 16px;
 }
 .grid-column .match-navigation .other:hover:not(.active) .icon {
-  background: url('/images/materials_sprite.png') no-repeat;
+  background: url('/images/materials_sprite.svg') no-repeat;
   background-size: 16px;
-  background-position: 0 -38px;
+  background-position: 0 100%;
 }
 .grid-column .match-navigation .photo .icon {
   height: 18px;
@@ -1813,17 +1810,17 @@ header .header-wrapper .breadcrumbs .tag:hover {
   float: right;
   margin-top: 3px;
   margin-left: 7px;
-  background: url('/images/photo_sprite.png') no-repeat;
+  background: url('/images/photo_sprite.svg') no-repeat;
   background-size: 22px;
 }
 .grid-column .match-navigation .photo.active .icon {
-  background: url('/images/photo_active.png') no-repeat;
+  background: url('/images/photo_active.svg') no-repeat;
   background-size: 22px;
 }
 .grid-column .match-navigation .photo:hover:not(.active) .icon {
-  background: url('/images/photo_sprite.png') no-repeat;
+  background: url('/images/photo_sprite.svg') no-repeat;
   background-size: 22px;
-  background-position: 0 -38px;
+  background-position: 0 100%;
 }
 .grid-column .match-navigation .video {
   color: #cb181e;
@@ -1834,20 +1831,23 @@ header .header-wrapper .breadcrumbs .tag:hover {
   float: right;
   margin-top: 3px;
   margin-left: 7px;
-  background: url('/images/video_sprite.png') no-repeat;
+  background: url('/images/video_sprite.svg') no-repeat;
   background-size: 18px;
 }
+.grid-column .match-navigation .video.active {
+  color: #fff;
+}
 .grid-column .match-navigation .video.active .icon {
-  background: url('/images/video_active.png') no-repeat;
+  background: url('/images/video_active.svg') no-repeat;
   background-size: 18px;
 }
 .grid-column .match-navigation .video:hover:not(.active) {
   color: #f94351;
 }
 .grid-column .match-navigation .video:hover:not(.active) .icon {
-  background: url('/images/video_sprite.png') no-repeat;
+  background: url('/images/video_sprite.svg') no-repeat;
   background-size: 18px;
-  background-position: 0 -38px;
+  background-position: 0 100%;
 }
 .grid-column .match-protocol {
   padding: 9px 5px;
@@ -2236,14 +2236,14 @@ header .header-wrapper .breadcrumbs .tag:hover {
 .grid-column .transfers tbody .more {
   width: 16px;
   height: 18px;
-  background: url('/images/materials_sprite.png') no-repeat;
+  background: url('/images/materials_sprite.svg') no-repeat;
   background-size: 16px;
   margin-left: 2px;
 }
 .grid-column .transfers tbody .more:hover {
-  background: url('/images/materials_sprite.png') no-repeat;
+  background: url('/images/materials_sprite.svg') no-repeat;
   background-size: 16px;
-  background-position: 0 -38px;
+  background-position: 0 100%;
 }
 .grid-column .transfers tbody .rent-other-info {
   border-top: none;
