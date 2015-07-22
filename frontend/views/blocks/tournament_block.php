@@ -10,7 +10,9 @@ use yii\helpers\Url;
 <div class="scoreboard default-box">
     <div class="box-header">
         <div class="box-title">Турнирная таблица</div>
-        <a href="<?= Url::to('/site/tournament') ?>"><div class="box-link">Полная версия:</div></a>
+        <a href="<?= Url::to('/site/tournament') ?>">
+            <div class="box-link">Полная версия:<div class="icon-arrow"></div></div>
+        </a>
     </div>
     <div class="box-content">
         <table>

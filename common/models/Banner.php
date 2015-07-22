@@ -26,6 +26,7 @@ class Banner extends ActiveRecord
     const REGION_TOP              = 5;
     const REGION_BOTTOM           = 6;
     const REGION_TOP_THIRD_COLUMN = 7;
+    const REGION_WRAPPER          = 8;
 
     /**
      * @inheritdoc
@@ -95,6 +96,7 @@ class Banner extends ActiveRecord
             self::REGION_TOP              => self::getRegionHumanName(self::REGION_TOP),
             self::REGION_BOTTOM           => self::getRegionHumanName(self::REGION_BOTTOM),
             self::REGION_TOP_THIRD_COLUMN => self::getRegionHumanName(self::REGION_TOP_THIRD_COLUMN),
+            self::REGION_WRAPPER          => self::getRegionHumanName(self::REGION_WRAPPER),
         ];
     }
 
@@ -104,13 +106,14 @@ class Banner extends ActiveRecord
      */
     public static function getRegionHumanName($id) {
         $regions = [
-            self::REGION_FIRST_COLUMN  => 'Первая колонка',
-            self::REGION_SECOND_COLUMN => 'Вторая колонка',
-            self::REGION_THIRD_COLUMN  => 'Третья колонка',
+            self::REGION_FIRST_COLUMN     => 'Первая колонка',
+            self::REGION_SECOND_COLUMN    => 'Вторая колонка',
+            self::REGION_THIRD_COLUMN     => 'Третья колонка',
             self::REGION_NEWS             => 'Новостной блок',
             self::REGION_TOP              => 'Верхний',
             self::REGION_BOTTOM           => 'Нижний',
             self::REGION_TOP_THIRD_COLUMN => 'Верхний в третьей',
+            self::REGION_WRAPPER          => 'Подложка',
         ];
         return isset($regions[$id]) ? $regions[$id] : $regions[0];
     }

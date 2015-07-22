@@ -402,7 +402,7 @@ header {
 					margin-top: @main-margin / 5;
 					height: @logo-search-size;
 					width: @logo-search-size;
-					background: url('/images/search_icon.png') no-repeat center;
+					background: url('/images/search_icon.svg') no-repeat center;
 					background-size: @logo-search-size;
 				}
 
@@ -441,7 +441,7 @@ header {
 				float: left;
 				height: 30px;
 				width: 16px;
-				background: url('/images/main_arrow.png') no-repeat center;
+				background: url('/images/main_arrow.svg') no-repeat center;
 				background-size: 16px;
 			}
 
@@ -546,13 +546,13 @@ header {
 				width: 70px;
 
 				a {
-					background: url(/images/unactive.png) no-repeat center;
+					background: url(/images/unactive.svg) no-repeat center;
 					background-size: 6px;
 					margin: 0 2px;
 				}
 
 				a.active {
-					background: url(/images/active.png) no-repeat center;
+					background: url(/images/active.svg) no-repeat center;
 					background-size: 10px;
 				}
 			}
@@ -562,13 +562,13 @@ header {
 			@arrow-width: 10px;
 			.bx-prev {
 				left: @arrows-position;
-				background: url(/images/button_left.png) no-repeat center;
+				background: url(/images/button_left.svg) no-repeat center;
 				background-size: @arrow-width @arrow-height;
 			}
 
 			.bx-next {
 				right: @arrows-position;
-				background: url(/images/button_right.png) no-repeat center;
+				background: url(/images/button_right.svg) no-repeat center;
 				background-size: @arrow-width @arrow-height;
 			}
 
@@ -619,7 +619,7 @@ header {
 						float: right;
 						height: @icon-size;
 						width: @icon-size;
-						background: url('/images/comments.png') no-repeat center;
+						background: url('/images/comments.svg') no-repeat center;
 						background-size: @icon-size;
 						margin-right: @main-margin / 5;
 						margin-top: @main-margin / 5;
@@ -682,7 +682,7 @@ header {
 				border-color: @main-grey;
 			}
 			.icon-logo {
-				background-image: url(/images/txt.png);
+				background-image: url(/images/txt.svg);
 			}
 		}
 		&.type-photo {
@@ -690,7 +690,7 @@ header {
 				border-color: @main-blue;
 			}
 			.icon-logo {
-				background-image: url(/images/photo.png);
+				background-image: url(/images/photo.svg);
 			}
 		}
 		&.type-video {
@@ -698,7 +698,7 @@ header {
 				border-color: @main-red;
 			}
 			.icon-logo {
-				background-image: url(/images/video.png);
+				background-image: url(/images/video.svg);
 			}
 		}
 	}
@@ -724,12 +724,12 @@ header {
 
 		.icon {
 			float: left;
-			width: 29px;
+			width: 30px;
 			height: 21px;
 			margin-top: 10px;
 			margin-left: 13px;
-			background: url('/images/subscribe.png') no-repeat center;
-			background-size: 29px;
+			background: url('/images/subscribe.svg') no-repeat center;
+			background-size: 30px;
 			margin-right: @main-margin;
 		}
 
@@ -760,7 +760,7 @@ header {
 				text-align: center;
 				line-height: @control-height;
 				.simple-rounded-box(@main-blue);
-				padding: 2px 10px;
+				padding: 0 10px;
 				.text-font(14px, normal, #fff);
 			}
 
@@ -833,7 +833,7 @@ header {
 					height: @popular-star;
 					width: @popular-star;
 					margin-top: 2px;
-					background: url('/images/popular.png') no-repeat center;
+					background: url('/images/popular.svg') no-repeat center;
 					background-size: @popular-star;
 				}
 
@@ -939,8 +939,8 @@ header {
 								float: right;
 								margin-top: 4px;
 							    margin-left: 2px;
-							    background: url('/images/tv_sprite.png') no-repeat;
-							    background-size: 22px;
+							    background: url('/images/tv_sprite.svg') no-repeat;
+						    	background-size: 22px 36px;
 							    height: 18px;
 							    width: 22px;
 							}
@@ -951,9 +951,9 @@ header {
 								}
 
 								.translation-icon {
-									background: url('/images/tv_sprite.png') no-repeat;
-							    	background-size: 22px;
-							    	background-position: 0 -38px;
+									background: url('/images/tv_sprite.svg') no-repeat;
+						    		background-size: 22px 36px;
+							    	background-position: 0 100%;
 								}
 							}
 						}
@@ -975,7 +975,7 @@ header {
 				height: @arrow-height;
 				width: @arrow-width;
 				left: @arrows-position;
-				background: url(/images/play_bttn_lefthh.png) no-repeat;
+				background: url(/images/play_bttn_lefthh.svg) no-repeat;
 				background-size: @arrow-width;
 			}
 
@@ -983,12 +983,12 @@ header {
 				height: @arrow-height;
 				width: @arrow-width;
 				right: @arrows-position;
-				background: url(/images/play_bttn_righthh.png) no-repeat;
+				background: url(/images/play_bttn_righthh.svg) no-repeat;
 				background-size: @arrow-width;
 			}
 
 			.bx-control-hover {
-				background-position: 0 -90px;
+				background-position: 0 100%;
 				background-size: @arrow-width;
 			}
 
@@ -1022,18 +1022,17 @@ header {
 
 			.link-to-all-text {
 				float: right;
-				margin-right: @main-margin / 3;
 				line-height: @header-height;
 				.text-font(14px, bold, @main-blue);
 			}
 
 			.link-to-all-icon {
 				float: right;
-				height: 14px;
-				width: 14px;
-				background: url(/images/link_arrowsp1.png) no-repeat;
-				background-size: 14px;
-				margin-top: 6px;
+                background: url(/images/link_arrowsp1.svg) 100% 0 no-repeat;
+              	background-size: 10px 30px;
+                width: 15px;
+                height: 15px;
+                margin-top: 7px;
 			}
 
 			a:hover {
@@ -1044,8 +1043,7 @@ header {
 				}
 
 				.link-to-all-icon {
-					background-position: 0 -42px;
-					background-size: 14px;
+					background-position: 100% 100%;
 				}
 			}
 		}
@@ -1101,7 +1099,7 @@ header {
 							margin-top: 1px;
 							height: @icon-size;
 							width: @icon-size;
-							background: url('/images/comments.png') no-repeat center;
+							background: url('/images/comments.svg') no-repeat center;
 							background-size: @icon-size;
 						}
 
@@ -1111,7 +1109,7 @@ header {
 							right: 0;
 							height: @icon-size - 5;
 							width: @icon-size;
-							background: url('/images/photo2.png') no-repeat center;
+							background: url('/images/photo2.svg') no-repeat center;
 							background-size: @icon-size;
 						}
 
@@ -1121,7 +1119,7 @@ header {
 							right: 0;
 							height: @icon-size - 5;
 							width: @icon-size;
-							background: url('/images/video2.png') no-repeat center;
+							background: url('/images/video2.svg') no-repeat center;
 							background-size: @icon-size;
 						}
 					}
@@ -1316,7 +1314,7 @@ header {
 	            height: @popular-star;
 	            width: @popular-star;
 	            margin-top: 2px;
-	            background: url('/images/popular.png') no-repeat center;
+	            background: url('/images/popular.svg') no-repeat center;
 	            background-size: @popular-star;
 	        }
 
@@ -1733,13 +1731,13 @@ header {
 					float: left;
 					height: 15px;
   					width: 15px;
-  					background: url('/images/comments.png') no-repeat center;
+  					background: url('/images/comments.svg') no-repeat center;
   					background-size: 15px;
   					margin-right: @main-margin / 3;
 				}
 
 				.video-icon {
-  					background: url('/images/comments2.png') no-repeat center;
+  					background: url('/images/comments2.svg') no-repeat center;
   					background-size: 15px;
 				}
 
@@ -1827,16 +1825,15 @@ header {
 			border-radius: @box-border-radius;
 
 			.arrow {
-				height: 14px;
-				width: 14px;
-				background: url(/images/link_arrowsp1.png) no-repeat;
-  				background-size: 14px;
+                background: url(/images/link_arrowsp1.svg) center 0 no-repeat;
+                background-size: 10px 30px;
+                width: 15px;
+                height: 15px;
 			}
 
 			&:hover {
 				.arrow {
-					background-position: 0 -42px;
-					background-size: 14px;
+					background-position: center 100%;
 				}
 			}		
 		}
@@ -1885,18 +1882,18 @@ header {
 		.translation {
 			.icon {
 				.icon(22px, 18px);
-				background: url('/images/tv_sprite.png') no-repeat;
+				background: url('/images/tv_sprite.svg') no-repeat;
   				background-size: 22px;
 	  		}
 	  		&.active .icon{
-				background: url('/images/tv_active.png') no-repeat;
+				background: url('/images/tv_active.svg') no-repeat;
   				background-size: 22px;
 	  		}
 	  		&:hover:not(.active) {
 	  			.icon {
-		  			background: url('/images/tv_sprite.png') no-repeat;
+		  			background: url('/images/tv_sprite.svg') no-repeat;
 		  			background-size: 22px;
-		  			background-position: 0 -38px;
+		  			background-position: 0 100%;
 		  		}
 	  		}
 		}
@@ -1904,18 +1901,18 @@ header {
 		.protocol {
 			.icon {
 				.icon(16px, 18px);
-				background: url('/images/protocol_sprite.png') no-repeat;
+				background: url('/images/protocol_sprite.svg') no-repeat;
   				background-size: 16px;
 	  		}
 	  		&.active .icon{
-				background: url('/images/protocol_active.png') no-repeat;
+				background: url('/images/protocol_active.svg') no-repeat;
   				background-size: 16px;
 	  		}
 	  		&:hover:not(.active) {
 	  			.icon {
-		  			background: url('/images/protocol_sprite.png') no-repeat;
+		  			background: url('/images/protocol_sprite.svg') no-repeat;
 		  			background-size: 16px;
-		  			background-position: 0 -38px;
+		  			background-position: 0 100%;
 		  		}
 	  		}
 		}
@@ -1923,18 +1920,18 @@ header {
 		.report {
 	  		.icon {
 				.icon(16px, 18px);
-				background: url('/images/report_sprite.png') no-repeat;
+				background: url('/images/report_sprite.svg') no-repeat;
   				background-size: 16px;
 	  		}
 	  		&.active .icon{
-				background: url('/images/report_active.png') no-repeat;
+				background: url('/images/report_active.svg') no-repeat;
   				background-size: 16px;
 	  		}
 	  		&:hover:not(.active) {
 	  			.icon {
-		  			background: url('/images/report_sprite.png') no-repeat;
+		  			background: url('/images/report_sprite.svg') no-repeat;
 		  			background-size: 16px;
-		  			background-position: 0 -38px;
+		  			background-position: 0 100%;
 		  		}
 	  		}
 		}
@@ -1942,18 +1939,18 @@ header {
 		.other {
 			.icon {
 				.icon(16px, 18px);
-				background: url('/images/materials_sprite.png') no-repeat;
+				background: url('/images/materials_sprite.svg') no-repeat;
   				background-size: 16px;
 	  		}
 	  		&.active .icon{
-				background: url('/images/materials_active.png') no-repeat;
+				background: url('/images/materials_active.svg') no-repeat;
   				background-size: 16px;
 	  		}
 	  		&:hover:not(.active) {
 	  			.icon {
-		  			background: url('/images/materials_sprite.png') no-repeat;
+		  			background: url('/images/materials_sprite.svg') no-repeat;
 		  			background-size: 16px;
-		  			background-position: 0 -38px;
+		  			background-position: 0 100%;
 		  		}
 	  		}
 		}
@@ -1961,18 +1958,18 @@ header {
 		.photo {
 			.icon {
 				.icon(22px, 18px);
-				background: url('/images/photo_sprite.png') no-repeat;
+				background: url('/images/photo_sprite.svg') no-repeat;
   				background-size: 22px;
 	  		}
 	  		&.active .icon{
-				background: url('/images/photo_active.png') no-repeat;
+				background: url('/images/photo_active.svg') no-repeat;
   				background-size: 22px;
 	  		}
 	  		&:hover:not(.active) {
 	  			.icon {
-		  			background: url('/images/photo_sprite.png') no-repeat;
+		  			background: url('/images/photo_sprite.svg') no-repeat;
 		  			background-size: 22px;
-		  			background-position: 0 -38px;
+		  			background-position: 0 100%;
 		  		}
 	  		}
 		}
@@ -1982,19 +1979,22 @@ header {
 
 			.icon {
 				.icon(18px, 18px);
-				background: url('/images/video_sprite.png') no-repeat;
+				background: url('/images/video_sprite.svg') no-repeat;
   				background-size: 18px;
 	  		}
+	  		&.active {
+				color: #fff;
+	  		}
 	  		&.active .icon{
-				background: url('/images/video_active.png') no-repeat;
+				background: url('/images/video_active.svg') no-repeat;
   				background-size: 18px;
 	  		}
 	  		&:hover:not(.active) {
 				color: @main-red-hover;
 	  			.icon {
-		  			background: url('/images/video_sprite.png') no-repeat;
+		  			background: url('/images/video_sprite.svg') no-repeat;
 		  			background-size: 18px;
-		  			background-position: 0 -38px;
+		  			background-position: 0 100%;
 		  		}
 	  		}
 		}
@@ -2370,14 +2370,14 @@ header {
 	  		.more {
 	  			width: 16px;
 	  			height: 18px;
-	  			background: url('/images/materials_sprite.png') no-repeat;
+	  			background: url('/images/materials_sprite.svg') no-repeat;
 	  			background-size: 16px;
 	  			margin-left: 2px;
 
 	  			&:hover {
-			  		background: url('/images/materials_sprite.png') no-repeat;
+			  		background: url('/images/materials_sprite.svg') no-repeat;
 			  		background-size: 16px;
-			  		background-position: 0 -38px;
+			  		background-position: 0 100%;
 			  	}
 	  		}
 

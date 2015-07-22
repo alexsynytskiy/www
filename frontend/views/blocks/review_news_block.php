@@ -20,7 +20,7 @@ $photoReviewCount = count($photoReviewNews);
     <div class="photo-report <?= $videoReviewCount ? '' : 'single' ?>">
         <div class="box-header">
             <div class="box-title">Фоторепортаж</div>
-            <a href="<?= Url::to('/photos') ?>"><div class="box-link">Все фото:</div></a>
+            <a href="<?= Url::to('/photos') ?>"><div class="box-link">Все фото:<div class="icon-arrow"></div></div></a>
         </div>
         <div class="box-content">
             <ul class="photo-list">
@@ -48,7 +48,7 @@ $photoReviewCount = count($photoReviewNews);
     <div class="video-report">
         <div class="red-box-header">
             <div class="box-title">Видеорепортаж</div>
-            <a href="#"><div class="box-link">Все видео:</div></a>
+            <a href="<?= Url::to('/videos') ?>"><div class="box-link">Все видео:<div class="icon-arrow"></div></div></a>
         </div>
         <div class="box-content">
             <ul class="video-list">

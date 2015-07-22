@@ -109,6 +109,7 @@ class SiteController extends Controller
                 'top3News' => SiteBlock::getTop3News(),
                 'top6News' => SiteBlock::getTop6News(),
                 'subscribing' => SiteBlock::getSubscribingForm(),
+                'banner1' => SiteBlock::getBanner(Banner::REGION_FIRST_COLUMN),
                 'blog_column' => SiteBlock::getBlogPosts(),
             ],
             'columnSecond' => [
@@ -117,9 +118,12 @@ class SiteController extends Controller
             ],
             'columnThird' => [
                 'questionBlock' => SiteBlock::getQuestionBlock(),
+                'banner1' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
                 'tournament' => SiteBlock::getTournamentTable(),
                 'reviewNews' => SiteBlock::getPhotoVideoNews(),
+                'banner2' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
                 'top200tags' => SiteBlock::getTop200Tags(),                
+                'banner3' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
             ],
         ]);
     }
@@ -1577,7 +1581,7 @@ class SiteController extends Controller
                 ],
             ],
             'columnSecond' => [
-                'reviewNews' => SiteBlock::getPhotoVideoNews(),
+                // 'reviewNews' => SiteBlock::getPhotoVideoNews(),
             ],
         ]);
     }
@@ -1597,7 +1601,7 @@ class SiteController extends Controller
                 ],
             ],
             'columnSecond' => [
-                'reviewNews' => SiteBlock::getPhotoVideoNews(),
+                // 'reviewNews' => SiteBlock::getPhotoVideoNews(),
             ],
         ]);
     }

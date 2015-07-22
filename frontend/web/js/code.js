@@ -6,7 +6,6 @@ $(window).load(function() {
     $("#loading").delay(1000).fadeOut(500);
     // => PreLoading page animation turn off END
 
-
     // => Error page START
     $('.error-container').height($(window).innerHeight());
     // => Error page END
@@ -220,6 +219,22 @@ $(window).load(function() {
 });
 
 $(document).ready(function() {
+
+    // => Attach footer to bottom
+    
+    function attachFooter() {
+        var pageHeight = $("#page").innerHeight();
+        var windowHeight = $(window).innerHeight();
+        if(pageHeight < windowHeight) {
+            $(".site-footer").css('margin-top', windowHeight - pageHeight)
+        }
+    }
+    attachFooter();
+    $(window).resize(function() {
+        $(".site-footer").css('margin-top', 0)
+        attachFooter();
+    });
+    // => Attach footer to bottom
 
     // => iCheck START
 	$('input').iCheck({

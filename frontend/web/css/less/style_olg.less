@@ -196,13 +196,20 @@ body {
 
         .box-link {
             float: right;
-            padding-right: 20px;
-            background: url(/images/link_arrowsp1.png) right 7px no-repeat;
-            background-size: 14px;
             .text-font(14px, bold, @main-blue);
+            .icon-arrow {
+                float: right;
+                background: url(/images/link_arrowsp1.svg) right 0 no-repeat;
+                background-size: 10px 30px;
+                width: 15px;
+                height: 15px;
+                margin-top: 7px;
+            }
             &:hover {
                 color: @main-blue-hover;
-                background-position: right -35px;
+                .icon-arrow {
+                    background-position: right 100%;
+                }
             }
         }
     }
@@ -218,13 +225,20 @@ body {
         }
         .box-link {
             float: right;
-            padding-right: 20px;
-            background: url(/images/link_arrowsp2.png) right 7px no-repeat;
-            background-size: 14px;
             .text-font(14px, bold, @main-red);
+            .icon-arrow {
+                float: right;
+                background: url(/images/link_arrowsp2.svg) right 0 no-repeat;
+                background-size: 10px;
+                width: 15px;
+                height: 14px;
+                margin-top: 8px;
+            }
             &:hover {
                 color: @main-red-hover;
-                background-position: right -35px;
+                .icon-arrow {
+                    background-position: right 100%;
+                }
             }
         }
     }    
@@ -362,7 +376,8 @@ body {
 
         .answer-stat {
             position: relative;
-            width: 220px;
+            min-width: 220px;
+            max-width: 535px;
             font-size: 12px;
 
             .stat-bar {
@@ -517,7 +532,7 @@ body {
                 float: left;
                 height: 15px;
                 width: 15px;
-                background: url('/images/comments_white.png') no-repeat center;
+                background: url('/images/comments2.svg') no-repeat center;
                 background-size: 15px;
             }
         }
@@ -545,13 +560,13 @@ body {
             width: 70px;
 
             a {
-                background: url('/images/unactive.png') no-repeat center;
+                background: url('/images/unactive.svg') no-repeat center;
                 background-size: 6px;
                 margin: 0 2px;
             }
 
             a.active {
-                background: url('/images/active_red.png') no-repeat center;
+                background: url('/images/active2.svg') no-repeat center;
                 background-size: 10px;
             }
         }
@@ -561,13 +576,13 @@ body {
         @arrow-width: 10px;
         .bx-prev {
             left: @arrows-position;
-            background: url(/images/button_left.png) no-repeat center;
+            background: url(/images/button_left.svg) no-repeat center;
             background-size: @arrow-width @arrow-height;
         }
 
         .bx-next {
             right: @arrows-position;
-            background: url(/images/button_right.png) no-repeat center;
+            background: url(/images/button_right.svg) no-repeat center;
             background-size: @arrow-width @arrow-height;
         }
 
@@ -576,7 +591,7 @@ body {
         }
     }
     .photo-report .bx-wrapper .bx-pager a.active {
-        background: url('/images/active.png') no-repeat center;
+        background: url('/images/active.svg') no-repeat center;
         background-size: 10px;
     }
 
@@ -1454,7 +1469,7 @@ body {
                     display: block;
                     float: left;
                     .rounded(5px);
-                    background: @main-blue url(/images/button_right.png) no-repeat;
+                    background: @main-blue url(/images/button_right.svg) no-repeat;
                     background-position: right 5px center;
                     background-size: 10px;
                     color: #fff;
@@ -1894,7 +1909,6 @@ body {
         margin-right: 10px;
         width: 50px;
         height: 50px;
-        // border: 1px solid @main-body-background;
         .rounded(5px);
         overflow: hidden;
 
@@ -2468,7 +2482,7 @@ body {
         height: @popular-star;
         width: @popular-star;
         margin-top: 2px;
-        background: url('/images/popular.png') no-repeat center;
+        background: url('/images/popular.svg') no-repeat center;
         background-size: @popular-star;
     }
     .user-column {
@@ -2536,7 +2550,7 @@ body {
                 float: left;
                 height: 15px;
                 width: 15px;
-                background: url('/images/comments.png') no-repeat center;
+                background: url('/images/comments.svg') no-repeat center;
                 background-size: 15px;
                 margin-right: 5px;
             }
@@ -2750,7 +2764,7 @@ body {
             left: 0;
             top: 0;
             margin: 0;
-            background: url(/images/button_left.png) no-repeat 20px center;
+            background: url(/images/button_left.svg) no-repeat 20px center;
             background-size: 15px;
         }
         .bx-next {
@@ -2759,7 +2773,7 @@ body {
             right: 0;
             top: 0;
             margin: 0;
-            background: url(/images/button_right.png) no-repeat 25px center;
+            background: url(/images/button_right.svg) no-repeat 25px center;
             background-size: 15px;
         }
     }
@@ -2781,7 +2795,7 @@ body {
             left: 0;
             top: 0;
             margin: 0;
-            background: url(/images/button_left.png) no-repeat 10px center;
+            background: url(/images/button_left.svg) no-repeat 10px center;
             background-size: 10px;
         }
         .bx-next {
@@ -2790,7 +2804,7 @@ body {
             right: 0;
             top: 0;
             margin: 0;
-            background: url(/images/button_right.png) no-repeat 10px center;
+            background: url(/images/button_right.svg) no-repeat 10px center;
             background-size: 10px;
         }
         a.pager-item {
@@ -2833,5 +2847,30 @@ body {
     }
     .field-captcha {
         margin-top: 0;
+    }
+}
+
+#banner-wrapper {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+
+    .hide-area {
+        position: relative;
+        height: 100%;
+        width: 960px;
+        margin: 0 auto;
+        background: @main-body-background;
+        z-index: 1;
+    }
+    .banner-box {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
     }
 }
