@@ -58,8 +58,21 @@ class SiteBlock
      * Get block with last 3 blog posts selected by site, and 3 last blog posts, which are not in selected
      * @return array Data
      */
-    public static function getBlogPosts()
+    public static function getBlogPosts($cache = true)
     {
+        if($cache)
+        {
+            $cacheBlock = CacheBlock::find()
+                ->where(['machine_name' => 'lastBlogPosts'])
+                ->one();
+            if(isset($cacheBlock)) {
+                return [
+                    'view' => '@frontend/views/blocks/cache_block',
+                    'data' => ['content' => $cacheBlock->content],
+                ];
+            }
+        } 
+
         $postTable = Post::tableName();
         $selectedBlogsTable = SelectedBlog::tableName();
         $selectedBlogs = Post::find()
@@ -88,6 +101,10 @@ class SiteBlock
             'view' => '@frontend/views/blocks/blog_block',
             'data' => compact('posts', 'selectedBlogs'),
         ];
+        if(!$cache) {
+            $view = new \yii\base\View();
+            return $view->renderFile($block['view'].'.php', $block['data']);
+        }
         return $block;
     }
 
@@ -95,10 +112,22 @@ class SiteBlock
      * Get block with 3 blog posts, which are best by rating during last 3 months
      * @return array Data
      */
-    public static function getBlogPostsByRating()
+    public static function getBlogPostsByRating($cache = true)
     {
-        $connection = Yii::$app->db;
+        if($cache)
+        {
+            $cacheBlock = CacheBlock::find()
+                ->where(['machine_name' => 'blogPostsByRating'])
+                ->one();
+            if(isset($cacheBlock)) {
+                return [
+                    'view' => '@frontend/views/blocks/cache_block',
+                    'data' => ['content' => $cacheBlock->content],
+                ];
+            }
+        } 
 
+        $connection = Yii::$app->db;
         $blogsIDQuery = 'SELECT id
                     FROM posts
                     WHERE created_at > DATE_SUB(NOW(), INTERVAL 90 day) AND content_category_id = '.Post::CATEGORY_BLOG;
@@ -139,6 +168,10 @@ class SiteBlock
             'view' => '@frontend/views/blocks/blog_block_rating',
             'data' => compact('blogs'),
         ];
+        if(!$cache) {
+            $view = new \yii\base\View();
+            return $view->renderFile($block['view'].'.php', $block['data']);
+        }
         return $block;
     }
 
@@ -161,20 +194,40 @@ class SiteBlock
 
     /**
      * Get block with last $amount news
-     * @return array Data
+     * @return mixed Data
      */
-    public static function getShortNews($amount = 50, $enableBanners = true)
-    {
-        $newsPosts = Post::find()
-            ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_NEWS])
-            ->orderBy(['created_at' => SORT_DESC])
-            ->limit($amount)
-            ->all();
+    public static function getShortNews($amount = 50, $enableBanners = true, $cache = true, $newsPosts = null)
+    {   
+        if($cache)
+        {
+            $banners = $enableBanners ? 'banners' : '';
+            $cacheBlock = CacheBlock::find()
+                ->where(['machine_name' => 'shortNews'.$amount.$banners])
+                ->one();
+            if(isset($cacheBlock)) {
+                return [
+                    'view' => '@frontend/views/blocks/cache_block',
+                    'data' => ['content' => $cacheBlock->content],
+                ];
+            }
+        } 
 
+        if(!isset($newsPosts)) 
+        {
+            $newsPosts = Post::find()
+                ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_NEWS])
+                ->orderBy(['created_at' => SORT_DESC])
+                ->limit($amount)
+                ->all();
+        }
         $block = [
             'view' => '@frontend/views/blocks/news_block',
             'data' => ['posts' => $newsPosts, 'enableBanners' => $enableBanners],
         ];
+        if(!$cache) {
+            $view = new \yii\base\View();
+            return $view->renderFile($block['view'].'.php', $block['data']);
+        }
         return $block;
     }
 
@@ -182,8 +235,21 @@ class SiteBlock
      * Get block with top 3 news
      * @return array Data
      */
-    public static function getTop3News()
+    public static function getTop3News($cache = true)
     {
+        if($cache)
+        {
+            $cacheBlock = CacheBlock::find()
+                ->where(['machine_name' => 'top3News'])
+                ->one();
+            if(isset($cacheBlock)) {
+                return [
+                    'view' => '@frontend/views/blocks/cache_block',
+                    'data' => ['content' => $cacheBlock->content],
+                ];
+            }
+        } 
+
         $postTable = Post::tableName();
         $assetTable = Asset::tableName();
         
@@ -210,6 +276,10 @@ class SiteBlock
             'view' => '@frontend/views/blocks/main_slider_block',
             'data' => ['top3News' => $top3News],
         ];
+        if(!$cache) {
+            $view = new \yii\base\View();
+            return $view->renderFile($block['view'].'.php', $block['data']);
+        }
         return $block;
     }
 
@@ -217,8 +287,21 @@ class SiteBlock
      * Get block with top 6 news
      * @return array Data
      */
-    public static function getTop6News()
+    public static function getTop6News($cache = true)
     {
+        if($cache)
+        {
+            $cacheBlock = CacheBlock::find()
+                ->where(['machine_name' => 'top6News'])
+                ->one();
+            if(isset($cacheBlock)) {
+                return [
+                    'view' => '@frontend/views/blocks/cache_block',
+                    'data' => ['content' => $cacheBlock->content],
+                ];
+            }
+        }
+
         $postTable = Post::tableName();
         $assetTable = Asset::tableName();
         
@@ -245,6 +328,10 @@ class SiteBlock
             'view' => '@frontend/views/blocks/main_news_block',
             'data' => ['top6News' => $top6News],
         ];
+        if(!$cache) {
+            $view = new \yii\base\View();
+            return $view->renderFile($block['view'].'.php', $block['data']);
+        }
         return $block;
     }
 
@@ -266,28 +353,14 @@ class SiteBlock
             ->limit(3)
             ->all();
 
-        foreach ($photoReviewNews as $post) {
-            self::$postExcludeIds[] = $post->id;
-        }
-
         // Video review
-        $query = Post::find()
-            ->innerJoin($assetTable, "{$assetTable}.assetable_id = {$postTable}.id")
+        $videoReviewNews = VideoPost::find()
             ->where([
                 'is_public' => 1, 
-                'with_video' => 1,
-                'content_category_id' => Post::CATEGORY_NEWS,
-                "{$assetTable}.assetable_type" => Asset::ASSETABLE_POST,
-                "{$assetTable}.thumbnail" => Asset::THUMBNAIL_BIG,
-            ]);
-        $videoReviewNews = $query->andWhere(['not in', "{$postTable}.id", self::$postExcludeIds])
+            ])
             ->orderBy(['created_at' => SORT_DESC])
             ->limit(3)
             ->all();
-
-        foreach ($videoReviewNews as $post) {
-            self::$postExcludeIds[] = $post->id;
-        }
 
         if(count($photoReviewNews) == 0 && count($videoReviewNews) == 0) {
             return false;
@@ -334,23 +407,13 @@ class SiteBlock
         $assetTable = Asset::tableName();
 
         // Video review
-        $query = Post::find()
-            ->innerJoin($assetTable, "{$assetTable}.assetable_id = {$postTable}.id")
+        $videoReviewNews = VideoPost::find()
             ->where([
                 'is_public' => 1, 
-                'with_video' => 1,
-                'content_category_id' => Post::CATEGORY_NEWS,
-                "{$assetTable}.assetable_type" => Asset::ASSETABLE_POST,
-                "{$assetTable}.thumbnail" => Asset::THUMBNAIL_BIG,
-            ]);
-        $videoReviewNews = $query->andWhere(['not in', "{$postTable}.id", self::$postExcludeIds])
+            ])
             ->orderBy(['created_at' => SORT_DESC])
             ->limit(3)
             ->all();
-
-        foreach ($videoReviewNews as $post) {
-            self::$postExcludeIds[] = $post->id;
-        }
 
         if(count($videoReviewNews) == 0) {
             return false;

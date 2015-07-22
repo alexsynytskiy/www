@@ -132,6 +132,122 @@ class Post extends ActiveRecord
     }
 
     /**
+     * After save update cache of blocks
+     * @inheritdoc
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        $newsPosts50 = Post::find()
+            ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_NEWS])
+            ->orderBy(['created_at' => SORT_DESC])
+            ->limit(50)
+            ->all();
+        $newsPosts20 = array_slice($newsPosts50, 0, 20);
+
+        $cacheBlocksData = CacheBlock::find()->all();
+        $cacheBlocks = [];
+        foreach ($cacheBlocksData as $block) {
+            $cacheBlocks[$block->machine_name] = $block;
+        }
+
+        $cacheStatus = false;
+
+        if($this->content_category_id == self::CATEGORY_NEWS) // news posts
+        {
+            $machineName = 'shortNews50';
+            $enableBanners = false;
+            if(!isset($cacheBlocks[$machineName])){
+                $cacheBlock = new CacheBlock();
+                $cacheBlock->machine_name = $machineName;
+            } else {
+                $cacheBlock = $cacheBlocks[$machineName];
+            }
+            $cacheBlock->content = SiteBlock::getShortNews(50, $enableBanners, $cacheStatus, $newsPosts50);
+            $cacheBlock->save();
+
+            $machineName = 'shortNews50banners';
+            $enableBanners = true;
+            if(!isset($cacheBlocks[$machineName])){
+                $cacheBlock = new CacheBlock();
+                $cacheBlock->machine_name = $machineName;
+            } else {
+                $cacheBlock = $cacheBlocks[$machineName];
+            }
+            $cacheBlock->content = SiteBlock::getShortNews(50, $enableBanners, $cacheStatus, $newsPosts50);
+            $cacheBlock->save();
+
+            $machineName = 'shortNews20';
+            $enableBanners = false;
+            if(!isset($cacheBlocks[$machineName])){
+                $cacheBlock = new CacheBlock();
+                $cacheBlock->machine_name = $machineName;
+            } else {
+                $cacheBlock = $cacheBlocks[$machineName];
+            }
+            $cacheBlock->content = SiteBlock::getShortNews(20, $enableBanners, $cacheStatus, $newsPosts20);
+            $cacheBlock->save();
+
+            $machineName = 'shortNews20banners';
+            $enableBanners = true;
+            if(!isset($cacheBlocks[$machineName])){
+                $cacheBlock = new CacheBlock();
+                $cacheBlock->machine_name = $machineName;
+            } else {
+                $cacheBlock = $cacheBlocks[$machineName];
+            }
+            $cacheBlock->content = SiteBlock::getShortNews(20, $enableBanners, $cacheStatus, $newsPosts20);
+            $cacheBlock->save();
+        }
+
+        if($this->is_index || $this->is_top) // Top3 and top6 news
+        {
+            $machineName = 'top3News';
+            if(!isset($cacheBlocks[$machineName])){
+                $cacheBlock = new CacheBlock();
+                $cacheBlock->machine_name = $machineName;
+            } else {
+                $cacheBlock = $cacheBlocks[$machineName];
+            }
+            $cacheBlock->content = SiteBlock::getTop3News($cacheStatus);
+            $cacheBlock->save();
+        
+            $machineName = 'top6News';
+            if(!isset($cacheBlocks[$machineName])){
+                $cacheBlock = new CacheBlock();
+                $cacheBlock->machine_name = $machineName;
+            } else {
+                $cacheBlock = $cacheBlocks[$machineName];
+            }
+            $cacheBlock->content = SiteBlock::getTop6News($cacheStatus);
+            $cacheBlock->save();
+        }
+
+        if($this->content_category_id == self::CATEGORY_BLOG) // blog posts
+        {
+            $machineName = 'lastBlogPosts';
+            if(!isset($cacheBlocks[$machineName])){
+                $cacheBlock = new CacheBlock();
+                $cacheBlock->machine_name = $machineName;
+            } else {
+                $cacheBlock = $cacheBlocks[$machineName];
+            }
+            $cacheBlock->content = SiteBlock::getBlogPosts($cacheStatus);
+            $cacheBlock->save();
+
+            $machineName = 'blogPostsByRating';
+            if(!isset($cacheBlocks[$machineName])){
+                $cacheBlock = new CacheBlock();
+                $cacheBlock->machine_name = $machineName;
+            } else {
+                $cacheBlock = $cacheBlocks[$machineName];
+            }
+            $cacheBlock->content = SiteBlock::getBlogPostsByRating($cacheStatus);
+            $cacheBlock->save();
+        }
+        return parent::afterSave($insert, $changedAttributes);
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getUser()

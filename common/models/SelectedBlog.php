@@ -45,6 +45,25 @@ class SelectedBlog extends ActiveRecord
     }
 
     /**
+     * After save update cache of blocks
+     * @inheritdoc
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        $machineName = 'lastBlogPosts';
+        $cacheBlock = CacheBlock::find()
+            ->where(['machine_name' => $machineName])
+            ->one();
+        if(!isset($cacheBlock)){
+            $cacheBlock = new CacheBlock();
+            $cacheBlock->machine_name = $machineName;
+        }
+        $cacheBlock->content = SiteBlock::getBlogPosts(false);
+        $cacheBlock->save();
+        return parent::afterSave($insert, $changedAttributes);
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getPost()

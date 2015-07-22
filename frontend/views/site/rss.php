@@ -13,6 +13,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL;
   <title><?= $title ?></title>
   <link><?= $baseUrl ?></link>
   <description><?= $description ?></description>
+  <language>ru</language>
   <?php foreach ($items as $item) { ?>
     <item>
       <title><?= $item->title ?></title>
