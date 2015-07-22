@@ -7,10 +7,12 @@ use yii\helpers\Url;
  * @var $answers array of common\models\Question
 **/
 
-$allVotes = 0;
-foreach ($answers as $answer) { 
-    $allVotes += $answer->voutes;
+$allVotes = $question->voutes;
+$maxMark = 0;
+foreach ($answers as $answer) {
+  if($answer->mark > $maxMark) $maxMark = $answer->mark;
 }
+$maxMark = $maxMark ? $maxMark : 10;
 $inquirerMoreLink = (Yii::$app->controller->action->id == 'inquirers') ? false : true;
 ?>
 <?php if($allVotes > 0) { ?>
@@ -22,20 +24,9 @@ $inquirerMoreLink = (Yii::$app->controller->action->id == 'inquirers') ? false :
         <?php } ?>
     </div>
     <div class="box-content">
-      <div class="inquirer-theme"><?= $question->title ?></div>
-      
-      <?php 
-      foreach ($answers as $answer) { 
-          $percent = round($answer->voutes/$allVotes * 100, 1);
-          ?>
-          <div class="answer-label"><?= $answer->title ?></div>
-          <div class="answer-stat">
-              <div class="stat-bar" style="width: <?= $percent ?>%">
-                  <div class="stat-value"><?= $answer->voutes ?>(<?= $percent ?>%)</div>
-              </div>
-          </div>
-      <?php } ?>
-
+      <a href="/inquirers/<?= $question->id ?>">
+        <div class="inquirer-theme"><?= $question->title ?></div>
+      </a>
       <div class="inquirer-description">
         <div class="vote-count">Всего голосов <span><?= $allVotes ?></span></div>
         <div class="inquirer-date"><?= date('d.m.Y', strtotime($question->created_at)) ?></div>

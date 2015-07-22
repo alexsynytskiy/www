@@ -57,6 +57,7 @@ return [
                 'post/add'                               => 'site/post-add',
                 'post/edit/<id:\d+>'                     => 'site/post-edit',
                 'inquirers'                              => 'site/inquirers',
+                'inquirers/<id:\d+>'                     => 'site/inquirer-page',
                 'complain/<id:\d+>'                      => 'site/complain',
                 'user/profile'                           => 'user/default/profile',
                 'user/edit'                              => 'user/default/account',

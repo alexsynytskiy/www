@@ -1104,6 +1104,30 @@ class SiteController extends Controller
     }
 
     /**
+     * Inquirer page
+     * 
+     * @param int $id Inquirer id
+     * @return mixed
+     */
+    public function actionInquirerPage($id)
+    {        
+        if(!isset($id)) {
+            throw new NotFoundHttpException('Страница не найдена.');
+        }
+
+        return $this->render('@frontend/views/site/index', [
+            'templateType' => 'col2',
+            'title' => 'Опрос',
+            'columnFirst' => [
+                'inquierer' => SiteBlock::getQuestionBlockTitle(false, $id)
+            ],
+            'columnSecond' => [ 
+                'short_news' => SiteBlock::getShortNews(10)
+            ],
+        ]);
+    }
+
+    /**
      * Player page
      * 
      * @param int $id Player id

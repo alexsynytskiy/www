@@ -6,5 +6,5 @@ use yii\helpers\Url;
  * @var $model common\models\Question
 **/
 
-$block = \common\models\SiteBlock::getQuestionBlock($model);
+$block = \common\models\SiteBlock::getQuestionBlockTitle($model);
 echo $this->render($block['view'], $block['data']);

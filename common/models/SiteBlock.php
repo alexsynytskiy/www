@@ -503,8 +503,9 @@ class SiteBlock
         if(!$question) {
             $question = Question::find()
                 ->where(['is_active' => 1])
+                ->orderBy(['created_at' => SORT_DESC])
                 ->one();
-        }
+        }        
 
         $uid = isset(Yii::$app->user->id) ? Yii::$app->user->id : 0;
         $userVote = QuestionVote::find()
@@ -527,6 +528,58 @@ class SiteBlock
             $view = $question->is_float ? 'blocks/question_float_block' : 'blocks/question_block';
         } else {
             $view = $question->is_float ? 'forms/question_float_form' : 'forms/question_form';
+        }
+
+        $block = [
+            'view' => '@frontend/views/'.$view,
+            'data' => compact('question', 'answers'),
+        ];
+        return $block;
+    }
+
+    /**
+     * Get question block
+     * @param \common\models\Question $question 
+     * @return array Data
+     */
+    public static function getQuestionBlockTitle($question = false, $id = NULL)
+    {
+        if(isset($id)) {
+            $question = Question::find()
+                ->where(['id' => $id])
+                ->one();
+        }
+
+        $uid = isset(Yii::$app->user->id) ? Yii::$app->user->id : 0;
+        $userVote = QuestionVote::find()
+            ->where([
+                'question_id' => $question->id,
+                'user_id' => $uid,
+            ])->one();
+
+        if(isset($userVote->id) || !$question->is_active){
+            $block = true;
+        } else {
+            $block = false;
+        }
+
+        $query = Question::find()->where(['parent_id' => $question->id]);
+        if($block) $query->orderBy(['voutes' => SORT_DESC, 'mark' => SORT_DESC]);
+        $answers = $query->all();
+
+        if(!isset($id)) {
+            if($block){
+                $view = $question->is_float ? 'blocks/question_float_block_title' : 'blocks/question_block_title';
+            } else {
+                $view = $question->is_float ? 'forms/question_float_form' : 'forms/question_form';
+            }
+        }
+        else {
+            if($block){
+                $view = $question->is_float ? 'blocks/question_float_block' : 'blocks/question_block';
+            } else {
+                $view = $question->is_float ? 'forms/question_float_form' : 'forms/question_form';
+            }
         }
 
         $block = [
