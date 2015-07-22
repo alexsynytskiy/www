@@ -101,11 +101,11 @@ AppAsset::register($this);
                         <?php } ?>
 
                         <div class="social-buttons">
-                            <a href="#"><div class="button youtube"></div></a>
-                            <a href="#"><div class="button vk"></div></a>
-                            <a href="#"><div class="button twitter"></div></a>
-                            <a href="#"><div class="button fb"></div></a>
-                            <a href="#"><div class="button rss"></div></a>
+                            <a target="_blank" href="https://www.youtube.com/channel/UCkNGCbO2tUI6y_6Ka_DKRDQ"><div class="button youtube"></div></a>
+                            <a target="_blank" href="https://vk.com/dynamomaniacom"><div class="button vk"></div></a>
+                            <a target="_blank" href="https://twitter.com/dynamomania_com"><div class="button twitter"></div></a>
+                            <a target="_blank" href="https://www.facebook.com/dynamomaniacom"><div class="button fb"></div></a>
+                            <a target="_blank" href="#"><div class="button rss"></div></a>
                         </div>
                     </div>
 
