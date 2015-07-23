@@ -470,6 +470,15 @@ class User extends ActiveRecord implements IdentityInterface
             return $access;
         }
 
+        switch ($permissionName) {
+            case 'changePassword':
+            case 'changeUser':
+            case 'changeBan':
+                return $this->role_id == Role::ROLE_ADMIN;
+            default:
+                break;
+        }
+
         // otherwise use our own custom permission (via the role table)
         return $this->role->checkPermission($permissionName);
     }

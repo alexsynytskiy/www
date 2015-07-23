@@ -120,7 +120,20 @@ class TournamentController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+
+            if(empty($model->won)) $model->won = 0;
+            if(empty($model->draw)) $model->draw = 0;
+            if(empty($model->lost)) $model->lost = 0;
+            if(empty($model->penalty_points)) $model->penalty_points = 0;
+            $model->penalty_points = abs($model->penalty_points);
+            if(empty($model->goals_for)) $model->goals_for = 0;
+            if(empty($model->goals_against)) $model->goals_against = 0;
+
+            $model->played = $model->won + $model->draw + $model->lost;
+            $model->points = $model->won * 3 + $model->draw - $model->penalty_points;
+
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [

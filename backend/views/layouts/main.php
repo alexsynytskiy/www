@@ -36,12 +36,17 @@ AppAsset::register($this);
                         'class' => 'navbar-inverse navbar-fixed-top',
                     ],
                 ]);
+                $menuItemsFirst = [];
+                if(Yii::$app->user->can("changeUser") && Yii::$app->user->can("changeBan")) {
+                    $menuItemsFirst = [
+                        ['label' => 'Пользователи', 'items' => [
+                            ['label' => 'Пользователи', 'url' => '/admin/user/admin'],
+                            ['label' => 'Заблокированные IP адреса', 'url' => '/admin/banned-ip'],
+                            ['label' => 'Жалобы', 'url' => '/admin/claim'],
+                        ]]
+                    ];
+                }
                 $menuItems = [
-                    ['label' => 'Пользователи', 'items' => [
-                        ['label' => 'Пользователи', 'url' => '/admin/user/admin'],
-                        ['label' => 'Заблокированные IP адреса', 'url' => '/admin/banned-ip'],
-                        ['label' => 'Жалобы', 'url' => '/admin/claim'],
-                    ]],
                     ['label' => 'Команда', 'items' => [
                         ['label' => 'Команды', 'url' => '/admin/team'],                        
                         ['label' => 'Игроки', 'url' => '/admin/player'],
@@ -52,7 +57,7 @@ AppAsset::register($this);
                         ['label' => 'Игроки других команд', 'url' => '/admin/membership'],
                         ['label' => 'Бомбардиры', 'url' => '/admin/forward'], 
                         ['label' => 'Трансферы', 'url' => '/admin/transfer'],
-                        ['label' => 'Типы трансферов', 'url' => '/admin/transfer-type'],                      
+                        // ['label' => 'Типы трансферов', 'url' => '/admin/transfer-type'],                      
                         ['label' => 'Информация о команде', 'url' => '/admin/main-info'],
                     ]],
                     ['label' => 'Матчи', 'items' => [
@@ -83,6 +88,7 @@ AppAsset::register($this);
                     ]],
                     ['label' => 'Сайт', 'url' => ('http://'.$_SERVER['HTTP_HOST']) ],
                 ];
+                $menuItems = array_merge($menuItemsFirst, $menuItems);
                 if (Yii::$app->user->isGuest) {
                     $menuItems[] = ['label' => 'Вход', 'url' => ['/user/login']];
                 } else {

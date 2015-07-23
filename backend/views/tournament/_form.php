@@ -98,30 +98,20 @@ use common\models\Season;
 
     <div class="row">
 
-        <div class="col-sm-3"><?= $form->field($model, 'played')->textInput() ?></div>
-
         <div class="col-sm-3"><?= $form->field($model, 'won')->textInput() ?></div>
 
+        <div class="col-sm-3"><?= $form->field($model, 'lost')->textInput() ?></div>
+        
         <div class="col-sm-3"><?= $form->field($model, 'draw')->textInput() ?></div>
 
-        <div class="col-sm-3"><?= $form->field($model, 'lost')->textInput() ?></div>
+        <div class="col-sm-3"><?= $form->field($model, 'penalty_points')->textInput() ?></div>
 
     </div>    
     <div class="row">
 
-        <div class="col-sm-3"><?= $form->field($model, 'points')->textInput() ?></div>
-
         <div class="col-sm-3"><?= $form->field($model, 'goals_for')->textInput() ?></div>
 
         <div class="col-sm-3"><?= $form->field($model, 'goals_against')->textInput() ?></div>
-
-        <div class="col-sm-3"><?= $form->field($model, 'fair_play')->textInput() ?></div>
-
-    </div>
-
-    <div class="row">
-
-        <div class="col-sm-3"><?= $form->field($model, 'penalty_points')->textInput() ?></div>
 
         <div class="col-sm-3"><?= $form->field($model, 'weight')->textInput() ?></div>
 
