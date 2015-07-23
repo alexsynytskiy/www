@@ -1123,7 +1123,8 @@ class SiteController extends Controller
             'templateType' => 'col2',
             'title' => 'Опрос',
             'columnFirst' => [
-                'inquierer' => SiteBlock::getQuestionBlockTitle(false, $id)
+                'inquierer' => SiteBlock::getQuestionBlockTitle(false, $id),
+                'comments' => Comment::getCommentsBlock($id, Comment::COMMENTABLE_INQUIRER),
             ],
             'columnSecond' => [ 
                 'short_news' => SiteBlock::getShortNews(10)
@@ -1825,6 +1826,8 @@ class SiteController extends Controller
      */
     public function actionAlbumLoadImages($id, $count) 
     {
+        $album = Album::findOne($id);
+
         $contentImagesCount = Asset::find()
             ->where([
                 'assetable_id' => $id,
@@ -1860,7 +1863,9 @@ class SiteController extends Controller
             } else {
                 $thumbnailImages[] = $image;
             }
-            $contentImagesHtml .= '<div><img src="'.$image->getFileUrl().'" alt="slide"></div>';
+            $contentImagesHtml .= '<div><a href="'. $album->getPhotoUrl($image->id) .'">'.
+                '<img src="'.$image->getFileUrl().'" alt="slide">'.
+                '</a></div>';
         }
         foreach ($thumbnailImages as $image) {
             $thumbnailImagesHtml .= '<a class="pager-item" data-slide-index="'.$count.'" href="javascript:void(0)"><img src="'.$image->getFileUrl().'" alt="slide"></a>';

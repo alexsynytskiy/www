@@ -19,10 +19,12 @@ class CommentCount extends \yii\db\ActiveRecord
      * @var string assetable types
      */
     const COMMENTABLE_ALBUM    = 'album';
+    const COMMENTABLE_MATCH    = 'match';
+    const COMMENTABLE_PHOTO    = 'photo';
     const COMMENTABLE_POST     = 'post';
     const COMMENTABLE_TRANSFER = 'transfer';
-    const COMMENTABLE_MATCH    = 'match';
     const COMMENTABLE_VIDEO    = 'video';
+    const COMMENTABLE_INQUIRER = 'inquirer';
 
     /**
      * @inheritdoc

@@ -132,10 +132,9 @@ class Post extends ActiveRecord
     }
 
     /**
-     * After save update cache of blocks
-     * @inheritdoc
+     * After save and before delete update cache of blocks
      */
-    public function afterSave($insert, $changedAttributes)
+    public function updateCacheBlocks() 
     {
         $newsPosts50 = Post::find()
             ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_NEWS])
@@ -244,7 +243,31 @@ class Post extends ActiveRecord
             $cacheBlock->content = SiteBlock::getBlogPostsByRating($cacheStatus);
             $cacheBlock->save();
         }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        $this->updateCacheBlocks();
         return parent::afterSave($insert, $changedAttributes);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function afterDelete()
+    {
+        $this->updateCacheBlocks();
+        Tagging::deleteAll(['taggable_type' => Tagging::TAGGABLE_POST ,'taggable_id' => $this->id]);
+        Relation::deleteAll(['relationable_type' => Relation::RELATIONABLE_POST ,'relationable_id' => $this->id]);
+        Comment::deleteAll(['commentable_type' => Comment::COMMENTABLE_POST ,'commentable_id' => $this->id]);
+        CommentCount::deleteAll(['commentable_type' => CommentCount::COMMENTABLE_POST ,'commentable_id' => $this->id]);
+        $assets = Asset::find()->where(['assetable_type' => Asset::ASSETABLE_POST ,'assetable_id' => $this->id])->all();
+        foreach ($assets as $asset) {
+            $asset->delete();
+        }
     }
 
     /**

@@ -28,7 +28,7 @@ class AdminController extends Controller
     {
         // check for admin permission (`tbl_role.can_admin`)
         // note: check for Yii::$app->user first because it doesn't exist in console commands (throws exception)
-        if (!empty(Yii::$app->user) && !Yii::$app->user->can("admin")) {
+        if (!empty(Yii::$app->user) && (!Yii::$app->user->can("admin") || !Yii::$app->user->can("changeUser"))) {
             throw new ForbiddenHttpException('Вы не можете выполнить это действие.');
         }
 

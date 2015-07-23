@@ -358,19 +358,7 @@ class VideoPostController extends Controller
      */
     public function actionDelete($id)
     {
-        $model = $this->findModel($id);
-
-        Tagging::deleteAll(['taggable_type' => Tagging::TAGGABLE_VIDEO ,'taggable_id' => $id]);
-        Relation::deleteAll(['relationable_type' => Relation::RELATIONABLE_VIDEO ,'relationable_id' => $id]);
-        $assets = Asset::find()
-            ->where(['assetable_type' => Asset::ASSETABLE_VIDEO ,'assetable_id' => $id])
-            ->orWhere(['assetable_type' => Asset::ASSETABLE_VIDEOFILE ,'assetable_id' => $id])
-            ->all();
-        foreach ($assets as $asset) {
-            $asset->delete();
-        }
-        $model->delete();
-
+        $this->findModel($id)->delete();
         return $this->redirect(['index']);
     }
 

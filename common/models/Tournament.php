@@ -19,6 +19,7 @@ use yii\db\ActiveRecord;
  * @property integer $goals_for
  * @property integer $goals_against
  * @property integer $points
+ * @property integer $penalty_points
  * @property string $created_at
  * @property string $updated_at
  * @property double $fair_play
@@ -40,7 +41,9 @@ class Tournament extends ActiveRecord
     public function rules()
     {
         return [
-            [['command_id', 'championship_id', 'season_id', 'played', 'won', 'draw', 'lost', 'goals_for', 'goals_against', 'points', 'league_id'], 'integer'],
+            [['command_id', 'championship_id', 'season_id', 
+                'played', 'won', 'draw', 'lost', 'goals_for', 
+                'goals_against', 'points', 'league_id', 'penalty_points'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['fair_play'], 'number'],
 

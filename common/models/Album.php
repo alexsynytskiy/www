@@ -111,6 +111,21 @@ class Album extends ActiveRecord
     }
 
     /**
+     * @inheritdoc
+     */
+    public function afterDelete()
+    {
+        Tagging::deleteAll(['taggable_type' => Tagging::TAGGABLE_ALBUM ,'taggable_id' => $this->id]);
+        Relation::deleteAll(['relationable_type' => Relation::RELATIONABLE_ALBUM ,'relationable_id' => $this->id]);
+        Comment::deleteAll(['commentable_type' => Comment::COMMENTABLE_ALBUM ,'commentable_id' => $this->id]);
+        CommentCount::deleteAll(['commentable_type' => CommentCount::COMMENTABLE_ALBUM ,'commentable_id' => $this->id]);
+        $assets = Asset::find()->where(['assetable_type' => Asset::ASSETABLE_ALBUM ,'assetable_id' => $this->id])->all();
+        foreach ($assets as $asset) {
+            $asset->delete();
+        }
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getUser()

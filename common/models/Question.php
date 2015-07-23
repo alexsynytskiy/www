@@ -79,4 +79,13 @@ class Question extends ActiveRecord
             'mark' => 'Оценка',
         ];
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function afterDelete()
+    {
+        Comment::deleteAll(['commentable_type' => Comment::COMMENTABLE_INQUIRER ,'commentable_id' => $this->id]);
+        CommentCount::deleteAll(['commentable_type' => CommentCount::COMMENTABLE_INQUIRER ,'commentable_id' => $this->id]);
+    }
 }

@@ -83,7 +83,6 @@ $(window).load(function() {
                     var currentSlide = albumPagerSlider.getCurrentSlide();
                     albumPagerSettings.startSlide = albumPagerSlider.getCurrentSlide();
                     albumPagerSlider.reloadSlider(albumPagerSettings);
-                    // albumPagerSlider.goToSlide(currentSlide);
 
                     albumSlider.reloadSlider(albumSliderSettings);
                 }, 'json');
