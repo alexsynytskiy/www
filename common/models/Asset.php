@@ -619,4 +619,13 @@ class Asset extends \yii\db\ActiveRecord
             return false;
         }
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function afterDelete()
+    {
+        Comment::deleteAll(['commentable_type' => Comment::COMMENTABLE_PHOTO ,'commentable_id' => $this->id]);
+        CommentCount::deleteAll(['commentable_type' => CommentCount::COMMENTABLE_PHOTO ,'commentable_id' => $this->id]);
+    }
 }

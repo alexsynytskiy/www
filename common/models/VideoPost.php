@@ -104,6 +104,24 @@ class VideoPost extends ActiveRecord
     }
 
     /**
+     * @inheritdoc
+     */
+    public function afterDelete()
+    {
+        Tagging::deleteAll(['taggable_type' => Tagging::TAGGABLE_VIDEO ,'taggable_id' => $this->id]);
+        Relation::deleteAll(['relationable_type' => Relation::RELATIONABLE_VIDEO ,'relationable_id' => $this->id]);
+        Comment::deleteAll(['commentable_type' => Comment::COMMENTABLE_VIDEO ,'commentable_id' => $this->id]);
+        CommentCount::deleteAll(['commentable_type' => CommentCount::COMMENTABLE_VIDEO ,'commentable_id' => $this->id]);
+        $assets = Asset::find()
+            ->where(['assetable_type' => Asset::ASSETABLE_VIDEO ,'assetable_id' => $this->id])
+            ->orWhere(['assetable_type' => Asset::ASSETABLE_VIDEOFILE ,'assetable_id' => $this->id])
+            ->all();
+        foreach ($assets as $asset) {
+            $asset->delete();
+        }
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getUser()

@@ -28,12 +28,13 @@ class Comment extends ActiveRecord
     /**
      * @var string commentable types
      */
-    const COMMENTABLE_MATCH    = 'match';
     const COMMENTABLE_ALBUM    = 'album';
+    const COMMENTABLE_MATCH    = 'match';
     const COMMENTABLE_PHOTO    = 'photo';
     const COMMENTABLE_POST     = 'post';
     const COMMENTABLE_TRANSFER = 'transfer';
     const COMMENTABLE_VIDEO    = 'video';
+    const COMMENTABLE_INQUIRER = 'inquirer';
 
     /**
      * @inheritdoc
@@ -95,6 +96,7 @@ class Comment extends ActiveRecord
             case self::COMMENTABLE_TRANSFER:
             case self::COMMENTABLE_MATCH:
             case self::COMMENTABLE_VIDEO:
+            case self::COMMENTABLE_INQUIRER:
                 $commentCount = CommentCount::find()
                     ->where([
                         'commentable_id' => $this->commentable_id,

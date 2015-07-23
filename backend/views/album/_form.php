@@ -153,17 +153,6 @@ use dosamigos\selectize\SelectizeDropDownList;
     echo $form->field($model, 'imagesData')->hiddenInput(['id' => 'images-data'])->label(false);
     ?>
 
-    <div class="row">
-        <div class="col-sm-2">
-            <?= $form->field($model, 'match_id')->textInput(['maxlength' => 255]) ?>
-        </div>
-        <div class="col-sm-10">
-            <div id="match-preview-name" style="padding-top: 25px; line-height: 34px;">
-                <?= $model->getMatchName() ?>
-            </div>
-        </div>
-    </div>
-
     <?= $form->field($model, 'is_public')->widget(CheckboxX::classname(), ['pluginOptions' => ['threeState' => false]]) ?>
 
     <div class="form-group">

@@ -89,6 +89,15 @@ class Transfer extends ActiveRecord
     }
 
     /**
+     * @inheritdoc
+     */
+    public function afterDelete()
+    {
+        Comment::deleteAll(['commentable_type' => Comment::COMMENTABLE_TRANSFER ,'commentable_id' => $this->id]);
+        CommentCount::deleteAll(['commentable_type' => CommentCount::COMMENTABLE_TRANSFER ,'commentable_id' => $this->id]);
+    }
+
+    /**
      * @return string
      */
     public function getName()

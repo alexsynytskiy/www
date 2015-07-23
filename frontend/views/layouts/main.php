@@ -71,12 +71,12 @@ AppAsset::register($this);
                                     <a href="/user/login"><div class="sign-in">Войти</div></a>
                                 </div>
 
-                                <div class="navigation-block bottom-block">
+                                <!-- <div class="navigation-block bottom-block">
                                     <a href="#">
                                         <div class="rules">Правила форума</div>
                                         <div class="icon"></div>
                                     </a>
-                                </div>
+                                </div> -->
                             </div>
 
                         <?php } else { ?>

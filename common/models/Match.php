@@ -151,6 +151,16 @@ class Match extends ActiveRecord
             'guest_ball_possession'  => 'Вдадение мячом (Гости)',
         ];
     }    
+
+    /**
+     * @inheritdoc
+     */
+    public function afterDelete()
+    {
+        Relation::deleteAll(['parent_id' => $this->id]);
+        Comment::deleteAll(['commentable_type' => Comment::COMMENTABLE_MATCH ,'commentable_id' => $this->id]);
+        CommentCount::deleteAll(['commentable_type' => CommentCount::COMMENTABLE_MATCH ,'commentable_id' => $this->id]);
+    }
     
     /**
      * @return string match result for our teams of interest

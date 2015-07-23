@@ -16,6 +16,8 @@ use common\models\Source;
 use common\models\Tagging;
 use common\models\Relation;
 use common\models\Match;
+use common\models\Comment;
+use common\models\CommentCount;
 use yii\helpers\Json;
 use yii\db\Query;
 
@@ -353,13 +355,6 @@ class PostController extends Controller
     public function actionDelete($id)
     {
         $post = $this->findModel($id);
-
-        Tagging::deleteAll(['taggable_type' => Tagging::TAGGABLE_POST ,'taggable_id' => $id]);
-        Relation::deleteAll(['relationable_type' => Relation::RELATIONABLE_POST ,'relationable_id' => $id]);
-        $assets = Asset::find()->where(['assetable_type' => Asset::ASSETABLE_POST ,'assetable_id' => $id])->all();
-        foreach ($assets as $asset) {
-            $asset->delete();
-        }
         $post->delete();
 
         return $this->redirect(['index']);

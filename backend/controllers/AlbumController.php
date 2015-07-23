@@ -436,16 +436,7 @@ class AlbumController extends Controller
      */
     public function actionDelete($id)
     {
-        $post = $this->findModel($id);
-
-        Tagging::deleteAll(['taggable_type' => Tagging::TAGGABLE_ALBUM ,'taggable_id' => $id]);
-        Relation::deleteAll(['relationable_type' => Relation::RELATIONABLE_ALBUM ,'relationable_id' => $id]);
-        $assets = Asset::find()->where(['assetable_type' => Asset::ASSETABLE_ALBUM ,'assetable_id' => $id])->all();
-        foreach ($assets as $asset) {
-            $asset->delete();
-        }
-        $post->delete();
-
+        $this->findModel($id)->delete();
         return $this->redirect(['index']);
     }
 
