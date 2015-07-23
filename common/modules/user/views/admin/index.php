@@ -41,20 +41,20 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             // ['class' => 'yii\grid\SerialColumn'],
 
-            [
-                'attribute' => 'id',
-                'options' => ['width' => '90'],
-            ],
-            [
-                'attribute' => 'role_id',
-                'label' => Yii::t('user', 'Role'),
-                'filter' => $role::dropdown(),
-                'value' => function($model, $index, $dataColumn) use ($role) {
-                    $roleDropdown = $role::dropdown();
-                    return isset($roleDropdown[$model->role_id]) ? $roleDropdown[$model->role_id] : null;
-                },
-                'options' => ['width' => '130'],
-            ],
+            // [
+            //     'attribute' => 'id',
+            //     'options' => ['width' => '90'],
+            // ],
+            // [
+            //     'attribute' => 'role_id',
+            //     'label' => Yii::t('user', 'Role'),
+            //     'filter' => $role::dropdown(),
+            //     'value' => function($model, $index, $dataColumn) use ($role) {
+            //         $roleDropdown = $role::dropdown();
+            //         return isset($roleDropdown[$model->role_id]) ? $roleDropdown[$model->role_id] : null;
+            //     },
+            //     'options' => ['width' => '130'],
+            // ],
             [
                 'attribute' => 'status',
                 'label' => Yii::t('user', 'Status'),
@@ -91,9 +91,9 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'password',
             // 'auth_key',
             // 'api_key',
-            // 'login_ip',
+            'login_ip',
             // 'login_time',
-            // 'create_ip',
+            'create_ip',
             // 'create_time',
             // 'update_time',
             // 'ban_time',

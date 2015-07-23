@@ -7,12 +7,6 @@ AddType image/svg+xml svgz
 
     RewriteEngine On
 
-</IfModule>
-
-
-
-<IfModule mod_rewrite.c>
-
     # deal with admin first
 
     RewriteCond %{REQUEST_URI} ^/(admin)
