@@ -45,6 +45,7 @@ AppAsset::register($this);
                     ['label' => 'Команда', 'items' => [
                         ['label' => 'Команды', 'url' => '/admin/team'],                        
                         ['label' => 'Игроки', 'url' => '/admin/player'],
+                        ['label' => 'Карьеры игроков', 'url' => '/admin/career'],
                         ['label' => 'Тренеры', 'url' => '/admin/coach'],
                         ['label' => 'Тренеры по сезонам', 'url' => '/admin/team-coach'],
                         ['label' => 'Амплуа', 'url' => '/admin/amplua'],

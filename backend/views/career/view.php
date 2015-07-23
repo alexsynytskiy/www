@@ -6,8 +6,8 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\Career */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Careers', 'url' => ['index']];
+$this->title = $model->player->name;
+$this->params['breadcrumbs'][] = ['label' => 'Карьеры игроков', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="career-view">
@@ -15,11 +15,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Вы уверены, что хотите удалить эту карьеру?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -28,11 +28,30 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
-            'player_id',
-            'league_id',
-            'season_id',
-            'command_id',
+            [
+                'attribute' => 'id',
+            ],
+            [
+                'label' => 'Игрок',
+                'attribute' => 'player.name',
+                'value' => Html::a($model->player->name, ['/player/'.$model->player->id]),
+                'format' => 'html',
+            ],
+            [
+                'label' => 'Команда',
+                'attribute' => 'team.name',
+                'value' => Html::a($model->team->name, ['/team/'.$model->team->id]),
+                'format' => 'html',
+            ],
+            [
+                'attribute' => 'league.name',
+                'label' => 'Лига',
+                'format' => 'html',
+            ],            
+            [
+                'label' => 'Сезон',
+                'attribute' => 'season.name',
+            ],
             'championship_matches',
             'championship_goals',
             'cup_matches',

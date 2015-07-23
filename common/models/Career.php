@@ -57,12 +57,12 @@ class Career extends ActiveRecord
             'league_id' => 'Лига',
             'season_id' => 'Сезон',
             'command_id' => 'Команда',
-            'championship_matches' => 'ЧМ',
-            'championship_goals' => 'ЧГ',
-            'cup_matches' => 'КМ',
-            'cup_goals' => 'КГ',
-            'euro_matches' => 'ЕМ',
-            'euro_goals' => 'ЕГ',
+            'championship_matches' => 'Матчей в чемпионате',
+            'championship_goals' => 'Голов в чемпионате',
+            'cup_matches' => 'Матчей в кубке',
+            'cup_goals' => 'Голов в кубке',
+            'euro_matches' => 'Матчей в еврокубках',
+            'euro_goals' => 'Голов в еврокубках',
             'avg_mark' => 'Общая оценка',
             'goal_passes' => 'Ассисты',
             'created_at' => 'Создано',
@@ -100,5 +100,22 @@ class Career extends ActiveRecord
     public function getTeam()
     {
         return $this->hasOne(Team::className(), ['id' => 'command_id']);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class'      => 'yii\behaviors\TimestampBehavior',
+                'value'      => function () { return date("Y-m-d H:i:s"); },
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'created_at',
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_at',
+                ],
+            ],
+        ];
     }
 }

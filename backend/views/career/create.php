@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Career */
 
-$this->title = 'Create Career';
-$this->params['breadcrumbs'][] = ['label' => 'Careers', 'url' => ['index']];
+$this->title = 'Создать карьеру игрока';
+$this->params['breadcrumbs'][] = ['label' => 'Карьеры', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="career-create">

@@ -163,6 +163,7 @@ class MatchSearch extends Match
             "championshipPart.name",
             "stadium.name",
         ];
+        
         foreach ($addSortAttributes as $addSortAttribute) {
             $dataProvider->sort->attributes[$addSortAttribute] = [
                 'asc'   => [$addSortAttribute => SORT_ASC],
