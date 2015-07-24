@@ -2003,6 +2003,51 @@ class SiteController extends Controller
     }
 
     /**
+     * Rss output of last news
+     * @return mixed 
+     */
+    public function actionSocialRss($kind)
+    {
+        $kind = 'is_'.$kind.'_rss';
+        $post = new Post();
+        if(!$post->hasAttribute($kind)) {
+            throw new NotFoundHttpException('Страница не найдена.');
+        }
+
+        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        $headers = Yii::$app->response->headers;
+        $headers->add('Content-Type', 'application/rss+xml; charset=utf-8');
+
+        $posts = Post::find()
+            ->where([
+                'is_public' => 1,
+                $kind => 1,
+            ])
+            ->orderBy(['created_at' => SORT_DESC])
+            ->limit(50)
+            ->all();
+        $items = [];
+        foreach ($posts as $post) {
+            $content = $post->getShortContent(500, 700);
+            $item = [
+                'title' => htmlspecialchars($post->title),
+                'link' => $post->url,
+                'description' => htmlspecialchars($content),
+                'pubDate' => date('r', strtotime($post->created_at)),
+            ];
+            $items[] = (object) $item;
+        }
+        $title = 'Динамомания: Новости';
+        $description = 'Лента последних новостей';
+        return $this->renderPartial('@frontend/views/site/rss', compact(
+                'title',
+                'description',
+                'items'
+            )
+        );
+    }
+
+    /**
      * Comparing a weight of blocks in columns
      * @param array $a
      * @param array $b

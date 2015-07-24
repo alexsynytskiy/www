@@ -924,8 +924,6 @@ header .header-wrapper .breadcrumbs .tag:hover {
 }
 .grid-column .news .message .text .text-main {
   font-size: 12px;
-  font-weight: normal;
-  color: #1972c4;
   width: 240px;
 }
 .grid-column .news .message .text .text-main.bold {
@@ -985,9 +983,6 @@ header .header-wrapper .breadcrumbs .tag:hover {
 }
 .grid-column .news .message .text a:hover {
   text-decoration: none;
-}
-.grid-column .news .message .text a:hover .text-main {
-  color: #0090e8;
 }
 .grid-column .news .message .text a:hover .time {
   font-size: 12px;

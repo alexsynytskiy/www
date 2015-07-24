@@ -69,6 +69,7 @@ return [
                 'user/<controller:\w+>/<action:\w+>/<id:\d+>'  => 'user/<controller>/<action>',
                 ['pattern' => 'rss', 'route' => 'site/news-rss', 'suffix' => '.xml'],
                 ['pattern' => 'match/rss', 'route' => 'site/events-rss', 'suffix' => '.xml'],
+                ['pattern' => '<kind>/rss', 'route' => 'site/social-rss', 'suffix' => '.xml'],
             ],
         ],
         'log' => [

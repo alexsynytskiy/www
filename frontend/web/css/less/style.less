@@ -1064,8 +1064,11 @@ header {
 				position: relative;
 
 				.text-main {
-					.text-font(12px, normal, @main-blue);
+					font-size: 12px;
 					width: 240px;
+					&.bold {
+						font-weight: bold;
+					}
 				}
 
 				.time {
@@ -1128,10 +1131,6 @@ header {
 
 				a:hover {
 					text-decoration: none;
-				}
-
-				a:hover .text-main {
-					.text-font(12px, normal, @main-blue-hover);
 				}
 
 				a:hover .time {

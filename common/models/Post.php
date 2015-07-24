@@ -28,6 +28,9 @@ use yii\helpers\Url;
  * @property string  $source_title
  * @property string  $source_url
  * @property integer $is_yandex_rss
+ * @property integer $is_vk_rss
+ * @property integer $is_fb_rss
+ * @property integer $is_tw_rss
  * @property string  $cached_tag_list
  * @property integer $allow_comment
  *
@@ -71,7 +74,10 @@ class Post extends ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'is_public', 'is_index', 'is_top', 'is_pin', 'with_video', 'with_photo', 'content_category_id', 'is_yandex_rss', 'allow_comment'], 'integer'],
+            [['user_id', 'is_public', 'is_index', 'is_top', 'is_pin', 
+                'with_video', 'with_photo', 'content_category_id', 
+                'is_yandex_rss', 'allow_comment',
+                'is_vk_rss', 'is_fb_rss', 'is_tw_rss'], 'integer'],
             [['content'], 'string'],
             [['created_at', 'updated_at', 'tags'], 'safe'],
             [['title', 'slug', 'source_title', 'source_url', 'cached_tag_list'], 'string', 'max' => 255],
@@ -107,6 +113,9 @@ class Post extends ActiveRecord
             'source_title'        => 'Название источника',
             'source_url'          => 'Адрес источника',
             'is_yandex_rss'       => 'Яндекс RSS',
+            'is_vk_rss'           => 'Vk RSS',
+            'is_fb_rss'           => 'Facebook RSS',
+            'is_tw_rss'           => 'Twitter RSS',
             'cached_tag_list'     => 'Закешированный список тегов',
             'allow_comment'       => 'Можно комментировать',
             'image'               => 'Изображение',

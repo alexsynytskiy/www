@@ -192,21 +192,30 @@ use kartik\datetime\DateTimePicker;
     </div>
     
 
-    <?= $form->field($model, 'is_public')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState' => false]]) ?>
+    <div class="row">
+        <div class="col-sm-6">
+            <?= $form->field($model, 'is_public')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState' => false]]) ?>
+            
+            <?= $form->field($model, 'is_index')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState'=>false]]) ?>
+            
+            <?= $form->field($model, 'is_top')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState'=>false]]) ?>
+            
+            <?= $form->field($model, 'with_video')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState'=>false]]) ?>
+            
+            <?= $form->field($model, 'with_photo')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState'=>false]]) ?>
+            
+            <?= $form->field($model, 'allow_comment')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState'=>false]]) ?>
+        </div>
 
-    <?= $form->field($model, 'is_index')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState'=>false]]) ?>
-    
-    <?= $form->field($model, 'is_top')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState'=>false]]) ?>
-
-    <?= $form->field($model, 'is_pin')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState'=>false]]) ?>
-    
-    <?= $form->field($model, 'with_video')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState'=>false]]) ?>
-    
-    <?= $form->field($model, 'with_photo')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState'=>false]]) ?>
-
-    <?= $form->field($model, 'is_yandex_rss')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState'=>false]]) ?>
-
-    <?= $form->field($model, 'allow_comment')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState'=>false]]) ?>
+        <div class="col-sm-6">
+            <?= $form->field($model, 'is_pin')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState'=>false]]) ?>
+            
+            <?= $form->field($model, 'is_yandex_rss')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState'=>false]]) ?>
+            <?= $form->field($model, 'is_vk_rss')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState'=>false]]) ?>
+            <?= $form->field($model, 'is_fb_rss')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState'=>false]]) ?>
+            <?= $form->field($model, 'is_tw_rss')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState'=>false]]) ?>
+        </div>
+    </div>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Добавить' : 'Изменить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

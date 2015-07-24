@@ -91,6 +91,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => $model->is_yandex_rss ? 'Да' : 'Нет',
             ],
             [
+                'attribute' => 'is_vk_rss',
+                'value' => $model->is_vk_rss ? 'Да' : 'Нет',
+            ],
+            [
+                'attribute' => 'is_fb_rss',
+                'value' => $model->is_fb_rss ? 'Да' : 'Нет',
+            ],
+            [
+                'attribute' => 'is_tw_rss',
+                'value' => $model->is_tw_rss ? 'Да' : 'Нет',
+            ],
+            [
                 'label' => 'Количество комментариев',
                 'value' => $model->getCommentsCount(), 
             ],
