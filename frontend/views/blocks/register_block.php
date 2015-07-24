@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class' => 'default-form',
                 'enctype' => 'multipart/form-data',
             ],
-            'enableAjaxValidation' => true,
+            // 'enableAjaxValidation' => true,
         ]); ?>
 
         <?= $form->field($profile, 'full_name', [
