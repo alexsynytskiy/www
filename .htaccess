@@ -38,7 +38,9 @@ AddType image/svg+xml svgz
     RewriteRule ^images/(.*)$ frontend/web/images/$1 [L]
 
 
+    RewriteCond %{REQUEST_URI} ^/attachments
 
+    RewriteRule ^attachments/(.*)$ frontend/web/images/store/$1 [L]
 
 
     RewriteCond %{REQUEST_URI} !^/(frontend|backend)/web/(assets|css|js|images)/
