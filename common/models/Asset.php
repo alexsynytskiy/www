@@ -612,6 +612,7 @@ class Asset extends \yii\db\ActiveRecord
             // If file is exist -> remove it
             if(!empty($this->filename) && file_exists($this->getFilePath()))
             {
+                // chdir($this->getFolderPath());
                 unlink($this->getFilePath());
             }
             return true;

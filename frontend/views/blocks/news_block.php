@@ -28,7 +28,7 @@ use common\models\SiteBlock;
 				<div class="time">
 					<?= date('H:i',strtotime($post->created_at)) ?>
 				</div>
-				<div class="text-main">
+				<div class="text-main <?= $post->is_pin ? 'bold' : '' ?>">
 					<?= $post->title ?>
 				</div>
 			</a>

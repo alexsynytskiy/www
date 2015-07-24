@@ -29,7 +29,7 @@ foreach ($tags as $tag) {
         <div class="row row-desc">
             <div class="author">
                 <span class="label">Автор: </span>
-                <a href="<?= $model->user->getUrl() ?>"><?= $model->user->username ?></a>
+                <a href="<?= $model->user->getUrl() ?>"><?= $model->user->getDisplayName() ?></a>
             </div>
             <div class="time">
                 <?= Yii::$app->formatter->asDate(strtotime($model->created_at),'d MMMM Y HH:mm') ?>

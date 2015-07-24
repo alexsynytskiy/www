@@ -96,7 +96,7 @@ $site_title = $post->title;
     </div>
     <div class="post-container">
         <div class="title"><?= $post->title.$editLink ?></div>
-        <?php if(!$image->getFileUrl()) { ?>
+        <?php if($image->getFileUrl()) { ?>
             <img class="post-image" src="<?= $image->getFileUrl() ?>">
          <?php } ?>
          <div class="content">

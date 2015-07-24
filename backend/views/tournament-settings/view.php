@@ -6,8 +6,8 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\TournamentSettings */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Tournament Settings', 'url' => ['index']];
+$this->title = $model->season->name;
+$this->params['breadcrumbs'][] = ['label' => 'Настройки турнирной таблицы', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="tournament-settings-view">
@@ -15,11 +15,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Вы уверены, что хотите удалить настройки этого сезона?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -29,7 +29,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'season_id',
+            [
+                'label' => 'Сезон',
+                'attribute' => 'season.name',
+            ],
             'scored_missed_weight',
             'goal_scored_weight',
             'goal_missed_weight',

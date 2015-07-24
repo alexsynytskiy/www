@@ -78,19 +78,18 @@ class SiteController extends Controller
         return [
             'image-upload' => [
                 'class' => 'vova07\imperavi\actions\UploadAction',
-                'url' => 'http://dynamomania.dev/images/store/post_attachments/', // Directory URL address, where files are stored.
+                'url' => 'http://'.$_SERVER['HTTP_HOST'].'/images/store/post_attachments/', // Directory URL address, where files are stored.
                 'path' => '@frontend/web/images/store/post_attachments' // Or absolute path to directory where files are stored.
             ],
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
                 'foreColor' => '1667780',
-                // 'minLength' => 5,
-                'maxLength' => 5,
-                'width' => 100,
-                // 'width' => 280,
+                // 'minLength' => 6,
+                // 'maxLength' => 6,
+                'width' => 110,
                 'height' => 45,
-                'offset' => -2,
-                'testLimit' => 3,
+                // 'offset' => -2,
+                // 'testLimit' => 3,
                 // 'fixedVerifyCode' => 'Dynamomania',
             ],
         ];
@@ -142,9 +141,8 @@ class SiteController extends Controller
         $postTable = Post::tableName();
         $query = Post::find()->where([
             'is_public' => 1, 
-            'content_category_id' => Post::CATEGORY_BLOG,
+            // 'content_category_id' => Post::CATEGORY_BLOG,
         ]);
-        $view = '@frontend/views/site/news';
 
         if(isset($t) && trim($t) != '') {
             $taggingTable = Tagging::tableName();
@@ -155,24 +153,9 @@ class SiteController extends Controller
                 "{$taggingTable}.taggable_type" => Tagging::TAGGABLE_POST,
                 "{$tagTable}.name" => $t,
             ]);
-            $view = '@frontend/views/search/search_posts';
         } elseif(isset($q) && trim($q) != '') {
             $search = addslashes($q);
             $query->andWhere("MATCH (content) AGAINST ('$search')");
-
-            // Sphinx
-            // $query = new \yii\sphinx\Query;
-            // $query->from('post_index')
-            //     ->match($q)
-            //     ->limit(1000);
-
-            // $sphinxIds = $query->all();
-            // $ids = [];
-            // foreach ($sphinxIds as $data) {
-            //     $ids[] = $data['id'];
-            // }
-            // $query = Post::find()
-            //     ->where(['id' => $ids]);
         }
         $query->orderBy(["$postTable.created_at" => SORT_DESC]);
 
@@ -455,7 +438,7 @@ class SiteController extends Controller
 
         // season select
         $seasons = Season::find()
-            ->innerJoinWith('matches')
+            ->innerJoinWith('transfers')
             ->orderBy(['id' => SORT_DESC])
             ->all();
         

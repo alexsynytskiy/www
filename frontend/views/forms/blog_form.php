@@ -33,7 +33,7 @@ use dosamigos\selectize\SelectizeDropDownList;
             'lang' => 'ru',
             'minHeight' => 200,
             'imageUpload' => \yii\helpers\Url::to(['/site/image-upload']),
-            'buttons' => ['html', 'formatting', 'bold', 'italic', 'underline', 'deleted',
+            'buttons' => ['formatting', 'bold', 'italic', 'underline', 'deleted',
                 'unorderedlist', 'orderedlist', 'outdent', 'indent',
                 'image', 'link'],
             'plugins' => [

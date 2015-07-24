@@ -102,7 +102,7 @@ class Post extends ActiveRecord
             'with_photo'          => 'С фото',
             'is_index'            => 'Топ 3',
             'is_top'              => 'Топ 6',
-            'is_pin'              => 'Закреплено',
+            'is_pin'              => 'Выделить в ленте',
             'content_category_id' => 'Категория',
             'source_title'        => 'Название источника',
             'source_url'          => 'Адрес источника',
