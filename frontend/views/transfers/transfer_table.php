@@ -7,6 +7,19 @@ use yii\helpers\Url;
  * @var $className string 
  * @var $transfers array Array of common\models\Transfer 
 **/
+
+if(isset($transfers)) {
+    for ($i = 0; $i < count($transfers) - 1; $i++) { 
+        for ($j = $i + 1; $j < count($transfers); $j++) { 
+            if ($transfers[$i]->probability < $transfers[$j]->probability) {
+                $temp = $transfers[$i];
+                $transfers[$i] = $transfers[$j];
+                $transfers[$j] = $temp;
+            }
+        }
+    }
+}
+
 ?>
 
 <div class="default-box transfers">

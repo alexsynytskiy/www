@@ -10,7 +10,6 @@ use common\models\Season;
 use common\models\League;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
-use kartik\slider\Slider;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Career */
@@ -98,17 +97,7 @@ use kartik\slider\Slider;
             if($model->championship_matches == null) {
                 $model->championship_matches = 0;
             }
-    
-            echo '<b class="badge pull-left">0</b>';
-            echo '<b class="badge pull-right">40</b>';
-            echo $form->field($model, 'championship_matches')->widget(Slider::classname(), [
-                'pluginOptions' => [
-                    'min' => 0,
-                    'max' => 40,
-                    'step' => 1,
-                    'tooltip' => 'always',
-                ],
-            ]);
+            echo $form->field($model, 'championship_matches')->textInput();
         ?>
     </div>
 
@@ -117,17 +106,7 @@ use kartik\slider\Slider;
             if($model->championship_goals == null) {
                 $model->championship_goals = 0;
             }
-    
-            echo '<b class="badge pull-left">0</b>';
-            echo '<b class="badge pull-right">80</b>';
-            echo $form->field($model, 'championship_goals')->widget(Slider::classname(), [
-                'pluginOptions' => [
-                    'min' => 0,
-                    'max' => 80,
-                    'step' => 1,
-                    'tooltip' => 'always',
-                ],
-            ]);
+            echo $form->field($model, 'championship_goals')->textInput();
         ?>
     </div>
 
@@ -136,17 +115,7 @@ use kartik\slider\Slider;
             if($model->cup_matches == null) {
                 $model->cup_matches = 0;
             }
-    
-            echo '<b class="badge pull-left">0</b>';
-            echo '<b class="badge pull-right">30</b>';
-            echo $form->field($model, 'cup_matches')->widget(Slider::classname(), [
-                'pluginOptions' => [
-                    'min' => 0,
-                    'max' => 30,
-                    'step' => 1,
-                    'tooltip' => 'always',
-                ],
-            ]);
+            echo $form->field($model, 'cup_matches')->textInput();
         ?>
     </div>
 
@@ -155,17 +124,7 @@ use kartik\slider\Slider;
             if($model->cup_goals == null) {
                 $model->cup_goals = 0;
             }
-    
-            echo '<b class="badge pull-left">0</b>';
-            echo '<b class="badge pull-right">80</b>';
-            echo $form->field($model, 'cup_goals')->widget(Slider::classname(), [
-                'pluginOptions' => [
-                    'min' => 0,
-                    'max' => 80,
-                    'step' => 1,
-                    'tooltip' => 'always',
-                ],
-            ]);
+            echo $form->field($model, 'cup_goals')->textInput();
         ?>
     </div>
 
@@ -174,17 +133,7 @@ use kartik\slider\Slider;
             if($model->euro_matches == null) {
                 $model->euro_matches = 0;
             }
-    
-            echo '<b class="badge pull-left">0</b>';
-            echo '<b class="badge pull-right">30</b>';
-            echo $form->field($model, 'euro_matches')->widget(Slider::classname(), [
-                'pluginOptions' => [
-                    'min' => 0,
-                    'max' => 30,
-                    'step' => 1,
-                    'tooltip' => 'always',
-                ],
-            ]);
+            echo $form->field($model, 'euro_matches')->textInput();
         ?>
     </div>
 
@@ -193,17 +142,7 @@ use kartik\slider\Slider;
             if($model->euro_goals == null) {
                 $model->euro_goals = 0;
             }
-    
-            echo '<b class="badge pull-left">0</b>';
-            echo '<b class="badge pull-right">80</b>';
-            echo $form->field($model, 'euro_goals')->widget(Slider::classname(), [
-                'pluginOptions' => [
-                    'min' => 0,
-                    'max' => 80,
-                    'step' => 1,
-                    'tooltip' => 'always',
-                ],
-            ]);
+            echo $form->field($model, 'euro_goals')->textInput();
         ?>
     </div>
 

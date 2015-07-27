@@ -16,6 +16,30 @@ use yii\helpers\Url;
         'teamGuestPlayers'
     ));
 
+if(isset($teamHomePlayers)) {
+    for ($i = 0; $i < count($teamHomePlayers) - 1; $i++) { 
+        for ($j = $i + 1; $j < count($teamHomePlayers); $j++) { 
+            if ($teamHomePlayers[$i]->contract->amplua->id > $teamHomePlayers[$j]->contract->amplua->id) {
+                $temp = $teamHomePlayers[$i];
+                $teamHomePlayers[$i] = $teamHomePlayers[$j];
+                $teamHomePlayers[$j] = $temp;
+            }
+        }
+    }
+}
+
+if(isset($teamGuestPlayers)) {
+    for ($i = 0; $i < count($teamGuestPlayers) - 1; $i++) { 
+        for ($j = $i + 1; $j < count($teamGuestPlayers); $j++) { 
+            if ($teamGuestPlayers[$i]->contract->amplua->id > $teamGuestPlayers[$j]->contract->amplua->id) {
+                $temp = $teamGuestPlayers[$i];
+                $teamGuestPlayers[$i] = $teamGuestPlayers[$j];
+                $teamGuestPlayers[$j] = $temp;
+            }
+        }
+    }
+}
+
 $substitutions = [];
 $yellowCards = [];
 $redCards = [];
@@ -131,6 +155,11 @@ function renderStatistics($homeValue, $visitorsValue, $t) {
     echo $finalBlockStatistics;
 }
 
+if($match->arbiterMain != NULL || 
+   $match->arbiterAssistant1 != NULL || 
+   $match->arbiterAssistant2 != NULL || 
+   $match->arbiterAssistant3 != NULL || 
+   $match->arbiterAssistant4 != NULL) {
 ?>
 
 <div class="match-arbiters default-box">
@@ -175,6 +204,12 @@ function renderStatistics($homeValue, $visitorsValue, $t) {
     </div>
 </div>
 
+<?php } 
+
+if(count($teamHomePlayers) > 0 || 
+   count($teamGuestPlayers) > 0) {
+?>
+
 <div class="first-team default-box">
     <div class="box-header">
         <div class="box-title">Составы команд</div>
@@ -211,6 +246,19 @@ function renderStatistics($homeValue, $visitorsValue, $t) {
     </div>
 </div>
 
+<?php } 
+
+if(isset($match->home_goals) ||
+   isset($match->home_ball_possession) ||
+   isset($match->home_shots) ||
+   isset($match->home_shots_in) ||
+   isset($match->home_offsides) ||
+   isset($match->home_corners) ||
+   isset($match->home_fouls) ||
+   isset($match->home_yellow_cards) ||
+   isset($match->home_red_cards)) {
+?>
+
 <div class="match-statistics default-box">
     <div class="box-header">
         <div class="box-title">Статистика матча</div>
@@ -225,6 +273,11 @@ function renderStatistics($homeValue, $visitorsValue, $t) {
             <?php
                 if(isset($match->home_goals) && isset($match->guest_goals)) {
                     renderStatistics($match->home_goals, $match->guest_goals,"Голы");
+                }
+
+                if(isset($match->home_ball_possession) && isset($match->guest_ball_possession)) {
+                    renderStatistics($match->home_ball_possession, $match->guest_ball_possession,"Владение мячом");
+
                 }
 
                 if(isset($match->home_shots) && isset($match->guest_shots)) {
@@ -258,3 +311,4 @@ function renderStatistics($homeValue, $visitorsValue, $t) {
         </div>
     </div>
 </div>
+<?php } ?>

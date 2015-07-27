@@ -212,11 +212,11 @@ AppAsset::register($this);
                             <div class="button rss"></div>
                             <div class="text">RSS</div>
                         </a>
-                        <a href="/info">
+                        <a href="<?= Url::to('/information') ?>">
                             <div class="button inform"></div>
                             <div class="text">Информация</div>
                         </a>
-                        <a href="/contacts">
+                        <a href="<?= Url::to('/contacts') ?>">
                             <div class="button contact"></div>
                             <div class="text">Контакты</div>
                         </a>

@@ -1580,14 +1580,14 @@ class SiteController extends Controller
      * Info page
      * @return mixed
      */
-    public function actionInfo()
+    public function actionInformation()
     {
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
             'title' => '"Dynamomania.com" | Информация о сайте',
             'columnFirst' => [
                 'content' => [
-                    'view' => '@frontend/views/site/info',
+                    'view' => '@frontend/views/site/information',
                 ],
             ],
             'columnSecond' => [

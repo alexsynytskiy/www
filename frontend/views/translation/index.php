@@ -15,7 +15,10 @@ use common\models\MatchEventType;
         'matchEvents',
         'teamHomePlayers',
         'teamGuestPlayers'
-    )); ?>
+    )); 
+if(count($matchEvents) > 0) {
+    
+?>
 
 <div id="text-translation" class="text-translation default-box">    
     <div class="box-content">
@@ -42,7 +45,15 @@ use common\models\MatchEventType;
     </div>
     <?php } ?>
         <?php
-            foreach (array_reverse($matchEvents) as $event) {
+            $match_events = [];
+            if(!$match->is_finished) {
+                $match_events = array_reverse($matchEvents);
+            }
+            else {
+                $match_events = $matchEvents;
+            }
+
+            foreach ($match_events as $event) {
                 if(trim($event->notes) == '') continue;
                 if ($event->match_event_type_id == NULL) { ?>
                     <div class="message">
@@ -80,3 +91,4 @@ use common\models\MatchEventType;
         ?>
     </div>
 </div>
+<?php } ?>

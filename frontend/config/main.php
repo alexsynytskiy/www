@@ -34,7 +34,7 @@ return [
                 'album/load-images'                      => 'site/album-load-images',
                 'album/<album_id:\d+>-<slug>/<photo_id:\d+>' => 'site/photo',
                 'blogs'                                  => 'site/blogs',
-                'info'                                   => 'site/info',
+                'information'                            => 'site/information',
                 'contacts'                               => 'site/contacts',
                 'tags'                                   => 'site/tags',
                 'blogs/<id:\d+>'                         => 'site/blogs',
