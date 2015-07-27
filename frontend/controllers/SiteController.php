@@ -746,6 +746,8 @@ class SiteController extends Controller
             ])
             ->all();
 
+        $teamPlayers = Composition::sortPlayers($teamPlayers);
+
         $teamHomePlayers = [];
         $teamGuestPlayers = [];
         foreach ($teamPlayers as $player) {

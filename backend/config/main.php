@@ -18,7 +18,6 @@ return [
             'showScriptName' => false,
             'rules' => [
                 '/'                                      => 'site/index',
-                // 'unsubscribe/<key>'                      => 'subscribing/unsubscribe',
                 '<controller:\w+>/<id:\d+>'              => '<controller>/view',
                 '<controller:\w+>'                       => '<controller>/index',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',

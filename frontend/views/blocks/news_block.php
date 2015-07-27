@@ -12,7 +12,7 @@ use common\models\SiteBlock;
 <div class="news">
 	<div class="header">
 		<div class="title">Новости</div>
-		<a href="<?= Url::to(['/site/news']) ?>">
+		<a href="<?= Url::to('/news') ?>">
 			<div class="link-to-all-icon"></div>
 			<div class="link-to-all-text">Все новости:</div>
 		</a>
@@ -58,7 +58,7 @@ use common\models\SiteBlock;
 		}	
 	?>
 	<div class="header no-border">
-		<a href="<?= Url::to(['/site/news']) ?>">
+		<a href="<?= Url::to('/news') ?>">
 			<div class="link-to-all-icon"></div>
 			<div class="link-to-all-text">Все новости:</div>
 		</a>

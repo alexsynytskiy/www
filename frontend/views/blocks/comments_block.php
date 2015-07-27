@@ -10,7 +10,7 @@ use yii\widgets\Pjax;
  * @var $pagination 
 **/
 ?>
-<div id="comments" class="comments-block">
+<div id="comments" class="comments-block <?= Yii::$app->user->isGuest && !count($comments) ? 'small' : '' ?>">
     <div class="header">
         <div class="title">Комментарии</div>
         <div class="help">

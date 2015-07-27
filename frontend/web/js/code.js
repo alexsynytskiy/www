@@ -48,6 +48,7 @@ $(window).load(function() {
     };
     albumPagerSlider = $('#album-bx-pager').bxSlider(albumPagerSettings);
 
+    var startLoading = false;
     var albumSlider = $('#album-slider').bxSlider({
         maxSlides: 1,
         minSlides: 1,
@@ -76,16 +77,21 @@ $(window).load(function() {
                     pagerCustom: this.pagerCustom
                 };
                 var albumID = albumSlider.attr('data-album-id');
-                $.get('/album/load-images', {id: albumID, count: pagerSlideCount}, function(response){
-                    albumSlider.append(response.contentImagesHtml);
-                    albumPagerSlider.append(response.thumbnailImagesHtml);
+                if(!startLoading) 
+                {
+                    startLoading = true;
+                    $.get('/album/load-images', {id: albumID, count: pagerSlideCount}, function(response){
+                        albumSlider.append(response.contentImagesHtml);
+                        albumPagerSlider.append(response.thumbnailImagesHtml);
 
-                    var currentSlide = albumPagerSlider.getCurrentSlide();
-                    albumPagerSettings.startSlide = albumPagerSlider.getCurrentSlide();
-                    albumPagerSlider.reloadSlider(albumPagerSettings);
+                        var currentSlide = albumPagerSlider.getCurrentSlide();
+                        albumPagerSettings.startSlide = albumPagerSlider.getCurrentSlide();
+                        albumPagerSlider.reloadSlider(albumPagerSettings);
 
-                    albumSlider.reloadSlider(albumSliderSettings);
-                }, 'json');
+                        albumSlider.reloadSlider(albumSliderSettings);
+                        startLoading = false;
+                    }, 'json');
+                }
             }
         }
     });

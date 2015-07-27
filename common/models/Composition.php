@@ -89,34 +89,7 @@ class Composition extends ActiveRecord
                 'match_id' => $matchID,
             ])
             ->all();
-
-        usort($playersArray, 'self::ampluaCmp');
-
-        // $playersArray = array_values($playersArray);
-
-        // $goalkeeperArray = array();
-        // $defenderArray = array();
-        // $midfielderArray = array();
-        // $forwardArray = array();
-
-        // foreach ($playersArray as $player) {
-        //     if($player->contract->amplua->id == Amplua::GOALKEEPER) {
-        //         array_push($goalkeeperArray, $player);
-        //     }
-        //     else if($player->contract->amplua->id == Amplua::DEFENDER) {
-        //         array_push($defenderArray, $player);
-        //     }
-        //     else if($player->contract->amplua->id == Amplua::MIDFIELDER) {
-        //         array_push($midfielderArray, $player);
-        //     }
-        //     else {
-        //         array_push($forwardArray, $player);
-        //     }
-        // }
-
-        // $sortedArray = array_merge($goalkeeperArray, $defenderArray, $midfielderArray, $forwardArray);
-
-        return $playersArray;
+        return self::sortPlayers($playersArray);
     }
 
     /**
@@ -162,6 +135,17 @@ class Composition extends ActiveRecord
         } elseif($this->getContractType() == self::MEMBERSHIP_TYPE) {
             return $this->hasOne(Membership::className(), ['id' => 'contract_id']);
         } else return null;
+    }
+
+    /**
+     * Sort players in composition
+     * @param array $players Array of Composition
+     * @return array Sorted players
+     */
+    public static function sortPlayers($players)
+    {
+        usort($players, 'self::ampluaCmp');
+        return $players;
     }
 
     /**
