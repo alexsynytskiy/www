@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use kartik\checkbox\CheckboxX;
 use kartik\select2\Select2;
@@ -86,7 +87,11 @@ use kartik\datetime\DateTimePicker;
         ],
         'dataset' => [
             [
-                'remote' => \yii\helpers\Url::to(['source/source-name-list']) . '?q=%QUERY',
+                'display' => 'value',
+                'remote' => [
+                    'url' => Url::to(['source/source-name-list']) . '?q=%QUERY',
+                    'wildcard' => '%QUERY'
+                ],
                 'limit' => 10,
             ]
         ]
@@ -99,7 +104,11 @@ use kartik\datetime\DateTimePicker;
         'pluginOptions' => ['highlight'=>true],
         'dataset' => [
             [
-                'remote' => \yii\helpers\Url::to(['source/source-url-list']) . '?q=%QUERY',
+                'display' => 'value',
+                'remote' => [
+                    'url' => Url::to(['source/source-url-list']) . '?q=%QUERY',
+                    'wildcard' => '%QUERY'
+                ],
                 'limit' => 10,
             ]
         ]

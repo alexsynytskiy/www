@@ -40,6 +40,8 @@ if($post->isBlog()) {
 $uri = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 $site_logo = 'http://' . $_SERVER['HTTP_HOST'] . '/images/main_logo.svg';
 $site_title = $post->title;
+
+$commentsCount = $post->getCommentsCount();
 ?>
 
 <meta property="og:site_name" content="Динамомания"/>
@@ -90,8 +92,10 @@ $site_title = $post->title;
             <?php if($post->isBlog() && $post->user_id == Yii::$app->user->id) { ?>
             <a class="button-edit" href="<?= Url::to(['/post/edit', 'id' => $post->id]) ?>"></a>
             <?php } ?>
-            <div class="comments-icon"></div>
-            <div class="comments-count"><?= $post->getCommentsCount() ?></div>
+            <?php if($commentsCount > 0) { ?>
+                <div class="comments-icon"></div>
+                <div class="comments-count"><?= $commentsCount ?></div>
+            <?php } ?>
         </div>
     </div>
     <div class="post-container">

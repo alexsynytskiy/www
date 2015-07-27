@@ -1251,7 +1251,6 @@ header .header-wrapper .breadcrumbs .tag:hover {
 }
 .grid-column .post-page .content p {
   margin-bottom: 20px;
-  text-indent: 10px;
 }
 .grid-column .post-page .content iframe {
   display: block;
@@ -1279,6 +1278,9 @@ header .header-wrapper .breadcrumbs .tag:hover {
   line-height: 10px;
   margin-bottom: 20px;
   margin-top: 25px;
+}
+.grid-column .post-page .content strong {
+  font-weight: bold;
 }
 .grid-column .post-page .footer-part-top {
   line-height: 24px;
