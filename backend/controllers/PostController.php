@@ -117,14 +117,6 @@ class PostController extends Controller
             // Set slug
             $model->slug = $model->genSlug($model->title);
 
-            // Save source
-            $source = new Source;
-            $source->name = $model->source_title;
-            $source->url = $model->source_url;
-            if(!$source->modelExist()) {
-                $source->save();
-            }
-
             // Save the model to have a record number
             if(!$model->save())
             {
@@ -282,14 +274,6 @@ class PostController extends Controller
                     $asset->uploadedFile = $uploadedFile;
                     $asset->saveAsset();
                 }
-            }
-
-            // Save source
-            $source = new Source;
-            $source->name = strip_tags($model->source_title);
-            $source->url = strip_tags($model->source_url);
-            if(!$source->modelExist()) {
-                $source->save();
             }
 
             $existingTags = [];

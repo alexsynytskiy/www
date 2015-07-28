@@ -54,11 +54,16 @@ foreach ($goalEvents as $goalEvent) {
     }
 }
 
+$adminLink = '';
+if(Yii::$app->user->can('admin')) {
+  $adminLink = '<a class="admin-view-link" href="/admin/match/'.$match->id.'"></a>'; 
+} 
+
 ?>
 
 <div class="match-protocol">
     <div class="top-title">
-        <div class="stadium"><?= $stadiumName ?></div>
+        <div class="stadium"><?= $stadiumName ?> <?= $adminLink ?></div>
         <div class="date"><?= date('d.m.Y H:i', strtotime($match->date)) ?></div>
         <div class="clearfix"></div>
     </div>

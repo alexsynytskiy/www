@@ -60,16 +60,18 @@ use kartik\datetime\DateTimePicker;
     <?= $form->field($model, 'title')->textInput(['maxlength' => 255]) ?>
 
     <?= $form->field($model, 'content')->widget(\vova07\imperavi\Widget::className(), [
+        'plugins' => [
+            'quote' => 'backend\assets\EditorAssetBundle',
+            'skip' => 'backend\assets\EditorAssetBundle',
+        ],
         'settings' => [
             'lang' => 'ru',
             'minHeight' => 200,
             'imageUpload' => \yii\helpers\Url::to(['/site/image-upload']),
             'buttons' => ['html', 'formatting', 'bold', 'italic', 'underline', 'deleted',
                 'unorderedlist', 'orderedlist', 'outdent', 'indent',
-                'image', 'link', 'alignment'],
+                'image', 'link', 'alignment', 'quote', 'skip'],
             'plugins' => [
-                'quote',
-                'skip',
                 'fullscreen',
                 'table',
                 'video',
@@ -78,42 +80,66 @@ use kartik\datetime\DateTimePicker;
         ],
     ]); ?>
 
-    <?php
-    echo $form->field($model, 'source_title')->widget(Typeahead::classname(), [
-        'options' => ['placeholder' => 'Поиск источника при вводе ...'],
-        'pluginOptions' => [
-            'highlight' => true,
-            'imageUpload' => '/upload.php',
-        ],
-        'dataset' => [
-            [
-                'display' => 'value',
-                'remote' => [
-                    'url' => Url::to(['source/source-name-list']) . '?q=%QUERY',
-                    'wildcard' => '%QUERY'
+    
+    <div class="row">
+        <div class="col-sm-6">
+            <?php
+            $source = [];
+            if(!$model->isNewRecord) {
+                if(isset($model->source_title) && trim($model->source_title) != '') {
+                    $source = [
+                        0 => $model->source_title,
+                    ];
+                }
+            }
+            echo $form->field($model, 'source_id')->widget(SelectizeDropDownList::classname(), [
+                'loadUrl' => Url::to(['source/source-list']),        
+                'items' => $source,
+                'options' => [
+                    'multiple' => false,
                 ],
-                'limit' => 10,
-            ]
-        ]
-    ]);
-    ?>
+                'clientOptions' => [
+                    'valueField' => 'value',
+                    'labelField' => 'text',
+                    'persist' => false,
+                ],
+            ]);
 
-    <?php
-    echo $form->field($model, 'source_url')->widget(Typeahead::classname(), [
-        'options' => ['placeholder' => 'Поиск источника при вводе ...'],
-        'pluginOptions' => ['highlight'=>true],
-        'dataset' => [
-            [
-                'display' => 'value',
-                'remote' => [
-                    'url' => Url::to(['source/source-url-list']) . '?q=%QUERY',
-                    'wildcard' => '%QUERY'
-                ],
-                'limit' => 10,
-            ]
-        ]
-    ]);
-    ?>
+            // echo $form->field($model, 'source_title')->widget(Typeahead::classname(), [
+            //     'options' => ['placeholder' => 'Поиск источника при вводе ...'],
+            //     'dataset' => [
+            //         [
+            //             'display' => 'value',
+            //             'remote' => [
+            //                 'url' => Url::to(['source/source-name-list']) . '?q=%QUERY',
+            //                 'wildcard' => '%QUERY'
+            //             ],
+            //             'limit' => 10,
+            //         ],
+            //     ],
+            //     'pluginEvents' => [
+            //         // "typeahead:active" => "function() { console.log('typeahead:active'); }",
+            //         // "typeahead:idle" => "function(e) { console.log(e); }",
+            //         // "typeahead:open" => "function() { log("typeahead:open"); }",
+            //         // "typeahead:close" => "function() { log("typeahead:close"); }",
+            //         // "typeahead:change" => "function() { log("typeahead:change"); }",
+            //         // "typeahead:render" => "function() { log("typeahead:render"); }",
+            //         // "typeahead:select" => "function(e, data) { console.log(data); }",
+            //         "typeahead:autocomplete" => "function(e, data) { console.log(data); }",
+            //         // "typeahead:autocomplete" => "function() { log("typeahead:autocomplete"); }",
+            //         // "typeahead:cursorchange" => "function() { log("typeahead:cursorchange"); }",
+            //         // "typeahead:asyncrequest" => "function() { log("typeahead:asyncrequest"); }",
+            //         // "typeahead:asynccancel" => "function() { log("typeahead:asynccancel"); }",
+            //         // "typeahead:asyncreceive" => "function() { log("typeahead:asyncreceive"); }",
+            //     ],
+            // ])->label('Источник');
+            ?>
+        </div>
+        <div class="col-sm-6">
+            <div id="source-url"><?= $model->source_url ?></div>
+        </div>
+    </div>
+    
 
     <?php
     $availableTags = [];

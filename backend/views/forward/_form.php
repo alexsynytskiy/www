@@ -5,6 +5,10 @@ use yii\widgets\ActiveForm;
 use dosamigos\selectize\SelectizeDropDownList;
 use yii\web\JsExpression;
 use yii\helpers\Url;
+use kartik\select2\Select2;
+use yii\helpers\ArrayHelper;
+
+use common\models\Season;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Forward */
@@ -60,6 +64,17 @@ use yii\helpers\Url;
                 'valueField' => 'value',
                 'labelField' => 'text',
                 'persist' => false,
+            ],
+        ]);
+    ?>
+
+    <?php 
+        echo $form->field($model, 'season_id')->widget(Select2::classname(), [
+            'data' => ArrayHelper::map(Season::find()->all(), 'id', 'name'),
+            'language' => 'ru',
+            'options' => ['placeholder' => 'Выберите сезон...'],
+            'pluginOptions' => [
+                'allowClear' => true
             ],
         ]);
     ?>

@@ -608,12 +608,14 @@ class SiteController extends Controller
         $tournamentData = Tournament::sort($tournamentData);
 
         $forwards = Forward::find()
-            ->orderBy([
+            ->where([
+                'season_id' => $activeSeason,
+            ])->orderBy([
                 'goals' => SORT_DESC,
                 'penalty' => SORT_DESC,
             ])->all();
 
-        return $this->render('@frontend/views/site/index', [
+        $options = [
             'templateType' => 'col2',
             'title' => '"Dynamomania.com" | Турнирная таблица',
             'columnFirst' => [
@@ -621,15 +623,20 @@ class SiteController extends Controller
                     'view' => '@frontend/views/tournament/tournament_full',
                     'data' => compact('tournamentData', 'championshipsData', 'seasonsData'),
                 ],
-                'forwards' => [
-                    'view' => '@frontend/views/tournament/forwards',
-                    'data' => compact('forwards'),
-                ],
             ],
             'columnSecond' => [ 
                 'short_news' => SiteBlock::getShortNews(20),
             ],
-        ]);
+        ];
+
+        if(count($forwards) > 0) {
+            $options['columnFirst']['forwards'] = [
+                'view' => '@frontend/views/tournament/forwards',
+                'data' => compact('forwards'),
+            ];
+        }
+
+        return $this->render('@frontend/views/site/index', $options);
     }
 
     /**

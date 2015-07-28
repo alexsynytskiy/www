@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\ArrayHelper;
+use common\models\Season;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\ForwardSearch */
@@ -9,6 +11,11 @@ use yii\grid\GridView;
 
 $this->title = 'Бомбардиры';
 $this->params['breadcrumbs'][] = $this->title;
+
+$seasons = Season::find()
+    ->innerJoinWith('forwards')
+    ->all();
+$seasonFilter = ArrayHelper::map($seasons, 'id', 'name');
 ?>
 <div class="forward-index">
 
@@ -25,6 +32,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
+            [
+                'attribute' => 'season_id',
+                'value' => function($model) {
+                    return isset($model->season) ? $model->season->name : null;
+                },
+                'filter' => $seasonFilter,
+                'options' => ['width' => '120'],
+            ],
             [
                 'label' => 'Игрок',
                 'attribute' => 'player.lastname',

@@ -8,11 +8,11 @@ use yii\helpers\Url;
 **/
 Yii::$app->formatter->locale = 'ru-RU';
 
-$editLink = '';
-if(!Yii::$app->user->isGuest && Yii::$app->user->can("admin")){
-    $editUrl = Url::to('/admin/post/update/'.$post->id);
-    $editLink = '<a class="edit-link" href="'.$editUrl.'">Редактировать</a>';
-}
+$adminLink = '';
+if(Yii::$app->user->can('admin')) {
+  $adminLink = '<a class="admin-view-link" href="/admin/post/update/'.$post->id.'"></a>'; 
+} 
+
 if($post->isBlog()) {
     $rating = $post->getRating();
     $ratingUpClass = '';
@@ -89,8 +89,9 @@ $commentsCount = $post->getCommentsCount();
         <div class="date-icon"></div>
         <div class="date-text"><?= Yii::$app->formatter->asDate(strtotime($post->created_at),'d MMMM Y HH:mm') ?></div>
         <div class="right">
+            <?= $adminLink ?>
             <?php if($post->isBlog() && $post->user_id == Yii::$app->user->id) { ?>
-            <a class="button-edit" href="<?= Url::to(['/post/edit', 'id' => $post->id]) ?>"></a>
+                <a class="button-edit" href="<?= Url::to(['/post/edit', 'id' => $post->id]) ?>"></a>
             <?php } ?>
             <?php if($commentsCount > 0) { ?>
                 <div class="comments-icon"></div>
@@ -99,7 +100,7 @@ $commentsCount = $post->getCommentsCount();
         </div>
     </div>
     <div class="post-container">
-        <div class="title"><?= $post->title.$editLink ?></div>
+        <div class="title"><?= $post->title ?></div>
         <?php if($image->getFileUrl()) { ?>
             <img class="post-image" src="<?= $image->getFileUrl() ?>">
          <?php } ?>
