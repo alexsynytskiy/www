@@ -14,6 +14,11 @@ $tagsCount = 0;
 foreach ($tags as $tag) {
     if(trim($tag) != '') $tagsCount++;
 }
+
+$adminLink = '';
+if(Yii::$app->user->can('admin')) {
+    $adminLink = '<a class="admin-view-link" href="/admin/post/update/'.$model->id.'"></a>'; 
+} 
 ?>
 
 <div class="default-box blog-list-item">
@@ -36,7 +41,7 @@ foreach ($tags as $tag) {
             </div>
         </div>
         <a href="<?= $model->url ?>" class="title">
-            <?= $model->title ?>
+            <?= $model->title.$adminLink ?>
         </a>
         <div class="short-content">
             <?= $model->getShortContent() ?>

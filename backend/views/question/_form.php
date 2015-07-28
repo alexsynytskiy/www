@@ -29,9 +29,6 @@ use kartik\checkbox\CheckboxX;
             </div>
             <?php if($model->isNewRecord) { ?>
             <div class="col-sm-4">
-                <?= $form->field($model, 'is_multipart')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState' => false]]) ?>
-            </div>
-            <div class="col-sm-4">
                 <?= $form->field($model, 'is_float')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState' => false]]) ?>
             </div>
             <?php } ?>

@@ -2077,6 +2077,9 @@ body a:focus {
 .navbar .achievements:hover:not(.active) .icon {
   background-position: 0 -38px;
 }
+.navbar .record-holders {
+  margin: 0;
+}
 .navbar .record-holders .icon {
   background-image: url('/images/medal_sprite.png');
   background-size: 14px;
@@ -2604,6 +2607,7 @@ body a:focus {
   -webkit-border-radius: 5px 5px 0 0;
   -moz-border-radius: 5px 5px 0 0;
   border-radius: 5px 5px 0 0;
+  min-height: 200px;
   overflow: hidden;
 }
 .album-preview-box .image-box img {
@@ -2925,4 +2929,59 @@ body a:focus {
 }
 .inquirer-item .inquirer .inquirer-description {
   margin-top: 0;
+}
+.admin-view-link {
+  width: 30px;
+  height: 30px;
+  display: block;
+  float: right;
+  background: url(/images/view.png) center no-repeat;
+  background-size: 18px;
+}
+.match-protocol .admin-view-link {
+  height: 18px;
+}
+.transfers .admin-view-link {
+  width: 16px;
+  height: 18px;
+  background-size: 16px;
+  float: none;
+  margin-left: 2px;
+  margin-bottom: 3px;
+}
+.team-navigation .admin-view-link {
+  width: 25px;
+  height: 25px;
+}
+.album-preview-box .admin-view-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 25px;
+  height: 25px;
+  background-color: #1972c4;
+  -webkit-border-radius: 5px 0 5px 0;
+  -moz-border-radius: 5px 0 5px 0;
+  border-radius: 5px 0 5px 0;
+}
+.comment .admin-view-link {
+  background-size: 22px;
+  width: 22px;
+  height: 22px;
+  margin: 14px 10px 0 0;
+}
+.post-page .admin-view-link {
+  float: left;
+  width: 20px;
+  height: 20px;
+  background-size: 20px;
+  margin-right: 8px;
+}
+.news-post .admin-view-link,
+.blog-list-item .admin-view-link {
+  float: none;
+  display: inline-block;
+  height: 18px;
+  width: 20px;
+  vertical-align: text-bottom;
 }

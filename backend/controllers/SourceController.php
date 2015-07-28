@@ -127,21 +127,21 @@ class SourceController extends Controller
      * @param string $q Query for search
      * @return mixed Json data
      */
-    public function actionSourceNameList($q = null) {
-        if($q == null) {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-        $query = new Query;
-        $query->select('name as value')
-            ->distinct()
-            ->from(Source::tableName())
-            ->where(['like', 'name', $q])
-            ->orderBy('name');
-        $command = $query->createCommand();
-        $data = $command->queryAll();
-        $out = array_values($data);
-        echo Json::encode($out);
-    }
+    // public function actionSourceNameList($q = null) {
+    //     if($q == null) {
+    //         throw new NotFoundHttpException('The requested page does not exist.');
+    //     }
+    //     $query = new Query;
+    //     $query->select('name as value')
+    //         ->distinct()
+    //         ->from(Source::tableName())
+    //         ->where(['like', 'name', $q])
+    //         ->orderBy('name');
+    //     $command = $query->createCommand();
+    //     $data = $command->queryAll();
+    //     $out = array_values($data);
+    //     echo Json::encode($out);
+    // }
 
     /**
      * Display list of all source urls in json format
@@ -149,20 +149,59 @@ class SourceController extends Controller
      * @param string $q Query for search
      * @return mixed Json data
      */
-    public function actionSourceUrlList($q = null) {
-        if($q == null) {
-            throw new NotFoundHttpException('The requested page does not exist.');
+    // public function actionSourceUrlList($q = null) {
+    //     if($q == null) {
+    //         throw new NotFoundHttpException('The requested page does not exist.');
+    //     }
+    //     $query = new Query;
+    //     $query->select('url as value')
+    //         ->distinct()
+    //         ->from(Source::tableName())
+    //         ->where(['like', 'url', $q])
+    //         ->orderBy('url');
+    //     $command = $query->createCommand();
+    //     $data = $command->queryAll();
+    //     $out = array_values($data);
+    //     echo Json::encode($out);
+    // }
+
+    /**
+     * Display list of sources in json format
+     *
+     * @param string $q Query for search
+     * @return mixed Json data
+     */
+    public function actionSourceList($query = null) {
+        if($query == null) {
+            throw new NotFoundHttpException('Запрошенная страница не существует');
         }
+        $search = urldecode($query);
         $query = new Query;
-        $query->select('url as value')
-            ->distinct()
+        $query->select('id as value, name as text')
             ->from(Source::tableName())
-            ->where(['like', 'url', $q])
-            ->orderBy('url');
+            ->where(['like', 'name', $search])
+            ->orderBy('name')
+            ->limit(10);
         $command = $query->createCommand();
         $data = $command->queryAll();
         $out = array_values($data);
+        header("Content-type: text/html; charset=utf-8");
         echo Json::encode($out);
+    }
+
+    /**
+     * @param integer $sourceID
+     * @return Json url of source
+     */
+    public function actionGetUrl($sourceID, $postID = 0)
+    {
+        if($sourceID > 0) {
+            $model = Source::findOne($sourceID);
+            if(isset($model->id)) {
+                return Json::encode(['data' => $model->url]);
+            }
+        } 
+        return Json::encode(['data' => '']);
     }
 
     /**

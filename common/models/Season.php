@@ -97,4 +97,12 @@ class Season extends ActiveRecord
     {
         return $this->hasMany(Transfer::className(), ['season_id' => 'id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getForwards()
+    {
+        return $this->hasMany(Forward::className(), ['season_id' => 'id']);
+    }
 }

@@ -15,6 +15,11 @@ if(abs(Yii::$app->session['news_post_time_last'] - $time) >= 60*60*24)
     Yii::$app->session['news_post_time_last'] = $time;
     $outDateLine = true;
 }
+
+$adminLink = '';
+if(Yii::$app->user->can('admin')) {
+    $adminLink = '<a class="admin-view-link" href="/admin/post/update/'.$model->id.'"></a>'; 
+} 
 ?>
 
 <?php if($outDateLine) { ?>
@@ -29,7 +34,7 @@ if(abs(Yii::$app->session['news_post_time_last'] - $time) >= 60*60*24)
 <div class="news-post">
     <div class="time"><?= date('H:i',strtotime($model->created_at)) ?></div>
     <a href="<?= $model->getUrl() ?>">
-        <div class="title"><?= $model->title ?></div>
+        <div class="title"><?= $model->title.$adminLink ?></div>
     </a>
     <div class="sub-part">
         <?php

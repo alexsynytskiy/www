@@ -190,6 +190,30 @@
             }
         });
 
+        var initSourceUrl = $('#source-url').text();
+        $(document).on('change', '#post-source_id', function(event) {
+            var sourceID = parseInt($(this).val().trim());
+            if(!isNaN(sourceID) && sourceID == 0) {
+                $('#source-url').text(initSourceUrl);
+            } else if(!isNaN(sourceID)){
+                $.ajax({
+                    type: "GET",
+                    url: '/admin/source/get-url',
+                    dataType: "json",
+                    data: {
+                        sourceID: sourceID
+                    },
+                    success: function(response){
+                        // console.log(response);
+                    },
+                }).done(function(response){
+                    $('#source-url').text(response.data);
+                });  
+            } else {
+                $('#source-url').text('');
+            }
+        });
+
         $(document).on('change', '.match-search-item', function(event) {
             var postData = new Object();
             $('.match-search-item').each(function(index, el) {

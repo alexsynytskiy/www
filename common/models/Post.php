@@ -58,7 +58,10 @@ class Post extends ActiveRecord
      */
     public $tags;
 
-    // public static $count = 0;
+    /**
+     * @var integer Source id
+     */
+    public $source_id;
 
     /**
      * @inheritdoc
@@ -76,7 +79,7 @@ class Post extends ActiveRecord
         return [
             [['user_id', 'is_public', 'is_index', 'is_top', 'is_pin', 
                 'with_video', 'with_photo', 'content_category_id', 
-                'is_yandex_rss', 'allow_comment',
+                'is_yandex_rss', 'allow_comment', 'source_id',
                 'is_vk_rss', 'is_fb_rss', 'is_tw_rss'], 'integer'],
             [['content'], 'string'],
             [['created_at', 'updated_at', 'tags'], 'safe'],
@@ -120,6 +123,7 @@ class Post extends ActiveRecord
             'allow_comment'       => 'Можно комментировать',
             'image'               => 'Изображение',
             'tags'                => 'Теги',
+            'source_id'           => 'Источник',
         ];
     }
 
@@ -251,6 +255,29 @@ class Post extends ActiveRecord
             }
             $cacheBlock->content = SiteBlock::getBlogPostsByRating($cacheStatus);
             $cacheBlock->save();
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            // source
+            if(isset($this->source_id) && $this->source_id > 0) {
+                $source = Source::findOne($this->source_id);
+                if(isset($source)) {
+                    $this->source_title = $source->name;
+                    $this->source_url = $source->url;
+                }
+            }
+            // content
+            $pattern = '~<a .*href=".*" .*>(.*)</a>~U';
+            $this->content = preg_replace($pattern, '$1', $this->content);
+            return true;
+        } else {
+            return false;
         }
     }
 

@@ -75,7 +75,7 @@ class Question extends ActiveRecord
             'updated_at' => 'Обновлено',
             'position' => 'Порядок',
             'is_multipart' => 'Multipart',
-            'is_float' => 'Float',
+            'is_float' => 'С оценками',
             'mark' => 'Оценка',
         ];
     }

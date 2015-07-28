@@ -434,6 +434,10 @@ class Comment extends ActiveRecord
                         <?php 
                     }
                 } 
+                $adminLink = '';
+                if(Yii::$app->user->can('admin')) {
+                  $adminLink = '<a class="admin-view-link" href="/admin/comment/'.$comment->id.'" data-pjax="0"></a>'; 
+                } 
                 ?>
                 <div id="comment-<?= $comment->id ?>" class="comment <?= $commentLevelClass ?>" 
                     data-own="<?= $own ?>"
@@ -467,6 +471,7 @@ class Comment extends ActiveRecord
                         <?php if(!Yii::$app->user->isGuest && $options->showReplyButton) { ?>
                             <a href="javascript:void(0)" class="button-reply" title="Ответить"></a>
                         <?php } ?>
+                        <?= $adminLink ?>
                     </div>
                     <div class="comment-body">
                         <?= $comment->getContent() ?>

@@ -92,6 +92,11 @@ use yii\helpers\Url;
                     }
                     $others = ($transfer->clubs == '') ? '-' : $transfer->clubs;
                     $sum = ($transfer->sum == '') ? '-' : $transfer->sum;
+
+                    $adminLink = '';
+                    if(Yii::$app->user->can('admin')) {
+                      $adminLink = '<a class="admin-view-link" href="/admin/transfer/'.$transfer->id.'"></a>'; 
+                    } 
                 ?>
                 <tr>
                     <?php if(Yii::$app->controller->action->id == 'transfers') { ?>
@@ -151,6 +156,7 @@ use yii\helpers\Url;
                     <?php } ?>
                     <?php if(Yii::$app->controller->action->id == 'transfers') { ?>
                         <td class="comments">
+                            <?= $adminLink ?>
                             <a href="<?= $transfer->getUrl() ?>">
                                 <div class="more"></div>
                             </a>

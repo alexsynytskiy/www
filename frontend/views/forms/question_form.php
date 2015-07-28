@@ -9,11 +9,16 @@ use yii\widgets\ActiveForm;
 **/
 
 $inquirerMoreLink = (Yii::$app->controller->action->id == 'inquirers') ? false : true;
+
+$adminLink = '';
+if(Yii::$app->user->can('admin')) {
+  $adminLink = '<a class="admin-view-link" href="/admin/question/'.$question->id.'"></a>'; 
+} 
 ?>
 
 <div class="inquirer default-box">
     <div class="box-header">
-        <div class="box-title">Опрос</div>
+        <div class="box-title">Опрос <?= $adminLink ?></div>
         <?php if($inquirerMoreLink) { ?>
         <a href="<?= Url::to('/inquirers') ?>">
             <div class="box-link">Все опросы:<div class="icon-arrow"></div></div>

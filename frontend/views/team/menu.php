@@ -6,6 +6,11 @@ use yii\helpers\Url;
  * @var $team common\models\Team 
  * @var $tab string Active tab
 **/
+
+$adminLink = '';
+if(Yii::$app->user->can('admin') && $tab != 'composition') {
+  $adminLink = '<a class="admin-view-link" href="/admin/main-info/"></a>'; 
+} 
 ?>
 
 <div class="team-navigation navbar">
@@ -33,5 +38,6 @@ use yii\helpers\Url;
             <div class="icon"></div>
         </div>
     </a>
+    <?= $adminLink ?>
     <div class="clearfix"></div>
 </div>

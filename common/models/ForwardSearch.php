@@ -18,7 +18,7 @@ class ForwardSearch extends Forward
     public function rules()
     {
         return [
-            [['goals', 'penalty', 'matches', 'player_id', 'team_id'], 'integer'],
+            [['goals', 'penalty', 'matches', 'player_id', 'team_id', 'season_id'], 'integer'],
             [['team.name', 'player.lastname'], 'safe'],
         ];
     }
@@ -101,6 +101,7 @@ class ForwardSearch extends Forward
             'matches' => $this->matches,
             'team_id' => $this->team_id,
             'player_id' => $this->player_id,
+            'season_id' => $this->season_id,
         ]);
 
         $query->andFilterWhere(['like', 'team.name', $this->getAttribute('team.name')])

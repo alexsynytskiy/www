@@ -206,6 +206,12 @@ html .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .ope
 .field-relation-parent_id {
     margin-bottom: 12px;
 }
+
+#source-url {
+    margin-top: 25px;
+    line-height: 30px;
+}
+
 #match-list {
     height: 181px;
     overflow-y: auto;
