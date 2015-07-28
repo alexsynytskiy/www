@@ -7,6 +7,7 @@ use common\models\Player;
 use common\models\PlayerSearch;
 use common\models\Achievement;
 use common\models\AchievementSearch;
+use common\models\CareerSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -139,6 +140,15 @@ class PlayerController extends Controller
         $achievementDataProvider = $achievementModel->search($params);
         $model->birthday = date('d.m.Y', strtotime($model->birthday));
 
+        $searchModel = new CareerSearch();
+
+        // careerDataProvider
+        $params = ['CareerSearch' => [
+            'player_id' => $model->id,
+        ]];
+        $careerDataProvider = $searchModel->search($params);
+        $careerDataProvider->setSort(['defaultOrder' => ['season_id' => SORT_DESC]]);
+
         if ($model->load(Yii::$app->request->post()) && $model->validate()) 
         {
             $uploadedFile = UploadedFile::getInstance($model,'avatar');
@@ -185,6 +195,7 @@ class PlayerController extends Controller
             'achievementModel' => $achievementModel,
             'achievementDataProvider' => $achievementDataProvider,
             'image' => $image,
+            'careerDataProvider' => $careerDataProvider,
         ]);
         
     }

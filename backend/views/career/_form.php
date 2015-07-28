@@ -23,7 +23,7 @@ use yii\helpers\ArrayHelper;
     <?php
         $availablePlayers = [];
         
-        if(!$model->isNewRecord) {
+        if(isset($model->player_id)) {
             $player = Player::findOne($model->player_id);
 
             if(isset($player->id)) {
@@ -49,7 +49,9 @@ use yii\helpers\ArrayHelper;
         echo $form->field($model, 'league_id')->widget(Select2::classname(), [
             'data' => ArrayHelper::map(League::find()->all(), 'id', 'name'),
             'language' => 'ru',
-            'options' => ['placeholder' => 'Выберите лигу...'],
+            'options' => [
+                'placeholder' => 'Выберите лигу...',
+            ],
             'pluginOptions' => [
                 'allowClear' => true
             ],
@@ -60,7 +62,8 @@ use yii\helpers\ArrayHelper;
         echo $form->field($model, 'season_id')->widget(Select2::classname(), [
             'data' => ArrayHelper::map(Season::find()->orderBy(['id' => SORT_DESC])->all(), 'id', 'name'),
             'language' => 'ru',
-            'options' => ['placeholder' => 'Выберите сезон...'],
+            'options' => ['placeholder' => 'Выберите сезон...',
+            ],
             'pluginOptions' => [
                 'allowClear' => true
             ],
