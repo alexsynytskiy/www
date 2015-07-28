@@ -5,9 +5,11 @@ namespace backend\controllers;
 use Yii;
 use common\models\Career;
 use common\models\CareerSearch;
+use common\models\Player;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Json;
 
 /**
  * CareerController implements the CRUD actions for Career model.
@@ -70,13 +72,34 @@ class CareerController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($playerID = null)
     {
         $model = new Career();
 
+        if(!isset($playerID)) {
+            throw new \yii\web\BadRequestHttpException('Unidentified playerID');
+        }
+
+        $player = Player::findOne($playerID);
+
+        if(!isset($player)) {
+            throw new \yii\web\BadRequestHttpException('Unidentified player model');
+        }
+
+        $model->player_id = $playerID;
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            if(Yii::$app->request->isAjax) {
+                $out = ['success' => 'true'];
+                return Json::encode($out);
+            }
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
+            if(Yii::$app->request->isAjax) { 
+                return $this->renderAjax('create', [
+                    'model' => $model,
+                ]);
+            }
             return $this->render('create', [
                 'model' => $model,
             ]);
@@ -94,8 +117,17 @@ class CareerController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            if(Yii::$app->request->isAjax) {
+                $out = ['success' => 'true'];
+                return Json::encode($out);
+            }
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
+            if(Yii::$app->request->isAjax) { 
+                return $this->renderAjax('update', [
+                    'model' => $model,
+                ]);
+            }
             return $this->render('update', [
                 'model' => $model,
             ]);
@@ -111,6 +143,11 @@ class CareerController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
+
+        if(Yii::$app->request->isAjax) {
+            $out = ['success' => 'true'];
+            return Json::encode($out);
+        }
 
         return $this->redirect(['index']);
     }

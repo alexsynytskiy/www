@@ -115,6 +115,7 @@ class CareerSearch extends Career
 
         $query->andFilterWhere([
             "{$careerTable}.id" => $this->id,
+            'player_id' => $this->player_id,
             'season_id' => $this->season_id,           
             'championship_matches' => $this->championship_matches,
             'championship_goals' => $this->championship_goals,

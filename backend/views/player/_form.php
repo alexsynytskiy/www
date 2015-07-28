@@ -111,18 +111,27 @@ use kartik\file\FileInput;
     ]);
     ?>
 
-    <?php if(!$model->isNewRecord) { ?>
-        <?= $this->render('/achievement/index', [
+    <?php if(!$model->isNewRecord) {
+
+        echo $this->render('/achievement/index', [
             'searchModel' => $achievementModel,
             'dataProvider' => $achievementDataProvider,
-        ]) ?>
-    <?php } ?>
+        ]);
+
+        echo Html::a('Добавить достижение', ['/achievement/create', 'playerId' => $model->id], ['class' => 'btn btn-success', 
+                                                                                                'style' => 'margin-bottom: 20px']);
+    } 
+
+    if(isset($model->id)) {
+        echo $this->render('career_view', [
+            'playerID' => $model->id,
+            'dataProvider' => $careerDataProvider,
+        ]);
+    } 
+    ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Добавить' : 'Изменить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-        <?php if(!$model->isNewRecord) { ?>
-            <?= Html::a('Добавить достижение', ['/achievement/create', 'playerId' => $model->id], ['class' => 'btn btn-success']) ?>
-        <?php } ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Добавить' : 'Изменить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>        
     </div>
 
     <?php ActiveForm::end(); ?>

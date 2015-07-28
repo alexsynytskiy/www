@@ -16,30 +16,6 @@ use yii\helpers\Url;
         'teamGuestPlayers'
     ));
 
-if(isset($teamHomePlayers)) {
-    for ($i = 0; $i < count($teamHomePlayers) - 1; $i++) { 
-        for ($j = $i + 1; $j < count($teamHomePlayers); $j++) { 
-            if ($teamHomePlayers[$i]->contract->amplua->id > $teamHomePlayers[$j]->contract->amplua->id) {
-                $temp = $teamHomePlayers[$i];
-                $teamHomePlayers[$i] = $teamHomePlayers[$j];
-                $teamHomePlayers[$j] = $temp;
-            }
-        }
-    }
-}
-
-if(isset($teamGuestPlayers)) {
-    for ($i = 0; $i < count($teamGuestPlayers) - 1; $i++) { 
-        for ($j = $i + 1; $j < count($teamGuestPlayers); $j++) { 
-            if ($teamGuestPlayers[$i]->contract->amplua->id > $teamGuestPlayers[$j]->contract->amplua->id) {
-                $temp = $teamGuestPlayers[$i];
-                $teamGuestPlayers[$i] = $teamGuestPlayers[$j];
-                $teamGuestPlayers[$j] = $temp;
-            }
-        }
-    }
-}
-
 $substitutions = [];
 $yellowCards = [];
 $redCards = [];

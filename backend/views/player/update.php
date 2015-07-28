@@ -17,6 +17,7 @@ $this->params['breadcrumbs'][] = 'Изменить';
         'achievementModel' => $achievementModel,
         'achievementDataProvider' => $achievementDataProvider,
         'image' => $image,
+        'careerDataProvider' => $careerDataProvider,
     ]) ?>
 
 </div>
