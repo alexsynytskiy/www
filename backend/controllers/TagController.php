@@ -36,6 +36,7 @@ class TagController extends Controller
      */
     public function init()
     {
+        $this->enableCsrfValidation = false;
         if (!empty(Yii::$app->user) && !Yii::$app->user->can("admin")) {
             throw new \yii\web\ForbiddenHttpException('Вы не можете выполнить это действие.');
         }

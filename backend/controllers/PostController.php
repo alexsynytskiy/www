@@ -43,6 +43,7 @@ class PostController extends Controller
      */
     public function init()
     {
+        $this->enableCsrfValidation = false;
         if (!empty(Yii::$app->user) && !Yii::$app->user->can("admin")) {
             throw new ForbiddenHttpException('Вы не можете выполнить это действие.');
         }
