@@ -46,7 +46,20 @@ class TopTag extends ActiveRecord
     }
 
     public static function outTop6Links() {
-        $topTags = TopTag::find()->limit(6)->all();
+        $topTags = TopTag::find()
+            ->orderBy(['id' => SORT_DESC])
+            ->limit(6)->all();
+        for($i = 0; $i < count($topTags) - 1; $i++) {
+            for($j = $i+1; $j < count($topTags); $j++) {
+                $first = $topTags[$i];
+                $second = $topTags[$j];
+                if(strcmp($first->tag->name, $second->tag->name) < 0) {
+                    $temp = $topTags[$i];
+                    $topTags[$i] = $topTags[$j];
+                    $topTags[$j] = $temp;
+                }
+            }
+        }
         foreach ($topTags as $tag) {
             $tagName = str_replace(' ', '+', $tag->name);
             ?>

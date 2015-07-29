@@ -224,16 +224,12 @@ class AdminController extends Controller
         UserAuth::deleteAll(['user_id' => $user->id]);
         $profile->delete();
         $user->delete();
-        $assets = Asset::getAssets($user->id, Asset::ASSETABLE_USER);
+        $assets = Asset::getAssets($user->id, Asset::ASSETABLE_USER, null);
         foreach ($assets as $asset) {
             $asset->delete();
         }
 
-        if(Yii::$app->request->referrer){
-            return $this->redirect(Yii::$app->request->referrer);
-        } else {
-            return $this->redirect(['index']);
-        }
+        return $this->redirect(['index']);
     }
 
     /**

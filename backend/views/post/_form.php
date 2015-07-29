@@ -208,7 +208,7 @@ use kartik\datetime\DateTimePicker;
 
     <div class="panel panel-default">
         <div class="panel-heading clearfix">
-            <a href="javascript:void(0)" class="spoiler-trigger pull-left" data-toggle="collapse">Привязять к матчу</a>
+            <a href="javascript:void(0)" class="spoiler-trigger pull-left" data-toggle="collapse">Привязать к матчу</a>
             <button type="button" class="spoiler-trigger pull-right btn btn-default btn-xs <?= isset($relation->match) ? 'dropup' : 'dropdown' ?>" data-toggle="collapse"><span class="caret"></span></button>
         </div>
         <div class="panel-collapse collapse <?= isset($relation->match) ? 'in' : 'out' ?>">

@@ -32,10 +32,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'content:ntext',
             [
-                'attribute' => 'size',
-                'value' => $model->size ? 'Большой' : 'Маленький',
-            ],
-            [
                 'attribute' => 'region',
                 'value' => $model->getRegionName(),
             ],

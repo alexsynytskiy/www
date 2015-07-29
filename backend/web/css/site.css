@@ -207,6 +207,18 @@ html .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .ope
     margin-bottom: 12px;
 }
 
+.redactor-editor div, 
+.redactor-editor p, 
+.redactor-editor ul, 
+.redactor-editor ol, 
+.redactor-editor table, 
+.redactor-editor dl, 
+.redactor-editor figure, 
+.redactor-editor blockquote, 
+.redactor-editor pre {
+    margin: 0;
+}
+
 #source-url {
     margin-top: 25px;
     line-height: 30px;

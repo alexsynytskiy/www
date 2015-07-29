@@ -166,7 +166,7 @@ body a:focus {
   padding: 5px 0;
 }
 .alert-box .blue {
-  color: #1972c4;
+  color: #fff;
 }
 .alert-box .sec {
   color: #1972c4;
@@ -2419,8 +2419,9 @@ body a:focus {
 }
 .top-banners-area .banner-box,
 .bottom-banners-area .banner-box {
-  width: 730px;
-  margin: 0 auto 15px;
+  position: relative;
+  width: 980px;
+  margin: 0 0 15px -10px;
 }
 .blog-list-item {
   padding: 10px;
@@ -2984,4 +2985,13 @@ body a:focus {
   height: 18px;
   width: 20px;
   vertical-align: text-bottom;
+}
+.header-top-part .admin-page-link {
+  display: block;
+  float: left;
+  margin-top: 19px;
+  width: 32px;
+  height: 32px;
+  background: url(/images/gear.png) center no-repeat;
+  background-size: 32px;
 }

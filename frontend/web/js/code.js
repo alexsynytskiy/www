@@ -16,7 +16,8 @@ $(window).load(function() {
         preloadImages: 'all',
         maxSlides: 1,
         minSlides: 1,
-        slideMargin: 0            
+        slideMargin: 0,
+        auto: true,           
     });
 
     $('.top-matches-slider ul').bxSlider({
@@ -442,12 +443,13 @@ $(document).ready(function() {
             $('.alert-box').slideToggle(300);
         }
     }
-    $(document).on('click', '.alert-box', function() {
+    $(document).on('click', '.alert-box .close', function() {
         clearTimeout(alertTimer);
         $('.alert-box').slideToggle(300);
     });
     if($('.alert-box').length > 0) {
-        var second = 16;
+        var second = $(this).find('.sec').first().text();
+        if(!second) second = 16;
         var alertTimer;
         alertTick();
     }

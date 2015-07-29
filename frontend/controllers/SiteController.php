@@ -653,14 +653,7 @@ class SiteController extends Controller
             throw new NotFoundHttpException('Страница не найдена.');
         }
 
-        $title = "Онлайн трансляция матча ".$match->teamHome->name." - ".$match->teamGuest->name;
-
-        $matchEvents = MatchEvent::find()
-            ->where(['match_id' => $match->id])
-            ->all();
-
         $teamPlayers = Composition::getSquadSort($match->id);
-
         $teamHomePlayers = array();
         $teamGuestPlayers = array();
         foreach ($teamPlayers as $player) {
@@ -671,26 +664,58 @@ class SiteController extends Controller
             }
         }
 
+        $title = "Онлайн трансляция матча ".$match->teamHome->name." - ".$match->teamGuest->name;
+        $columnFirst = [
+            'menu' => [
+                'view' => '@frontend/views/translation/menu',
+                'data' => compact('match'),
+                'weight' => 0,
+            ],
+            'comments' => Comment::getCommentsBlock($match->id, Comment::COMMENTABLE_MATCH),
+        ];
+        $columnFirst['comments']['weight'] = 10;
+
+        $relation = Relation::find()
+            ->where([
+                'parent_id' => $match->id,
+                'relation_type_id' => Relation::RELATION_ONLINE,
+            ])->one();
+        
+        if(isset($relation)) {
+            $post = Post::findOne($relation->relationable_id);
+            $columnFirst['translation'] = [
+                'view' => '@frontend/views/translation/tpost',
+                'data' => compact('match', 'post'),
+                'weight' => 5,
+            ];
+        } else {
+            $matchEvents = MatchEvent::find()
+                ->where(['match_id' => $match->id])
+                ->all();
+            $columnFirst['match_preview'] = [
+                'view' => '@frontend/views/translation/match_preview',
+                'data' => compact('match', 'matchEvents', 'post', 'teamHomePlayers', 'teamGuestPlayers'),
+                'weight' => 2,
+            ];
+            $columnFirst['translation'] = [
+                'view' => '@frontend/views/translation/index',
+                'data' => compact('match', 'matchEvents'),
+                'weight' => 5,
+            ];
+        }
+
         // Disable banners if match is online 
         if($match->is_visible && !$match->is_finished && strtotime($match->date) < time())
         {
              SiteBlock::$banners = [false];
         }
 
+        usort($columnFirst, 'self::cmp');
+
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
             'title' => '"Dynamomania.com" | '. $title,
-            'columnFirst' => [
-                'menu' => [
-                    'view' => '@frontend/views/translation/menu',
-                    'data' => compact('match'),
-                ],
-                'translation' => [
-                    'view' => '@frontend/views/translation/index',
-                    'data' => compact('match', 'matchEvents', 'teamHomePlayers', 'teamGuestPlayers'),
-                ],
-                'comments' => Comment::getCommentsBlock($match->id, Comment::COMMENTABLE_MATCH),
-            ],
+            'columnFirst' => $columnFirst,
             'columnSecond' => [ 
                 'tournament' => SiteBlock::getTournamentTable(),
                 'short_news' => SiteBlock::getShortNews(20),

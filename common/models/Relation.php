@@ -23,6 +23,7 @@ class Relation extends ActiveRecord
      */
     const RELATION_NEWS = 1;
     const RELATION_REPORT = 2;
+    const RELATION_ONLINE = 3;
 
     /**
      * @var int relationable type
@@ -92,6 +93,7 @@ class Relation extends ActiveRecord
         return [
             self::RELATION_NEWS   => self::getRelationHumanName(self::RELATION_NEWS),
             self::RELATION_REPORT => self::getRelationHumanName(self::RELATION_REPORT),
+            self::RELATION_ONLINE => self::getRelationHumanName(self::RELATION_ONLINE),
         ];
     }
 
@@ -103,6 +105,7 @@ class Relation extends ActiveRecord
         $types = [
             self::RELATION_NEWS   => 'Новости и статьи',
             self::RELATION_REPORT => 'Отчет',
+            self::RELATION_ONLINE => 'Онлайн',
         ];
         return isset($types[$id]) ? $types[$id] : $types[0];
     }

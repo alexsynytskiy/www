@@ -1152,6 +1152,12 @@ header .header-wrapper .breadcrumbs .tag:hover {
   clear: both;
   visibility: hidden;
 }
+.grid-column .post-page.match-online {
+  padding-top: 0;
+}
+.grid-column .post-page.match-online .content {
+  padding-top: 15px;
+}
 .grid-column .post-page .top-block {
   height: 21px;
   margin-bottom: 10px;
@@ -1240,6 +1246,7 @@ header .header-wrapper .breadcrumbs .tag:hover {
   color: #353535;
   line-height: 18px;
   text-align: justify;
+  margin-bottom: 15px;
 }
 .grid-column .post-page .content img {
   -webkit-border-radius: 5px;
@@ -1250,7 +1257,7 @@ header .header-wrapper .breadcrumbs .tag:hover {
   margin: 0 auto 10px;
 }
 .grid-column .post-page .content p {
-  margin-bottom: 20px;
+  margin-bottom: 0;
 }
 .grid-column .post-page .content iframe {
   display: block;

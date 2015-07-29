@@ -505,7 +505,13 @@ class SiteBlock
                 ->where(['is_active' => 1])
                 ->orderBy(['created_at' => SORT_DESC])
                 ->one();
-        }        
+        }   
+        if(!isset($question)) {
+            $question = Question::find()
+                ->where(['parent_id' => null])
+                ->orderBy(['created_at' => SORT_DESC])
+                ->one();
+        }    
 
         $uid = isset(Yii::$app->user->id) ? Yii::$app->user->id : 0;
         $userVote = QuestionVote::find()
@@ -522,6 +528,7 @@ class SiteBlock
 
         $query = Question::find()->where(['parent_id' => $question->id]);
         if($block) $query->orderBy(['voutes' => SORT_DESC, 'mark' => SORT_DESC]);
+        else  $query->orderBy(['id' => SORT_DESC]);
         $answers = $query->all();
 
         if($block){

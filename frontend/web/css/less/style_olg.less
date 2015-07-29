@@ -258,7 +258,7 @@ body {
         padding: 5px 0;
     }
     .blue {
-        color: @main-blue;
+        color: #fff;
     }
     .sec {
         color: @main-blue;
@@ -2472,8 +2472,9 @@ body {
 
 .top-banners-area, .bottom-banners-area {
     .banner-box {
-        width: 730px;
-        margin: 0 auto 15px;
+        position: relative;
+        width: 980px;
+        margin: 0 0 15px -10px;
     }
 }
 
@@ -2940,4 +2941,13 @@ body {
     height: 18px;
     width: 20px;
     vertical-align: text-bottom;
+}
+.header-top-part .admin-page-link {
+    display: block;
+    float: left;
+    margin-top: 19px;
+    width: 32px;
+    height: 32px;
+    background: url(/images/gear.png) center no-repeat;
+    background-size: 32px;
 }

@@ -138,19 +138,10 @@ class TagController extends Controller
             }
         }
 
-        // echo '<pre>';
-        // echo var_dump($taggings);
-        // echo '</pre>';
-        // die;
-
         Tagging::deleteAll(['tag_id' => $tag->id]);
         $tag->delete();
 
-        if(Yii::$app->request->referrer){
-            return $this->redirect(Yii::$app->request->referrer);
-        }else{
-            return $this->redirect(['index']);
-        }
+        return $this->redirect(['index']);
     }
 
     /**
