@@ -2,6 +2,7 @@
 return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'language' => 'ru_RU',
+    'timeZone' => 'Europe/Kiev',
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',

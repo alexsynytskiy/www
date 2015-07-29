@@ -316,9 +316,27 @@ class DefaultController extends Controller
         }
 
         // render
-        return $this->render("confirm", [
-            "userKey" => $userKey,
-            "success" => $success
+        return $this->render('@frontend/views/site/index', [
+            'templateType' => 'col3',
+            'title' => 'Подтверждение регистрации',
+            'columnFirst' => [
+                'top3News' => SiteBlock::getTop3News(),
+                'top6News' => SiteBlock::getTop6News(),
+                'subscribing' => SiteBlock::getSubscribingForm(),
+                'blog_column' => SiteBlock::getBlogPosts(),
+            ],
+            'columnSecond' => [
+                'register_block' => [
+                    'view' => '@frontend/views/blocks/confirm_block',
+                    'data' => compact('userKey','success'),
+                ],
+                'short_news' => SiteBlock::getShortNews(),
+            ],
+            'columnThird' => [
+                'reviewNews' => SiteBlock::getPhotoVideoNews(),
+                'questionBlock' => SiteBlock::getQuestionBlock(),
+                'tournament' => SiteBlock::getTournamentTable(),
+            ],
         ]);
     }
 

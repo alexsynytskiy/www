@@ -1303,6 +1303,13 @@ header {
 		margin-bottom: @main-margin;
 		padding: 10px;
 
+		&.match-online {
+			padding-top: 0;
+			.content {
+				padding-top: 15px;
+			}
+		}
+
 		.top-block {
 			height: 21px;
 			margin-bottom: 10px;
@@ -1394,6 +1401,7 @@ header {
 			.text-font(14px, lighter, #353535);
 			line-height: 18px;
 			text-align: justify;
+			margin-bottom: 15px;
 
 			img {
 				.rounded(@box-border-radius);
@@ -1403,7 +1411,7 @@ header {
 			}
 
 			p {
-				margin-bottom: 20px;
+				margin-bottom: 0;
 			}
 
 			iframe {

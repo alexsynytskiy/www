@@ -10,14 +10,8 @@ use common\models\MatchEventType;
 **/
 ?>
 
-<?php echo $this->render('@frontend/views/translation/match_preview', compact(
-        'match', 
-        'matchEvents',
-        'teamHomePlayers',
-        'teamGuestPlayers'
-    )); 
+<?php 
 if(count($matchEvents) > 0) {
-    
 ?>
 
 <div id="text-translation" class="text-translation default-box">    

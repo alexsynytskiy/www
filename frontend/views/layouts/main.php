@@ -62,6 +62,10 @@ AppAsset::register($this);
 
                     <a href="/"><div class="logo"></div></a>
 
+                    <?php if(Yii::$app->user->can('admin')) { ?>
+                        <a class="admin-page-link" href="/admin"></a>
+                    <?php } ?>
+
                     <div class="navigation-bar">
                         <?php if(Yii::$app->user->isGuest) { ?>
 

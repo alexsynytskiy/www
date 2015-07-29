@@ -41,12 +41,6 @@ use kartik\checkbox\CheckboxX;
         </div>
     </div>
 
-    <?php 
-        // echo $form->field($model, 'size')->widget(CheckboxX::classname(), [
-        //     'pluginOptions' => ['threeState' => false],
-        // ])->label('Большой размер');
-    ?>
-
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Добавить' : 'Изменить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

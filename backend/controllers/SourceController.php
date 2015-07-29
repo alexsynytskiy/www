@@ -114,56 +114,8 @@ class SourceController extends Controller
     {
         $this->findModel($id)->delete();
 
-        if(Yii::$app->request->referrer){
-            return $this->redirect(Yii::$app->request->referrer);
-        }else{
-            return $this->redirect(['index']);
-        }
+        return $this->redirect(['index']);
     }
-
-    /**
-     * Display list of all source names in json format
-     *
-     * @param string $q Query for search
-     * @return mixed Json data
-     */
-    // public function actionSourceNameList($q = null) {
-    //     if($q == null) {
-    //         throw new NotFoundHttpException('The requested page does not exist.');
-    //     }
-    //     $query = new Query;
-    //     $query->select('name as value')
-    //         ->distinct()
-    //         ->from(Source::tableName())
-    //         ->where(['like', 'name', $q])
-    //         ->orderBy('name');
-    //     $command = $query->createCommand();
-    //     $data = $command->queryAll();
-    //     $out = array_values($data);
-    //     echo Json::encode($out);
-    // }
-
-    /**
-     * Display list of all source urls in json format
-     *
-     * @param string $q Query for search
-     * @return mixed Json data
-     */
-    // public function actionSourceUrlList($q = null) {
-    //     if($q == null) {
-    //         throw new NotFoundHttpException('The requested page does not exist.');
-    //     }
-    //     $query = new Query;
-    //     $query->select('url as value')
-    //         ->distinct()
-    //         ->from(Source::tableName())
-    //         ->where(['like', 'url', $q])
-    //         ->orderBy('url');
-    //     $command = $query->createCommand();
-    //     $data = $command->queryAll();
-    //     $out = array_values($data);
-    //     echo Json::encode($out);
-    // }
 
     /**
      * Display list of sources in json format
