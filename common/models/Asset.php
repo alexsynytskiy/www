@@ -448,7 +448,7 @@ class Asset extends \yii\db\ActiveRecord
      *
      * @return array[Asset] or Asset if $single == true
      */
-    public static function getAssets($assetableId, $assetableType, $thumbnail, $single = false)
+    public static function getAssets($assetableId, $assetableType, $thumbnail = null, $single = false)
     {
         $query = Asset::find()
             ->where([

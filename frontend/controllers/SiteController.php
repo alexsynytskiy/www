@@ -1312,6 +1312,7 @@ class SiteController extends Controller
 
             $composition = Contract::find()
                 ->where([
+                    'is_active' => 1,
                     'season_id' => $activeSeason,   
                     'command_id' => $team->id,   
                 ])

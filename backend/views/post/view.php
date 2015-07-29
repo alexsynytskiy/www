@@ -11,7 +11,6 @@ use common\models\Vote;
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Записи', 'url' => ['/post']];
 $this->params['breadcrumbs'][] = $this->title;
-echo date('H:m:s');
 ?>
 <div class="post-view">
 

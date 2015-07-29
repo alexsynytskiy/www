@@ -64,6 +64,11 @@ class Post extends ActiveRecord
     public $source_id;
 
     /**
+     * @var boolean Selected blog state
+     */
+    public $selected_blog;
+
+    /**
      * @inheritdoc
      */
     public static function tableName()
@@ -82,7 +87,7 @@ class Post extends ActiveRecord
                 'is_yandex_rss', 'allow_comment', 'source_id',
                 'is_vk_rss', 'is_fb_rss', 'is_tw_rss'], 'integer'],
             [['content'], 'string'],
-            [['created_at', 'updated_at', 'tags'], 'safe'],
+            [['created_at', 'updated_at', 'tags', 'selected_blog'], 'safe'],
             [['title', 'slug', 'source_title', 'source_url', 'cached_tag_list'], 'string', 'max' => 255],
 
             //required
@@ -124,6 +129,7 @@ class Post extends ActiveRecord
             'image'               => 'Изображение',
             'tags'                => 'Теги',
             'source_id'           => 'Источник',
+            'selected_blog'       => 'Избранный блог',
         ];
     }
 
@@ -275,6 +281,20 @@ class Post extends ActiveRecord
             // content
             $pattern = '~<a .*href=".*" .*>(.*)</a>~U';
             $this->content = preg_replace($pattern, '$1', $this->content);
+            // Selected blogs
+            if(isset($this->selected_blog)) 
+            {
+                if($this->selected_blog) {
+                    $selectedBlog = SelectedBlog::find()->where(['post_id' => $this->id])->one();
+                    if(!isset($selectedBlog)) {
+                        $selectedBlog = new SelectedBlog();
+                        $selectedBlog->post_id = $this->id;
+                        $selectedBlog->save(false);
+                    }
+                } else {
+                    SelectedBlog::deleteAll(['post_id' => $this->id]);
+                }
+            }
             return true;
         } else {
             return false;
@@ -300,6 +320,7 @@ class Post extends ActiveRecord
         Relation::deleteAll(['relationable_type' => Relation::RELATIONABLE_POST ,'relationable_id' => $this->id]);
         Comment::deleteAll(['commentable_type' => Comment::COMMENTABLE_POST ,'commentable_id' => $this->id]);
         CommentCount::deleteAll(['commentable_type' => CommentCount::COMMENTABLE_POST ,'commentable_id' => $this->id]);
+        SelectedBlog::deleteAll(['post_id' => $this->id]);
         $assets = Asset::find()->where(['assetable_type' => Asset::ASSETABLE_POST ,'assetable_id' => $this->id])->all();
         foreach ($assets as $asset) {
             $asset->delete();
@@ -575,7 +596,7 @@ class Post extends ActiveRecord
             ->where(['post_id' => $this->id])
             ->one();
 
-        return count($selectedBlogs) > 0;
+        return isset($selectedBlogs);
     }
 
 }

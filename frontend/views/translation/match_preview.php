@@ -77,11 +77,11 @@ if(Yii::$app->user->can('admin')) {
         <?php 
             foreach ($homeGoalEvents as $goalEvent) {
                     $contract = $goalEvent->composition->contract;
-                    if(isset($contract) && in_array($contract->command_id, \common\models\Team::getTeamsConstants())) {
+                    // if(isset($contract) && in_array($contract->command_id, \common\models\Team::getTeamsConstants())) {
                         $playerUrl = $contract->player->getUrl();
-                    } else {
-                        $playerUrl = false;
-                    }
+                    // } else {
+                        // $playerUrl = false;
+                    // }
                     $autoGoal = '';
                     if($goalEvent->match_event_type_id == $goalEvent::AUTOGOAL) {
                         $autoGoal = ' (АГ)';
@@ -117,11 +117,11 @@ if(Yii::$app->user->can('admin')) {
         <?php 
             foreach ($guestGoalEvents as $goalEvent) {
                     $contract = $goalEvent->composition->contract;
-                    if(isset($contract) && in_array($contract->command_id, \common\models\Team::getTeamsConstants())) {
+                    // if(isset($contract) && in_array($contract->command_id, \common\models\Team::getTeamsConstants())) {
                         $playerUrl = $contract->player->getUrl();
-                    } else {
-                        $playerUrl = false;
-                    }
+                    // } else {
+                        // $playerUrl = false;
+                    // }
                     $autoGoal = '';
                     if($goalEvent->match_event_type_id == $goalEvent::AUTOGOAL) {
                         $autoGoal = ' (АГ)';

@@ -117,7 +117,7 @@ use common\models\Country;
 
     <?php 
         echo $form->field($model, 'country_id')->widget(Select2::classname(), [
-            'data' => ArrayHelper::map(Country::find()->all(), 'id', 'name'),
+            'data' => ArrayHelper::map(Country::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name'),
             'language' => 'ru',            
             'options' => ['placeholder' => 'Выберите страну...'],
             'pluginOptions' => [

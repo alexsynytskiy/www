@@ -6,6 +6,9 @@ use dosamigos\selectize\SelectizeDropDownList;
 use yii\helpers\Url;
 use yii\web\JsExpression;
 use common\models\Country;
+use yii\helpers\ArrayHelper;
+use kartik\select2\Select2;
+
 /* @var $this yii\web\View */
 /* @var $model common\models\Arbiter */
 /* @var $form yii\widgets\ActiveForm */
@@ -17,27 +20,13 @@ use common\models\Country;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
 
-    <?php
-        $availableCountries = [];
-        
-        if(!$model->isNewRecord) {
-            $country = Country::findOne($model->country_id);
-
-            if(isset($country->id)) {
-                $availableCountries = [$country->id => $country->name];
-            }
-        }
-
-        echo $form->field($model, 'country_id')->widget(SelectizeDropDownList::classname(), [
-            'loadUrl' => Url::to(['country/country-part-list']),
-            'items' => $availableCountries,
-            'options' => [
-                'multiple' => false,
-            ],
-            'clientOptions' => [
-                'valueField' => 'value',
-                'labelField' => 'text',
-                'persist' => false,
+    <?php 
+        echo $form->field($model, 'country_id')->widget(Select2::classname(), [
+            'data' => ArrayHelper::map(Country::find()->orderBy(['name' => SORT_ASC])->all(), 'id', 'name'),
+            'language' => 'ru',            
+            'options' => ['placeholder' => 'Выберите страну...'],
+            'pluginOptions' => [
+                'allowClear' => true
             ],
         ]);
     ?>

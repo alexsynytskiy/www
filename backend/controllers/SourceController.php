@@ -132,8 +132,8 @@ class SourceController extends Controller
         $query->select('id as value, name as text')
             ->from(Source::tableName())
             ->where(['like', 'name', $search])
-            ->orderBy('name')
-            ->limit(10);
+            ->orderBy(['name' => SORT_ASC])
+            ->limit(50);
         $command = $query->createCommand();
         $data = $command->queryAll();
         $out = array_values($data);

@@ -215,7 +215,7 @@ class CountryController extends Controller
         $query->select('id as value, name as text')
             ->from(Country::tableName())
             ->where(['like', 'name', $search])
-            ->orderBy('name')
+            ->orderBy(['name' => SORT_ASC])
             ->limit(10);
         $command = $query->createCommand();
         $data = $command->queryAll();

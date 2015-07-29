@@ -111,13 +111,13 @@ $(window).load(function() {
 
 
     // => Masonry tiles view START
-    $('.inquirers-container').indyMasonry({
-          'clName'    : '.inquirer-item',
-          'gap'       : 15,
-          'mTop'      : 0,
-          'mBottom'   : 15,
-          'column'    : 2,
-    });
+    // $('.inquirers-container').indyMasonry({
+    //       'clName'    : '.inquirer-item',
+    //       'gap'       : 15,
+    //       'mTop'      : 0,
+    //       'mBottom'   : 15,
+    //       'column'    : 2,
+    // });
     $('.additional-data').indyMasonry({
           'clName'    : '.data-box',
           'gap'       : 15,
@@ -549,50 +549,6 @@ $(document).ready(function() {
         });
     });
     // => Vote buttons END 
-
-
-    // => Question voting START 
-    // $(document).on('submit', '#inquirer-form', function(event) {
-    //     var $form = $(this);
-    //     var dataUrl = $form.attr('action');
-    //     var $box = $form.parents('.default-box').first();
-    //     var data = $form.serialize();
-    //     if(data) {
-    //         $.ajax({
-    //             type: "GET",
-    //             url: dataUrl,
-    //             dataType: "json",
-    //             data: data,
-    //         }).done(function(){
-    //             $box.slideUp(500);
-    //         });
-    //     }
-    //     return false;
-    // });
-    // $(document).on('submit', '#inquirer-float-form', function(event) {
-    //     var $form = $(this);
-    //     var dataUrl = $form.attr('action');
-    //     var $box = $form.parents('.default-box').first();
-    //     var data = $form.serialize();
-    //     if(data) {
-    //         $.ajax({
-    //             type: "GET",
-    //             url: dataUrl,
-    //             dataType: "json",
-    //             data: data,
-    //             success: function(response){
-    //                 console.log(response);
-    //             },
-    //             error: function(e) {
-    //                 console.log(e);
-    //             },
-    //         }).done(function(){
-    //             $box.slideUp(500);
-    //         });
-    //     }
-    //     return false;
-    // });
-    // => Question voting END 
 
 
     // => Record holder bars START 

@@ -249,6 +249,11 @@ use kartik\datetime\DateTimePicker;
             <?= $form->field($model, 'is_vk_rss')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState'=>false]]) ?>
             <?= $form->field($model, 'is_fb_rss')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState'=>false]]) ?>
             <?= $form->field($model, 'is_tw_rss')->widget(CheckboxX::classname(), ['pluginOptions'=>['threeState'=>false]]) ?>
+            <?php if(isset($model->content_category_id) && $model->content_category_id == $model::CATEGORY_BLOG) { ?>
+                <?= $form->field($model, 'selected_blog')
+                        ->widget(CheckboxX::classname(), 
+                        ['pluginOptions'=>['threeState'=>false]]) ?>
+            <?php } ?>
         </div>
     </div>
 

@@ -199,6 +199,8 @@ body a:focus {
 }
 .inquirer .inquirer-answer {
   position: relative;
+  display: table;
+  width: 100%;
 }
 .inquirer .inquirer-answer .input-box {
   display: table-cell;
@@ -209,7 +211,6 @@ body a:focus {
   display: table-cell;
   padding: 5px 0;
   margin: 0;
-  width: 250px;
   border-bottom: 1px solid #e9e9e9;
   font-family: 'Fira Sans New', sans-serif;
   font-size: 14px;
@@ -1727,7 +1728,7 @@ body a:focus {
   font-weight: bold;
 }
 .inquirers-container .inquirer {
-  width: 300px;
+  width: 615px;
 }
 .additional-data .data-box {
   width: 300px;

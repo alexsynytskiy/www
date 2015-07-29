@@ -64,8 +64,8 @@ if(isset($transfers)) {
                     $count++;
                     $player = $transfer->player;
                     
-                    if($className == 'buy' && $transfer->probability != 100) $playerUrl = false; 
-                    else $playerUrl = $player->getUrl();
+                    // if($className == 'buy' && $transfer->probability != 100) $playerUrl = false; 
+                    $playerUrl = $player->getUrl();
                     if(!isset($player)) {
                         $player = new \common\models\Player;
                     }
