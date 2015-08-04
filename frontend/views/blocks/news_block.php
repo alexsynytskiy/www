@@ -48,7 +48,7 @@ use common\models\SiteBlock;
 			</div>
 		</div>		
 	</div>
-	<?php 
+	<?php
 			if($enableBanners && $count && $count % 10 == 0) {
 				$bannerBlock = SiteBlock::getBanner(Banner::REGION_NEWS);
 		        if($bannerBlock) {

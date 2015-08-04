@@ -17,7 +17,7 @@ foreach ($tags as $tag) {
 
 $adminLink = '';
 if(Yii::$app->user->can('admin')) {
-    $adminLink = '<a class="admin-view-link" href="/admin/post/update/'.$model->id.'"></a>'; 
+    $adminLink = '<a class="admin-view-link" target="_blank" href="/admin/post/update/'.$model->id.'"></a>';
 } 
 ?>
 

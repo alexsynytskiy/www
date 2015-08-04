@@ -11,7 +11,7 @@ $imageUrl = $image->getFileUrl();
 
 $adminLink = '';
 if(Yii::$app->user->can('admin')) {
-  $adminLink = '<a class="admin-view-link" href="/admin/video-post/'.$model->id.'"></a>'; 
+  $adminLink = '<a class="admin-view-link" target="_blank" href="/admin/video-post/'.$model->id.'"></a>';
 } 
 ?>
 

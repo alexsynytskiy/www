@@ -15,8 +15,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="match-event-index">
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
     <p>
         <?php
             // if(count(Yii::$app->getRequest()->getQueryParams()) > 0) {
@@ -71,7 +69,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'options' => ['width' => '370'],
                 'format' => 'html',
             ],
-            // 'substitution_id',
             // 'is_hidden',
             // 'position',
 
@@ -79,20 +76,21 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{update} {delete}',
                 'buttons' => [
-                        'delete' => function ($url, $model) {
-                            $customUrl = Url::to(['match-event/delete', 'id' => $model['id']]);
-                            return Html::a('<span class="glyphicon glyphicon-trash"></span>', $customUrl,[
-                                'title' => 'Удалить',
-                                'data-method' => 'post',
-                            ]);
-                        },
-                        'update' => function ($url, $model) {
-                            $customUrl = Url::to(['match-event/update', 'id' => $model['id']]);
-                            return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $customUrl,[
-                                'title' => 'Изменить',
-                            ]);
-                        },
-                    ],
+                    'delete' => function ($url, $model) {
+                        $customUrl = Url::to(['match-event/delete', 'id' => $model['id']]);
+                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', $customUrl,[
+                            'title' => 'Удалить',
+                            'data-method' => 'post',
+                        ]);
+                    },
+                    'update' => function ($url, $model) {
+                        $customUrl = Url::to(['match-event/update', 'id' => $model['id']]);
+                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $customUrl,[
+                            'title' => 'Изменить',
+                        ]);
+                    },
+                ],
+                'options' => ['width' => 70],
             ],
         ],
     ]); ?>

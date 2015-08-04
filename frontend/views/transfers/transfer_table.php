@@ -108,7 +108,7 @@ if(isset($transfers)) {
 
                     $adminLink = '';
                     if(Yii::$app->user->can('admin')) {
-                      $adminLink = '<a class="admin-view-link" href="/admin/transfer/'.$transfer->id.'"></a>'; 
+                      $adminLink = '<a class="admin-view-link" target="_blank" href="/admin/transfer/'.$transfer->id.'"></a>';
                     } 
                 ?>
                 <tr>

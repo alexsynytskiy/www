@@ -436,7 +436,7 @@ class Comment extends ActiveRecord
                 } 
                 $adminLink = '';
                 if(Yii::$app->user->can('admin')) {
-                  $adminLink = '<a class="admin-view-link" href="/admin/comment/'.$comment->id.'" data-pjax="0"></a>'; 
+                  $adminLink = '<a class="admin-view-link" target="_blank" href="/admin/comment/'.$comment->id.'" data-pjax="0"></a>';
                 } 
                 ?>
                 <div id="comment-<?= $comment->id ?>" class="comment <?= $commentLevelClass ?>" 

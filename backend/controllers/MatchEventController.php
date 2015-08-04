@@ -105,7 +105,7 @@ class MatchEventController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(Yii::$app->request->referrer);
+            return $this->redirect(['/match/events/'.$model->match_id]);
         } else {
             return $this->render('update', [
                 'model' => $model,

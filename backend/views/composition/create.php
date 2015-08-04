@@ -51,12 +51,12 @@ $this->params['breadcrumbs'][] = $this->title;
         echo $form->field($model, 'is_basis')
             ->widget(CheckboxX::classname(), [
                 'pluginOptions' => ['threeState' => false], 
-                'options' => ['id' => 'team'.$model->command_id.'-is_basis'],
+                'options' => ['id' => 'team'.$model->command_id.'-create-is_basis'],
             ]);
         echo $form->field($model, 'is_captain')
             ->widget(CheckboxX::classname(), [
                 'pluginOptions' => ['threeState' => false], 
-                'options' => ['id' => 'team'.$model->command_id.'-is_captain'],
+                'options' => ['id' => 'team'.$model->command_id.'-create-is_captain'],
             ]);
 
         echo Html::submitButton('Добавить', ['class' => 'btn btn-primary']);

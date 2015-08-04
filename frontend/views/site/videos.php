@@ -25,7 +25,9 @@ $emptyText = !isset($emptyText) ? 'Видеозаписей не найдено'
             'triggerOffset' => 100,
             'spinnerTemplate' => '<div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>',
             'eventOnRendered' => new JsExpression("function(items){
-                $('.videos-container').indyMasonry('_newElement');
+                $(items).ready(function(){
+                    $('.videos-container').indyMasonry('_newElement');
+                });
             }"),
          ],
          'summary' => '', 

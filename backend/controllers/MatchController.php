@@ -143,6 +143,7 @@ class MatchController extends Controller
                 ->where([
                     'command_id' => $model->command_home_id,
                     'season_id' => $model->season_id,
+                    'is_active' => 1,
                 ])->all();
         } else {
             $homeContractType = CompositionForm::MEMBERSHIP_TYPE;
@@ -164,6 +165,7 @@ class MatchController extends Controller
                 ->where([
                     'command_id' => $model->command_guest_id,
                     'season_id' => $model->season_id,
+                    'is_active' => 1,
                 ])->all();
         } else {
             $guestContractType = CompositionForm::MEMBERSHIP_TYPE;
@@ -234,8 +236,8 @@ class MatchController extends Controller
             'match_id' => $model->id,
         ]];
         $matchEventDataProvider = $matchEventModelSearch->search($params);
-        $totalCount = $matchEventDataProvider->getTotalCount();
-        $matchEventDataProvider->pagination = ['defaultPageSize' => $totalCount];
+//        $totalCount = $matchEventDataProvider->getTotalCount();
+//        $matchEventDataProvider->pagination = ['defaultPageSize' => 60];
         $matchEventDataProvider->setSort(['defaultOrder' => ['minute' => SORT_DESC, 'additional_minute' => SORT_DESC]]);
 
         $matchEvents = MatchEventType::find()->all();

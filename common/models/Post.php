@@ -279,8 +279,8 @@ class Post extends ActiveRecord
                 }
             }
             // content
-            $pattern = '~<a .*href=".*" .*>(.*)</a>~U';
-            $this->content = preg_replace($pattern, '$1', $this->content);
+//            $pattern = '~<a .*href=".*" .*>(.*)</a>~U';
+//            $this->content = preg_replace($pattern, '$1', $this->content);
             // Selected blogs
             if(isset($this->selected_blog)) 
             {

@@ -29,6 +29,8 @@ use kartik\checkbox\CheckboxX;
                 'video',
                 'fontcolor',
             ],
+            'deniedTags' => ['style'],
+            'replaceDivs' => false,
         ],
     ]); ?>
     

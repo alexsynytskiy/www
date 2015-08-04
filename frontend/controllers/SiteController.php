@@ -1597,6 +1597,7 @@ class SiteController extends Controller
             'templateType' => 'col2',
             'title' => '"Dynamomania.com" | Блоги',
             'columnFirst' => [
+                'user_comments' => SiteBlock::getUserComments($id),
                 'content' => [
                     'view' => '@frontend/views/site/blogs',
                     'data' => compact('postsDataProvider'),
@@ -1645,6 +1646,26 @@ class SiteController extends Controller
             ],
             'columnSecond' => [
                 // 'reviewNews' => SiteBlock::getPhotoVideoNews(),
+            ],
+        ]);
+    }
+
+    /**
+     * Contscts page
+     * @return mixed
+     */
+    public function actionForumRules()
+    {
+        return $this->render('@frontend/views/site/index', [
+            'templateType' => 'col2',
+            'title' => '"Dynamomania.com" | Правила форума',
+            'columnFirst' => [
+                'content' => [
+                    'view' => '@frontend/views/site/forum_rules',
+                ],
+            ],
+            'columnSecond' => [
+                'short_news' => SiteBlock::getShortNews(50, false),
             ],
         ]);
     }

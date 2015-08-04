@@ -19,16 +19,20 @@ use yii\helpers\Url;
 $substitutions = [];
 $yellowCards = [];
 $redCards = [];
+$goalEvents = [];
 
 foreach ($matchEvents as $event) {
     if($event->match_event_type_id == $event::SUBSTITUTION) {
         $substitutions[] = $event;
     }
-    else if($event->match_event_type_id == $event::YELLOWCARD) {
+    elseif($event->match_event_type_id == $event::YELLOWCARD) {
         $yellowCards[] = $event;
     }
-    else if($event->match_event_type_id == $event::REDCARD || $event->match_event_type_id == $event::SECONDYELLOW) {
+    elseif($event->match_event_type_id == $event::REDCARD || $event->match_event_type_id == $event::SECONDYELLOW) {
         $redCards[] = $event;
+    }
+    elseif(in_array($event->match_event_type_id, $event::getGoalTypes())) {
+        $goalEvents[] = $event;
     }
 }
 
@@ -36,11 +40,10 @@ function findEventSquad($event, $player) {
     if($event->composition_id == $player->id || $event->substitution_id == $player->id) {
         return true;
     }
-
     return false;
 }
 
-function renderSquad($team, $isBasis, $substitutions, $yellowCards, $redCards) {
+function renderSquad($team, $isBasis, $substitutions, $yellowCards, $redCards, $goalEvents) {
     $finalBlockSquad = "";
 
     if($team != NULL) {
@@ -72,6 +75,13 @@ function renderSquad($team, $isBasis, $substitutions, $yellowCards, $redCards) {
                             if( findEventSquad($redCard, $player) ) {
                                 $finalBlockSquad .= '<div class="red-card"></div>
                                 <div class="time">'.$redCard->getTime().'</div>';
+                                break;
+                            }
+                        }
+                        foreach ($goalEvents as $goal) {
+                            if( findEventSquad($goal, $player) ) {
+                                $finalBlockSquad .= '<div class="goal-event"></div>
+                                    <div class="time">'.$goal->getTime().'</div>';
                                 break;
                             }
                         }
@@ -183,13 +193,13 @@ if(count($teamHomePlayers) > 0 ||
     <div class="box-content" style="padding: 0;">
         <!-- start team-a -->
         <?php
-            renderSquad($teamHomePlayers, 1, $substitutions, $yellowCards, $redCards);
+            renderSquad($teamHomePlayers, 1, $substitutions, $yellowCards, $redCards, $goalEvents);
         ?>
         
         <div class="delimiter"></div>
         <!-- start team-b -->
         <?php
-            renderSquad($teamGuestPlayers, 1, $substitutions, $yellowCards, $redCards);
+            renderSquad($teamGuestPlayers, 1, $substitutions, $yellowCards, $redCards, $goalEvents);
         ?>
     </div>
 </div>
@@ -201,13 +211,13 @@ if(count($teamHomePlayers) > 0 ||
     <div class="box-content" style="padding: 0;">
         <!-- start team-a -->
         <?php
-            renderSquad($teamHomePlayers, 0, $substitutions, $yellowCards, $redCards);
+            renderSquad($teamHomePlayers, 0, $substitutions, $yellowCards, $redCards, $goalEvents);
         ?>
 
         <div class="delimiter"></div>
         <!-- start team-b -->
         <?php
-            renderSquad($teamGuestPlayers, 0, $substitutions, $yellowCards, $redCards);
+            renderSquad($teamGuestPlayers, 0, $substitutions, $yellowCards, $redCards, $goalEvents);
         ?>
     </div>
 </div>

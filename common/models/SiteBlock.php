@@ -4,7 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\helpers\Url;
-use common\modules\user\models\User;
+use yii\data\Pagination;
 
 class SiteBlock
 {
@@ -493,11 +493,6 @@ class SiteBlock
         return $block;
     }
 
-    /**
-     * Get question block
-     * @param \common\models\Question $question 
-     * @return array Data
-     */
     public static function getQuestionBlock($question = false)
     {
         if(!$question) {
@@ -505,13 +500,13 @@ class SiteBlock
                 ->where(['is_active' => 1])
                 ->orderBy(['created_at' => SORT_DESC])
                 ->one();
-        }   
+        }
         if(!isset($question)) {
             $question = Question::find()
                 ->where(['parent_id' => null])
                 ->orderBy(['created_at' => SORT_DESC])
                 ->one();
-        }    
+        }
 
         $uid = isset(Yii::$app->user->id) ? Yii::$app->user->id : 0;
         $userVote = QuestionVote::find()
@@ -526,10 +521,10 @@ class SiteBlock
             $block = false;
         }
 
-        $query = Question::find()->where(['parent_id' => $question->id]);
-        if($block) $query->orderBy(['voutes' => SORT_DESC, 'mark' => SORT_DESC]);
-        else  $query->orderBy(['id' => SORT_DESC]);
-        $answers = $query->all();
+        $answers = Question::find()
+            ->where(['parent_id' => $question->id])
+            ->orderBy(['id' => SORT_DESC])
+            ->all();
 
         if($block){
             $view = $question->is_float ? 'blocks/question_float_block' : 'blocks/question_block';
@@ -546,7 +541,8 @@ class SiteBlock
 
     /**
      * Get question block
-     * @param \common\models\Question $question 
+     * @param \common\models\Question|bool|false $question
+     * @param int $id
      * @return array Data
      */
     public static function getQuestionBlockTitle($question = false, $id = NULL)
@@ -554,6 +550,20 @@ class SiteBlock
         if(isset($id)) {
             $question = Question::find()
                 ->where(['id' => $id])
+                ->orderBy(['created_at' => SORT_DESC])
+                ->one();
+        }
+        else if(!$question) {
+            $question = Question::find()
+                ->where(['is_active' => 1])
+                ->orderBy(['created_at' => SORT_DESC])
+                ->one();
+        }
+
+        if(!isset($question)) {
+            $question = Question::find()
+                ->where(['parent_id' => null])
+                ->orderBy(['created_at' => SORT_DESC])
                 ->one();
         }
 
@@ -562,7 +572,8 @@ class SiteBlock
             ->where([
                 'question_id' => $question->id,
                 'user_id' => $uid,
-            ])->one();
+            ])
+            ->one();
 
         if(isset($userVote->id) || !$question->is_active){
             $block = true;
@@ -570,9 +581,10 @@ class SiteBlock
             $block = false;
         }
 
-        $query = Question::find()->where(['parent_id' => $question->id]);
-        if($block) $query->orderBy(['voutes' => SORT_DESC, 'mark' => SORT_DESC]);
-        $answers = $query->all();
+        $answers = Question::find()
+            ->where(['parent_id' => $question->id])
+            ->orderBy(['id' => SORT_DESC])
+            ->all();
 
         if(!isset($id)) {
             if($block){
@@ -616,6 +628,95 @@ class SiteBlock
         $block = [
             'view' => '@frontend/views/forms/subscribing_form',
             'data' => compact('model'),
+        ];
+        return $block;
+    }
+
+    public static function getUserComments($id)
+    {
+        $connection = Yii::$app->db;
+        $countSql = 'SELECT COUNT(*) as count
+                FROM comments c1
+                LEFT JOIN posts p ON p.id = c1.commentable_id
+                WHERE c1.user_id = :user_id AND c1.id IN (
+                    SELECT c2.parent_id
+                    FROM comments c2
+                    WHERE c2.parent_id = c1.id
+                )';
+        $cmd = $connection->createCommand($countSql);
+        $cmd->bindValue(':user_id', $id);
+        $commentsCountData = $cmd->queryAll();
+        $commentsCount = $commentsCountData[0]['count'];
+
+        $commentsPagination = new Pagination([
+            'totalCount' => $commentsCount,
+            'pageSize' => 10,
+            'pageParam' => 'cpage',
+            'pageSizeParam' => 'cpsize',
+        ]);
+
+        // AND c1.parent_id IS NULL
+        $sql = 'SELECT c1.id
+                FROM comments c1
+                LEFT JOIN posts p ON p.id = c1.commentable_id
+                WHERE c1.user_id = :user_id AND c1.id IN (
+                    SELECT c2.parent_id
+                    FROM comments c2
+                    WHERE c2.parent_id = c1.id
+                )
+                ORDER BY c1.created_at DESC
+                LIMIT :offset, :rows';
+        $cmd = $connection->createCommand($sql);
+        $cmd->bindValue(':user_id', $id);
+        $cmd->bindValue(':offset', $commentsPagination->offset);
+        $cmd->bindValue(':rows', $commentsPagination->limit);
+        $commentsData = $cmd->queryAll();
+
+        $ids = [];
+        foreach ($commentsData as $data) {
+            $ids[] = $data['id'];
+        }
+
+        $initialComments = Comment::find()
+            ->where([
+                'id' => $ids,
+            ])->orderBy(['created_at' => SORT_DESC])
+            ->all();
+
+        $comments = $initialComments;
+        $ids = [];
+        foreach ($comments as $comment) {
+            $ids[] = $comment->id;
+        }
+        $childComments = Comment::find()
+            ->where(['parent_id' => $ids])->orderBy(['created_at' => SORT_ASC])->all();
+        if (count($childComments) > 0) {
+            $initialComments = array_merge($initialComments, $childComments);
+        }
+
+        $parentIDs = [];
+        foreach ($initialComments as $comment) {
+            if ($comment->parent_id != null) $parentIDs[] = $comment->parent_id;
+        }
+
+        $sortedComments = [];
+        foreach ($initialComments as $comment) {
+            if ($comment->parent_id == null
+                || $comment->user_id == $id
+                && in_array($comment->id, $parentIDs)
+            ) {
+                $index = 0;
+            } else {
+                $index = $comment->parent_id;
+            }
+            $sortedComments[$index][] = $comment;
+        }
+        $block = [
+            'view' => '@frontend/views/site/blogs_user_comments',
+            'data' => [
+                'comments' => $sortedComments,
+                'pagination' => $commentsPagination,
+            ],
         ];
         return $block;
     }

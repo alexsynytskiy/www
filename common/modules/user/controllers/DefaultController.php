@@ -12,7 +12,6 @@ use yii\widgets\ActiveForm;
 use yii\data\ActiveDataProvider;
 use yii\web\UploadedFile;
 use yii\data\Pagination;
-use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 

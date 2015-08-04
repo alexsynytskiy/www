@@ -3,7 +3,6 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
-use kartik\datetime\DateTimePicker;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use kartik\select2\Select2;
@@ -53,14 +52,14 @@ use common\models\Country;
     ?>
 
     <?php
-        echo $form->field($model, 'birthday')->widget(DateTimePicker::classname(), [
+        echo $form->field($model, 'birthday')->widget(DatePicker::classname(), [
             'options' => ['placeholder' => 'Выберите дату рождения'],
             'removeButton' => false,
             'language' => 'ru-RU',
             'pluginOptions' => [
                 'language' => 'ru',
                 'autoclose' => true,
-                'format' => 'dd.mm.yyyy hh:ii'
+                'format' => 'dd.mm.yyyy'
             ]
         ]);
     ?>

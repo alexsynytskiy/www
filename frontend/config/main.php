@@ -39,6 +39,7 @@ return [
                 'tags'                                   => 'site/tags',
                 'blogs/<id:\d+>'                         => 'site/blogs',
                 'search'                                 => 'site/search',
+                'forum-rules'                            => 'site/forum-rules',
                 'matches'                                => 'site/matches',
                 'transfers/<id:\d+>'                     => 'site/transfer',
                 'transfers'                              => 'site/transfers',

@@ -18,7 +18,7 @@ if(abs(Yii::$app->session['news_post_time_last'] - $time) >= 60*60*24)
 
 $adminLink = '';
 if(Yii::$app->user->can('admin')) {
-    $adminLink = '<a class="admin-view-link" href="/admin/post/update/'.$model->id.'"></a>'; 
+    $adminLink = '<a class="admin-view-link" target="_blank" href="/admin/post/update/'.$model->id.'"></a>';
 } 
 ?>
 

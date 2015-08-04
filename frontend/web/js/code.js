@@ -17,7 +17,9 @@ $(window).load(function() {
         maxSlides: 1,
         minSlides: 1,
         slideMargin: 0,
-        auto: true,           
+        auto: true,
+        speed: 1000,
+        pause: 6000
     });
 
     $('.top-matches-slider ul').bxSlider({
@@ -27,7 +29,7 @@ $(window).load(function() {
         minSlides: 1,
         slideMargin: 0,
         infiniteLoop: false,
-        startSlide:4,
+        startSlide:4
     });
 
     $('.video-report .video-list, .photo-report .photo-list').bxSlider({
@@ -45,9 +47,10 @@ $(window).load(function() {
         pager: false,
         moveSlides: 4,
         infiniteLoop: false,
-        adaptiveHeight: true,
+        adaptiveHeight: true
     };
-    albumPagerSlider = $('#album-bx-pager').bxSlider(albumPagerSettings);
+
+    var albumPagerSlider = $('#album-bx-pager').bxSlider(albumPagerSettings);
 
     var startLoading = false;
     var albumSlider = $('#album-slider').bxSlider({

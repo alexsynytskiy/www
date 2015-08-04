@@ -56,7 +56,7 @@ foreach ($goalEvents as $goalEvent) {
 
 $adminLink = '';
 if(Yii::$app->user->can('admin')) {
-  $adminLink = '<a class="admin-view-link" href="/admin/match/'.$match->id.'"></a>'; 
+  $adminLink = '<a class="admin-view-link" target="_blank" href="/admin/match/'.$match->id.'"></a>';
 } 
 
 ?>

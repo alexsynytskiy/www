@@ -9,7 +9,7 @@ use yii\helpers\Url;
 
 $adminLink = '';
 if(Yii::$app->user->can('admin') && $tab != 'composition') {
-  $adminLink = '<a class="admin-view-link" href="/admin/main-info/"></a>'; 
+  $adminLink = '<a class="admin-view-link" target="_blank" href="/admin/main-info/"></a>';
 } 
 ?>
 

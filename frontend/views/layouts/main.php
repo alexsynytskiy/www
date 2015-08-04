@@ -63,7 +63,7 @@ AppAsset::register($this);
                     <a href="/"><div class="logo"></div></a>
 
                     <?php if(Yii::$app->user->can('admin')) { ?>
-                        <a class="admin-page-link" href="/admin"></a>
+                        <a class="admin-page-link" href="/admin" target="_blank"></a>
                     <?php } ?>
 
                     <div class="navigation-bar">
@@ -75,12 +75,12 @@ AppAsset::register($this);
                                     <a href="/user/login"><div class="sign-in">Войти</div></a>
                                 </div>
 
-                                <!-- <div class="navigation-block bottom-block">
-                                    <a href="#">
+                                <div class="navigation-block bottom-block">
+                                    <a href="<?= Url::to('/forum-rules') ?>">
                                         <div class="rules">Правила форума</div>
                                         <div class="icon"></div>
                                     </a>
-                                </div> -->
+                                </div>
                             </div>
 
                         <?php } else { ?>

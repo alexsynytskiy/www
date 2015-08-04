@@ -34,7 +34,7 @@ class Team extends ActiveRecord
     const TEAM_U19 = 878;
     const TEAM_UKRAINE = 7;
     const TEAM_UKRAINE_M = 117;
-    const TEAM_DK_KIDS = 221;
+    const TEAM_DK_KIDS = 224;
     const TEAM_DK3 = 9;
 
     /**

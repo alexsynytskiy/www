@@ -269,7 +269,7 @@ body a:focus {
 .inquirer.inquirer-result .answer-stat {
   position: relative;
   min-width: 220px;
-  max-width: 90%;
+  max-width: 80%;
   font-size: 12px;
 }
 .inquirer.inquirer-result .answer-stat .stat-bar {
@@ -290,6 +290,9 @@ body a:focus {
 }
 .inquirer.inquirer-result .inquirer-description > div {
   margin-top: 5px;
+}
+.grid-main-column .inquirer-answer.float label {
+  width: 535px;
 }
 .scoreboard .box-content {
   padding: 5px 0 0;
@@ -1013,18 +1016,18 @@ body a:focus {
   float: right;
   margin: 14px 10px 0 0;
   background: transparent center 0 no-repeat;
-  background-size: 22px;
+  background-size: 22px 40px;
   width: 22px;
-  height: 22px;
+  height: 20px;
 }
 .comment .comment-links .button-reply:hover,
 .comment .comment-links .button-edit:hover,
 .comment .comment-links .button-remove:hover,
 .comment .comment-links .button-complain:hover {
-  background-position: center -42px;
+  background-position: center 100%;
 }
 .comment .comment-links .button-reply {
-  background-image: url(/images/answer_icon.png);
+  background-image: url(/images/answer_icon.svg);
 }
 .comment .comment-links .button-edit {
   background-image: url(/images/write_sprite.png);
@@ -1033,7 +1036,7 @@ body a:focus {
   background-image: url(/images/trash_icon.png);
 }
 .comment .comment-links .button-complain {
-  background-image: url(/images/trash_icon.png);
+  background-image: url(/images/report.svg);
 }
 .comment .comment-body {
   padding: 8px 0 5px;
@@ -1145,14 +1148,14 @@ body a:focus {
   margin: 2px 0;
   width: 30px;
   height: 10px;
-  background: url(/images/plus_icon.png) center 0 no-repeat;
-  background-size: 10px;
+  background: url(/images/plus_icon.svg) center 0 no-repeat;
+  background-size: 30px 20px;
 }
 .rating-counter .rating-up:hover {
-  background-position: center -30px;
+  background-position: center 100%;
 }
 .rating-counter .rating-up.voted {
-  background-position: center -30px;
+  background-position: center 100%;
   cursor: default;
 }
 .rating-counter .rating-up.disable {
@@ -1164,14 +1167,14 @@ body a:focus {
   margin: 2px 0;
   width: 30px;
   height: 10px;
-  background: url(/images/minus_icon.png) center 0 no-repeat;
-  background-size: 10px;
+  background: url(/images/minus_icon.svg) center 0 no-repeat;
+  background-size: 30px 20px;
 }
 .rating-counter .rating-down:hover {
-  background-position: center -30px;
+  background-position: center 100%;
 }
 .rating-counter .rating-down.voted {
-  background-position: center -30px;
+  background-position: center 100%;
   cursor: default;
 }
 .rating-counter .rating-down.disable {
@@ -1719,8 +1722,16 @@ body a:focus {
   background: #ff5555;
 }
 .first-team .team .player .replacement {
-  background: url(/images/change_icon.png) center no-repeat;
+  background: url(/images/change_icon.svg) center no-repeat;
   background-size: 20px;
+}
+.first-team .team .player .goal-event {
+  float: left;
+  width: 25px;
+  height: 14px;
+  margin: 3px 5px 0 0;
+  background: url(/images/goul.svg) center no-repeat;
+  background-size: 25px;
 }
 .first-team .team .player .time {
   float: left;
@@ -2666,7 +2677,7 @@ body a:focus {
   float: left;
   height: 20px;
   width: 20px;
-  background: url('/images/date_icon.png') no-repeat;
+  background: url('/images/date_icon.svg') no-repeat;
   background-size: 20px;
   margin-right: 7px;
 }
@@ -2683,10 +2694,10 @@ body a:focus {
 }
 .album-box .top-block .image-icon {
   float: left;
-  height: 20px;
-  width: 22px;
-  background: url('/images/comments_icon.png') no-repeat;
-  background-size: 22px;
+  height: 21px;
+  width: 23px;
+  background: url('/images/comments_icon.svg') no-repeat;
+  background-size: 23px;
 }
 .album-box .top-block .image-count {
   float: left;
@@ -2995,4 +3006,39 @@ body a:focus {
   height: 32px;
   background: url(/images/gear.png) center no-repeat;
   background-size: 32px;
+}
+div.forum-rules {
+  padding: 10px 7px;
+}
+div.forum-rules p {
+  line-height: 20px;
+  margin-bottom: 15px;
+}
+div.forum-rules .title {
+  margin-bottom: 10px;
+}
+div.forum-rules .title .line {
+  float: left;
+  width: 195px;
+  height: 10px;
+  border-bottom: 1px solid #e9e9e9;
+}
+div.forum-rules .title .text {
+  float: left;
+  width: 205px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #727272;
+  text-align: center;
+  line-height: 18px;
+}
+div.forum-rules .attention {
+  color: #0090e8;
+  font-size: 20px;
+  line-height: 21px;
+  font-weight: bold;
+  width: 500px;
+  margin: 0 auto;
+  text-align: center;
+  text-transform: uppercase;
 }

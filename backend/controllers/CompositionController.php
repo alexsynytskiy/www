@@ -108,6 +108,7 @@ class CompositionController extends Controller
 
             if($contractModel->save(false)) {
                 $model->contract_id = $contractModel->id;
+                $model->number = $contractModel->number;
                 $model->save();
             }
             if(Yii::$app->request->isAjax) {

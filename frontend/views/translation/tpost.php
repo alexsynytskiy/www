@@ -9,7 +9,7 @@ Yii::$app->formatter->locale = 'ru-RU';
 
 $adminLink = '';
 if(Yii::$app->user->can('admin')) {
-  $adminLink = '<a class="admin-view-link" href="/admin/post/update/'.$post->id.'"></a>'; 
+  $adminLink = '<a class="admin-view-link" target="_blank" href="/admin/post/update/'.$post->id.'"></a>';
 } 
 
 $uri = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];

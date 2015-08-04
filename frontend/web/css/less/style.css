@@ -166,7 +166,7 @@ header .header-wrapper .header-top-part .navigation-bar a {
   line-height: 25px;
 }
 header .header-wrapper .header-top-part .navigation-bar .top-block {
-  margin-top: 25px;
+  margin-top: 7px;
 }
 header .header-wrapper .header-top-part .navigation-bar .top-block .registration {
   height: 25px;
@@ -1175,7 +1175,7 @@ header .header-wrapper .breadcrumbs .tag:hover {
   float: left;
   height: 20px;
   width: 20px;
-  background: url('/images/date_icon.png') no-repeat;
+  background: url('/images/date_icon.svg') no-repeat;
   background-size: 20px;
   margin-right: 7px;
 }
@@ -1191,10 +1191,10 @@ header .header-wrapper .breadcrumbs .tag:hover {
 }
 .grid-column .post-page .top-block .comments-icon {
   float: left;
-  height: 20px;
-  width: 22px;
-  background: url('/images/comments_icon.png') no-repeat;
-  background-size: 22px;
+  height: 21px;
+  width: 23px;
+  background: url('/images/comments_icon.svg') no-repeat;
+  background-size: 23px;
 }
 .grid-column .post-page .top-block .comments-count {
   float: left;
@@ -1322,6 +1322,11 @@ header .header-wrapper .breadcrumbs .tag:hover {
   float: left;
   margin-right: 5px;
   margin-bottom: 5px;
+}
+.grid-column .post-page .footer-part-bottom .vk-like-box,
+.grid-column .post-page .footer-part-bottom .fb-like-box {
+  float: left;
+  margin-right: 10px;
 }
 .grid-column .post-page .footer-part-bottom .vk-likes {
   float: left;
@@ -2178,10 +2183,9 @@ header .header-wrapper .breadcrumbs .tag:hover {
 .grid-column .transfers thead .comments {
   margin-top: 5px;
   float: left;
-  width: 24px;
+  width: 23px;
   height: 21px;
-  background-image: url('/images/comments_icon.png');
-  background-repeat: no-repeat;
+  background-image: url('/images/comments_icon.svg') no-repeat;
   background-size: 21px;
 }
 .grid-column .transfers thead th {

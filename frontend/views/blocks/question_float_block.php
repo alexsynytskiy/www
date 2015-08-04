@@ -17,7 +17,7 @@ $inquirerMoreLink = (Yii::$app->controller->action->id == 'inquirers') ? false :
 
 $adminLink = '';
 if(Yii::$app->user->can('admin')) {
-  $adminLink = '<a class="admin-view-link" href="/admin/question/'.$question->id.'"></a>'; 
+  $adminLink = '<a class="admin-view-link" target="_blank" href="/admin/question/'.$question->id.'"></a>';
 } 
 
 ?>

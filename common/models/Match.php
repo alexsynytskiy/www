@@ -147,8 +147,8 @@ class Match extends ActiveRecord
             'league_id'              => 'Лига',
             'is_finished'            => 'Завершён',
             'announcement'           => 'Где смотреть',
-            'home_ball_possession'   => 'Вдадение мячом (хозяева)',
-            'guest_ball_possession'  => 'Вдадение мячом (Гости)',
+            'home_ball_possession'   => 'Владение мячом (хозяева)',
+            'guest_ball_possession'  => 'Владение мячом (Гости)',
         ];
     }    
 
