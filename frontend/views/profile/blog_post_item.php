@@ -9,7 +9,7 @@ use yii\helpers\Url;
 $userName = $model->user->getDisplayName();
 $avatar = $model->user->getAsset();
 $imageUrl = $avatar->getFileUrl();
-$postDate = Yii::$app->formatter->asDate($model->created_at, 'd MMMM Y H:m');
+$postDate = Yii::$app->formatter->asDate(strtotime($model->created_at), 'd MMMM Y H:m');
 
 $rating = $model->getRating();
 $ratingUpClass = '';

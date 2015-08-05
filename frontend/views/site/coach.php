@@ -23,7 +23,7 @@ Yii::$app->formatter->locale = 'ru-RU';
             <div class="name"><?= $coach->name ?></div>
              <div class="feature">
                 <div class="title">Дата рождения: </div>
-                <div class="text"><?= $coach->birthday ?></div>
+                <div class="text"><?= Yii::$app->formatter->asDate($coach->birthday,'dd.MM.Y') ?></div>
             </div>
             <div class="clearfix"></div>         
             <div class="text-about-person">

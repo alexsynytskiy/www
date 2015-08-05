@@ -46,7 +46,7 @@ if($player->amplua->id == Amplua::GOALKEEPER) {
             <div class="clearfix"></div>
             <div class="feature">
                 <div class="title">Дата рождения: </div>
-                <div class="text"><?= Yii::$app->formatter->asDate(strtotime($player->birthday),'dd.MM.Y') ?></div>             
+                <div class="text"><?= Yii::$app->formatter->asDate($player->birthday,'dd.MM.Y') ?></div>
             </div>
             <div class="clearfix"></div>
             <div class="feature">
@@ -95,7 +95,7 @@ if($player->amplua->id == Amplua::GOALKEEPER) {
                     <th class="euro-matches">ЕМ</th>
                     <th class="euro-goals">ЕГ</th>
                 </tr>
-            </tdead>
+            </thead>
             <tbody>
                 <?php
                     $careerTeamsStatistics = [];

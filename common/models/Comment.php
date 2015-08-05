@@ -377,7 +377,7 @@ class Comment extends ActiveRecord
      */
     public static function outCommentsTree($comments, $parent_id, $options)
     {
-        if(!isset($options) || !is_object($options)) 
+        if(!isset($options) || !is_object($options))
         {
             $showReplies = isset($options['showReplies']) ? $options['showReplies'] : true;
             $showReplyButton = isset($options['showReplyButton']) ? $options['showReplyButton'] : true;
@@ -393,7 +393,7 @@ class Comment extends ActiveRecord
                 $avatar = $comment->user->getAsset();
                 $imageUrl = $avatar->getFileUrl();
 
-                $commentDate = Yii::$app->formatter->asDate($comment->created_at, 'd MMMM Y HH:mm');
+                $commentDate = Yii::$app->formatter->asDate(strtotime($comment->created_at), 'd MMMM Y HH:mm');
 
                 $repliesCommentsCount = isset($comments[$comment->id]) ? count($comments[$comment->id]) : 0;
                 $classRepliesCount = ($repliesCommentsCount == 0) ? 'no-replies' : '';

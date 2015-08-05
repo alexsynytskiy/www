@@ -3,7 +3,7 @@
 $(window).load(function() {
 
     // => PreLoading page animation turn off START
-    $("#loading").delay(1000).fadeOut(500);
+    //$("#loading").delay(1000).fadeOut(500);
     // => PreLoading page animation turn off END
 
     // => Error page START
@@ -229,8 +229,11 @@ $(window).load(function() {
 
 $(document).ready(function() {
 
+    // => PreLoading page animation turn off START
+    $("#loading").delay(1000).fadeOut(500);
+    // => PreLoading page animation turn off END
+
     // => Attach footer to bottom
-    
     function attachFooter() {
         var pageHeight = $("#page").innerHeight();
         var windowHeight = $(window).innerHeight();
