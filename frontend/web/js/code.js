@@ -567,7 +567,7 @@ $(document).ready(function() {
         var voteableId = $(this).attr('data-id');
         var voteableType = $(this).attr('data-type');
         $ratingCounter = $(this);
-        $.getJSON( "/admin/vote/vote", { 'id': voteableId, 'type': voteableType, 'vote' : vote}, function( data ) {
+        $.getJSON( "/vote/vote", { 'id': voteableId, 'type': voteableType, 'vote' : vote}, function( data ) {
             if(data.success) {
                 $ratingCounter.parent().find('.rating-count').first().text(data.rating);
                 $ratingCounter.parent().find('.voted').removeClass('voted');
