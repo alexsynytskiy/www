@@ -77,9 +77,11 @@ use kartik\datetime\DateTimePicker;
                 'video',
                 'fontcolor',
             ],
-            'linkNofollow' => true,
+//            'linkNofollow' => true,
 //            'cleanOnPaste' => false,
 //            'convertLinks' => false,
+            'deniedTags' => ['style'],
+            'replaceDivs' => false,
         ],
     ]); ?>
 
