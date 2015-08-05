@@ -100,7 +100,7 @@ class Match extends ActiveRecord
             [['round'], 'string', 'max' => 50],
 
             //required
-            [['date', 'championship_id', 'command_home_id', 'command_guest_id', 'stadium_id', 'season_id'], 'required'],
+            [['date', 'championship_id', 'command_home_id', 'command_guest_id', 'season_id'], 'required'],
         ];
     }
 

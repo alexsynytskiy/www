@@ -2511,3 +2511,7 @@ header .header-wrapper .breadcrumbs .tag:hover {
   font-weight: bold;
   color: #0090e8;
 }
+
+iframe {
+  max-width: 595px;
+}
