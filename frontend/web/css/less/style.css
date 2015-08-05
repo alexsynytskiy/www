@@ -571,9 +571,6 @@ header .header-wrapper .breadcrumbs .tag:hover {
 .grid-column .main-news.type-text .photo .right-border {
   border-color: #727272;
 }
-.grid-column .main-news.type-text .icon-logo {
-  background-image: url(/images/txt.svg);
-}
 .grid-column .main-news.type-photo .photo .right-border {
   border-color: #1972c4;
 }
@@ -2279,6 +2276,9 @@ header .header-wrapper .breadcrumbs .tag:hover {
 }
 .footer-wrapper .footer-bottom .block-top {
   height: 38px;
+}
+.footer-wrapper .footer-bottom .block-top .counters {
+  float: right;
 }
 .footer-wrapper .footer-bottom .block-top .button {
   margin-right: 5px;

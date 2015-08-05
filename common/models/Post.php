@@ -185,6 +185,7 @@ class Post extends ActiveRecord
 
             $machineName = 'shortNews50banners';
             $enableBanners = true;
+            SiteBlock::$postedBannerIds = [];
             if(!isset($cacheBlocks[$machineName])){
                 $cacheBlock = new CacheBlock();
                 $cacheBlock->machine_name = $machineName;
@@ -207,6 +208,7 @@ class Post extends ActiveRecord
 
             $machineName = 'shortNews20banners';
             $enableBanners = true;
+            SiteBlock::$postedBannerIds = [];
             if(!isset($cacheBlocks[$machineName])){
                 $cacheBlock = new CacheBlock();
                 $cacheBlock->machine_name = $machineName;
@@ -217,8 +219,8 @@ class Post extends ActiveRecord
             $cacheBlock->save();
         }
 
-        if($this->is_index || $this->is_top) // Top3 and top6 news
-        {
+//        if($this->is_index || $this->is_top) // Top3 and top6 news
+//        {
             $machineName = 'top3News';
             if(!isset($cacheBlocks[$machineName])){
                 $cacheBlock = new CacheBlock();
@@ -238,7 +240,7 @@ class Post extends ActiveRecord
             }
             $cacheBlock->content = SiteBlock::getTop6News($cacheStatus);
             $cacheBlock->save();
-        }
+//        }
 
         if($this->content_category_id == self::CATEGORY_BLOG) // blog posts
         {

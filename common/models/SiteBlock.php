@@ -523,7 +523,7 @@ class SiteBlock
 
         $answers = Question::find()
             ->where(['parent_id' => $question->id])
-            ->orderBy(['id' => SORT_DESC])
+            ->orderBy(['id' => SORT_ASC])
             ->all();
 
         if($block){
@@ -583,7 +583,7 @@ class SiteBlock
 
         $answers = Question::find()
             ->where(['parent_id' => $question->id])
-            ->orderBy(['id' => SORT_DESC])
+            ->orderBy(['id' => SORT_ASC])
             ->all();
 
         if(!isset($id)) {
