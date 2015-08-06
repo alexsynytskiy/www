@@ -223,7 +223,8 @@ class Post extends ActiveRecord
         }
 
         if(isset($changedAttributes['is_index']) && $this->is_index != $changedAttributes['is_index'] ||
-            isset($changedAttributes['is_top']) && $this->is_top != $changedAttributes['is_top'])
+            isset($changedAttributes['is_top']) && $this->is_top != $changedAttributes['is_top'] ||
+            $this->is_top || $this->is_index)
         {
             $machineName = 'top3News';
             if(!isset($cacheBlocks[$machineName])){

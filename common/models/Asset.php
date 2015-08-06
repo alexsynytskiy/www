@@ -558,7 +558,7 @@ class Asset extends \yii\db\ActiveRecord
                         return new Box(300, 200);
                     // To top 6 news and other preview news
                     case self::THUMBNAIL_NEWS:
-                        return new Box(166, 110);
+                        return new Box(166*2, 110*2);
                     // To content
                     case self::THUMBNAIL_CONTENT:
                         $width = 595;
