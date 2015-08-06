@@ -84,7 +84,7 @@ AppAsset::register($this);
                         ['label' => 'Топовые теги', 'url' => '/admin/top-tag'],
                         ['label' => 'Подписка', 'url' => '/admin/subscribing'],
                         ['label' => 'Опросы', 'url' => '/admin/question'],
-                        ['label' => 'Банеры', 'url' => '/admin/banner'],
+                        ['label' => 'Баннеры', 'url' => '/admin/banner'],
                         ['label' => 'Избранные блоги', 'url' => '/admin/selected-blog'],
                     ]],
                     ['label' => 'Сайт', 'url' => ('http://'.$_SERVER['HTTP_HOST']) ],
