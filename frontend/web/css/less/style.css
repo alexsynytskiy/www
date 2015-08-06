@@ -2502,6 +2502,6 @@ header .header-wrapper .breadcrumbs .tag:hover {
   color: #0090e8;
 }
 
-iframe {
+.post-page iframe {
   max-width: 595px;
 }

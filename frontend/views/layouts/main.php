@@ -203,7 +203,7 @@ AppAsset::register($this);
 <body>
 <?php $this->beginBody() ?>
 
-<!-- Preloadding animation START -->
+<!-- Preloadding animation START 
 <div id="loading">
     <div id="loading-center">
         <div id="loading-center-absolute">
@@ -213,7 +213,7 @@ AppAsset::register($this);
         </div>
     </div>
 </div>
-<!-- Preloadding animation END -->
+Preloadding animation END -->
 
 <div id="page">
     <div id="banner-wrapper">
