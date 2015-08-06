@@ -115,9 +115,6 @@ class PostController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) 
         {
-            // Set slug
-            $model->slug = $model->genSlug($model->title);
-
             // Save the model to have a record number
             if(!$model->save())
             {
@@ -244,9 +241,6 @@ class PostController extends Controller
         $model->selected_blog = $model->isSelected();
 
         if($model->load(Yii::$app->request->post()) && $model->validate()) {
-
-            // Set slug
-            $model->slug = $model->genSlug($model->title);
 
             // Set image
             $uploadedFile = UploadedFile::getInstance($model, 'image');

@@ -35,6 +35,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'region',
                 'value' => $model->getRegionName(),
             ],
+//            [
+//                'attribute' => 'size',
+//                'value' => $model->size ? 'Да' : 'Нет',
+//            ],
             'weight',
             'created_at',
             'updated_at',

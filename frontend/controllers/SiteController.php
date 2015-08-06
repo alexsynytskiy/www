@@ -242,9 +242,10 @@ class SiteController extends Controller
     }
     
     /**
-     * @param int $id Post id
-     * @param string $slug Post slug
-     * @return mixed Content
+     * @param $id int Post id
+     * @param $slug string Post slug
+     * @return string Content
+     * @throws NotFoundHttpException
      */
     public function actionPost($id, $slug) 
     {
@@ -270,9 +271,17 @@ class SiteController extends Controller
 
         ];
 
+        $banner = SiteBlock::getBanner(Banner::REGION_UNDER_NEWS);
+        $count = 0;
+        while($banner){
+            $count++;
+            $options['columnFirst']['banner-'.$count] = $banner;
+            $options['columnFirst']['banner-'.$count]['weight'] = 2;
+            $banner = SiteBlock::getBanner(Banner::REGION_UNDER_NEWS);
+        }
+
         if ($post->allow_comment) {
             // out all comments
-            
             $options['columnFirst']['comments'] = Comment::getCommentsBlock($post->id, Comment::COMMENTABLE_POST);
             $options['columnFirst']['comments']['weight'] = 5;
         }
@@ -1759,7 +1768,7 @@ class SiteController extends Controller
         $image = $videoPost->getAsset();
         $video = $videoPost->getVideoAsset();
 
-        return $this->render('@frontend/views/site/index', [
+        $options = [
             'templateType' => 'col2',
             'title' => '"Dynamomania.com" | Видео: '.$videoPost->title,
             'columnFirst' => [
@@ -1767,12 +1776,27 @@ class SiteController extends Controller
                     'view' => '@frontend/views/site/video_post',
                     'data' => compact('videoPost', 'image', 'video'),
                 ],
-                'comments' => Comment::getCommentsBlock($videoPost->id, Comment::COMMENTABLE_VIDEO),
             ],
-            'columnSecond' => [ 
+            'columnSecond' => [
                 'short_news' => SiteBlock::getShortNews(),
             ],
-        ]);
+        ];
+
+        $banner = SiteBlock::getBanner(Banner::REGION_UNDER_NEWS);
+        $count = 0;
+        while($banner){
+            $count++;
+            $options['columnFirst']['banner-'.$count] = $banner;
+            $options['columnFirst']['banner-'.$count]['weight'] = 2;
+            $banner = SiteBlock::getBanner(Banner::REGION_UNDER_NEWS);
+        }
+
+        $options['columnFirst']['comments'] = Comment::getCommentsBlock($videoPost->id, Comment::COMMENTABLE_VIDEO);
+        $options['columnFirst']['comments']['weight'] = 5;
+
+        usort($options['columnFirst'],'self::cmp');
+
+        return $this->render('@frontend/views/site/index', $options);
     }
 
 

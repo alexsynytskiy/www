@@ -373,7 +373,7 @@ class Asset extends \yii\db\ActiveRecord
             return false;
         }
         // Only for teams. If image not found on server
-        if(!file_exists($filePath) && $this->getAssetableType() == self::ASSETABLE_TEAM) {
+        if(!file_exists($filePath) && in_array($this->getAssetableType(), [self::ASSETABLE_TEAM, self::ASSETABLE_VIDEOFILE])) {
             return false;
         }
         // Default image

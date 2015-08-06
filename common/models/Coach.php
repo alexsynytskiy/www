@@ -112,6 +112,12 @@ class Coach extends ActiveRecord
     {
         $slug = $this->name;
         $slug = trim($slug);
+        $slug = str_replace(["я", "Я"], "ya", $slug);
+        $slug = str_replace(["ю", "Ю"], "yu", $slug);
+        $slug = str_replace(["ш", "Ш"], "sh", $slug);
+        $slug = str_replace(["щ", "Щ"], "sch", $slug);
+        $slug = str_replace(["ж", "Ж"], "zh", $slug);
+        $slug = str_replace(["ч", "Ч"], "ch", $slug);
         $slug = TransliteratorHelper::process($slug, '-', 'en');
         $slug = str_replace(["ʹ",'?','.',',','@','!','#','$','%','^','&','*','(',')','{','}','[',']','+',':',';','"',"'",'`','~','\\','/','|','№'], "", $slug);
         $slug = str_replace(" ", "-", $slug);

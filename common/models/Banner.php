@@ -27,6 +27,7 @@ class Banner extends ActiveRecord
     const REGION_BOTTOM           = 6;
     const REGION_TOP_THIRD_COLUMN = 7;
     const REGION_WRAPPER          = 8;
+    const REGION_UNDER_NEWS       = 9;
 
     /**
      * @inheritdoc
@@ -76,7 +77,7 @@ class Banner extends ActiveRecord
             'id' => 'ID',
             'name' => 'Название',
             'content' => 'Содержимое',
-            'size' => 'Размер',
+            'size' => 'Большой размер баннера',
             'region' => 'Регион',
             'weight' => 'Вес',
             'created_at' => 'Создано',
@@ -97,6 +98,7 @@ class Banner extends ActiveRecord
             self::REGION_BOTTOM           => self::getRegionHumanName(self::REGION_BOTTOM),
             self::REGION_TOP_THIRD_COLUMN => self::getRegionHumanName(self::REGION_TOP_THIRD_COLUMN),
             self::REGION_WRAPPER          => self::getRegionHumanName(self::REGION_WRAPPER),
+            self::REGION_UNDER_NEWS       => self::getRegionHumanName(self::REGION_UNDER_NEWS),
         ];
     }
 
@@ -114,6 +116,7 @@ class Banner extends ActiveRecord
             self::REGION_BOTTOM           => 'Нижний',
             self::REGION_TOP_THIRD_COLUMN => 'Верхний в третьей',
             self::REGION_WRAPPER          => 'Подложка',
+            self::REGION_UNDER_NEWS       => 'Под постом',
         ];
         return isset($regions[$id]) ? $regions[$id] : $regions[0];
     }

@@ -153,7 +153,7 @@ class Post extends ActiveRecord
     /**
      * After save and before delete update cache of blocks
      */
-    public function updateCacheBlocks() 
+    public function updateCacheBlocks($changedAttributes)
     {
         $newsPosts50 = Post::find()
             ->where(['is_public' => 1, 'content_category_id' => Post::CATEGORY_NEWS])
@@ -170,7 +170,10 @@ class Post extends ActiveRecord
 
         $cacheStatus = false;
 
-        if($this->content_category_id == self::CATEGORY_NEWS) // news posts
+        if(isset($changedAttributes['content_category_id']) &&
+            $changedAttributes['content_category_id'] == self::CATEGORY_NEWS &&
+            $this->content_category_id != self::CATEGORY_NEWS ||
+            $this->content_category_id == self::CATEGORY_NEWS) // news posts
         {
             $machineName = 'shortNews50';
             $enableBanners = false;
@@ -219,8 +222,9 @@ class Post extends ActiveRecord
             $cacheBlock->save();
         }
 
-//        if($this->is_index || $this->is_top) // Top3 and top6 news
-//        {
+        if(isset($changedAttributes['is_index']) && $this->is_index != $changedAttributes['is_index'] ||
+            isset($changedAttributes['is_top']) && $this->is_top != $changedAttributes['is_top'])
+        {
             $machineName = 'top3News';
             if(!isset($cacheBlocks[$machineName])){
                 $cacheBlock = new CacheBlock();
@@ -240,7 +244,7 @@ class Post extends ActiveRecord
             }
             $cacheBlock->content = SiteBlock::getTop6News($cacheStatus);
             $cacheBlock->save();
-//        }
+        }
 
         if($this->content_category_id == self::CATEGORY_BLOG) // blog posts
         {
@@ -280,6 +284,8 @@ class Post extends ActiveRecord
                     $this->source_url = $source->url;
                 }
             }
+            // slug
+            $this->slug = $this->genSlug($this->title);
             // content
 //            $pattern = '~<a .*href=".*" .*>(.*)</a>~U';
 //            $this->content = preg_replace($pattern, '$1', $this->content);
@@ -308,7 +314,7 @@ class Post extends ActiveRecord
      */
     public function afterSave($insert, $changedAttributes)
     {
-        $this->updateCacheBlocks();
+        $this->updateCacheBlocks($changedAttributes);
         return parent::afterSave($insert, $changedAttributes);
     }
 
@@ -520,6 +526,12 @@ class Post extends ActiveRecord
     public function genSlug($title)
     {
         $slug = trim($title);
+        $slug = str_replace(["я", "Я"], "ya", $slug);
+        $slug = str_replace(["ю", "Ю"], "yu", $slug);
+        $slug = str_replace(["ш", "Ш"], "sh", $slug);
+        $slug = str_replace(["щ", "Щ"], "sch", $slug);
+        $slug = str_replace(["ж", "Ж"], "zh", $slug);
+        $slug = str_replace(["ч", "Ч"], "ch", $slug);
         $slug = TransliteratorHelper::process($slug, '-', 'en');
         $slug = str_replace(["ʹ",'?','.',',','@','!','#','$','%','^','&','*','(',')','{','}','[',']','+',':',';','"',"'",'`','~','\\','/','|','№'], "", $slug);
         $slug = str_replace(" ", "-", $slug);

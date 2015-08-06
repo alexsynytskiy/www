@@ -141,10 +141,10 @@ body a:focus {
 .default-box .red-box-header .box-link .icon-arrow {
   float: right;
   background: url(/images/link_arrowsp2.svg) right 0 no-repeat;
-  background-size: 10px;
+  background-size: 10px 30px;
   width: 15px;
-  height: 14px;
-  margin-top: 8px;
+  height: 15px;
+  margin-top: 7px;
 }
 .default-box .red-box-header .box-link:hover {
   color: #f94351;
@@ -480,7 +480,6 @@ body a:focus {
   border-radius: 5px;
   box-shadow: 0 2px 0 #d0d0d0;
   background: #ffffff;
-  background-color: #ffffff;
   margin-bottom: 13px;
   padding: 5px;
   text-align: justify;
@@ -2898,7 +2897,7 @@ body a:focus {
 .videos-container .empty .red-box-header .box-link .icon-arrow {
   float: right;
   background: url(/images/link_arrowsp2.svg) right 0 no-repeat;
-  background-size: 10px;
+  background-size: 10px 30px;
   width: 15px;
   height: 14px;
   margin-top: 8px;

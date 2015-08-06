@@ -212,7 +212,7 @@ header .header-wrapper .header-top-part .navigation-bar .bottom-block .icon {
   height: 16px;
   width: 26px;
   background: url('/images/rules.svg') no-repeat 0 0;
-  background-size: 26px;
+  background-size: 26px 32px;
 }
 header .header-wrapper .header-top-part .navigation-bar .bottom-block:hover .rules {
   font-size: 14px;
@@ -235,32 +235,32 @@ header .header-wrapper .header-top-part .navigation-bar .social-buttons .button 
 header .header-wrapper .header-top-part .navigation-bar .social-buttons .youtube {
   background-image: url('/images/youhh.svg');
   background-repeat: no-repeat;
-  background-size: 36px;
+  background-size: 36px 76px;
 }
 header .header-wrapper .header-top-part .navigation-bar .social-buttons .vk {
   background-image: url('/images/vkhh.svg');
   background-repeat: no-repeat;
-  background-size: 36px;
+  background-size: 36px 76px;
 }
 header .header-wrapper .header-top-part .navigation-bar .social-buttons .twitter {
   background-image: url('/images/twhh.svg');
   background-repeat: no-repeat;
-  background-size: 36px;
+  background-size: 36px 76px;
 }
 header .header-wrapper .header-top-part .navigation-bar .social-buttons .fb {
   background-image: url('/images/fbhh.svg');
   background-repeat: no-repeat;
-  background-size: 36px;
+  background-size: 36px 76px;
 }
 header .header-wrapper .header-top-part .navigation-bar .social-buttons .rss {
   background-position: center top;
   background-image: url('/images/rsshh2.svg');
   background-repeat: no-repeat;
-  background-size: 36px;
+  background-size: 36px 76px;
 }
 header .header-wrapper .header-top-part .navigation-bar .social-buttons .button-hover {
   background-position: 0 100%;
-  background-size: 36px;
+  background-size: 36px 76px;
 }
 header .header-wrapper .menu {
   border-radius: 5px;
@@ -841,18 +841,18 @@ header .header-wrapper .breadcrumbs .tag:hover {
   width: 20px;
   left: 3px;
   background: url(/images/play_bttn_lefthh.svg) no-repeat;
-  background-size: 20px;
+  background-size: 20px 140px;
 }
 .grid-column .top-matches-slider .bx-controls-direction .bx-next {
   height: 70px;
   width: 20px;
   right: 3px;
   background: url(/images/play_bttn_righthh.svg) no-repeat;
-  background-size: 20px;
+  background-size: 20px 140px;
 }
 .grid-column .top-matches-slider .bx-controls-direction .bx-control-hover {
   background-position: 0 100%;
-  background-size: 20px;
+  background-size: 20px 140px;
 }
 .grid-column .top-matches-slider .bx-controls-direction a {
   top: 21px;
@@ -1259,6 +1259,7 @@ header .header-wrapper .breadcrumbs .tag:hover {
 }
 .grid-column .post-page .content iframe {
   display: block;
+  max-width: 595px;
   margin: 0 auto 10px;
 }
 .grid-column .post-page .content .quoation {
@@ -1747,16 +1748,15 @@ header .header-wrapper .breadcrumbs .tag:hover {
   margin-top: 3px;
   margin-left: 7px;
   background: url('/images/tv_sprite.svg') no-repeat;
-  background-size: 22px;
+  background-size: 22px 36px;
 }
 .grid-column .match-navigation .translation.active .icon {
   background: url('/images/tv_active.svg') no-repeat;
   background-size: 22px;
 }
 .grid-column .match-navigation .translation:hover:not(.active) .icon {
-  background: url('/images/tv_sprite.svg') no-repeat;
-  background-size: 22px;
-  background-position: 0 100%;
+  background: url('/images/tv_sprite.svg') 0 100% no-repeat;
+  background-size: 22px 36px;
 }
 .grid-column .match-navigation .protocol .icon {
   height: 18px;
@@ -1765,16 +1765,15 @@ header .header-wrapper .breadcrumbs .tag:hover {
   margin-top: 3px;
   margin-left: 7px;
   background: url('/images/protocol_sprite.svg') no-repeat;
-  background-size: 16px;
+  background-size: 16px 36px;
 }
 .grid-column .match-navigation .protocol.active .icon {
   background: url('/images/protocol_active.svg') no-repeat;
   background-size: 16px;
 }
 .grid-column .match-navigation .protocol:hover:not(.active) .icon {
-  background: url('/images/protocol_sprite.svg') no-repeat;
-  background-size: 16px;
-  background-position: 0 100%;
+  background: url('/images/protocol_sprite.svg') 0 100% no-repeat;
+  background-size: 16px 36px;
 }
 .grid-column .match-navigation .report .icon {
   height: 18px;
@@ -1783,16 +1782,15 @@ header .header-wrapper .breadcrumbs .tag:hover {
   margin-top: 3px;
   margin-left: 7px;
   background: url('/images/report_sprite.svg') no-repeat;
-  background-size: 16px;
+  background-size: 16px 36px;
 }
 .grid-column .match-navigation .report.active .icon {
   background: url('/images/report_active.svg') no-repeat;
   background-size: 16px;
 }
 .grid-column .match-navigation .report:hover:not(.active) .icon {
-  background: url('/images/report_sprite.svg') no-repeat;
-  background-size: 16px;
-  background-position: 0 100%;
+  background: url('/images/report_sprite.svg') 0 100% no-repeat;
+  background-size: 16px 36px;
 }
 .grid-column .match-navigation .other .icon {
   height: 18px;
@@ -1801,16 +1799,15 @@ header .header-wrapper .breadcrumbs .tag:hover {
   margin-top: 3px;
   margin-left: 7px;
   background: url('/images/materials_sprite.svg') no-repeat;
-  background-size: 16px;
+  background-size: 16px 36px;
 }
 .grid-column .match-navigation .other.active .icon {
   background: url('/images/materials_active.svg') no-repeat;
   background-size: 16px;
 }
 .grid-column .match-navigation .other:hover:not(.active) .icon {
-  background: url('/images/materials_sprite.svg') no-repeat;
-  background-size: 16px;
-  background-position: 0 100%;
+  background: url('/images/materials_sprite.svg') 0 100% no-repeat;
+  background-size: 16px 36px;
 }
 .grid-column .match-navigation .photo .icon {
   height: 18px;
@@ -1819,16 +1816,15 @@ header .header-wrapper .breadcrumbs .tag:hover {
   margin-top: 3px;
   margin-left: 7px;
   background: url('/images/photo_sprite.svg') no-repeat;
-  background-size: 22px;
+  background-size: 22px 36px;
 }
 .grid-column .match-navigation .photo.active .icon {
   background: url('/images/photo_active.svg') no-repeat;
   background-size: 22px;
 }
 .grid-column .match-navigation .photo:hover:not(.active) .icon {
-  background: url('/images/photo_sprite.svg') no-repeat;
-  background-size: 22px;
-  background-position: 0 100%;
+  background: url('/images/photo_sprite.svg') 0 100% no-repeat;
+  background-size: 22px 36px;
 }
 .grid-column .match-navigation .video {
   color: #cb181e;
@@ -1840,7 +1836,7 @@ header .header-wrapper .breadcrumbs .tag:hover {
   margin-top: 3px;
   margin-left: 7px;
   background: url('/images/video_sprite.svg') no-repeat;
-  background-size: 18px;
+  background-size: 18px 36px;
 }
 .grid-column .match-navigation .video.active {
   color: #fff;
@@ -1853,9 +1849,8 @@ header .header-wrapper .breadcrumbs .tag:hover {
   color: #f94351;
 }
 .grid-column .match-navigation .video:hover:not(.active) .icon {
-  background: url('/images/video_sprite.svg') no-repeat;
-  background-size: 18px;
-  background-position: 0 100%;
+  background: url('/images/video_sprite.svg') 0 100% no-repeat;
+  background-size: 18px 36px;
 }
 .grid-column .match-protocol {
   padding: 9px 5px;
@@ -2244,13 +2239,12 @@ header .header-wrapper .breadcrumbs .tag:hover {
   width: 16px;
   height: 18px;
   background: url('/images/materials_sprite.svg') no-repeat;
-  background-size: 16px;
+  background-size: 16px 36px;
   margin-left: 2px;
 }
 .grid-column .transfers tbody .more:hover {
-  background: url('/images/materials_sprite.svg') no-repeat;
-  background-size: 16px;
-  background-position: 0 100%;
+  background: url('/images/materials_sprite.svg') 0 100% no-repeat;
+  background-size: 16px 36px;
 }
 .grid-column .transfers tbody .rent-other-info {
   border-top: none;
@@ -2287,23 +2281,19 @@ header .header-wrapper .breadcrumbs .tag:hover {
   float: left;
 }
 .footer-wrapper .footer-bottom .block-top .rss {
-  background-image: url('/images/rsshh22.svg');
-  background-repeat: no-repeat;
-  background-size: 36px;
+  background: url('/images/rsshh22.svg') 0 0 no-repeat;
+  background-size: 36px 76px;
 }
 .footer-wrapper .footer-bottom .block-top .inform {
-  background-image: url('/images/inform_icon.svg');
-  background-repeat: no-repeat;
-  background-size: 36px;
+  background: url('/images/inform_icon.svg') 0 0 no-repeat;
+  background-size: 36px 76px;
 }
 .footer-wrapper .footer-bottom .block-top .contact {
-  background-image: url('/images/contacts_icon.svg');
-  background-repeat: no-repeat;
-  background-size: 36px;
+  background: url('/images/contacts_icon.svg') 0 0 no-repeat;
+  background-size: 36px 76px;
 }
 .footer-wrapper .footer-bottom .block-top .button-hover {
   background-position: 0 100%;
-  background-size: 36px;
 }
 .footer-wrapper .footer-bottom .block-top .text {
   line-height: 35px;

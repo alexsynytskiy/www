@@ -12,10 +12,6 @@ $(window).load(function() {
     // => Error page END
 
 
-    // => BxSlider START
-    // => BxSlider END
-
-
     // => Hover functions for matches slider on top of 2nd column at main page START
     $('.top-matches-slider .bx-prev, .top-matches-slider .bx-next').hover( function(){
        $(this).addClass("bx-control-hover");
@@ -140,58 +136,61 @@ $(window).load(function() {
     
 });
 
+// => BxSlider START
+$('.top-news-slider .slider').ready(function(){
+    $('.top-news-slider .slider').bxSlider({
+        slideWidth: 300,
+        preloadImages: 'all',
+        maxSlides: 1,
+        minSlides: 1,
+        slideMargin: 0,
+        auto: true,
+        speed: 1000,
+        pause: 10000
+    });
+});
+$('.top-matches-slider ul').ready(function() {
+    $('.top-matches-slider ul').bxSlider({
+        slideWidth: 300,
+        slideHeight: 80,
+        preloadImages: 'all',
+        maxSlides: 1,
+        minSlides: 1,
+        slideMargin: 0,
+        infiniteLoop: false,
+        startSlide: 4
+    });
+});
+
+$('.video-report .video-list').ready(function() {
+    $('.video-report .video-list').bxSlider({
+        slideWidth: 290,
+        preloadImages: 'all',
+        maxSlides: 1,
+        minSlides: 1,
+        slideMargin: 0
+    });
+});
+
+$('.photo-report .photo-list').ready(function() {
+    $('.photo-report .photo-list').bxSlider({
+        slideWidth: 290,
+        preloadImages: 'all',
+        maxSlides: 1,
+        minSlides: 1,
+        slideMargin: 0
+    });
+});
+// => BxSlider END
+
 $(document).ready(function() {
 
     // => PreLoading page animation turn off START
     $("#loading").delay(1000).fadeOut(500);
     // => PreLoading page animation turn off END
 
+
     // => BxSlider START
-    $('.top-news-slider .slider').ready(function(){
-        $('.top-news-slider .slider').bxSlider({
-            slideWidth: 300,
-            preloadImages: 'all',
-            maxSlides: 1,
-            minSlides: 1,
-            slideMargin: 0,
-            auto: true,
-            speed: 1000,
-            pause: 6000
-        });
-    });
-    $('.top-matches-slider ul').ready(function() {
-        $('.top-matches-slider ul').bxSlider({
-            slideWidth: 300,
-            slideHeight: 80,
-            preloadImages: 'all',
-            maxSlides: 1,
-            minSlides: 1,
-            slideMargin: 0,
-            infiniteLoop: false,
-            startSlide: 4
-        });
-    });
-
-    $('.video-report .video-list').ready(function() {
-        $('.video-report .video-list').bxSlider({
-            slideWidth: 290,
-            preloadImages: 'all',
-            maxSlides: 1,
-            minSlides: 1,
-            slideMargin: 0
-        });
-    });
-
-    $('.photo-report .photo-list').ready(function() {
-        $('.photo-report .photo-list').bxSlider({
-            slideWidth: 290,
-            preloadImages: 'all',
-            maxSlides: 1,
-            minSlides: 1,
-            slideMargin: 0
-        });
-    });
-
     $('#album-slider').ready(function() {
         var albumPagerSettings = {
             slideWidth: 90,
