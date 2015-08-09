@@ -155,7 +155,7 @@ class SiteController extends Controller
             ]);
         } elseif(isset($q) && trim($q) != '') {
             $search = addslashes($q);
-            $query->andWhere("MATCH (content) AGAINST ('$search')");
+            $query->andWhere(['or', "MATCH (content) AGAINST ('$search')",['like', 'title', $q]]);
         }
         $query->orderBy(["$postTable.created_at" => SORT_DESC]);
 
