@@ -103,7 +103,7 @@ class SiteController extends Controller
     {
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col3',
-            'title' => '"Dynamomania.com" - сайт для болельщиков "Динамо" Киев',
+            'title' => 'Dynamomania.com. Сайт болельщиков Динамо Киев',
             'columnFirst' => [
                 'top3News' => SiteBlock::getTop3News(),
                 'top6News' => SiteBlock::getTop6News(),
@@ -171,7 +171,7 @@ class SiteController extends Controller
 
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
-            'title' => '"Dynamomania.com" | Поиск по сайту',
+            'title' => 'Dynamomania.com | Поиск по сайту',
             'columnFirst' => [
                 'news' => [
                     'view' => '@frontend/views/search/search_posts',
@@ -224,7 +224,7 @@ class SiteController extends Controller
 
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
-            'title' => '"Dynamomania.com" | Новости',
+            'title' => 'Dynamomania.com | Новости',
             'columnFirst' => [
                 'calendar' => [
                     'view' => '@frontend/views/site/news_calendar',
@@ -257,7 +257,7 @@ class SiteController extends Controller
 
         $options = [
             'templateType' => 'col2',
-            'title' => '"Dynamomania.com" | '.$post->title,
+            'title' => 'Dynamomania.com | '.$post->title,
             'columnFirst' => [
                 'post' => [
                     'view' => '@frontend/views/site/post',
@@ -394,7 +394,7 @@ class SiteController extends Controller
         
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
-            'title' => '"Dynamomania.com" | Матчи',
+            'title' => 'Dynamomania.com | Матчи',
             'columnFirst' => [
                 'matches' => [
                     'view' => '@frontend/views/site/matches',
@@ -492,7 +492,7 @@ class SiteController extends Controller
 
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
-            'title' => '"Dynamomania.com" | Трансферы',
+            'title' => 'Dynamomania.com | Трансферы',
             'columnFirst' => [
                 'transfers' => [
                     'view' => '@frontend/views/transfers/transfers',
@@ -521,7 +521,7 @@ class SiteController extends Controller
 
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
-            'title' => '"Dynamomania.com" | Трансферы | '.$transfer->player->name,
+            'title' => 'Dynamomania.com | Трансферы | '.$transfer->player->name,
             'columnFirst' => [
                 'transfers' => [
                     'view' => '@frontend/views/transfers/transfer_single',
@@ -626,7 +626,7 @@ class SiteController extends Controller
 
         $options = [
             'templateType' => 'col2',
-            'title' => '"Dynamomania.com" | Турнирная таблица',
+            'title' => 'Dynamomania.com | Турнирная таблица',
             'columnFirst' => [
                 'tournament' => [
                     'view' => '@frontend/views/tournament/tournament_full',
@@ -723,7 +723,7 @@ class SiteController extends Controller
 
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
-            'title' => '"Dynamomania.com" | '. $title,
+            'title' => 'Dynamomania.com | '. $title,
             'columnFirst' => $columnFirst,
             'columnSecond' => [ 
                 'tournament' => SiteBlock::getTournamentTable(),
@@ -749,7 +749,7 @@ class SiteController extends Controller
 
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
-            'title' => '"Dynamomania.com" | '.$title,
+            'title' => 'Dynamomania.com | '.$title,
             'columnFirst' => [
                 'allTags' => [
                     'view' => '@frontend/views/site/tags',
@@ -801,7 +801,7 @@ class SiteController extends Controller
 
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
-            'title' => '"Dynamomania.com" | '.$title,
+            'title' => 'Dynamomania.com | '.$title,
             'columnFirst' => [
                 'menu' => [
                     'view' => '@frontend/views/translation/menu',
@@ -858,7 +858,7 @@ class SiteController extends Controller
 
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
-            'title' => '"Dynamomania.com" | '.$title,
+            'title' => 'Dynamomania.com | '.$title,
             'columnFirst' => [
                 'menu' => [
                     'view' => '@frontend/views/translation/menu',
@@ -904,7 +904,7 @@ class SiteController extends Controller
         
         $options = [
             'templateType' => 'col2',
-            'title' => '"Dynamomania.com" | Отчет по матчу: '.$match->name,
+            'title' => 'Dynamomania.com | Отчет по матчу: '.$match->name,
             'columnFirst' => [
                 'menu' => [
                     'view' => '@frontend/views/translation/menu',
@@ -1038,7 +1038,7 @@ class SiteController extends Controller
 
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
-            'title' => '"Dynamomania.com" | '.$title,
+            'title' => 'Dynamomania.com | '.$title,
             'columnFirst' => $columnData,
             'columnSecond' => [ 
                 'short_news' => SiteBlock::getShortNews(20),
@@ -1082,7 +1082,7 @@ class SiteController extends Controller
 
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
-            'title' => '"Dynamomania.com" | '.$title,
+            'title' => 'Dynamomania.com | '.$title,
             'columnFirst' => [
                 'menu' => [
                     'view' => '@frontend/views/translation/menu',
@@ -1120,7 +1120,7 @@ class SiteController extends Controller
 
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
-            'title' => '"Dynamomania.com" | Все опросы',
+            'title' => 'Dynamomania.com | Все опросы',
             'columnFirst' => [
                 'inquirers' => [
                     'view' => '@frontend/views/site/inquirers',
@@ -1147,7 +1147,7 @@ class SiteController extends Controller
 
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
-            'title' => '"Dynamomania.com" | Опрос',
+            'title' => 'Dynamomania.com | Опрос',
             'columnFirst' => [
                 'inquierer' => SiteBlock::getQuestionBlockTitle(false, $id),
                 'comments' => Comment::getCommentsBlock($id, Comment::COMMENTABLE_INQUIRER),
@@ -1176,7 +1176,7 @@ class SiteController extends Controller
 
         $options = [
             'templateType' => 'col2',
-            'title' => '"Dynamomania.com" | '.$player->name,
+            'title' => 'Dynamomania.com | '.$player->name,
             'columnFirst' => [
                 'post' => [
                     'view' => '@frontend/views/site/team_member',
@@ -1211,7 +1211,7 @@ class SiteController extends Controller
 
         $options = [
             'templateType' => 'col2',
-            'title' => '"Dynamomania.com" | '.$coach->name,
+            'title' => 'Dynamomania.com | '.$coach->name,
             'columnFirst' => [
                 'post' => [
                     'view' => '@frontend/views/site/coach',
@@ -1266,7 +1266,7 @@ class SiteController extends Controller
 
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
-            'title' => '"Dynamomania.com" | Жалоба на комментарий',
+            'title' => 'Dynamomania.com | Жалоба на комментарий',
             'columnFirst' => [
                 'claim' => [
                     'view' => '@frontend/views/forms/complain_form',
@@ -1363,7 +1363,7 @@ class SiteController extends Controller
 
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
-            'title' => '"Dynamomania.com" | '.$team->name,
+            'title' => 'Dynamomania.com | '.$team->name,
             'columnFirst' => [
                 'navbar' => [
                     'view' => '@frontend/views/team/menu',
@@ -1457,7 +1457,7 @@ class SiteController extends Controller
         $title = 'Добавить запись в блог';
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
-            'title' => '"Dynamomania.com" | '.$title,
+            'title' => 'Dynamomania.com | '.$title,
             'columnFirst' => [
                 'blog_form' => [
                     'view' => '@frontend/views/forms/blog_form',
@@ -1565,7 +1565,7 @@ class SiteController extends Controller
         $title = 'Изменить запись в блоге';
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
-            'title' => '"Dynamomania.com" | '.$title,
+            'title' => 'Dynamomania.com | '.$title,
             'columnFirst' => [
                 'blog_form' => [
                     'view' => '@frontend/views/forms/blog_form',
@@ -1604,7 +1604,7 @@ class SiteController extends Controller
 
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
-            'title' => '"Dynamomania.com" | Блоги',
+            'title' => 'Dynamomania.com | Блоги',
             'columnFirst' => [
                 'user_comments' => SiteBlock::getUserComments($id),
                 'content' => [
@@ -1627,7 +1627,7 @@ class SiteController extends Controller
     {
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
-            'title' => '"Dynamomania.com" | Информация о сайте',
+            'title' => 'Dynamomania.com | Информация о сайте',
             'columnFirst' => [
                 'content' => [
                     'view' => '@frontend/views/site/information',
@@ -1647,7 +1647,7 @@ class SiteController extends Controller
     {
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
-            'title' => '"Dynamomania.com" | Контакты',
+            'title' => 'Dynamomania.com | Контакты',
             'columnFirst' => [
                 'content' => [
                     'view' => '@frontend/views/site/contacts',
@@ -1667,7 +1667,7 @@ class SiteController extends Controller
     {
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
-            'title' => '"Dynamomania.com" | Правила форума',
+            'title' => 'Dynamomania.com | Правила форума',
             'columnFirst' => [
                 'content' => [
                     'view' => '@frontend/views/site/forum_rules',
@@ -1700,7 +1700,7 @@ class SiteController extends Controller
 
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
-            'title' => '"Dynamomania.com" | Фото',
+            'title' => 'Dynamomania.com | Фото',
             'columnFirst' => [
                 'content' => [
                     'view' => '@frontend/views/site/photos',
@@ -1734,7 +1734,7 @@ class SiteController extends Controller
 
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
-            'title' => '"Dynamomania.com" | Видео',
+            'title' => 'Dynamomania.com | Видео',
             'columnFirst' => [
                 'content' => [
                     'view' => '@frontend/views/site/videos',
@@ -1770,7 +1770,7 @@ class SiteController extends Controller
 
         $options = [
             'templateType' => 'col2',
-            'title' => '"Dynamomania.com" | Видео: '.$videoPost->title,
+            'title' => 'Dynamomania.com | Видео: '.$videoPost->title,
             'columnFirst' => [
                 'content' => [
                     'view' => '@frontend/views/site/video_post',
@@ -1867,7 +1867,7 @@ class SiteController extends Controller
 
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
-            'title' => '"Dynamomania.com" | Фотоальбом: '.$album->title,
+            'title' => 'Dynamomania.com | Фотоальбом: '.$album->title,
             'columnFirst' => [
                 'content' => [
                     'view' => '@frontend/views/site/album',
@@ -1974,7 +1974,7 @@ class SiteController extends Controller
 
         return $this->render('@frontend/views/site/index', [
             'templateType' => 'col2',
-            'title' => '"Dynamomania.com" | Фотоальбом: '.$album->title,
+            'title' => 'Dynamomania.com | Фотоальбом: '.$album->title,
             'columnFirst' => [
                 'content' => [
                     'view' => '@frontend/views/site/photo_single',

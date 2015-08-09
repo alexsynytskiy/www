@@ -71,14 +71,6 @@ AppAsset::register($this);
     </script>
 
     <script type='text/javascript'>
-        googletag.cmd.push(function() {
-            googletag.defineSlot('/2462685/729x90', [728, 90], 'div-gpt-ad-1354456526767-0').addService(googletag.pubads());
-            googletag.pubads().enableSingleRequest();
-            googletag.enableServices();
-        });
-    </script>
-
-    <script type='text/javascript'>
         var googletag = googletag || {};
         googletag.cmd = googletag.cmd || [];
         (function() {
@@ -94,14 +86,6 @@ AppAsset::register($this);
     </script>
 
     <script type='text/javascript'>
-        googletag.cmd.push(function() {
-            googletag.defineSlot('/2462685/728х90', [728, 90], 'div-gpt-ad-1354459088111-0').addService(googletag.pubads());
-            googletag.pubads().enableSingleRequest();
-            googletag.enableServices();
-        });
-    </script>
-
-    <script type='text/javascript'>
         var googletag = googletag || {};
         googletag.cmd = googletag.cmd || [];
         (function() {
@@ -114,14 +98,6 @@ AppAsset::register($this);
             var node = document.getElementsByTagName('script')[0];
             node.parentNode.insertBefore(gads, node);
         })();
-    </script>
-
-    <script type='text/javascript'>
-        googletag.cmd.push(function() {
-            googletag.defineSlot('/2462685/240х400', [240, 400], 'div-gpt-ad-1354462191958-0').addService(googletag.pubads());
-            googletag.pubads().enableSingleRequest();
-            googletag.enableServices();
-        });
     </script>
 
     <script type='text/javascript'>
@@ -131,12 +107,6 @@ AppAsset::register($this);
                 '//www.googletagservices.com/tag/js/gpt_mobile.js';
             document.write('<scr' + 'ipt src="' + src + '"></scr' + 'ipt>');
         })();
-    </script>
-    <script type='text/javascript'>
-        googletag.cmd.push(function() {
-            googletag.defineSlot('/2462685/mob', [320, 50], 'div-gpt-ad-1355851289158-0').addService(googletag.pubads());
-            googletag.enableServices();
-        });
     </script>
 
     <!--Блок подключения библиотеки скриптов Admixer-->
