@@ -942,7 +942,6 @@ body a:focus {
 .comment .comment-user {
   float: left;
   height: 50px;
-  width: 300px;
 }
 .comment .comment-user .user-photo {
   float: left;
@@ -1726,9 +1725,9 @@ body a:focus {
 }
 .first-team .team .player .goal-event {
   float: left;
-  width: 25px;
+  width: 16px;
   height: 14px;
-  margin: 3px 5px 0 0;
+  margin: 3px 3px 0 0;
   background: url(/images/goul.svg) center no-repeat;
   background-size: 25px;
 }

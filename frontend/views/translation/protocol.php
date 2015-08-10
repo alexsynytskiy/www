@@ -114,6 +114,11 @@ function renderStatistics($homeValue, $visitorsValue, $t) {
         $visitors_width = ($width / $average) * $visitors_value;
     }
 
+    if($title == "Владение мячом") {
+        $house_value = $house_value."%";
+        $visitors_value = $visitors_value."%";
+    }
+
     $finalBlockStatistics .= '<div class="parameter">
         <div class="header">
             <div class="house-value">'.$house_value.'</div>

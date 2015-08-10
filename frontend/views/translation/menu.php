@@ -30,7 +30,7 @@ $tab = Yii::$app->controller->action->id;
     </a>
     <a href="<?= Url::to('/match/'.$match->id.'/news') ?>">
         <div class="button other <?= $tab == 'match-news' ? 'active' : '' ?>">
-            Новости и Статьи
+            После матча
             <div class="icon"></div>
         </div>
     </a>
