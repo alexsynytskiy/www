@@ -38,7 +38,7 @@ if(Yii::$app->user->can('admin')) {
           <div class="answer-label"><?= $answer->title ?></div>
           <div class="answer-stat">
               <div class="stat-bar" style="width: <?= $percent ?>%">
-                  <div class="stat-value"><?= round($answer->mark, 2) ?></div>
+                  <div class="stat-value"><?= number_format($answer->mark, 2) ?></div>
               </div>
           </div>
       <?php } ?>

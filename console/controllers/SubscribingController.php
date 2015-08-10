@@ -52,16 +52,12 @@ class SubscribingController extends Controller {
                 continue;
             }
             $unsubscribeKey = md5($subscribing->id.$subscribing->email);
-            $send = Yii::$app->mailer->compose('subscribe-view-html', compact('posts', 'unsubscribeKey'))
-                ->setFrom(['no-reply@dynamomania.com' => 'Dynamomania.com'])
+            $message = Yii::$app->mailer->compose('subscribe-view-html', compact('posts', 'unsubscribeKey'))
                 ->setTo($subscribing->email)
-                ->setSubject('Новости Динамо')
-                ->send();
+                ->setSubject('Новости Динамо');
+            $send = $message->send();
             if($send) $count++;
         }
-        $model = new Subscribing();
-        $model->email = "olgert".time()."@gmail.com";
-        $model->save();
         echo "Posted $count letters. \n";
         echo "Sending letters to subscribers end.\n";
     }
