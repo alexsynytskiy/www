@@ -367,12 +367,12 @@ header .header-wrapper .breadcrumbs .tag {
   float: left;
   line-height: 30px;
   margin-left: 20px;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: normal;
   color: #1972c4;
 }
 header .header-wrapper .breadcrumbs .tag:hover {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: normal;
   color: #0090e8;
 }
@@ -770,7 +770,7 @@ header .header-wrapper .breadcrumbs .tag:hover {
   float: left;
   line-height: 18px;
   font-size: 12px;
-  font-weight: normal;
+  font-weight: bold;
   color: #727272;
 }
 .grid-column .top-matches-slider ul li .main-part .team .goals {

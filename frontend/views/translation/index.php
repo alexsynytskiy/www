@@ -75,7 +75,9 @@ if(count($matchEvents) > 0) {
                             <?php } ?>
                             <div class="minute"><?= $event->getTime() ?></div>
                         </div>
-                        <div class="text <?= $event->match_event_type_id == $event::GOAL ? 'goal' : '' ?>">
+                        <div class="text <?php if($event->match_event_type_id == $event::GOAL || $event->match_event_type_id == $event::AUTOGOAL) {
+                                                echo 'goal';
+                                                } ?>">
                             <?= $event->notes ?>
                         </div>
                     <div class="clearfix"></div>
