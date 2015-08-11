@@ -388,7 +388,7 @@ class Comment extends ActiveRecord
         { 
             foreach ($comments[$parent_id] as $comment) 
             {
-
+                if(is_null($comment->user)) continue;
                 $username = $comment->user->getDisplayName();
                 $avatar = $comment->user->getAsset();
                 $imageUrl = $avatar->getFileUrl();
