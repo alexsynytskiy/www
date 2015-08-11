@@ -1256,7 +1256,7 @@ class SiteController extends Controller
         if(!isset($claim->id)) {
             $claim = new Claim();
             $claim->comment_id = $comment->id;
-            $claim->comment_author = $comment->user->id;
+            $claim->comment_author = $comment->user_id;
             $claim->user_id = Yii::$app->user->id;
         }
 

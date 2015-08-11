@@ -38,7 +38,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Автор',
                 'options' => ['width' => '120'],
                 'value' => function($model) {
-                    return Html::a($model->user->username, ['module/user/admin/view/'.$model->user_id]);
+                    if(isset($model->user)) {
+                        return Html::a($model->user->username, ['module/user/admin/view/' . $model->user_id]);
+                    } else {
+                        return 'Пользователь удален';
+                    }
                 },
                 'format' => 'html',
             ],

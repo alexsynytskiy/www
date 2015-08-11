@@ -388,10 +388,18 @@ class Comment extends ActiveRecord
         { 
             foreach ($comments[$parent_id] as $comment) 
             {
-                if(is_null($comment->user)) continue;
-                $username = $comment->user->getDisplayName();
-                $avatar = $comment->user->getAsset();
-                $imageUrl = $avatar->getFileUrl();
+                if(is_null($comment->user)) {
+                    $username = 'Аноним';
+                    $avatar = new Asset();
+                    $avatar->assetable_type = Asset::ASSETABLE_USER;
+                    $imageUrl = $avatar->getDefaultFileUrl();
+                    $userUrl = false;
+                } else {
+                    $username = $comment->user->getDisplayName();
+                    $avatar = $comment->user->getAsset();
+                    $imageUrl = $avatar->getFileUrl();
+                    $userUrl = $comment->user->getUrl();
+                }
 
                 $commentDate = Yii::$app->formatter->asDate(strtotime($comment->created_at), 'd MMMM Y HH:mm');
 
@@ -404,7 +412,7 @@ class Comment extends ActiveRecord
                 $rating = $comment->getRating();
                 $ratingUpClass = '';
                 $ratingDownClass = '';
-                if(!Yii::$app->user->isGuest && Yii::$app->user->id != $comment->user->id)
+                if(!Yii::$app->user->isGuest && Yii::$app->user->id != $comment->user_id)
                 {
                     $userRating = $comment->getUserVote();
                     if($userRating == 1) {
@@ -420,7 +428,7 @@ class Comment extends ActiveRecord
 
                 if($parent_id == 0 && $options->postID && $comment->getCommentableType() == Comment::COMMENTABLE_POST) 
                 {
-                    $post = \common\models\Post::findOne($comment->commentable_id);
+                    $post = Post::findOne($comment->commentable_id);
                     if (isset($post->id) && $post->id !== $options->postID)
                     {
                         $options->postID = $post->id; 
@@ -446,15 +454,24 @@ class Comment extends ActiveRecord
                     data-commentable-id="<?= $comment->commentable_id ?>" >
                     <div class="comment-user">
                         <div class="user-photo">
-                            <a href="<?= $comment->user->getUrl() ?>" data-pjax="0">
+                            <?php if($userUrl) { ?>
+                                <a href="<?= $userUrl ?>" data-pjax="0">
+                            <?php } ?>
                                 <img src="<?= $imageUrl ?>">
-                            </a>
+                            <?php if($userUrl) { ?>
+                                </a>
+                            <?php } ?>
+
                         </div>
                         <div class="user-info">
                             <div class="user-name">
-                                <a href="<?= $comment->user->getUrl() ?>" data-pjax="0">
+                                <?php if($userUrl) { ?>
+                                    <a href="<?= $userUrl ?>" data-pjax="0">
+                                <?php } ?>
                                     <?= $username ?>
-                                </a>
+                                <?php if($userUrl) { ?>
+                                    </a>
+                                <?php } ?>
                             </div>
                             <div class="post-time"><?= $commentDate ?></div>
                         </div>
