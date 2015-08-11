@@ -1260,7 +1260,7 @@ header .header-wrapper .breadcrumbs .tag:hover {
 .grid-column .post-page .content iframe {
   display: block;
   max-width: 595px;
-  margin: 0 auto 10px;
+  margin: 0 auto 10px !important;
 }
 .grid-column .post-page .content .quoation {
   display: block;
