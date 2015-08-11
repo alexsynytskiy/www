@@ -1230,7 +1230,6 @@ class SiteController extends Controller
 
     /**
      * Claim page
-     * 
      * @param int $id Comment id
      * @return mixed
      */
@@ -2024,11 +2023,18 @@ class SiteController extends Controller
         $items = [];
         foreach ($posts as $post) {
             $content = $post->getShortContent(500, 700);
+            $authorName = isset($post->user) ? $post->user->getDisplayName() : false;
+            $image = $post->getAsset(Asset::THUMBNAIL_CONTENT);
+            $enclosureUrl = file_exists($image->getFilePath()) ? $image->getFileUrl() : false;
+            $enclosureType = $enclosureUrl ? image_type_to_mime_type(exif_imagetype($image->getFilePath())) : false;
             $item = [
                 'title' => htmlspecialchars($post->title),
                 'link' => $post->url,
                 'description' => htmlspecialchars($content),
                 'pubDate' => date('r', strtotime($post->created_at)),
+                'authorName' => $authorName,
+                'enclosureUrl' => $enclosureUrl,
+                'enclosureType' => $enclosureType,
             ];
             $items[] = (object) $item;
         }
@@ -2052,39 +2058,79 @@ class SiteController extends Controller
         $headers = Yii::$app->response->headers;
         $headers->add('Content-Type', 'application/rss+xml; charset=utf-8');
 
-        $events = MatchEvent::find()
-            ->where(['not', ['is_hidden' => 1]])
-            ->orderBy(['created_at' => SORT_DESC])
-            ->limit(50)
+        $matches = Match::find()
+            ->innerJoinWith('matchEvents')
+            ->orderBy(['date' => SORT_DESC])
+            ->groupBy(Match::tableName().'.id')
+            ->limit(10)
             ->all();
-        $items = [];
-        foreach ($events as $event) {
-            $content = strip_tags($event->notes,"<a><p><br>");
-            $title = $event->match->name;
-            if(isset($event->matchEventType)) {
-                $title .= ' - '.$event->matchEventType->name;
+
+        $translations = [];
+        $yandexSportAPI = file_get_contents("http://api.sport.yandex.ru/public/events.xml");
+        foreach ($matches as $match) {
+            $events = MatchEvent::find()
+                ->where(['not', ['is_hidden' => 1]])
+                ->andWhere(['match_id' => $match->id])
+                ->orderBy(['created_at' => SORT_DESC])
+                ->all();
+            // yandexTeamId Dynamo 78662
+            // competition_id Y 1999 D 2 Ukrainian Premier League
+            // competition_id = 2004 D 12 UPL Supercup 2015
+            // competition_id = 1998 D 5 UEFA Champions League
+            // competition_id = 000000021099 D 20 European Championship Qualification
+
+            if($match->championship_id == 2) {
+                $competition = 1999;
+            } elseif($match->championship_id == 12) {
+                $competition = 2004;
+            } elseif($match->championship_id == 5) {
+                $competition = 1998;
+            } elseif($match->championship_id == 20) {
+                $competition = '000000021099';
+            } else {
+                $competition = 0;
             }
-            $item = [
-                'title' => htmlspecialchars($title),
-                'link' => \yii\helpers\Url::to('/match/'.$event->match_id),
-                'description' => htmlspecialchars($content),
-                'pubDate' => date('r', strtotime($event->created_at)),
+            if(!$competition) continue;
+
+            $matches = [];
+            $matchDate = date('Y-m-d', strtotime($match->date));
+            $pattern = "@<event.*competition=\"$competition\".*id=\"(.*)\".*start_date=\"$matchDate.*/>@U";
+            preg_match($pattern, $yandexSportAPI, $matches);
+            $eventID = count($matches) && isset($matches[1]) ? $matches[1] : 0;
+
+            $translation = [
+                'link' => \yii\helpers\Url::to('/match/'.$match->id),
+                'id' => $match->id,
+                'competition_id' => $competition,
+                'event_id' => $eventID,
+                'comments' => [],
             ];
-            $items[] = (object) $item;
+            $minute = 0;
+            $comments = [];
+            foreach ($events as $event) {
+                $minute = $event->minute ? $event->minute : $minute;
+                $comment = [
+                    'id' => $event->id,
+                    'time' => $minute,
+                    'text' => strip_tags($event->notes,"<a><p><br>"),
+                ];
+                $comments[] = (object) $comment;
+            }
+            $translation['comments'] = $comments;
+            $translations[] = (object) $translation;
         }
-        $title = 'Динамомания: Трансляция';
-        $description = 'Лента последних событий';
-        return $this->renderPartial('@frontend/views/site/rss', compact(
-                'title',
-                'description',
-                'items'
+
+        return $this->renderPartial('@frontend/views/site/translation_rss', compact(
+                'translations'
             )
         );
     }
 
     /**
      * Rss output of last news
-     * @return mixed 
+     * @param $kind
+     * @return string
+     * @throws NotFoundHttpException
      */
     public function actionSocialRss($kind)
     {
@@ -2109,17 +2155,28 @@ class SiteController extends Controller
         $items = [];
         foreach ($posts as $post) {
             $content = $post->getShortContent(500, 700);
+            $fulltext = strip_tags($post->content,'<p><a><br>');
+            $authorName = isset($post->user) ? $post->user->getDisplayName() : false;
+            $image = $post->getAsset(Asset::THUMBNAIL_CONTENT);
+            $enclosureUrl = file_exists($image->getFilePath()) ? $image->getFileUrl() : false;
+            $enclosureType = $enclosureUrl ? image_type_to_mime_type(exif_imagetype($image->getFilePath())) : false;
             $item = [
                 'title' => htmlspecialchars($post->title),
                 'link' => $post->url,
                 'description' => htmlspecialchars($content),
+                'fulltext' => htmlspecialchars($fulltext),
                 'pubDate' => date('r', strtotime($post->created_at)),
+                'authorName' => $authorName,
+                'enclosureUrl' => $enclosureUrl,
+                'enclosureType' => $enclosureType,
             ];
             $items[] = (object) $item;
         }
         $title = 'Динамомания: Новости';
         $description = 'Лента последних новостей';
-        return $this->renderPartial('@frontend/views/site/rss', compact(
+        if($kind == 'is_yandex_rss') $view = '@frontend/views/site/yandex_rss';
+        else $view = '@frontend/views/site/rss';
+        return $this->renderPartial($view, compact(
                 'title',
                 'description',
                 'items'

@@ -19,6 +19,12 @@ echo '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL;
       <title><?= $item->title ?></title>
       <link><?= $baseUrl.$item->link ?></link>
       <description><?= $item->description ?></description>
+      <?php if($item->authorName) { ?>
+        <author><?= $item->authorName ?></author>
+      <?php } ?>
+      <?php if($item->enclosureUrl && $item->enclosureType) { ?>
+        <enclosure url="<?= $item->enclosureUrl ?>" type="<?= $item->enclosureType ?>"/>
+      <?php } ?>
       <pubDate><?= $item->pubDate ?></pubDate>
     </item>
   <?php } ?>
