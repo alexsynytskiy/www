@@ -1,6 +1,4 @@
 <?php
-use yii\helpers\Url;
-
 /**
  * @var $this yii\web\View
  * @var $model common\models\VideoPost
@@ -11,7 +9,7 @@ $imageUrl = $image->getFileUrl();
 
 $adminLink = '';
 if(Yii::$app->user->can('admin')) {
-  $adminLink = '<a class="admin-view-link" target="_blank" href="/admin/video-post/'.$model->id.'"></a>';
+  $adminLink = '<a class="admin-view-link" target="_blank" href="/admin/video-post/update?id='.$model->id.'"></a>';
 } 
 ?>
 

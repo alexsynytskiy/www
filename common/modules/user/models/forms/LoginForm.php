@@ -68,21 +68,28 @@ class LoginForm extends Model
     {
         // check for ban status
         $user = $this->getUser();
-        if ($user->ban_time) {
-            $this->addError("username", Yii::t("user", "User is banned - {banReason}", [
+        if ($user->ban_time || $user->status == $user::STATUS_INACTIVE || $user->status == $user::STATUS_BANNED_FOREVER) {
+            $message = "Пользователь забанен";
+            $message .= $user->ban_reason != '' ? " - {banReason}" : '';
+            $this->addError("username", Yii::t("user", $message, [
                 "banReason" => $user->ban_reason,
+            ]));
+        }
+        if ($user::hasBannedIP()) {
+            $message = "Ваш IP забанен";
+            $this->addError("username", Yii::t("user", $message, [
+                "banReason" => $message,
             ]));
         }
 
         // check status and resend email if inactive
-        if ($user->status == $user::STATUS_INACTIVE) {
-
-            /** @var \common\modules\user\models\UserKey $userKey */
-            $userKey = Yii::$app->getModule("user")->model("UserKey");
-            $userKey = $userKey::generate($user->id, $userKey::TYPE_EMAIL_ACTIVATE);
-            $user->sendEmailConfirmation($userKey);
-            $this->addError("username", Yii::t("user", "Confirmation email resent"));
-        }
+//        if ($user->status == $user::STATUS_INACTIVE) {
+//            /** @var \common\modules\user\models\UserKey $userKey */
+//            $userKey = Yii::$app->getModule("user")->model("UserKey");
+//            $userKey = $userKey::generate($user->id, $userKey::TYPE_EMAIL_ACTIVATE);
+//            $user->sendEmailConfirmation($userKey);
+//            $this->addError("username", Yii::t("user", "Confirmation email resent"));
+//        }
     }
 
     /**

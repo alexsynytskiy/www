@@ -8,9 +8,7 @@ use yii\helpers\Url;
 use yii\web\IdentityInterface;
 use yii\swiftmailer\Mailer;
 use yii\swiftmailer\Message;
-use yii\helpers\Inflector;
 use common\models\Asset;
-use ReflectionClass;
 
 /**
  * This is the model class for table "tbl_user".
@@ -59,6 +57,11 @@ class User extends ActiveRecord implements IdentityInterface
      * @var int Unconfirmed email status
      */
     const STATUS_UNCONFIRMED_EMAIL = 2;
+
+    /**
+     * @var int Unconfirmed email status
+     */
+    const STATUS_BANNED_FOREVER = 3;
 
     /**
      * @var int Key for hashing password
@@ -329,6 +332,10 @@ class User extends ActiveRecord implements IdentityInterface
             }
         }
 
+        if($this->status == self::STATUS_BANNED_FOREVER) {
+            $this->ban_time = true;
+        }
+
         // convert ban_time checkbox to date
         if ($this->ban_time) {
             $this->ban_time = date("Y-m-d H:i:s", time() + 60*60*24*7);
@@ -561,6 +568,7 @@ class User extends ActiveRecord implements IdentityInterface
             $dropdown[self::STATUS_ACTIVE] = self::statusHumanName(self::STATUS_ACTIVE);
             $dropdown[self::STATUS_INACTIVE] = self::statusHumanName(self::STATUS_INACTIVE);
             $dropdown[self::STATUS_UNCONFIRMED_EMAIL] = self::statusHumanName(self::STATUS_UNCONFIRMED_EMAIL);
+            $dropdown[self::STATUS_BANNED_FOREVER] = self::statusHumanName(self::STATUS_BANNED_FOREVER);
 
         }
         return $dropdown;
@@ -577,6 +585,7 @@ class User extends ActiveRecord implements IdentityInterface
         if ($status == self::STATUS_ACTIVE) return 'Активный';
         elseif ($status == self::STATUS_INACTIVE) return 'Неактивный';
         elseif ($status == self::STATUS_UNCONFIRMED_EMAIL) return 'Не подтвержденный';
+        elseif ($status == self::STATUS_BANNED_FOREVER) return 'Забанен навсегда';
 
         return 'Не определено';
     }

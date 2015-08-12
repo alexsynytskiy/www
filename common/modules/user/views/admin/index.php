@@ -4,7 +4,6 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use kartik\date\DatePicker;
 use common\modules\user\models\User;
-// use common\modlels\Asset;
 
 $user = Yii::$app->getModule("user")->model("User");
 $role = Yii::$app->getModule("user")->model("Role");
@@ -24,10 +23,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
     <p>
-        <?= Html::a(Yii::t('user', 'Создать пользователя'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать пользователя', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Удалить неподтвержденных', ['delete-pending-users'], ['class' => 'btn btn-warning']) ?>
         <?php
             if(count(Yii::$app->getRequest()->getQueryParams()) > 0) {
                 echo Html::a('Сброс', ['/user/admin'], ['class' => 'btn btn-primary']);

@@ -57,13 +57,17 @@ $role = Yii::$app->getModule("user")->model("Role");
 
     <?= $form->field($user, 'role_id')->dropDownList($role::dropdown()); ?>
 
-    <?= $form->field($user, 'status')->dropDownList($user::statusDropdown()); ?>
+    <?php $disabled = $user->status == $user::STATUS_BANNED_FOREVER ? 'disabled' : 'enabled'; ?>
+    <?php $readOnly = $user->status == $user::STATUS_BANNED_FOREVER ? true : false; ?>
+    <?= $form->field($user, 'status')->dropDownList($user::statusDropdown(),['readonly' => $readOnly, 'disabled' => $disabled]); ?>
 
     <?php // use checkbox for ban_time ?>
     <?php // convert `ban_time` to int so that the checkbox gets set properly ?>
     <?php $user->ban_time = $user->ban_time ? 1 : 0 ?>
+
     <?= $form->field($user, 'ban_time')->widget(CheckboxX::classname(), [
         'pluginOptions' => ['threeState' => false],
+        'readonly' => $readOnly,
     ])->label('Заблокирован') ?>
 
     <?= $form->field($user, 'ban_reason'); ?>

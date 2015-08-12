@@ -89,6 +89,18 @@ class Comment extends ActiveRecord
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            $this->content = nl2br($this->content);
+            return true;
+        }
+        return false;
+    }
+
     public function afterSave($insert, $changedAttributes)
     {
         switch ($this->commentable_type) {
@@ -194,7 +206,7 @@ class Comment extends ActiveRecord
      */
     public function getContent()
     {
-        return strip_tags($this->content);
+        return strip_tags($this->content, '<br><p>');
     }
 
     /**
