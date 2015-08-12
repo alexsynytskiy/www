@@ -1917,6 +1917,52 @@ body {
     }
 }
 
+.error404-container {
+    width: 100%;
+    min-height: 130px;
+    height: 100%;
+
+    td {
+        vertical-align: middle;
+    }
+    .site-error {
+        width: 350px;
+        margin: 0 auto;
+
+        .image-error {
+            background: transparent url(/images/404.svg) left top no-repeat;
+            background-size: 350px;
+            width: 350px;
+            height: 160px;
+        }
+        .error-message {
+            color: @main-blue;
+            font-weight: bold;
+            font-size: 30px;
+        }
+        .description {
+            font-size: 20px;
+        }
+        .button-back {
+            display: inline-block;
+            height: 25px;
+            line-height: 25px;
+            margin-top: 10px;
+            overflow: hidden;
+            .rounded(5px);
+            .box-shadow(@box-shadow);
+            color: #fff;
+            padding: 2px 15px 0;
+            background-color: @main-blue;
+            &:hover {
+                cursor: pointer;
+                background-color: @main-blue-hover;
+            }
+
+        }
+    }
+}
+
 #comment-form {
     padding: 0 5px;
     margin-bottom: 15px;

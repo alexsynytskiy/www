@@ -210,6 +210,15 @@ class AdminController extends Controller
     }
 
     /**
+     * Delete all users, who have status - pending.
+     */
+    public function actionDeletePendingUsers()
+    {
+        User::deleteAll(['status' => User::STATUS_UNCONFIRMED_EMAIL]);
+        return $this->redirect(['index']);
+    }
+
+    /**
      * Delete an existing User model. If deletion is successful, the browser
      * will be redirected to the 'index' page.
      *

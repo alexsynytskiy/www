@@ -287,6 +287,8 @@ class Post extends ActiveRecord
             }
             // slug
             $this->slug = $this->genSlug($this->title);
+            // created_at
+            $this->created_at = date('Y-m-d H:i:s', strtotime($this->created_at));
             // content
 //            $pattern = '~<a .*href=".*" .*>(.*)</a>~U';
 //            $this->content = preg_replace($pattern, '$1', $this->content);

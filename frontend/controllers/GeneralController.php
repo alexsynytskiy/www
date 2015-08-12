@@ -22,7 +22,8 @@ class GeneralController extends Controller {
             $parts = explode(':', $message);
             $errorName = $parts[0];
             $name = $errorName.' (#'.$code.')';
-            return $this->render('error', [
+            $view = $code == 404 ? 'error404' : 'error';
+            return $this->render($view, [
                 'message' => $message,
                 'code' => $code,
                 'name' => $name,

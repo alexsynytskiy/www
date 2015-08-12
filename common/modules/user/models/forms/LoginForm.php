@@ -68,11 +68,17 @@ class LoginForm extends Model
     {
         // check for ban status
         $user = $this->getUser();
-        if ($user->ban_time || $user->status == $user::STATUS_INACTIVE) {
+        if ($user->ban_time || $user->status == $user::STATUS_INACTIVE || $user->status == $user::STATUS_BANNED_FOREVER) {
             $message = "Пользователь забанен";
             $message .= $user->ban_reason != '' ? " - {banReason}" : '';
             $this->addError("username", Yii::t("user", $message, [
                 "banReason" => $user->ban_reason,
+            ]));
+        }
+        if ($user::hasBannedIP()) {
+            $message = "Ваш IP забанен";
+            $this->addError("username", Yii::t("user", $message, [
+                "banReason" => $message,
             ]));
         }
 

@@ -3,14 +3,11 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\checkbox\CheckboxX;
-use kartik\date\DatePicker;
 use kartik\datetime\DateTimePicker;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use dosamigos\selectize\SelectizeDropDownList;
-use yii\widgets\Pjax;
-use yii\bootstrap\Modal;
 
 use common\models\League;
 use common\models\Championship;

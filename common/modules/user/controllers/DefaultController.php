@@ -47,7 +47,12 @@ class DefaultController extends Controller
                         'roles'   => ['@'],
                     ],
                     [
-                        'actions' => ['login', 'register', 'forgot', 'reset'],
+                        'actions' => ['login', 'forgot', 'reset'],
+                        'allow'   => true,
+                        'roles'   => ['?'],
+                    ],
+                    [
+                        'actions' => ['register'],
                         'allow'   => true,
                         'roles'   => ['?'],
                         'matchCallback' => function ($rule, $action) {
