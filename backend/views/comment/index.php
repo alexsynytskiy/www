@@ -34,18 +34,23 @@ $this->params['breadcrumbs'][] = $this->title;
                 'options' => ['width' => '100'],
             ],
             [
-                'attribute' => 'user.username',
+                'attribute' => 'profile.full_name',
                 'label' => 'Автор',
                 'options' => ['width' => '120'],
-                'value' => function($model) {
-                    if(isset($model->user)) {
-                        return Html::a($model->user->username, ['module/user/admin/view/' . $model->user_id]);
-                    } else {
-                        return 'Пользователь удален';
-                    }
-                },
-                'format' => 'html',
             ],
+//            [
+//                'attribute' => 'user.username',
+//                'label' => 'Автор',
+//                'options' => ['width' => '120'],
+//                'value' => function($model) {
+//                    if(isset($model->user)) {
+//                        return Html::a($model->user->username, ['module/user/admin/view/' . $model->user_id]);
+//                    } else {
+//                        return 'Пользователь удален';
+//                    }
+//                },
+//                'format' => 'html',
+//            ],
             'content:html',
             [
                 'attribute' => 'created_at',

@@ -34,7 +34,7 @@ switch ($classes) {
 ?>
 <div class="grid-column <?=$classes?>">
 <?php
-    if($region == Banner::REGION_SECOND_COLUMN) {
+    if($classes == 'grid-column-2' || $classes == 'grid-sidebar-column') {
         echo $this->render('@frontend/views/site/alert');
     }
     if($region == Banner::REGION_THIRD_COLUMN) {
@@ -47,19 +47,7 @@ switch ($classes) {
     foreach ($blocks as $block) {
         if($block) {
             echo $this->render($block['view'], isset($block['data']) ? $block['data'] : []);
-            // if($isSmall) {
-            //     $bannerBlock = SiteBlock::getBanner($region);
-            //     if($bannerBlock) {
-            //         echo $this->render($bannerBlock['view'], isset($bannerBlock['data']) ? $bannerBlock['data'] : []);
-            //     }
-            // }
         }
     }
-    // if(!$isSmall) {
-    //     $bannerBlock = SiteBlock::getBanner($region, true);
-    //     if($bannerBlock) {
-    //         echo $this->render($bannerBlock['view'], isset($bannerBlock['data']) ? $bannerBlock['data'] : []);
-    //     }
-    // }
 ?>
 </div>
