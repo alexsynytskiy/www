@@ -31,6 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 echo Html::a('Сброс', ['/user/admin'], ['class' => 'btn btn-primary']);
             } 
         ?>
+        <span class="pull-right">Мой IP: <?= Yii::$app->getRequest()->getUserIP() ?></span>
     </p>
 
     <?= GridView::widget([
