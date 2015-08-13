@@ -226,7 +226,7 @@ class DefaultController extends Controller
 
                 Yii::$app->session->setFlash("success-register", $successText);
                 if( Yii::getAlias('@app') == Yii::getAlias('@frontend')) {
-                    return Yii::$app->getResponse()->redirect(\yii\helpers\Url::to('/'));
+                    return Yii::$app->getResponse()->redirect(\yii\helpers\Url::to('/forum-rules'));
                 }
             }
 

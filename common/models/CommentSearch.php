@@ -19,7 +19,7 @@ class CommentSearch extends Comment
     {
         return [
             [['id', 'commentable_id', 'user_id', 'parent_id'], 'integer'],
-            [['content', 'created_at', 'commentable_type', 'user.username'], 'safe'],
+            [['content', 'created_at', 'commentable_type', 'user.username', 'profile.full_name'], 'safe'],
         ];
     }
 
@@ -29,7 +29,7 @@ class CommentSearch extends Comment
     public function attributes()
     {
         // add related fields to searchable attributes
-        return array_merge(parent::attributes(), ['user.username']);
+        return array_merge(parent::attributes(), ['user.username', 'profile.full_name']);
     }
 
     /**
@@ -51,13 +51,17 @@ class CommentSearch extends Comment
     public function search($params)
     {
         $query = Comment::find();
+        $commentTable = Comment::tableName();
         $user = Yii::$app->getModule("user")->model("User");
 
-        $commentTable = Comment::tableName();
         // set up query with relation to `user.username`
         $userTable = $user::tableName();
         $query->joinWith(['user' => function($query) use ($userTable) {
             $query->from(['user' => $userTable]);
+        }]);
+        $profileTable = \common\modules\user\models\Profile::tableName();
+        $query->joinWith(['profile' => function($query) use ($profileTable) {
+            $query->from(['profile' => $profileTable]);
         }]);
 
         $dataProvider = new ActiveDataProvider([
@@ -65,7 +69,7 @@ class CommentSearch extends Comment
         ]);
 
         // enable sorting for the related columns
-        $addSortAttributes = ["user.username"];
+        $addSortAttributes = ["user.username", 'profile.full_name'];
         foreach ($addSortAttributes as $addSortAttribute) {
             $dataProvider->sort->attributes[$addSortAttribute] = [
                 'asc'   => [$addSortAttribute => SORT_ASC],
@@ -85,13 +89,14 @@ class CommentSearch extends Comment
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
+            "{$commentTable}.id" => $this->id,
             'user_id' => $this->user_id,
             'parent_id' => $this->parent_id,
         ]);
 
         $query->andFilterWhere(['like', 'content', $this->content])
-            ->andFilterWhere(['like', 'user.username', $this->getAttribute('user.username')]);
+            ->andFilterWhere(['like', 'user.username', $this->getAttribute('user.username')])
+            ->andFilterWhere(['like', 'profile.full_name', $this->getAttribute('profile.full_name')]);
 
         return $dataProvider;
     }
