@@ -1328,6 +1328,9 @@ body a:focus {
   background: #ffffff;
   padding: 0 10px 5px;
 }
+.comments-block .comment-error {
+  margin-bottom: 15px;
+}
 .comments-block .header {
   height: 29px;
   line-height: 29px;

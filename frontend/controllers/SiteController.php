@@ -293,8 +293,13 @@ class SiteController extends Controller
     public function actionCommentAdd() 
     {
         $model = new CommentForm();
+        $user = Yii::$app->user;
 
         $out = ['success' => false];
+        if(!$user->can('comment')) {
+            $out['message'] = 'Вы забанены';
+            return Json::encode($out);
+        }
         if ($model->load(Yii::$app->request->post())) {
             $model->user_id = Yii::$app->user->id;
             if($model->save()) {
@@ -304,7 +309,6 @@ class SiteController extends Controller
                 ];
             }
         }
-
         echo Json::encode($out);
     }
     

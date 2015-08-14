@@ -57,7 +57,7 @@ $role = Yii::$app->getModule("user")->model("Role");
 
     <?= $form->field($user, 'role_id')->dropDownList($role::dropdown()); ?>
 
-    <?php $disabled = $user->status == $user::STATUS_BANNED_FOREVER ? 'disabled' : 'enabled'; ?>
+    <?php $disabled = $user->status == $user::STATUS_BANNED_FOREVER ? 'disabled' : false; ?>
     <?php $readOnly = $user->status == $user::STATUS_BANNED_FOREVER ? true : false; ?>
     <?= $form->field($user, 'status')->dropDownList($user::statusDropdown(),['readonly' => $readOnly, 'disabled' => $disabled]); ?>
 

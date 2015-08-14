@@ -482,6 +482,9 @@ class User extends ActiveRecord implements IdentityInterface
             case 'changeUser':
             case 'changeBan':
                 return $this->role_id == Role::ROLE_ADMIN;
+            case 'comment':
+                return isset($this->ban_time) || $this->status == self::STATUS_BANNED_FOREVER ||
+                    $this->status == self::STATUS_INACTIVE ? false : true;
             default:
                 break;
         }
