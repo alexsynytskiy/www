@@ -59,7 +59,7 @@ class Transfer extends ActiveRecord
             'transfer_type_id' => 'Тип трансфера',
             'player_id' => 'Игрок',
             'probability' => 'Вероятность',
-            'command_from_id' => 'С команды',
+            'command_from_id' => 'Из команды',
             'command_to_id' => 'В команду',
             'clubs' => 'Клубы',
             'sum' => 'Сумма',

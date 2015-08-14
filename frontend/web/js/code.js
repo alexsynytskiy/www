@@ -35,28 +35,28 @@ $(window).load(function() {
           'gap'       : 15,
           'mTop'      : 0,
           'mBottom'   : 15,
-          'column'    : 2,
+          'column'    : 2
     });
     $('.achievements-container').indyMasonry({
           'clName'    : '.default-box',
           'gap'       : 15,
           'mTop'      : 0,
           'mBottom'   : 15,
-          'column'    : 2,
+          'column'    : 2
     });
     $('.albums-container').indyMasonry({
           'clName'    : '.album-item',
           'gap'       : 15,
           'mTop'      : 0,
           'mBottom'   : 15,
-          'column'    : 2,
+          'column'    : 2
     });
     $('.videos-container').indyMasonry({
           'clName'    : '.video-item',
           'gap'       : 15,
           'mTop'      : 0,
           'mBottom'   : 15,
-          'column'    : 2,
+          'column'    : 2
     });
     // => Masonry tiles view END
 
@@ -410,7 +410,7 @@ $(document).ready(function() {
         firstDay: 1, // First day of the week, 0 = Sunday, 1 = Monday, ...
         changeMonth: false, // True to change month/year via drop-down, false for navigation only
         useMouseWheel: false,
-        monthsToShow: [4,3],
+        monthsToShow: [4,3]
     });
 
     $('.calendar .o-year').click(function() {
@@ -530,7 +530,7 @@ $(document).ready(function() {
                         ],
                         minSize: [80, 80],
                         onSelect: saveCoords,
-                        onChange: saveCoords,
+                        onChange: saveCoords
                     });
                 }
                 reader.readAsDataURL(input.files[0]);

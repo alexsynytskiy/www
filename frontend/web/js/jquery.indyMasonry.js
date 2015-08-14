@@ -20,7 +20,7 @@
 		'gap' 			: 20,
 		'mTop'			: 10,
 		'mBottom'		: 10,
-		'column' 		: 4,
+		'column' 		: 4
 
 	};
 
@@ -104,7 +104,7 @@
 
 					'width' 			: _self.columnWidth + 'px',
 					'margin-top' 		: _self.mTop 		+ 'px',
-					'margin-bottom' 	: _self.mBottom 	+ 'px',
+					'margin-bottom' 	: _self.mBottom 	+ 'px'
 
 				});
 
@@ -133,7 +133,7 @@
 
 					'top' 			: _self.positionArray[countDelta] + 'px',
 					'left' 			: leftValue + 'px',
-					'position' 		: 'absolute',				
+					'position' 		: 'absolute'
 
 				});
 
@@ -169,7 +169,7 @@
 			});
 
 
-		},
+		}
 
 	};
 

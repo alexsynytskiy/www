@@ -158,6 +158,18 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    public function afterFind()
+    {
+        // Auto deactivating ban
+        if(isset($this->ban_time) && strtotime($this->ban_time) < time()) {
+            $this->ban_time = null;
+            $this->save(false, ['ban_time']);
+        }
+    }
+
+    /**
      * Validate current password (account page)
      */
     public function validateCurrentPassword()
@@ -337,9 +349,9 @@ class User extends ActiveRecord implements IdentityInterface
         }
 
         // convert ban_time checkbox to date
-        if ($this->ban_time) {
+        if ($this->ban_time === true || $this->ban_time === '1') {
             $this->ban_time = date("Y-m-d H:i:s", time() + 60*60*24*7);
-        }
+        } else $this->ban_time = null;
 
         // ensure fields are null so they won't get set as empty string
         $nullAttributes = ["email", "username", "ban_time", "ban_reason"];
@@ -482,6 +494,9 @@ class User extends ActiveRecord implements IdentityInterface
             case 'changeUser':
             case 'changeBan':
                 return $this->role_id == Role::ROLE_ADMIN;
+            case 'comment':
+                return isset($this->ban_time) || $this->status == self::STATUS_BANNED_FOREVER ||
+                    $this->status == self::STATUS_INACTIVE ? false : true;
             default:
                 break;
         }

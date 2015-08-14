@@ -25,9 +25,9 @@ class AppAsset extends AssetBundle
         'css/icheck.css',
         'css/spinner.css',
         'css/loader.css',
-        'css/less/selectize.less',
-        'css/less/style.less',
-        'css/less/style_olg.less',
+        'css/less/selectize.css',
+        'css/less/style.css',
+        'css/less/style_olg.css',
     ];
     public $js = [
         'js/jquery.bxslider.js',

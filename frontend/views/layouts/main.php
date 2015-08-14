@@ -1,11 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
-use frontend\widgets\Alert;
 use common\models\SiteBlock;
 use common\models\Banner;
 
@@ -36,139 +32,6 @@ AppAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
-
-    <script type='text/javascript' src='http://partner.googleadservices.com/gampad/google_service.js'></script>
-    <script type='text/javascript'>
-        GS_googleAddAdSenseService("ca-pub-0353612203213313");
-        GS_googleEnableAllServices();
-    </script>
-    <script type='text/javascript'>
-        GA_googleAddSlot("ca-pub-0353612203213313", "468_60_bottom");
-    </script>
-    <script type='text/javascript'>
-        GA_googleFetchAds();
-    </script>
-    <!-- (C)2000-2010 Gemius SA - gemiusAudience / dynamomania.com / Glavnaja stranitsa sajta -->
-    <script type="text/javascript">
-        <!--//--><![CDATA[//><!--
-        var pp_gemius_identifier = new String('B7Y1NCL5wX9IuEzl1qnxZ2aDDfxZJI9iCkyI46qixVn.w7');
-        //--><!]]>
-    </script>
-
-    <script type='text/javascript'>
-        var googletag = googletag || {};
-        googletag.cmd = googletag.cmd || [];
-        (function() {
-            var gads = document.createElement('script');
-            gads.async = true;
-            gads.type = 'text/javascript';
-            var useSSL = 'https:' == document.location.protocol;
-            gads.src = (useSSL ? 'https:' : 'http:') +
-                '//www.googletagservices.com/tag/js/gpt.js';
-            var node = document.getElementsByTagName('script')[0];
-            node.parentNode.insertBefore(gads, node);
-        })();
-    </script>
-
-    <script type='text/javascript'>
-        var googletag = googletag || {};
-        googletag.cmd = googletag.cmd || [];
-        (function() {
-            var gads = document.createElement('script');
-            gads.async = true;
-            gads.type = 'text/javascript';
-            var useSSL = 'https:' == document.location.protocol;
-            gads.src = (useSSL ? 'https:' : 'http:') +
-                '//www.googletagservices.com/tag/js/gpt.js';
-            var node = document.getElementsByTagName('script')[0];
-            node.parentNode.insertBefore(gads, node);
-        })();
-    </script>
-
-    <script type='text/javascript'>
-        var googletag = googletag || {};
-        googletag.cmd = googletag.cmd || [];
-        (function() {
-            var gads = document.createElement('script');
-            gads.async = true;
-            gads.type = 'text/javascript';
-            var useSSL = 'https:' == document.location.protocol;
-            gads.src = (useSSL ? 'https:' : 'http:') +
-                '//www.googletagservices.com/tag/js/gpt.js';
-            var node = document.getElementsByTagName('script')[0];
-            node.parentNode.insertBefore(gads, node);
-        })();
-    </script>
-
-    <script type='text/javascript'>
-        (function() {
-            var useSSL = 'https:' == document.location.protocol;
-            var src = (useSSL ? 'https:' : 'http:') +
-                '//www.googletagservices.com/tag/js/gpt.js';
-            document.write('<scr' + 'ipt src="' + src + '"></scr' + 'ipt>');
-        })();
-    </script>
-
-    <!--Блок подключения библиотеки скриптов Admixer-->
-    <script type='text/javascript'>
-        (function () {
-            var w = window, d = document;
-            w.admixZArr = (w.admixZArr || []);
-            w.admixerSmOptions = (w.admixerSmOptions || {});
-            w.admixerSmOptions.showAdsOnLoad = true;
-            if (!w.admixerSm) {
-                var adms = document.createElement('script');
-                adms.async = true;
-                adms.type = 'text/javascript';
-                adms.src = 'http://cdn.admixer.net/scriptlib/asm2.js?v=3';
-                var node = d.getElementsByTagName('script')[0];
-                node.parentNode.insertBefore(adms, node);
-            }
-        })();
-    </script>
-    <!--Конец блока подключения библиотеки скриптов Admixer-->
-
-    <script type="text/javascript">
-        (function(){
-            var j=137290,f=false,b=document,c=b.documentElement,e=window;
-            function g(){
-                var a="";
-                a+="rt="+(new Date).getTime()%1E7*100+Math.round(Math.random()*99);
-                a+=b.referrer?"&r="+escape(b.referrer):"";
-                return a
-            }
-            function h(){
-                var a=b.getElementsByTagName("head")[0];
-                if(a)return a;
-                for(a=c.firstChild;a&&a.nodeName.toLowerCase()=="#text";)
-                    a=a.nextSibling;if(a&&a.nodeName.toLowerCase()!="#text")
-                    return a;
-                a=b.createElement("head");c.appendChild(a);
-                return a
-            }
-            function i(){
-                var a=b.createElement("script");
-                a.setAttribute("type","text/javascript");
-                a.setAttribute("src","http://c.luxup.ru/t/lb"+j+".js?"+g());
-                typeof a!="undefined"&&h().appendChild(a)
-            }
-            function d(){
-                if(!f){f=true;i()}};
-            if(b.addEventListener)b.addEventListener("DOMContentLoaded",d,false);
-            else if(b.attachEvent){
-                c.doScroll&&e==e.top&&function(){
-                    try{
-                        c.doScroll("left")
-                    }catch(a){
-                        setTimeout(arguments.callee,0);
-                        return
-                    }d()}();
-                b.attachEvent("onreadystatechange",function(){
-                    b.readyState==="complete"&&d()
-                })}
-            else e.onload=d})();
-    </script>
-
 </head>
 <body>
 <?php $this->beginBody() ?>
@@ -383,7 +246,7 @@ Preloadding animation END -->
                     <!--bigmir)net TOP 100 Part 2-->
                     <script type="text/javascript" language="javascript"><!--
                         function BM_Draw(oBM_STAT){
-                            document.write('<table cellpadding="0" cellspacing="0" border="0" style="display:inline;margin-right:4px;float:left;"><tr><td><div style="margin:0px;padding:0px;font-size:1px;width:88px;"><div style="background:url(\'http://i.bigmir.net/cnt/samples/diagonal/b60_top.gif\') no-repeat bottom;">&nbsp;</div><div style="font:10px Tahoma;background:url(\'http://i.bigmir.net/cnt/samples/diagonal/b60_center.gif\');"><div style="text-align:center;"><a href="http://www.bigmir.net/" target="_blank" style="color:#0000ab;text-decoration:none;font:10px Tahoma;">bigmir<span style="color:#ff0000;">)</span>net</a></div><div style="margin-top:3px;padding: 0px 6px 0px 6px;color:#426ed2;"><div style="float:left;font:10px Tahoma;">'+oBM_STAT.hosts+'</div><div style="float:right;font:10px Tahoma;">'+oBM_STAT.hits+'</div></div><br clear="all"/></div><div style="background:url(\'http://i.bigmir.net/cnt/samples/diagonal/b60_bottom.gif\') no-repeat top;">&nbsp;</div></div></td></tr></table>');
+                            document.write('<table cellpadding="0" cellspacing="0" border="0" style="display:inline;margin-right:4px;float:left;"><tr><td><div style="margin:0;padding:0;font-size:1px;width:88px;"><div style="background:url(\'http://i.bigmir.net/cnt/samples/diagonal/b60_top.gif\') no-repeat bottom;">&nbsp;</div><div style="font:10px Tahoma;background:url(\'http://i.bigmir.net/cnt/samples/diagonal/b60_center.gif\');"><div style="text-align:center;"><a href="http://www.bigmir.net/" target="_blank" style="color:#0000ab;text-decoration:none;font:10px Tahoma;">bigmir<span style="color:#ff0000;">)</span>net</a></div><div style="margin-top:3px;padding: 0px 6px 0px 6px;color:#426ed2;"><div style="float:left;font:10px Tahoma;">'+oBM_STAT.hosts+'</div><div style="float:right;font:10px Tahoma;">'+oBM_STAT.hits+'</div></div><br clear="all"/></div><div style="background:url(\'http://i.bigmir.net/cnt/samples/diagonal/b60_bottom.gif\') no-repeat top;">&nbsp;</div></div></td></tr></table>');
                         }
                         //-->
                     </script>
@@ -448,6 +311,140 @@ Preloadding animation END -->
                 </div>
             </div>
         </div>
+
+        <!-- head -->
+        <script type='text/javascript' src='http://partner.googleadservices.com/gampad/google_service.js'></script>
+        <script type='text/javascript'>
+            GS_googleAddAdSenseService("ca-pub-0353612203213313");
+            GS_googleEnableAllServices();
+        </script>
+        <script type='text/javascript'>
+            GA_googleAddSlot("ca-pub-0353612203213313", "468_60_bottom");
+        </script>
+        <script type='text/javascript'>
+            GA_googleFetchAds();
+        </script>
+        <!-- (C)2000-2010 Gemius SA - gemiusAudience / dynamomania.com / Glavnaja stranitsa sajta -->
+        <script type="text/javascript">
+            <!--//--><![CDATA[//><!--
+            var pp_gemius_identifier = new String('B7Y1NCL5wX9IuEzl1qnxZ2aDDfxZJI9iCkyI46qixVn.w7');
+            //--><!]]>
+        </script>
+
+        <script type='text/javascript'>
+            var googletag = googletag || {};
+            googletag.cmd = googletag.cmd || [];
+            (function() {
+                var gads = document.createElement('script');
+                gads.async = true;
+                gads.type = 'text/javascript';
+                var useSSL = 'https:' == document.location.protocol;
+                gads.src = (useSSL ? 'https:' : 'http:') +
+                    '//www.googletagservices.com/tag/js/gpt.js';
+                var node = document.getElementsByTagName('script')[0];
+                node.parentNode.insertBefore(gads, node);
+            })();
+        </script>
+
+        <script type='text/javascript'>
+            var googletag = googletag || {};
+            googletag.cmd = googletag.cmd || [];
+            (function() {
+                var gads = document.createElement('script');
+                gads.async = true;
+                gads.type = 'text/javascript';
+                var useSSL = 'https:' == document.location.protocol;
+                gads.src = (useSSL ? 'https:' : 'http:') +
+                    '//www.googletagservices.com/tag/js/gpt.js';
+                var node = document.getElementsByTagName('script')[0];
+                node.parentNode.insertBefore(gads, node);
+            })();
+        </script>
+
+        <script type='text/javascript'>
+            var googletag = googletag || {};
+            googletag.cmd = googletag.cmd || [];
+            (function() {
+                var gads = document.createElement('script');
+                gads.async = true;
+                gads.type = 'text/javascript';
+                var useSSL = 'https:' == document.location.protocol;
+                gads.src = (useSSL ? 'https:' : 'http:') +
+                    '//www.googletagservices.com/tag/js/gpt.js';
+                var node = document.getElementsByTagName('script')[0];
+                node.parentNode.insertBefore(gads, node);
+            })();
+        </script>
+
+        <script type='text/javascript'>
+            (function() {
+                var useSSL = 'https:' == document.location.protocol;
+                var src = (useSSL ? 'https:' : 'http:') +
+                    '//www.googletagservices.com/tag/js/gpt.js';
+                document.write('<scr' + 'ipt src="' + src + '"></scr' + 'ipt>');
+            })();
+        </script>
+
+        <!--Блок подключения библиотеки скриптов Admixer-->
+        <script type='text/javascript'>
+            (function () {
+                var w = window, d = document;
+                w.admixZArr = (w.admixZArr || []);
+                w.admixerSmOptions = (w.admixerSmOptions || {});
+                w.admixerSmOptions.showAdsOnLoad = true;
+                if (!w.admixerSm) {
+                    var adms = document.createElement('script');
+                    adms.async = true;
+                    adms.type = 'text/javascript';
+                    adms.src = 'http://cdn.admixer.net/scriptlib/asm2.js?v=3';
+                    var node = d.getElementsByTagName('script')[0];
+                    node.parentNode.insertBefore(adms, node);
+                }
+            })();
+        </script>
+        <!--Конец блока подключения библиотеки скриптов Admixer-->
+
+        <script type="text/javascript">
+            (function(){
+                var j=137290,f=false,b=document,c=b.documentElement,e=window;
+                function g(){
+                    var a="";
+                    a+="rt="+(new Date).getTime()%1E7*100+Math.round(Math.random()*99);
+                    a+=b.referrer?"&r="+escape(b.referrer):"";
+                    return a
+                }
+                function h(){
+                    var a=b.getElementsByTagName("head")[0];
+                    if(a)return a;
+                    for(a=c.firstChild;a&&a.nodeName.toLowerCase()=="#text";)
+                        a=a.nextSibling;if(a&&a.nodeName.toLowerCase()!="#text")
+                        return a;
+                    a=b.createElement("head");c.appendChild(a);
+                    return a
+                }
+                function i(){
+                    var a=b.createElement("script");
+                    a.setAttribute("type","text/javascript");
+                    a.setAttribute("src","http://c.luxup.ru/t/lb"+j+".js?"+g());
+                    typeof a!="undefined"&&h().appendChild(a)
+                }
+                function d(){
+                    if(!f){f=true;i()}};
+                if(b.addEventListener)b.addEventListener("DOMContentLoaded",d,false);
+                else if(b.attachEvent){
+                    c.doScroll&&e==e.top&&function(){
+                        try{
+                            c.doScroll("left")
+                        }catch(a){
+                            setTimeout(arguments.callee,0);
+                            return
+                        }d()}();
+                    b.attachEvent("onreadystatechange",function(){
+                        b.readyState==="complete"&&d()
+                    })}
+                else e.onload=d})();
+        </script>
+        <!-- end head -->
 
 
         <script type="text/javascript">

@@ -1,8 +1,6 @@
 <?php
 
-use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\helpers\Url;
 
 /**
  * @var $this yii\web\View
@@ -35,16 +33,16 @@ use yii\helpers\Url;
                 [
                     'label' => 'Игрок',
                     'value' => function($model) {
-                        $num = isset($model->number) && $model->number ? ' #'.$model->number : '';
-                        return isset($model->contract) ? $model->contract->name.$num : null;
+                        return isset($model->contract) ? $model->contract->name : null;
                     },
                 ],
-                [
-                    'label' => 'Амплуа',
-                    'value' => function($model) {
-                        return isset($model->contract->amplua) ? $model->contract->amplua->name : null;
-                    },
-                ],
+                'number',
+//                [
+//                    'label' => 'Амплуа',
+//                    'value' => function($model) {
+//                        return isset($model->contract->amplua) ? $model->contract->amplua->name : null;
+//                    },
+//                ],
             ],
         ]);   
     ?>

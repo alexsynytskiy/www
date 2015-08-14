@@ -24,7 +24,12 @@ use yii\widgets\Pjax;
 
     <?php 
         if(!Yii::$app->user->isGuest) {
-            echo $this->render('@frontend/views/forms/comment_form', compact('commentForm'));
+            $user = Yii::$app->user;
+            if($user->can('comment')) {
+                echo $this->render('@frontend/views/forms/comment_form', compact('commentForm'));
+            } else {
+                echo '<div class="comment-error">Вы не можете отправлять комментарии. Ваш профиль забанен.</div>';
+            }
         }
     ?>
     
