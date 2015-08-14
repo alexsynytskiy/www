@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => isset($model->probability) ? $model->probability.'%' : null,
             ],
             [
-                'label' => 'С команды',
+                'label' => 'Из команды',
                 'attribute' => 'teamFrom.name',
                 'value' => Html::a($model->teamFrom->name, ['/team/'.$model->teamFrom->id]),
                 'format' => 'html',

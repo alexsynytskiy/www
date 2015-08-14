@@ -33,20 +33,12 @@ use common\models\Subscribing;
 use common\models\Relation;
 
 
-use frontend\models\ContactForm;
-use common\models\Source;
-
-
-use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
 use yii\data\ActiveDataProvider;
-use yii\data\ArrayDataProvider;
-use yii\data\Pagination;
 use yii\helpers\Json;
 use yii\web\UploadedFile;
 
@@ -180,6 +172,7 @@ class SiteController extends Controller
             ],
             'columnSecond' => [
                 'blog_column' => SiteBlock::getBlogPosts(),
+                'banner' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
             ],
         ]);
     }
@@ -237,6 +230,7 @@ class SiteController extends Controller
             ],
             'columnSecond' => [
                 'blog_column' => SiteBlock::getBlogPosts(),
+                'banner' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
             ],
         ]);
     }
@@ -546,7 +540,6 @@ class SiteController extends Controller
     {
         $tournamentTable = Tournament::tableName();
         $championshipTable = Championship::tableName();
-        $seasonTable = Season::tableName();        
 
         // championship type select
         $championships = Championship::find()
@@ -716,7 +709,7 @@ class SiteController extends Controller
         // Disable banners if match is online 
         if($match->is_visible && !$match->is_finished && strtotime($match->date) < time())
         {
-             SiteBlock::$banners = [false];
+//             SiteBlock::$banners = [false];
         }
 
         usort($columnFirst, 'self::cmp');

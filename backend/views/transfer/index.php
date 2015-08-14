@@ -59,7 +59,7 @@ $seasonFilter = ArrayHelper::map($seasons, 'id', 'name');
                 'filter' => ArrayHelper::map(TransferType::find()->all(), 'id', 'name'),
             ],
             [
-                'label' => 'С команды',
+                'label' => 'Из команды',
                 'attribute' => 'teamFrom.name',
                 'value' => function($model) {
                     if(isset($model->teamFrom)) {
