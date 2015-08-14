@@ -124,7 +124,7 @@ class MatchController extends Controller
             'command_id' => $model->command_home_id,
         ]];
         $homeCompositionDataProvider = $searchModel->search($params);
-        $homeCompositionDataProvider->setSort(['defaultOrder' => ['is_basis' => SORT_DESC]]);
+        $homeCompositionDataProvider->setSort(['defaultOrder' => ['is_basis' => SORT_DESC, 'number' => SORT_ASC]]);
 
         // guestCompositionDataProvider
         $params = ['CompositionSearch' => [
@@ -132,7 +132,7 @@ class MatchController extends Controller
             'command_id' => $model->command_guest_id,
         ]];
         $guestCompositionDataProvider = $searchModel->search($params);
-        $guestCompositionDataProvider->setSort(['defaultOrder' => ['is_basis' => SORT_DESC]]);
+        $guestCompositionDataProvider->setSort(['defaultOrder' => ['is_basis' => SORT_DESC, 'number' => SORT_ASC]]);
 
         $contractTeams = Team::getContractTeams();
 
@@ -144,18 +144,19 @@ class MatchController extends Controller
                     'command_id' => $model->command_home_id,
                     'season_id' => $model->season_id,
                     'is_active' => 1,
-                ])->all();
+                ])->orderBy(['number' => SORT_ASC])->all();
         } else {
             $homeContractType = CompositionForm::MEMBERSHIP_TYPE;
             $homeCompositionData = Membership::find()
                 ->where([
                     'command_id' => $model->command_home_id,
-                ])->all();
+                ])
+                ->orderBy(['number' => SORT_ASC])->all();
         }
         $homeComposition = [];
         foreach ($homeCompositionData as $key => $data) {
             $homeComposition[$key]['id'] = $data->id;
-            $homeComposition[$key]['name'] = $data->name;
+            $homeComposition[$key]['name'] = "#".$data->number." ".$data->player->lastname." ".$data->player->firstname;
         }
 
         // guestComposition
@@ -166,20 +167,19 @@ class MatchController extends Controller
                     'command_id' => $model->command_guest_id,
                     'season_id' => $model->season_id,
                     'is_active' => 1,
-                ])->all();
+                ])->orderBy(['number' => SORT_ASC])->all();
         } else {
             $guestContractType = CompositionForm::MEMBERSHIP_TYPE;
             $guestCompositionData = Membership::find()
                 ->where([
                     'command_id' => $model->command_guest_id,
-                ])->all();
+                ])->orderBy(['number' => SORT_ASC])->all();
         }
         $guestComposition = [];
         foreach ($guestCompositionData as $key => $data) {
             $guestComposition[$key]['id'] = $data->id;
-            $guestComposition[$key]['name'] = $data->name;
+            $guestComposition[$key]['name'] = "#".$data->number." ".$data->player->lastname." ".$data->player->firstname;
         }
-
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
@@ -251,7 +251,7 @@ class MatchController extends Controller
             'command_id' => $model->command_home_id,
         ]];
         $homeCompositionDataProvider = $searchModel->search($params);
-        $homeCompositionDataProvider->setSort(['defaultOrder' => ['is_basis' => SORT_DESC]]);
+        $homeCompositionDataProvider->setSort(['defaultOrder' => ['is_basis' => SORT_DESC, 'number' => SORT_ASC]]);
 
         // guestCompositionDataProvider
         $params = ['CompositionSearch' => [
@@ -259,7 +259,7 @@ class MatchController extends Controller
             'command_id' => $model->command_guest_id,
         ]];
         $guestCompositionDataProvider = $searchModel->search($params);
-        $guestCompositionDataProvider->setSort(['defaultOrder' => ['is_basis' => SORT_DESC]]);
+        $guestCompositionDataProvider->setSort(['defaultOrder' => ['is_basis' => SORT_DESC, 'number' => SORT_ASC]]);
 
         if ($matchEventModel->load(Yii::$app->request->post()) && $matchEventModel->validate()) {
             $matchEventModel->save(false);

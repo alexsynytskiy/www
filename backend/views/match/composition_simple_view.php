@@ -33,7 +33,8 @@ use yii\grid\GridView;
                 [
                     'label' => 'Игрок',
                     'value' => function($model) {
-                        return isset($model->contract) ? $model->contract->name : null;
+                        $num = isset($model->number) && $model->number ? ' #'.$model->number : '';
+                        return isset($model->contract) ? $num." ".$model->contract->player->lastname." ".$model->contract->player->firstname : null;
                     },
                 ],
                 'number',
