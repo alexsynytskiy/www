@@ -8,6 +8,7 @@ use frontend\assets\AppAsset;
 use frontend\widgets\Alert;
 use common\models\SiteBlock;
 use common\models\Banner;
+use common\models\TopTag;
 
 use common\modules\user\models\User;
 
@@ -71,6 +72,17 @@ AppAsset::register($this);
     </script>
 
     <script type='text/javascript'>
+        (function () {
+            var w = window, d = document;
+            w.admixZArr = (w.admixZArr || []);
+            w.admixerSmOptions = (w.admixerSmOptions || {});
+            w.admixerSmOptions.showAdsOnLoad = true;
+        })();
+    </script>
+
+    <script type="text/javascript" src="http://cdn.admixer.net/scriptlib/asm2.js?v=3"></script>
+
+    <script type='text/javascript'>
         var googletag = googletag || {};
         googletag.cmd = googletag.cmd || [];
         (function() {
@@ -108,25 +120,6 @@ AppAsset::register($this);
             document.write('<scr' + 'ipt src="' + src + '"></scr' + 'ipt>');
         })();
     </script>
-
-    <!--Блок подключения библиотеки скриптов Admixer-->
-    <script type='text/javascript'>
-        (function () {
-            var w = window, d = document;
-            w.admixZArr = (w.admixZArr || []);
-            w.admixerSmOptions = (w.admixerSmOptions || {});
-            w.admixerSmOptions.showAdsOnLoad = true;
-            if (!w.admixerSm) {
-                var adms = document.createElement('script');
-                adms.async = true;
-                adms.type = 'text/javascript';
-                adms.src = 'http://cdn.admixer.net/scriptlib/asm2.js?v=3';
-                var node = d.getElementsByTagName('script')[0];
-                node.parentNode.insertBefore(adms, node);
-            }
-        })();
-    </script>
-    <!--Конец блока подключения библиотеки скриптов Admixer-->
 
     <script type="text/javascript">
         (function(){
@@ -327,7 +320,7 @@ Preloadding animation END -->
             <div class="breadcrumbs">
                 <div class="header">Главное</div>
                 <div class="arrow"></div>
-                <?= \common\models\TopTag::outTop6Links() ?>
+                <?= TopTag::outTop8Links() ?>
             </div>
 
         </div>
@@ -527,15 +520,17 @@ Preloadding animation END -->
         <!-- before </body> -->
         <script type="text/javascript">
             var el = document.getElementById('CNM349');
-            if (el && el.getAttribute('atr349', 3)) {
-                el.setAttribute('atr349', '');
-                var dateNM = new Date();
-                var t = Math.floor(dateNM.getTime()/(1000*600));
-                var NMces=document.createElement('script');
-                NMces.type = 'text/javascript';
-                NMces.charset = 'UTF-8';
-                NMces.src='http://c.novostimira.com.ua/l/349?v='+t;
-                el.parentNode.appendChild(NMces);
+            if (el) {
+                if (document.getElementById('CNM349t').style.display == 'none') {
+                    document.getElementById('CNM349t').style.display = '';
+                    var dateNM = new Date();
+                    var t = Math.floor(dateNM.getTime()/(1000*600));
+                    var NMces=document.createElement('script');
+                    NMces.type = 'text/javascript';
+                    NMces.charset = 'UTF-8';
+                    NMces.src='http://c.novostimira.biz/l/349?v='+t;
+                    el.parentNode.appendChild(NMces);
+                }
             }
         </script>
 
