@@ -45,10 +45,10 @@ class TopTag extends ActiveRecord
         ];
     }
 
-    public static function outTop6Links() {
+    public static function outTop8Links() {
         $topTags = TopTag::find()
             ->orderBy(['id' => SORT_DESC])
-            ->limit(6)->all();
+            ->limit(8)->all();
         for($i = 0; $i < count($topTags) - 1; $i++) {
             for($j = $i+1; $j < count($topTags); $j++) {
                 $first = $topTags[$i];

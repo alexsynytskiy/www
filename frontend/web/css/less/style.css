@@ -559,7 +559,8 @@ header .header-wrapper .breadcrumbs .tag:hover {
   text-align: left;
 }
 .grid-column .main-news .title a {
-  line-height: 16px;
+  line-height: 18px;
+  display: inline-block;
   font-size: 12px;
   font-weight: normal;
   color: #1972c4;

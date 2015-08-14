@@ -4,6 +4,7 @@ use yii\helpers\Url;
 use frontend\assets\AppAsset;
 use common\models\SiteBlock;
 use common\models\Banner;
+use common\models\TopTag;
 
 use common\modules\user\models\User;
 
@@ -32,6 +33,7 @@ AppAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+
 </head>
 <body>
 <?php $this->beginBody() ?>
@@ -190,7 +192,7 @@ Preloadding animation END -->
             <div class="breadcrumbs">
                 <div class="header">Главное</div>
                 <div class="arrow"></div>
-                <?= \common\models\TopTag::outTop6Links() ?>
+                <?= TopTag::outTop8Links() ?>
             </div>
 
         </div>
@@ -385,24 +387,15 @@ Preloadding animation END -->
             })();
         </script>
 
-        <!--Блок подключения библиотеки скриптов Admixer-->
         <script type='text/javascript'>
             (function () {
                 var w = window, d = document;
                 w.admixZArr = (w.admixZArr || []);
                 w.admixerSmOptions = (w.admixerSmOptions || {});
                 w.admixerSmOptions.showAdsOnLoad = true;
-                if (!w.admixerSm) {
-                    var adms = document.createElement('script');
-                    adms.async = true;
-                    adms.type = 'text/javascript';
-                    adms.src = 'http://cdn.admixer.net/scriptlib/asm2.js?v=3';
-                    var node = d.getElementsByTagName('script')[0];
-                    node.parentNode.insertBefore(adms, node);
-                }
             })();
         </script>
-        <!--Конец блока подключения библиотеки скриптов Admixer-->
+        <script type="text/javascript" src="http://cdn.admixer.net/scriptlib/asm2.js?v=3"></script>
 
         <script type="text/javascript">
             (function(){
@@ -444,8 +437,6 @@ Preloadding animation END -->
                     })}
                 else e.onload=d})();
         </script>
-        <!-- end head -->
-
 
         <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
@@ -456,7 +447,7 @@ Preloadding animation END -->
                 var pageTracker = _gat._getTracker("UA-10830874-1");
                 pageTracker._trackPageview();
             } catch(err) {}</script>
-        <!-- Óñòàíîâèòå ýòîò áëîê â òîì ìåñòå, ãäå äîëæåí îòîáðàæàòüñÿ áàíåð    -->
+        
         <div id="admixer_async_1699536607"></div>
         <script type="text/javascript">
             window.admixZArr = (window.admixZArr || []);
@@ -524,15 +515,17 @@ Preloadding animation END -->
         <!-- before </body> -->
         <script type="text/javascript">
             var el = document.getElementById('CNM349');
-            if (el && el.getAttribute('atr349', 3)) {
-                el.setAttribute('atr349', '');
-                var dateNM = new Date();
-                var t = Math.floor(dateNM.getTime()/(1000*600));
-                var NMces=document.createElement('script');
-                NMces.type = 'text/javascript';
-                NMces.charset = 'UTF-8';
-                NMces.src='http://c.novostimira.com.ua/l/349?v='+t;
-                el.parentNode.appendChild(NMces);
+            if (el) {
+                if (document.getElementById('CNM349t').style.display == 'none') {
+                    document.getElementById('CNM349t').style.display = '';
+                    var dateNM = new Date();
+                    var t = Math.floor(dateNM.getTime()/(1000*600));
+                    var NMces=document.createElement('script');
+                    NMces.type = 'text/javascript';
+                    NMces.charset = 'UTF-8';
+                    NMces.src='http://c.novostimira.biz/l/349?v='+t;
+                    el.parentNode.appendChild(NMces);
+                }
             }
         </script>
 
