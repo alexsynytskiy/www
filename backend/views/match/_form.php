@@ -185,7 +185,7 @@ use common\models\Season;
     </div>
 
     <div class="row">
-        <div class="col-sm-6 home-side">
+        <div class="col-sm-3 home-side">
             <?php if(isset($model->command_home_id) && isset($model->season_id)) { ?>
             <?= $this->render('composition_view', [
                 'seasonId' => $model->season_id,
@@ -200,7 +200,7 @@ use common\models\Season;
             
         </div>
 
-        <div class="col-sm-6 guest-side">
+        <div class="col-sm-3 guest-side">
             <?php if(isset($model->command_guest_id) && isset($model->season_id)) { ?>
             <?= $this->render('composition_view', [
                 'seasonId' => $model->season_id,
@@ -212,6 +212,10 @@ use common\models\Season;
                 'dataProvider' => $guestCompositionDataProvider,
             ]) ?>
             <?php } ?>
+        </div>
+
+        <div class="col-sm-6">
+            <?= $this->render('stat_form', compact('model', 'form')) ?>
         </div>
     </div>
 
@@ -382,8 +386,6 @@ use common\models\Season;
             ?>
         </div>
     </div>
-
-    <?= $this->render('stat_form', compact('model', 'form')) ?>
 
     <?php
     echo $form->field($model, 'announcement')->widget(\vova07\imperavi\Widget::className(), [

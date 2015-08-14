@@ -75,8 +75,14 @@ if(count($matchEvents) > 0) {
                             <?php } ?>
                             <div class="minute"><?= $event->getTime() ?></div>
                         </div>
-                        <div class="text <?php if($event->match_event_type_id == $event::GOAL || $event->match_event_type_id == $event::AUTOGOAL) {
-                                                echo 'goal';
+                        <div class="text <?php if($event->match_event_type_id == $event::GOAL ||
+                                                  $event->match_event_type_id == $event::AUTOGOAL ||
+                                                  $event->match_event_type_id == $event::GOAL_PENALTY ||
+                                                  $event->match_event_type_id == $event::SUBSTITUTION ||
+                                                  $event->match_event_type_id == $event::YELLOWCARD ||
+                                                  $event->match_event_type_id == $event::REDCARD ||
+                                                  $event->match_event_type_id == $event::SECONDYELLOW) {
+                                                    echo 'goal';
                                                 } ?>">
                             <?= $event->notes ?>
                         </div>

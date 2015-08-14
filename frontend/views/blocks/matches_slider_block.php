@@ -34,9 +34,7 @@ use yii\helpers\Url;
 				</div>
 			</div>
 		</li>
-	<?php } 
-//<?= $match->championship ?>
-	?>	
+	<?php } ?>
 	</ul>
 </div>
 
