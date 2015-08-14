@@ -57,10 +57,6 @@ use yii\bootstrap\Modal;
             'dataProvider' => $dataProvider,
             'columns' => [
                 [
-                    'class' => 'yii\grid\SerialColumn',
-                    'options' => ['width' => '30', 'class' => 'text-center'],
-                ],
-                [
                     'label' => 'Игрок',
                     'value' => function($model) {
                         $num = isset($model->number) && $model->number ? ' #'.$model->number : '';
