@@ -34,10 +34,11 @@ if(Yii::$app->user->can('admin')) {
                 'class' => 'inquirer-form default-form',
             ],
         ]); ?>
+            <?php $inputType = $question->is_multipart ? 'checkbox' : 'radio'; ?>
             <?php foreach ($answers as $answer) { ?>
             <div class="inquirer-answer">
                 <div class="input-box">
-                    <input id="answer-<?= $answer->id ?>" type="radio" name="answer" value="<?= $answer->id ?>">
+                    <input id="answer-<?= $answer->id ?>" type="<?= $inputType ?>" name="answers[]" value="<?= $answer->id ?>">
                 </div>
                 <label for="answer-<?= $answer->id ?>"><?= $answer->title ?></label>
             </div>

@@ -62,7 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'date',
                 'value' => function($model){
-                    return date('d.m.Y h:i', strtotime($model->date));
+                    return date('d.m.Y H:i', strtotime($model->date));
                 },
                 'format' => 'text',
                 'filter' => DatePicker::widget([

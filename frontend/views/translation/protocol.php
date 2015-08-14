@@ -80,7 +80,8 @@ function renderSquad($team, $isBasis, $substitutions, $yellowCards, $redCards, $
                         }
                         foreach ($goalEvents as $goal) {
                             if( findEventSquad($goal, $player) ) {
-                                $finalBlockSquad .= '<div class="goal-event"></div>
+                                $goalType = $goal->match_event_type_id == $goal::AUTOGOAL ? 'autogoal' : 'goal';
+                                $finalBlockSquad .= '<div class="'.$goalType.'-event"></div>
                                     <div class="time">'.$goal->getTime().'</div>';
                                 break;
                             }

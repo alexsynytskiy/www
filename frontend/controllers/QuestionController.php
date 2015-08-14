@@ -4,12 +4,10 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\Question;
-use common\models\QuestionSearch;
 use common\models\QuestionVote;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\helpers\Json;
 use yii\helpers\Url;
 
 /**
@@ -36,20 +34,27 @@ class QuestionController extends Controller
      */
     public function actionVote()
     {
-        $aid = Yii::$app->request->post('answer');
+        $answers = Yii::$app->request->post('answers');
         $userID = isset(Yii::$app->user->id) ? Yii::$app->user->id : false;
-        if($aid && $userID) {
-            $answer = $this->findModel($aid);
-            if(isset($answer->id) && !is_null($answer->parent_id)) {
-                $vote = new QuestionVote();
-                $vote->question_id = $answer->parent_id;
-                $vote->user_id = $userID;
-                if($vote->save()) {
-                    $answer->voutes++;
-                    $answer->save(false);
-                    Yii::$app->getSession()->setFlash('success-question', 'Ваш ответ на опрос успешно сохранен.');
+        if (is_array($answers) && $userID) {
+            $vote = new QuestionVote();
+            foreach ($answers as $aid) {
+                if (is_numeric($aid)) {
+                    $answer = $this->findModel($aid);
+                    if (isset($answer->id) && isset($answer->parent_id)) {
+                        if(!isset($vote->id)) {
+                            $vote->question_id = $answer->parent_id;
+                            $vote->user_id = $userID;
+                            if(!$vote->save()) break;
+                        }
+                        if (isset($vote->id)) {
+                            $answer->voutes++;
+                            $answer->save(false);
+                        }
+                    }
                 }
             }
+            Yii::$app->getSession()->setFlash('success-question', 'Ваш ответ на опрос успешно сохранен.');
         }
         return Yii::$app->getResponse()->redirect(Url::to('/'));
     }

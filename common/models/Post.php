@@ -197,29 +197,6 @@ class Post extends ActiveRecord
             }
             $cacheBlock->content = SiteBlock::getShortNews(50, $enableBanners, $cacheStatus, $newsPosts50);
             $cacheBlock->save();
-
-            $machineName = 'shortNews20';
-            $enableBanners = false;
-            if(!isset($cacheBlocks[$machineName])){
-                $cacheBlock = new CacheBlock();
-                $cacheBlock->machine_name = $machineName;
-            } else {
-                $cacheBlock = $cacheBlocks[$machineName];
-            }
-            $cacheBlock->content = SiteBlock::getShortNews(20, $enableBanners, $cacheStatus, $newsPosts20);
-            $cacheBlock->save();
-
-            $machineName = 'shortNews20banners';
-            $enableBanners = true;
-            SiteBlock::$postedBannerIds = [];
-            if(!isset($cacheBlocks[$machineName])){
-                $cacheBlock = new CacheBlock();
-                $cacheBlock->machine_name = $machineName;
-            } else {
-                $cacheBlock = $cacheBlocks[$machineName];
-            }
-            $cacheBlock->content = SiteBlock::getShortNews(20, $enableBanners, $cacheStatus, $newsPosts20);
-            $cacheBlock->save();
         }
 
         if(isset($changedAttributes['is_index']) && $this->is_index != $changedAttributes['is_index'] ||

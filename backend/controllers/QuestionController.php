@@ -71,7 +71,7 @@ class QuestionController extends Controller
             'parent_id' => $model->id,
         ]];
         $answersDataProvider = $searchModel->search($params);
-        $answersDataProvider->setSort(['defaultOrder' => ['id' => SORT_DESC]]);
+        $answersDataProvider->setSort(['defaultOrder' => ['id' => SORT_ASC]]);
 
         return $this->render('view', [
             'model' => $model,

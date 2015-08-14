@@ -1728,12 +1728,17 @@ body a:focus {
   background: url(/images/change_icon.svg) center no-repeat;
   background-size: 20px;
 }
-.first-team .team .player .goal-event {
+.first-team .team .player .goal-event,
+.first-team .team .player .autogoal-event {
   float: left;
   width: 25px;
   height: 14px;
   margin: 3px 5px 0 0;
   background: url(/images/goul.svg) center no-repeat;
+  background-size: 25px;
+}
+.first-team .team .player .autogoal-event {
+  background: url(/images/avtogoal.svg) center no-repeat;
   background-size: 25px;
 }
 .first-team .team .player .time {

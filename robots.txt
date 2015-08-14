@@ -1,2 +1,14 @@
 User-agent: *
-Disallow:
+Disallow: /tests/
+Disallow: /vendor/
+Disallow: /info/
+Disallow: /hooks/
+Disallow: /environments/
+Disallow: /console/
+Disallow: /common/
+Disallow: /*/assets/
+Disallow: /*/config/
+Disallow: /*/controllers/
+Disallow: /*/models/
+Disallow: /*/runtime/
+Disallow: /*/views/

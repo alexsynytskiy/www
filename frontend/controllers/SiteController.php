@@ -105,7 +105,7 @@ class SiteController extends Controller
             ],
             'columnSecond' => [
                 'slider_matches' => SiteBlock::getMatchesSlider(),
-                'short_news' => SiteBlock::getShortNews(50, false),
+                'short_news' => SiteBlock::getshortNews(50, false),
             ],
             'columnThird' => [
                 'questionBlock' => SiteBlock::getQuestionBlock(),
@@ -260,7 +260,7 @@ class SiteController extends Controller
                 ],
             ],
             'columnSecond' => [
-                'short_news' => SiteBlock::getShortNews(20),
+                'short_news' => SiteBlock::getshortNews(50),
             ],
 
         ];
@@ -406,7 +406,7 @@ class SiteController extends Controller
                 ],
             ],
             'columnSecond' => [  
-                'tournament' => SiteBlock::getShortNews(20),
+                'tournament' => SiteBlock::getshortNews(50),
             ],
         ]);
     }
@@ -631,7 +631,7 @@ class SiteController extends Controller
                 ],
             ],
             'columnSecond' => [ 
-                'short_news' => SiteBlock::getShortNews(20),
+                'short_news' => SiteBlock::getshortNews(50),
             ],
         ];
 
@@ -724,7 +724,7 @@ class SiteController extends Controller
             'columnFirst' => $columnFirst,
             'columnSecond' => [ 
                 'tournament' => SiteBlock::getTournamentTable(),
-                'short_news' => SiteBlock::getShortNews(20),
+                'short_news' => SiteBlock::getshortNews(50),
             ],
         ]);
     }
@@ -811,7 +811,7 @@ class SiteController extends Controller
                 'comments' => Comment::getCommentsBlock($match->id, Comment::COMMENTABLE_MATCH),
             ],
             'columnSecond' => [ 
-                'short_news' => SiteBlock::getShortNews(20),
+                'short_news' => SiteBlock::getshortNews(50),
             ],
         ]);
     }
@@ -869,7 +869,7 @@ class SiteController extends Controller
                 ],
             ],
             'columnSecond' => [ 
-                'short_news' => SiteBlock::getShortNews(20),
+                'short_news' => SiteBlock::getshortNews(50),
             ],
         ]);
     }
@@ -909,7 +909,7 @@ class SiteController extends Controller
                 ],
             ],
             'columnSecond' => [ 
-                'short_news' => SiteBlock::getShortNews(20),
+                'short_news' => SiteBlock::getshortNews(50),
             ],
         ];
 
@@ -1038,7 +1038,7 @@ class SiteController extends Controller
             'title' => 'Dynamomania.com | '.$title,
             'columnFirst' => $columnData,
             'columnSecond' => [ 
-                'short_news' => SiteBlock::getShortNews(20),
+                'short_news' => SiteBlock::getshortNews(50),
             ],
         ]);
     }
@@ -1091,7 +1091,7 @@ class SiteController extends Controller
                 ],
             ],
             'columnSecond' => [ 
-                'short_news' => SiteBlock::getShortNews(20),
+                'short_news' => SiteBlock::getshortNews(50),
             ],
         ]);
     }
@@ -1371,7 +1371,7 @@ class SiteController extends Controller
                 ],
             ],
             'columnSecond' => [ 
-                'tournament' => SiteBlock::getShortNews(20),
+                'tournament' => SiteBlock::getshortNews(50),
             ],
         ]);
     }
@@ -1872,7 +1872,7 @@ class SiteController extends Controller
                 'comments' => Comment::getCommentsBlock($album->id, Comment::COMMENTABLE_ALBUM),
             ],
             'columnSecond' => [ 
-                'short_news' => SiteBlock::getShortNews(20), 
+                'short_news' => SiteBlock::getshortNews(50),
             ],
         ]);
     }
@@ -1979,7 +1979,7 @@ class SiteController extends Controller
                 'comments' => Comment::getCommentsBlock($photo->id, Comment::COMMENTABLE_PHOTO),
             ],
             'columnSecond' => [ 
-                'short_news' => SiteBlock::getShortNews(20),
+                'short_news' => SiteBlock::getshortNews(50),
             ],
         ]);
     }
@@ -2010,7 +2010,8 @@ class SiteController extends Controller
     {
         Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
         $headers = Yii::$app->response->headers;
-        $headers->add('Content-Type', 'application/rss+xml; charset=utf-8');
+//        $headers->add('Content-Type', 'application/rss+xml; charset=utf-8');
+        $headers->add('Content-Type', 'text/xml; charset=utf-8');
 
         $posts = Post::find()
             ->where(['is_public' => 1])
@@ -2053,7 +2054,7 @@ class SiteController extends Controller
     {
         Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
         $headers = Yii::$app->response->headers;
-        $headers->add('Content-Type', 'application/rss+xml; charset=utf-8');
+        $headers->add('Content-Type', 'text/xml; charset=utf-8');
 
         $matches = Match::find()
             ->innerJoinWith('matchEvents')
@@ -2109,7 +2110,7 @@ class SiteController extends Controller
                 $comment = [
                     'id' => $event->id,
                     'time' => $minute,
-                    'text' => strip_tags($event->notes,"<a><p><br>"),
+                    'text' => htmlspecialchars(strip_tags($event->notes,"<a><p><br>")),
                 ];
                 $comments[] = (object) $comment;
             }
@@ -2139,7 +2140,7 @@ class SiteController extends Controller
 
         Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
         $headers = Yii::$app->response->headers;
-        $headers->add('Content-Type', 'application/rss+xml; charset=utf-8');
+        $headers->add('Content-Type', 'text/xml; charset=utf-8');
 
         $posts = Post::find()
             ->where([

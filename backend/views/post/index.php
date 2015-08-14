@@ -51,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'created_at',
                 'value' => function($model){
-                    return date('d.m.Y h:i', strtotime($model->created_at));
+                    return date('d.m.Y H:i', strtotime($model->created_at));
                 },
                 'format' => 'text',
                 'filter' => DatePicker::widget([
@@ -70,7 +70,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'updated_at',
                 'value' => function($model){
-                    return date('d.m.Y h:i', strtotime($model->updated_at));
+                    return date('d.m.Y H:i', strtotime($model->updated_at));
                 },
                 'format' => 'text',
                 'filter' => DatePicker::widget([
