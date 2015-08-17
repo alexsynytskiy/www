@@ -18,8 +18,12 @@ class PostSearch extends Post
     public function rules()
     {
         return [
-            [['id', 'user_id', 'is_public', 'is_index', 'is_top', 'is_pin', 'with_video', 'with_photo', 'content_category_id', 'is_yandex_rss', 'allow_comment'], 'integer'],
-            [['user.username', 'title', 'slug', 'content', 'created_at', 'updated_at', 'source_title', 'source_url', 'cached_tag_list'], 'safe'],
+            [['id', 'user_id', 'is_public', 'is_index', 'is_top', 'is_pin',
+                'with_video', 'with_photo', 'content_category_id',
+                'is_yandex_rss', 'allow_comment'], 'integer'],
+            [['user.username', 'tag.name', 'title', 'slug',
+                'content', 'created_at', 'updated_at', 'source_title',
+                'source_url', 'cached_tag_list'], 'safe'],
         ];
     }
 
@@ -38,7 +42,10 @@ class PostSearch extends Post
     public function attributes()
     {
         // add related fields to searchable attributes
-        return array_merge(parent::attributes(), ['user.username']);
+        return array_merge(parent::attributes(), [
+            'user.username',
+            'tag.name',
+        ]);
     }
 
     /**
@@ -60,6 +67,11 @@ class PostSearch extends Post
         $query->joinWith(['user' => function($query) use ($userTable) {
             $query->from(['user' => $userTable]);
         }]);
+
+        $tagTable = Tag::tableName();
+        $taggingTable = Tagging::tableName();
+        $query->leftJoin($taggingTable, "$taggingTable.taggable_id = $postTable.id AND $taggingTable.taggable_type = '".Tagging::TAGGABLE_POST."'");
+        $query->leftJoin($tagTable, "$tagTable.id = $taggingTable.tag_id");
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -116,7 +128,8 @@ class PostSearch extends Post
             ->andFilterWhere(['like', 'source_title', $this->source_title])
             ->andFilterWhere(['like', 'source_url', $this->source_url])
             ->andFilterWhere(['like', 'cached_tag_list', $this->cached_tag_list])
-            ->andFilterWhere(['like', 'user.username', $this->getAttribute('user.username')]);
+            ->andFilterWhere(['like', 'user.username', $this->getAttribute('user.username')])
+            ->andFilterWhere(['like', "$tagTable.name", $this->getAttribute('tag.name')]);
 
         return $dataProvider;
     }

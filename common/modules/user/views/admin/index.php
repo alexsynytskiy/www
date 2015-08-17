@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use kartik\date\DatePicker;
-use common\modules\user\models\User;
+use yii\helpers\Url;
 
 $user = Yii::$app->getModule("user")->model("User");
 $role = Yii::$app->getModule("user")->model("Role");
@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Создать пользователя', ['create'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Удалить неподтвержденных', ['delete-pending-users'], ['class' => 'btn btn-warning']) ?>
+        <?php // echo Html::a('Удалить неподтвержденных', ['delete-pending-users'], ['class' => 'btn btn-warning']); ?>
         <?php
             if(count(Yii::$app->getRequest()->getQueryParams()) > 0) {
                 echo Html::a('Сброс', ['/user/admin'], ['class' => 'btn btn-primary']);
@@ -97,7 +97,17 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'update_time',
             // 'ban_time',
             // 'ban_reason',
-
+            [
+                'label' => '',
+                'value' => function ($model) {
+                    $url = Url::to(['comments', 'id' => $model->id]);
+                    return Html::a('<span class="glyphicon glyphicon-paperclip"></span>', $url, [
+                        'title' => 'Комментарии',
+                    ]);
+                },
+                'format' => 'html',
+                'options' => ['width' => '25'],
+            ],
             [
                 'class' => 'yii\grid\ActionColumn',
                 'options' => ['width' => '70'],

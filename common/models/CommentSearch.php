@@ -82,7 +82,7 @@ class CommentSearch extends Comment
         }
 
         $createdTime = strtotime($this->created_at);
-        $startDay = date("Y-m-d 00:00:00",$createdTime);
+        $startDay = date("Y-m-d 00:00:00", $createdTime);
         $endDay = date("Y-m-d 00:00:00", $createdTime + 60*60*24);
         if($this->created_at) {
             $query->andFilterWhere(['between', 'created_at', $startDay, $endDay]);
@@ -90,7 +90,7 @@ class CommentSearch extends Comment
 
         $query->andFilterWhere([
             "{$commentTable}.id" => $this->id,
-            'user_id' => $this->user_id,
+            "{$commentTable}.user_id" => $this->user_id,
             'parent_id' => $this->parent_id,
         ]);
 

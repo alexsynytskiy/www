@@ -93,7 +93,7 @@ class AlbumController extends Controller
 
         $matchModel = new \common\models\MatchSearch();
         $relation = new Relation();
-        $relation->relationable_type = Relation::RELATIONABLE_POST;
+        $relation->relationable_type = Relation::RELATIONABLE_ALBUM;
         $matches = $matchModel::find()
             ->orderBy(['date' => SORT_DESC])
             ->limit(10)
@@ -248,7 +248,7 @@ class AlbumController extends Controller
         $matchesList = [];
         if(!isset($relation)) {
             $relation = new Relation();
-            $relation->relationable_type = Relation::RELATIONABLE_POST;
+            $relation->relationable_type = Relation::RELATIONABLE_ALBUM;
         }
         if(!isset($relation->match)) {
             $matches = $matchModel::find()

@@ -4,8 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use common\models\Asset;
 
-/* @var $this yii\web\View */
-/* @var $model common\models\Post */
+/**
+ * @var $this yii\web\View
+ * @var $model common\models\Post
+ * @var $coverImage common\models\Asset
+ */
 
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Альбомы', 'url' => ['/album']];
@@ -63,14 +66,15 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]) ?>
-    
+
     <div class="panel panel-default">
         <div class="panel-heading"><strong>Изображения</strong></div>
         <div class="panel-body">
             <?php
             foreach($images as $image)
             {
-                if(!empty($image->getFileUrl())) {
+                $fileUrl = $image->getFileUrl();
+                if(!empty($fileUrl)) {
                     $img = Html::img($image->getFileUrl(), ['style' => 'height: 160px; margin: 0 10px 10px 0']);
                     echo Html::a($img, $image->getFileUrl(), ['target' => '_blank']);
                 } else echo $image->id.' ';

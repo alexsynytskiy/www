@@ -28,10 +28,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            [
-                'attribute' => 'id',
-                'options' => ['width' => '100'],
-            ],
+//            [
+//                'attribute' => 'id',
+//                'options' => ['width' => '100'],
+//            ],
             [
                 'attribute' => 'user.username',
                 'label' => 'Автор',
@@ -47,6 +47,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Html::a($model->title, ['post/'.$model->id]);
                 },
                 'format' => 'html',
+            ],
+            [
+                'attribute' => 'tag.name',
+                'label' => 'Теги',
+                'value' => function($model) {
+                    return $model->cached_tag_list;
+                },
             ],
             [
                 'attribute' => 'created_at',
@@ -96,6 +103,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'is_public',
+                'label' => 'Опубл.',
                 'value' => function($model) {
                     if($model->is_public) return 'Да';
                     return 'Нет';

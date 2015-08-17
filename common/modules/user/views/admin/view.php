@@ -26,6 +26,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a('Комментарии', ['comments', 'id' => $user->id], ['class' => 'btn btn-success']) ?>
+
     </p>
 
     <?= DetailView::widget([

@@ -2,6 +2,7 @@
 
 namespace common\modules\user\controllers;
 
+use common\models\CommentSearch;
 use Yii;
 use common\modules\user\models\User;
 use common\modules\user\models\UserKey;
@@ -63,6 +64,28 @@ class AdminController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
         return $this->render('index', [
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
+        ]);
+    }
+
+    /**
+     * List all User models
+     *
+     * @param int $id
+     * @return mixed
+     * @throws NotFoundHttpException
+     */
+    public function actionComments($id)
+    {
+        $user = $this->findModel($id);
+        $searchModel = new CommentSearch();
+        $queryParams = Yii::$app->request->getQueryParams();
+        $queryParams['CommentSearch']['user_id'] = $user->id;
+        $dataProvider = $searchModel->search($queryParams);
+
+        return $this->render('comments', [
+            'user' => $user,
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
         ]);
@@ -229,6 +252,8 @@ class AdminController extends Controller
     {
         // delete profile and userkeys first to handle foreign key constraint
         $user = $this->findModel($id);
+        // Sidash
+        if($user->id == 1) return $this->redirect(['index']);
         $profile = $user->profile;
         UserKey::deleteAll(['user_id' => $user->id]);
         UserAuth::deleteAll(['user_id' => $user->id]);
