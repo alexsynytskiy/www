@@ -212,6 +212,13 @@ class MatchController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $model->save(false);
+
+            $previousURL = Yii::$app->request->referrer;
+
+            if(strpos($previousURL, 'admin/match/events') !== false) {
+                return $this->redirect(['match/events', 'id' => $model->id]);
+            }
+
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('stat_update', compact('model'));

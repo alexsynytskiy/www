@@ -15,7 +15,10 @@ $this->params['breadcrumbs'][] = 'Изменить статистику';
 
 <div class="match-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin([
+        'action' => "/admin/match/stat-update?id=".$model->id,
+    ]);
+    ?>
 
     <div class="row">
         <div class="col-sm-6">
