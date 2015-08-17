@@ -101,6 +101,7 @@ class TournamentController extends Controller
     public function actionCreate()
     {
         $model = new Tournament();
+        if(empty($model->weight)) $model->weight = 0;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -129,6 +130,7 @@ class TournamentController extends Controller
             if(empty($model->penalty_points)) $model->penalty_points = 0;
             $model->penalty_points = abs($model->penalty_points);
             if(empty($model->goals_for)) $model->goals_for = 0;
+            if(empty($model->weight)) $model->weight = 0;
             if(empty($model->goals_against)) $model->goals_against = 0;
 
             $model->played = $model->won + $model->draw + $model->lost;

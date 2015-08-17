@@ -102,7 +102,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($model) {
                     $url = Url::to(['comments', 'id' => $model->id]);
                     $url .= '?sort=-created_at';
-                    return Html::a('<span class="glyphicon glyphicon-paperclip"></span>', $url, [
+                    return Html::a('<span class="glyphicon glyphicon-envelope"></span>', $url, [
                         'title' => 'Комментарии',
                     ]);
                 },

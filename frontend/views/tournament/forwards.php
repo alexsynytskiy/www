@@ -25,9 +25,10 @@ use yii\helpers\Url;
                 </tr>
             </thead>
             <tbody>
-                <?php 
+                <?php
+
                 $count = 0;
-                foreach($forwards as $forward) { 
+                foreach($forwards as $forward) {
                     $count++;
                     $highlight = $forward->team_id == \common\models\Team::TEAM_DK_FIRST_FULL_NAME ? 'bold' : '';
                     $playerName = $forward->player->name;

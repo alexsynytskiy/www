@@ -90,6 +90,14 @@ for ($i = 0; $i < count($priorityCriteria) - 1; $i++) {
 for ($i = 0; $i < count($tournamentData) - 1; $i++) {
     for ($j = $i + 1; $j < count($tournamentData); $j++) {
         if(($tournamentData[$i]->points == $tournamentData[$j]->points)) {
+
+            if($tournamentData[$i]->weight < $tournamentData[$j]->weight) {
+                $temp = $tournamentData[$i];
+                $tournamentData[$i] = $tournamentData[$j];
+                $tournamentData[$j] = $temp;
+                break;
+            }
+
             for ($k = 0; $k < count($priorityCriteria); $k++) {
                 switch ($priorityCriteria[$k]['type']) {
                     case "won":
