@@ -43,7 +43,8 @@ class Tournament extends ActiveRecord
         return [
             [['command_id', 'championship_id', 'season_id', 
                 'played', 'won', 'draw', 'lost', 'goals_for', 
-                'goals_against', 'points', 'league_id', 'penalty_points'], 'integer'],
+                'goals_against', 'points', 'league_id', 'penalty_points',
+                'weight'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['fair_play'], 'number'],
 

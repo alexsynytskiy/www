@@ -1998,17 +1998,14 @@ header .header-wrapper .breadcrumbs .tag:hover {
   float: right;
 }
 .grid-column .match-protocol .logo-score-block .score {
-  display: inline-block;
   position: absolute;
-  left: 0;
-  right: 0;
-  margin-right: auto;
-  margin-left: auto;
+  left: 50%;
+  width: 60px;
+  margin-left: -30px;
   line-height: 90px;
   font-size: 21px;
   font-weight: bold;
   color: #727272;
-  max-width: 60px;
   text-align: center;
 }
 .grid-column .statistics {

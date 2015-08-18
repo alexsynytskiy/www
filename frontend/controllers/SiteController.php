@@ -172,7 +172,11 @@ class SiteController extends Controller
             ],
             'columnSecond' => [
                 'blog_column' => SiteBlock::getBlogPosts(),
-                'banner' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
+                'banner1' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
+                'banner2' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
+                'banner3' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
+                'banner4' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
+                'banner5' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
             ],
         ]);
     }
@@ -230,7 +234,11 @@ class SiteController extends Controller
             ],
             'columnSecond' => [
                 'blog_column' => SiteBlock::getBlogPosts(),
-                'banner' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
+                'banner1' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
+                'banner2' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
+                'banner3' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
+                'banner4' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
+                'banner5' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
             ],
         ]);
     }
