@@ -33,6 +33,7 @@ use common\models\Subscribing;
 use common\models\Relation;
 
 
+use yii\helpers\Url;
 use yii\web\BadRequestHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\ForbiddenHttpException;
@@ -40,6 +41,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Json;
+use yii\web\Response;
 use yii\web\UploadedFile;
 
 /**
@@ -88,7 +90,7 @@ class SiteController extends Controller
     }
 
     /**
-     * Main page
+     * Url: /
      * @return mixed Content
      */
     public function actionIndex()
@@ -120,10 +122,12 @@ class SiteController extends Controller
     }
 
     /**
-     * @param string $date Searching by date
-     * @param string $t Tag name slug
-     * @param string $q Search words
+     * Url: /search?t={$t}
+     * Url: /search?q={$q}
+     * @param bool|string $t Tag name slug
+     * @param bool|string $q Search words
      * @return mixed Content
+     * @internal param string $date Searching by date
      */
     public function actionSearch($t = false, $q = false) 
     {
@@ -133,7 +137,6 @@ class SiteController extends Controller
         $postTable = Post::tableName();
         $query = Post::find()->where([
             'is_public' => 1, 
-            // 'content_category_id' => Post::CATEGORY_BLOG,
         ]);
 
         if(isset($t) && trim($t) != '') {
@@ -172,16 +175,17 @@ class SiteController extends Controller
             ],
             'columnSecond' => [
                 'blog_column' => SiteBlock::getBlogPosts(),
-                'banner1' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
-                'banner2' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
-                'banner3' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
-                'banner4' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
-                'banner5' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
+                'banner1' => SiteBlock::getBanner(Banner::REGION_NEWS),
+                'banner2' => SiteBlock::getBanner(Banner::REGION_NEWS),
+                'banner3' => SiteBlock::getBanner(Banner::REGION_NEWS),
+                'banner4' => SiteBlock::getBanner(Banner::REGION_NEWS),
+                'banner5' => SiteBlock::getBanner(Banner::REGION_NEWS),
             ],
         ]);
     }
 
     /**
+     * Url: /news/?date={$date}
      * @param string $date Searching by date
      * @return mixed Content
      */
@@ -234,16 +238,17 @@ class SiteController extends Controller
             ],
             'columnSecond' => [
                 'blog_column' => SiteBlock::getBlogPosts(),
-                'banner1' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
-                'banner2' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
-                'banner3' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
-                'banner4' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
-                'banner5' => SiteBlock::getBanner(Banner::REGION_THIRD_COLUMN),
+                'banner1' => SiteBlock::getBanner(Banner::REGION_NEWS),
+                'banner2' => SiteBlock::getBanner(Banner::REGION_NEWS),
+                'banner3' => SiteBlock::getBanner(Banner::REGION_NEWS),
+                'banner4' => SiteBlock::getBanner(Banner::REGION_NEWS),
+                'banner5' => SiteBlock::getBanner(Banner::REGION_NEWS),
             ],
         ]);
     }
     
     /**
+     * Url: /news|blog/{$id}-{$slug}
      * @param $id int Post id
      * @param $slug string Post slug
      * @return string Content
@@ -294,7 +299,7 @@ class SiteController extends Controller
 
     /**
      * Adds a new comment
-     * If adding is successful, the browser will be redirected to the 'previ' page.
+     * If adding is successful, the browser will be redirected to the 'previous' page.
      * 
      * @return mixed
      */
@@ -321,9 +326,7 @@ class SiteController extends Controller
     }
     
     /**
-     * Adds a new comment
-     * If adding is successful, the browser will be redirected to the 'previ' page.
-     * 
+     * Url: /matches
      * @return mixed
      */
     public function actionMatches() 
@@ -420,8 +423,7 @@ class SiteController extends Controller
     }
 
     /**
-     * Transfers page
-     * 
+     * Url: /transfers
      * @return mixed
      */
     public function actionTransfers() 
@@ -512,10 +514,10 @@ class SiteController extends Controller
     }
 
     /**
-     * Transfers page
-     * 
+     * Url: /transfer/{$id}
      * @param int $id Transfer id
      * @return mixed
+     * @throws NotFoundHttpException
      */
     public function actionTransfer($id) 
     {
@@ -537,15 +539,12 @@ class SiteController extends Controller
             ],
             'columnSecond' => [ 
                 'short_news' => SiteBlock::getShortNews(10),
-                // 'blogs' => SiteBlock::getBlogPosts(),
-                // banners 3
             ],
         ]);
     }
 
     /**
-     * Tournament page
-     * 
+     * Url: /tournament
      * @return mixed
      */
     public function actionTournament()
@@ -654,10 +653,10 @@ class SiteController extends Controller
     }
 
     /**
-     * Translation page
-     * 
+     * Url: /match/{$id}
      * @param int $id Match id
      * @return mixed
+     * @throws NotFoundHttpException
      */
     public function actionMatchTranslation($id) 
     {
@@ -738,9 +737,10 @@ class SiteController extends Controller
     }
 
     /**
-     * All tags page
-     *     
+     * Page of all tags
+     * Url: /tags
      * @return mixed
+     * @throws NotFoundHttpException
      */
     public function actionTags() 
     {
@@ -768,9 +768,10 @@ class SiteController extends Controller
     }
 
     /**
-     * Translation page
-     * 
+     * Url: /match/protocol/{$id}
+     * @param $id
      * @return mixed
+     * @throws NotFoundHttpException
      */
     public function actionMatchProtocol($id) 
     {
@@ -825,9 +826,10 @@ class SiteController extends Controller
     }
 
     /**
-     * Match news page
-     * 
+     * Url: /match/{$id}/news
+     * @param $id
      * @return mixed
+     * @throws NotFoundHttpException
      */
     public function actionMatchNews($id) 
     {
@@ -883,9 +885,10 @@ class SiteController extends Controller
     }
 
     /**
-     * Match report page
-     * 
+     * Url: /match/{$id}/report
+     * @param $id
      * @return mixed
+     * @throws NotFoundHttpException
      */
     public function actionMatchReport($id) 
     {
@@ -946,9 +949,10 @@ class SiteController extends Controller
     }
 
     /**
-     * Match photos page
+     * Url: /match/{$id}/photos
      * @param $id Match id
      * @return mixed
+     * @throws NotFoundHttpException
      */
     public function actionMatchPhotos($id) 
     {
@@ -1052,9 +1056,10 @@ class SiteController extends Controller
     }
 
     /**
-     * Match videos page
+     * Url: /match/{$id}/videos
      * @param $id Match id
      * @return mixed
+     * @throws NotFoundHttpException
      */
     public function actionMatchVideos($id) 
     {
@@ -1105,8 +1110,7 @@ class SiteController extends Controller
     }
 
     /**
-     * Inquirers page
-     * 
+     * Url: /inquirers
      * @return mixed
      */
     public function actionInquirers() 
@@ -1139,10 +1143,10 @@ class SiteController extends Controller
     }
 
     /**
-     * Inquirer page
-     * 
+     * Url: /inquirers/{$id}
      * @param int $id Inquirer id
      * @return mixed
+     * @throws NotFoundHttpException
      */
     public function actionInquirerPage($id)
     {        
@@ -1154,7 +1158,7 @@ class SiteController extends Controller
             'templateType' => 'col2',
             'title' => 'Dynamomania.com | Опрос',
             'columnFirst' => [
-                'inquierer' => SiteBlock::getQuestionBlockTitle(false, $id),
+                'inquirer' => SiteBlock::getQuestionBlockTitle(false, $id),
                 'comments' => Comment::getCommentsBlock($id, Comment::COMMENTABLE_INQUIRER),
             ],
             'columnSecond' => [ 
@@ -1164,12 +1168,13 @@ class SiteController extends Controller
     }
 
     /**
-     * Player page
-     * 
+     * Url: /player/{$id}-{$slug}
      * @param int $id Player id
+     * @param $slug
      * @return mixed
+     * @throws NotFoundHttpException
      */
-    public function actionPlayer($id, $slug) 
+    public function actionPlayer($id, $slug)
     {  
         $player = Player::findOne($id);
 
@@ -1191,6 +1196,11 @@ class SiteController extends Controller
             ],
             'columnSecond' => [
                 'blog_column' => SiteBlock::getBlogPosts(),
+                'banner1' => SiteBlock::getBanner(Banner::REGION_NEWS),
+                'banner2' => SiteBlock::getBanner(Banner::REGION_NEWS),
+                'banner3' => SiteBlock::getBanner(Banner::REGION_NEWS),
+                'banner4' => SiteBlock::getBanner(Banner::REGION_NEWS),
+                'banner5' => SiteBlock::getBanner(Banner::REGION_NEWS),
             ],
 
         ];
@@ -1199,10 +1209,11 @@ class SiteController extends Controller
     }
 
     /**
-     * Player page
-     * 
+     * Url: /coach/{$id}-{$slug}
      * @param int $id Player id
+     * @param $slug
      * @return mixed
+     * @throws NotFoundHttpException
      */
     public function actionCoach($id, $slug) 
     {  
@@ -1226,6 +1237,11 @@ class SiteController extends Controller
             ],
             'columnSecond' => [
                 'blog_column' => SiteBlock::getBlogPosts(),
+                'banner1' => SiteBlock::getBanner(Banner::REGION_NEWS),
+                'banner2' => SiteBlock::getBanner(Banner::REGION_NEWS),
+                'banner3' => SiteBlock::getBanner(Banner::REGION_NEWS),
+                'banner4' => SiteBlock::getBanner(Banner::REGION_NEWS),
+                'banner5' => SiteBlock::getBanner(Banner::REGION_NEWS),
             ],
 
         ];
@@ -1234,9 +1250,11 @@ class SiteController extends Controller
     }
 
     /**
-     * Claim page
+     * Url: /complain/{$id}
      * @param int $id Comment id
      * @return mixed
+     * @throws BadRequestHttpException
+     * @throws NotFoundHttpException
      */
     public function actionComplain($id) 
     {
@@ -1279,15 +1297,21 @@ class SiteController extends Controller
             ],
             'columnSecond' => [ 
                 'photo_news' => SiteBlock::getPhotoNews(),
+                'banner1' => SiteBlock::getBanner(Banner::REGION_NEWS),
+                'banner2' => SiteBlock::getBanner(Banner::REGION_NEWS),
+                'banner3' => SiteBlock::getBanner(Banner::REGION_NEWS),
+                'banner4' => SiteBlock::getBanner(Banner::REGION_NEWS),
+                'banner5' => SiteBlock::getBanner(Banner::REGION_NEWS),
             ],
         ]);
     }
 
     /**
-     * Team full info page
-     * @param $id int Team id
+     * Url: /info|composition|achievements|record-holders/{$id}
      * @param $tab string Team id
+     * @param bool|int $id int Team id
      * @return mixed
+     * @throws NotFoundHttpException
      */
     public function actionTeam($tab, $id = false) 
     {
@@ -1369,7 +1393,7 @@ class SiteController extends Controller
             'templateType' => 'col2',
             'title' => 'Dynamomania.com | '.$team->name,
             'columnFirst' => [
-                'navbar' => [
+                'nav-bar' => [
                     'view' => '@frontend/views/team/menu',
                     'data' => compact('team', 'tab'),
                 ],
@@ -1380,14 +1404,19 @@ class SiteController extends Controller
             ],
             'columnSecond' => [ 
                 'tournament' => SiteBlock::getshortNews(50),
+                'banner1' => SiteBlock::getBanner(Banner::REGION_NEWS),
+                'banner2' => SiteBlock::getBanner(Banner::REGION_NEWS),
+                'banner3' => SiteBlock::getBanner(Banner::REGION_NEWS),
+                'banner4' => SiteBlock::getBanner(Banner::REGION_NEWS),
+                'banner5' => SiteBlock::getBanner(Banner::REGION_NEWS),
             ],
         ]);
     }
 
     /**
-     * Add post page
-     * 
+     * Url: /post/add
      * @return mixed
+     * @throws ForbiddenHttpException
      */
     public function actionPostAdd() 
     {
@@ -1469,16 +1498,22 @@ class SiteController extends Controller
                 ],
             ],
             'columnSecond' => [ 
-                'blogs' => SiteBlock::getBlogPosts(), // 3 blogs
+                'blog' => SiteBlock::getBlogPosts(),
+                'banner1' => SiteBlock::getBanner(Banner::REGION_NEWS),
+                'banner2' => SiteBlock::getBanner(Banner::REGION_NEWS),
+                'banner3' => SiteBlock::getBanner(Banner::REGION_NEWS),
+                'banner4' => SiteBlock::getBanner(Banner::REGION_NEWS),
+                'banner5' => SiteBlock::getBanner(Banner::REGION_NEWS),
             ],
         ]);
     }
 
     /**
-     * Edit post page
-     * 
+     * Url: /post/edit/{$id}
      * @param $id int Post id
      * @return mixed
+     * @throws ForbiddenHttpException
+     * @throws NotFoundHttpException
      */
     public function actionPostEdit($id) 
     {
@@ -1577,14 +1612,19 @@ class SiteController extends Controller
                 ],
             ],
             'columnSecond' => [ 
-                'blogs' => SiteBlock::getBlogPosts(), // 3 blogs
+                'blog' => SiteBlock::getBlogPosts(),
+                'banner1' => SiteBlock::getBanner(Banner::REGION_NEWS),
+                'banner2' => SiteBlock::getBanner(Banner::REGION_NEWS),
+                'banner3' => SiteBlock::getBanner(Banner::REGION_NEWS),
+                'banner4' => SiteBlock::getBanner(Banner::REGION_NEWS),
+                'banner5' => SiteBlock::getBanner(Banner::REGION_NEWS),
             ],
         ]);
     }
 
     /**
-     * Blogs page
-     * @param $id int User id
+     * Url: /blogs
+     * @param bool|int $id int User id
      * @return mixed
      */
     public function actionBlogs($id = false) 
@@ -1617,13 +1657,14 @@ class SiteController extends Controller
                 ],
             ],
             'columnSecond' => [
-                'bestblogs' => SiteBlock::getBlogPostsByRating(),
-                'short_news' => SiteBlock::getShortNews(),
+                'best-blogs' => SiteBlock::getBlogPostsByRating(),
+                'short-news' => SiteBlock::getShortNews(),
             ],
         ]);
     }
 
     /**
+     * Url: /information
      * Info page
      * @return mixed
      */
@@ -1638,13 +1679,13 @@ class SiteController extends Controller
                 ],
             ],
             'columnSecond' => [
-                // 'reviewNews' => SiteBlock::getPhotoVideoNews(),
+                'banner1' => SiteBlock::getBanner(Banner::REGION_NEWS),
             ],
         ]);
     }
 
     /**
-     * Contscts page
+     * Url: /contacts
      * @return mixed
      */
     public function actionContacts()
@@ -1658,13 +1699,13 @@ class SiteController extends Controller
                 ],
             ],
             'columnSecond' => [
-                // 'reviewNews' => SiteBlock::getPhotoVideoNews(),
+                'banner1' => SiteBlock::getBanner(Banner::REGION_NEWS),
             ],
         ]);
     }
 
     /**
-     * Contscts page
+     * Url: /forum-rules
      * @return mixed
      */
     public function actionForumRules()
@@ -1678,12 +1719,13 @@ class SiteController extends Controller
                 ],
             ],
             'columnSecond' => [
-                'short_news' => SiteBlock::getShortNews(50, false),
+                'short_news' => SiteBlock::getShortNews(50),
             ],
         ]);
     }
 
     /**
+     * Url: /photos
      * Photo page
      * @return mixed
      */
@@ -1718,6 +1760,7 @@ class SiteController extends Controller
     }
 
     /**
+     * Url: /videos
      * Video page
      * @return mixed
      */
@@ -1752,10 +1795,11 @@ class SiteController extends Controller
     }
 
     /**
-     * Video page
+     * Url: /video/{$id}-{$slug}
      * @param int $id Album id
      * @param string $slug Album slug
      * @return mixed
+     * @throws NotFoundHttpException
      */
     public function actionVideoPost($id, $slug) 
     {
@@ -1805,10 +1849,11 @@ class SiteController extends Controller
 
 
     /**
-     * Album page with slider
+     * Url: /album/{$id}-{$slug}
      * @param int $id Album id
      * @param string $slug Album slug
      * @return mixed Content
+     * @throws NotFoundHttpException
      */
     public function actionAlbum($id, $slug) 
     {
@@ -1886,10 +1931,9 @@ class SiteController extends Controller
     }
 
     /**
-     * Album page with slider
      * @param int $id Album id
      * @param int $count Exist amount of images
-     * @return mixed Content
+     * @return mixed Images to bxSlider
      */
     public function actionAlbumLoadImages($id, $count) 
     {
@@ -1943,10 +1987,12 @@ class SiteController extends Controller
     }
 
     /**
-     * Album page with slider
+     * Url: /album/{$album_id}-{$slug}/{$photo_id}
      * @param int $album_id Album id
      * @param string $slug Album slug
+     * @param $photo_id
      * @return mixed Content
+     * @throws NotFoundHttpException
      */
     public function actionPhoto($album_id, $slug, $photo_id) 
     {
@@ -1993,7 +2039,7 @@ class SiteController extends Controller
     }
 
     /**
-     * Unsubscribe
+     * Url: /unsubscribe/{$key}
      * @param $key string
      * @return mixed 
      */
@@ -2006,19 +2052,18 @@ class SiteController extends Controller
                 $subscribing->delete();
             }
         }
-        return $this->redirect(\yii\helpers\Url::to('/'));
+        return $this->redirect(Url::to('/'));
         
     }
 
     /**
-     * Rss output of last news
+     * Url: /rss.xml
      * @return mixed 
      */
     public function actionNewsRss()
     {
-        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        Yii::$app->response->format = Response::FORMAT_RAW;
         $headers = Yii::$app->response->headers;
-//        $headers->add('Content-Type', 'application/rss+xml; charset=utf-8');
         $headers->add('Content-Type', 'text/xml; charset=utf-8');
 
         $posts = Post::find()
@@ -2055,12 +2100,13 @@ class SiteController extends Controller
     }
 
     /**
+     * Url: /match/rss.xml
      * Rss output of last match events
      * @return mixed 
      */
     public function actionEventsRss()
     {
-        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        Yii::$app->response->format = Response::FORMAT_RAW;
         $headers = Yii::$app->response->headers;
         $headers->add('Content-Type', 'text/xml; charset=utf-8');
 
@@ -2105,7 +2151,7 @@ class SiteController extends Controller
             $eventID = count($matches) && isset($matches[1]) ? $matches[1] : 0;
 
             $translation = [
-                'link' => \yii\helpers\Url::to('/match/'.$match->id),
+                'link' => Url::to('/match/'.$match->id),
                 'id' => $match->id,
                 'competition_id' => $competition,
                 'event_id' => $eventID,
@@ -2133,7 +2179,7 @@ class SiteController extends Controller
     }
 
     /**
-     * Rss output of last news
+     * Url: /yandex|vk|tw|fb/rss.xml
      * @param $kind
      * @return string
      * @throws NotFoundHttpException
@@ -2146,7 +2192,7 @@ class SiteController extends Controller
             throw new NotFoundHttpException('Страница не найдена.');
         }
 
-        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        Yii::$app->response->format = Response::FORMAT_RAW;
         $headers = Yii::$app->response->headers;
         $headers->add('Content-Type', 'text/xml; charset=utf-8');
 

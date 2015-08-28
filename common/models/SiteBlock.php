@@ -29,7 +29,8 @@ class SiteBlock
     }
 
     /**
-     * Get banner
+     * @param $region
+     * @param bool $big
      * @return array Data
      */
     public static function getBanner($region, $big = false)

@@ -43,6 +43,7 @@ return [
                 'matches'                                => 'site/matches',
                 'transfers/<id:\d+>'                     => 'site/transfer',
                 'transfers'                              => 'site/transfers',
+                'tournament'                             => 'site/tournament',
                 'match/<id:\d+>'                         => 'site/match-translation',
                 'match/<id:\d+>/protocol'                => 'site/match-protocol',
                 'match/<id:\d+>/report'                  => 'site/match-report',
